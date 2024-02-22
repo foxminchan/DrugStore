@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
+    <ProjectReference Include="..\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
