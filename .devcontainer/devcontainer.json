@@ -1,0 +1,49 @@
+{
+  "name": "C# (.NET)",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": true,
+      "azureDnsAutoDetection": true,
+      "installDockerBuildx": true,
+      "version": "latest",
+      "dockerDashComposeVersion": "v2"
+    },
+    "ghcr.io/devcontainers-contrib/features/k6:1": {
+      "version": "latest"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/init.sh",
+  "forwardPorts": [
+    "api:8080",
+    "storefont:7119",
+    "webstatus:5246",
+    "db:5432",
+    "redis:6379"
+  ],
+  "portsAttributes": {
+    "8080": {
+      "protocol": "https",
+      "label": "API"
+    },
+    "7119": {
+      "protocol": "https",
+      "label": "Storefront"
+    },
+    "5246": {
+      "protocol": "http",
+      "label": "Web Status"
+    }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "EditorConfig.EditorConfig",
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscodeintellicode-csharp",
+        "formulahendry.code-runner"
+      ]
+    }
+  }
+}

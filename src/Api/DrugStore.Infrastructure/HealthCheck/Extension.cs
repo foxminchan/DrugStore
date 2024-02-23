@@ -12,11 +12,17 @@ public static class Extension
 {
     public static WebApplicationBuilder AddHealthCheck(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        var postgresConn = builder.Configuration.GetConnectionString("DefaultConnection");
 
-        Guard.Against.Null(connectionString, message: "Connection string 'DefaultConnection' not found.");
+        Guard.Against.Null(postgresConn, message: "Connection string 'DefaultConnection' not found.");
 
-        builder.Services.AddHealthChecks().AddNpgSql(connectionString, tags: ["database"]);
+        var redisConn = builder.Configuration.GetConnectionString("Redis");
+
+        Guard.Against.Null(redisConn, message: "Connection string 'Redis' not found.");
+
+        builder.Services.AddHealthChecks()
+            .AddNpgSql(postgresConn, tags: ["database"])
+            .AddRedis(redisConn, tags: ["redis"]);
 
         builder.Services
             .AddHealthChecksUI(options =>
@@ -45,6 +51,12 @@ public static class Extension
                     [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
                 }
             });
+
+        app.MapHealthChecks("/liveness", new()
+        {
+            Predicate = r => r.Name.Contains("self")
+        });
+
         app.MapHealthChecksUI(options => options.UIPath = "/hc-ui");
     }
 }

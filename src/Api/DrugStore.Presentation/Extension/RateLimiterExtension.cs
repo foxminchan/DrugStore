@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Threading.RateLimiting;
 
-namespace DrugStore.Presentation;
+namespace DrugStore.Presentation.Extension;
 
 public static class RateLimitExtensions
 {
