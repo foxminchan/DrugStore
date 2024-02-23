@@ -11,27 +11,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{9C80DCC4-B99
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{6FC3E3A3-DB10-4268-A370-EA72055D61F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.Presentation", "src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj", "{24E0BC91-AA85-480D-A376-91420F6C8C8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.Presentation", "src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj", "{24E0BC91-AA85-480D-A376-91420F6C8C8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.Domain", "src\Api\DrugStore.Domain\DrugStore.Domain.csproj", "{E793CF28-B658-4448-9F07-7C08DDBF88A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.Domain", "src\Api\DrugStore.Domain\DrugStore.Domain.csproj", "{E793CF28-B658-4448-9F07-7C08DDBF88A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.Infrastructure", "src\Api\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj", "{D72A9E7A-B37B-435B-A553-7CC3F130CAA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.Infrastructure", "src\Api\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj", "{D72A9E7A-B37B-435B-A553-7CC3F130CAA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.Persistence", "src\Api\DrugStore.Persistence\DrugStore.Persistence.csproj", "{B890D665-2AC4-4AB2-9D3F-7C75B69C9087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.Persistence", "src\Api\DrugStore.Persistence\DrugStore.Persistence.csproj", "{B890D665-2AC4-4AB2-9D3F-7C75B69C9087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.Application", "src\Api\DrugStore.Application\DrugStore.Application.csproj", "{B9AEE65F-1CDF-4125-A2A1-66A2856125E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.Application", "src\Api\DrugStore.Application\DrugStore.Application.csproj", "{B9AEE65F-1CDF-4125-A2A1-66A2856125E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.StoreFront", "src\Web\DrugStore.StoreFront\DrugStore.StoreFront.csproj", "{2B05EFD5-DF08-4D76-A20E-E469EFBEA456}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.StoreFront", "src\Web\DrugStore.StoreFront\DrugStore.StoreFront.csproj", "{2B05EFD5-DF08-4D76-A20E-E469EFBEA456}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.WebStatus", "src\Web\DrugStore.WebStatus\DrugStore.WebStatus.csproj", "{2090AA51-8D17-4569-B524-4373AD8772BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.UnitTest", "tests\DrugStore.UnitTest\DrugStore.UnitTest.csproj", "{4D722D94-F62B-4691-AC19-0C1405AAE840}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.UnitTest", "tests\DrugStore.UnitTest\DrugStore.UnitTest.csproj", "{4D722D94-F62B-4691-AC19-0C1405AAE840}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.FunctionalTest", "tests\DrugStore.FunctionalTest\DrugStore.FunctionalTest.csproj", "{93CA6752-FE58-4A18-95A4-FCD79272D80E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.FunctionalTest", "tests\DrugStore.FunctionalTest\DrugStore.FunctionalTest.csproj", "{93CA6752-FE58-4A18-95A4-FCD79272D80E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.IntegrationTest", "tests\DrugStore.IntegrationTest\DrugStore.IntegrationTest.csproj", "{0681D204-43F8-4B12-9F59-718A804077C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.IntegrationTest", "tests\DrugStore.IntegrationTest\DrugStore.IntegrationTest.csproj", "{0681D204-43F8-4B12-9F59-718A804077C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.EndToEnd", "tests\DrugStore.EndToEnd\DrugStore.EndToEnd.csproj", "{A44691B4-11DE-4502-880D-0CAEDAF3E2C8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.EndToEnd", "tests\DrugStore.EndToEnd\DrugStore.EndToEnd.csproj", "{A44691B4-11DE-4502-880D-0CAEDAF3E2C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.WebSatus", "src\Web\DrugStore.WebSatus\DrugStore.WebSatus.csproj", "{EB6E2F2A-F90A-41B9-99C4-D3484E401082}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +63,6 @@ Global
 		{2B05EFD5-DF08-4D76-A20E-E469EFBEA456}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B05EFD5-DF08-4D76-A20E-E469EFBEA456}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B05EFD5-DF08-4D76-A20E-E469EFBEA456}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2090AA51-8D17-4569-B524-4373AD8772BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2090AA51-8D17-4569-B524-4373AD8772BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2090AA51-8D17-4569-B524-4373AD8772BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2090AA51-8D17-4569-B524-4373AD8772BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D722D94-F62B-4691-AC19-0C1405AAE840}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D722D94-F62B-4691-AC19-0C1405AAE840}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D722D94-F62B-4691-AC19-0C1405AAE840}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -83,6 +79,10 @@ Global
 		{A44691B4-11DE-4502-880D-0CAEDAF3E2C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A44691B4-11DE-4502-880D-0CAEDAF3E2C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A44691B4-11DE-4502-880D-0CAEDAF3E2C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB6E2F2A-F90A-41B9-99C4-D3484E401082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB6E2F2A-F90A-41B9-99C4-D3484E401082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB6E2F2A-F90A-41B9-99C4-D3484E401082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB6E2F2A-F90A-41B9-99C4-D3484E401082}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,11 +96,11 @@ Global
 		{B890D665-2AC4-4AB2-9D3F-7C75B69C9087} = {9C80DCC4-B99B-4B9F-A063-6827571BED79}
 		{B9AEE65F-1CDF-4125-A2A1-66A2856125E6} = {9C80DCC4-B99B-4B9F-A063-6827571BED79}
 		{2B05EFD5-DF08-4D76-A20E-E469EFBEA456} = {6FC3E3A3-DB10-4268-A370-EA72055D61F2}
-		{2090AA51-8D17-4569-B524-4373AD8772BF} = {6FC3E3A3-DB10-4268-A370-EA72055D61F2}
 		{4D722D94-F62B-4691-AC19-0C1405AAE840} = {ED85D44B-550E-4817-8FCD-34C6D78D21E7}
 		{93CA6752-FE58-4A18-95A4-FCD79272D80E} = {ED85D44B-550E-4817-8FCD-34C6D78D21E7}
 		{0681D204-43F8-4B12-9F59-718A804077C9} = {ED85D44B-550E-4817-8FCD-34C6D78D21E7}
 		{A44691B4-11DE-4502-880D-0CAEDAF3E2C8} = {ED85D44B-550E-4817-8FCD-34C6D78D21E7}
+		{EB6E2F2A-F90A-41B9-99C4-D3484E401082} = {6FC3E3A3-DB10-4268-A370-EA72055D61F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6313A171-F2C3-4A25-A58C-59274CF99F8F}

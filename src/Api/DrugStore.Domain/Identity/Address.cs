@@ -1,0 +1,17 @@
+﻿using DrugStore.Domain.SharedKernel;
+
+namespace DrugStore.Domain.Identity;
+
+public class Address(string street, string city, string province) : ValueObject
+{
+    public string Street { get; set; } = street;
+    public string City { get; set; } = city;
+    public string Province { get; set; } = province;
+
+    public override string ToString() => $"{Street}, {City}, {Province}";
+
+    protected override IEnumerable<object> GetEqualityComponents()
+    {
+        yield return ToString();
+    }
+}

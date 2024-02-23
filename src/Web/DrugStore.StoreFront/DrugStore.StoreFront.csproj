@@ -17,4 +17,8 @@
     </ContainerEnvironmentVariable>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Api\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
