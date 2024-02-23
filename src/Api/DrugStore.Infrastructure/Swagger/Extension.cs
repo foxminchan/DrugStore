@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DrugStore.Infrastructure.Swagger;
@@ -12,9 +11,10 @@ namespace DrugStore.Infrastructure.Swagger;
 public static class Extension
 {
     public static IServiceCollection AddOpenApi(this IServiceCollection services)
-        => services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()
+        => services
+            .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()
             .AddFluentValidationRulesToSwagger()
-            .AddSwaggerGen(options => options.SchemaFilter<EnumSchemaFilter>());
+            .AddSwaggerGen();
 
     public static IApplicationBuilder UseOpenApi(this IApplicationBuilder app)
     {
@@ -22,8 +22,8 @@ public static class Extension
         {
             Guard.Against.Null(httpReq, nameof(httpReq));
 
-            swagger.Servers = new List<OpenApiServer>
-            {
+            swagger.Servers =
+            [
                 new()
                 {
                     Url = $"{httpReq.Scheme}://{httpReq.Host.Value}",
@@ -31,7 +31,7 @@ public static class Extension
                         Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environments.Production,
                         "Environment")
                 }
-            };
+            ];
         }));
 
         app.UseSwaggerUI(c =>
