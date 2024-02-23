@@ -1,6 +1,6 @@
-﻿namespace DrugStore.Domain.Identity;
+﻿namespace DrugStore.Domain.Identity.Constants;
 
-public static class Roles
+public static class Policies
 {
     public const string Admin = nameof(Admin);
     public const string Customer = nameof(Customer);

@@ -19,4 +19,9 @@
         <PackageReference Include="Ardalis.Specification" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Order\DomainEvents\" />
+      <Folder Include="Order\Specifications\" />
+    </ItemGroup>
+
 </Project>

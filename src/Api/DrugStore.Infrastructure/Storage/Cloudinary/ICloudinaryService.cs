@@ -6,6 +6,6 @@ namespace DrugStore.Infrastructure.Storage.Cloudinary;
 
 public interface ICloudinaryService
 {
-    Task<Result<CloudinaryResult>> AddPhotoAsync(IFormFile? file);
+    Task<Result<CloudinaryResult>> AddPhotoAsync(IFormFile? file, string folder = "");
     Task<Result<string>> DeletePhotoAsync(string publicId);
 }

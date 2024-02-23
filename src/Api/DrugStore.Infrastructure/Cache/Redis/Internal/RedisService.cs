@@ -55,7 +55,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
     {
         var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
 
-        Guard.Against.NullOrEmpty(_redisCacheOption.Prefix, nameof(_redisCacheOption.Prefix));
+        Guard.Against.NullOrEmpty(_redisCacheOption.Prefix);
 
         var cachedValue = Database.StringGet(keyWithPrefix);
         return !string.IsNullOrEmpty(cachedValue)
@@ -67,7 +67,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
     {
         var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
 
-        Guard.Against.NullOrEmpty(key, nameof(key));
+        Guard.Against.NullOrEmpty(key);
 
         var cachedValue = Database.StringGet(keyWithPrefix);
         if (!string.IsNullOrEmpty(cachedValue))
@@ -99,7 +99,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
 
     public IEnumerable<string> GetKeys(string pattern)
         => ((RedisResult[])Database.ScriptEvaluate(GetKeysLuaScript, values: [pattern])!)
-            .Where(x => x.ToString()!.StartsWith(_redisCacheOption.Prefix))
+            .Where(x => x.ToString().StartsWith(_redisCacheOption.Prefix))
             .Select(x => x.ToString())
             .ToArray()!;
 

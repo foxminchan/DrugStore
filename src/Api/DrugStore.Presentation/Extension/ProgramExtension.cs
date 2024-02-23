@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DrugStore.Domain.Identity;
 using System.Security.Claims;
+using DrugStore.Domain.Identity.Constants;
 
 namespace DrugStore.Presentation.Extension;
 

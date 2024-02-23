@@ -1,4 +1,4 @@
-﻿namespace DrugStore.Domain.Identity;
+﻿namespace DrugStore.Domain.Identity.Constants;
 
 public static class Claims
 {
