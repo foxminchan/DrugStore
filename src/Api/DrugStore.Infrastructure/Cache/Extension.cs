@@ -1,10 +1,10 @@
 ﻿using Ardalis.GuardClauses;
 using DrugStore.Infrastructure.Cache.Redis.Internal;
 using DrugStore.Infrastructure.Cache.Redis;
-using DrugStore.Infrastructure.Validator;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
+
 using StackExchange.Redis;
 
 namespace DrugStore.Infrastructure.Cache;
@@ -14,23 +14,17 @@ public static class Extension
     public static IServiceCollection AddRedisCache(
         this IServiceCollection services,
         IConfiguration config,
-        Action<RedisOptions>? setupAction)
+        Action<RedisOptions>? setupAction = null)
     {
         Guard.Against.Null(services);
 
         if (services.Contains(ServiceDescriptor.Singleton<IRedisService, RedisService>()))
             return services;
 
-        services.AddOptions<RedisOptions>()
-            .Bind(config.GetSection(nameof(Redis)))
-            .ValidateFluentValidation()
-            .ValidateOnStart();
-
-        var redisOptions = services.BuildServiceProvider().GetRequiredService<IOptions<RedisOptions>>().Value;
-        var redisSection = config.GetSection(nameof(Redis));
-        redisSection.Bind(redisOptions);
-        services.Configure<RedisOptions>(redisSection);
-
+        var redisOptions = new RedisOptions();
+        var redisCacheSection = config.GetSection(nameof(RedisCache));
+        redisCacheSection.Bind(redisOptions);
+        services.Configure<RedisCache>(redisCacheSection);
         setupAction?.Invoke(redisOptions);
 
         services.AddStackExchangeRedisCache(options =>

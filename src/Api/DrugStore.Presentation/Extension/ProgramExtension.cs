@@ -1,18 +1,20 @@
-﻿using System.Diagnostics;
-
-using DrugStore.Persistence;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using DrugStore.Domain.Identity;
+using DrugStore.Persistence;
+using System.Reflection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using DrugStore.Application;
 using DrugStore.Domain.Identity.Constants;
+using DrugStore.Domain.SharedKernel;
+using DrugStore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace DrugStore.Presentation.Extension;
 
 public static class ProgramExtension
 {
-    [DebuggerStepThrough]
-    public static void AddApplicationIdentity(this IServiceCollection services)
+    public static void AddIdentity(this IServiceCollection services)
     {
         services.AddAuthentication()
             .AddBearerToken(IdentityConstants.BearerScheme)
@@ -34,17 +36,49 @@ public static class ProgramExtension
             .AddApiEndpoints();
     }
 
-    [DebuggerStepThrough]
-    public static void MapIdentity(this WebApplication app)
-    {
-        app.UseAuthentication().UseAuthorization();
-        app
-            .MapGroup("/api/v1/auth")
-            .MapIdentityApi<ApplicationUser>()
-            .WithTags("Auth");
-    }
+    public static void AddInfrastructureService(this IServiceCollection services, WebApplicationBuilder builder)
+        => services.AddInfrastructure(builder);
 
-    [DebuggerStepThrough]
+    public static void AddApplicationService(this IServiceCollection services)
+        => services.AddApplication();
+
     public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         => services.AddPostgresDbContext(configuration);
+
+    public static void UseInfrastructureService(this WebApplication app)
+        => app.UseInfrastructure();
+
+    public static IServiceCollection AddCustomCors(this IServiceCollection services, string corsName = "api")
+        => services.AddCors(options => options.AddPolicy(corsName,
+                policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+
+    public static IApplicationBuilder UseCustomCors(this IApplicationBuilder app, string corsName = "api")
+        => app.UseCors(corsName);
+
+    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
+    {
+        ServiceDescriptor[] serviceDescriptors = assembly
+            .DefinedTypes
+            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
+                           type.IsAssignableTo(typeof(IEndpoint)))
+            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .ToArray();
+
+        services.TryAddEnumerable(serviceDescriptors);
+
+        return services;
+    }
+
+    public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
+    {
+        IEnumerable<IEndpoint> endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
+        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
+
+        foreach (IEndpoint endpoint in endpoints)
+        {
+            endpoint.MapEndpoint(builder);
+        }
+
+        return app;
+    }
 }

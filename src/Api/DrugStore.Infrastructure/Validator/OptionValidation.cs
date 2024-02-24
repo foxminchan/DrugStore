@@ -1,7 +1,5 @@
 ﻿using Ardalis.GuardClauses;
-
 using FluentValidation;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 

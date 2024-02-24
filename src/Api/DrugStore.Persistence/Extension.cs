@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.CompileModels;
 using DrugStore.Persistence.Interceptors;
 using EntityFramework.Exceptions.PostgreSQL;
@@ -49,6 +50,7 @@ public static class Extension
         });
 
         services.AddScoped<IDatabaseFacade>(p => p.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IDomainEventContext>(p => p.GetRequiredService<ApplicationDbContext>());
         services.AddScoped(typeof(Repository<>));
 
         return services;

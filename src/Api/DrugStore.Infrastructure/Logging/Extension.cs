@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
 using Serilog.Exceptions;
 using Serilog.Settings.Configuration;
 using Serilog.Sinks.SystemConsole.Themes;
@@ -10,6 +11,7 @@ public static class Extension
 {
     public static void AddSerilog(this WebApplicationBuilder builder, string sectionName = "Serilog")
     {
+        builder.Logging.ClearProviders();
         builder.Host.UseSerilog((context, config) =>
         {
             config.ReadFrom.Configuration(
