@@ -37,12 +37,12 @@ docker-compose -f ./docker-compose.yml up -d
 ### Cloudinary Configuration
 
 <p align="justify">
-Navigate to the <a href="https://cloudinary.com/">Cloudinary</a> website and create an account. After creating an account, navigate to the dashboard and copy the cloud name, API key, and API secret. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
+Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> website and create an account. After creating an account, navigate to the dashboard and copy the cloud name, API key, and API secret. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
 </p>
 
 ```json
 {
-  "Cloudinary": {
+  "CloudinarySetting": {
     "CloudName": "cloud_name",
     "ApiKey": "api_key",
     "ApiSecret": "api_secret"

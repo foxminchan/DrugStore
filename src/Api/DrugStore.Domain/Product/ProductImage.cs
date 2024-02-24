@@ -1,18 +1,30 @@
 ﻿using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
 
 namespace DrugStore.Domain.Product;
 
-public class ProductImage(
-    Guid productId,
-    string imageUrl,
-    string? alt,
-    string? title,
-    bool isMain)
+public class ProductImage
 {
-    public Guid ProductId { get; set; } = productId;
-    public string ImageUrl { get; set; } = imageUrl;
-    public string? Alt { get; set; } = alt;
-    public string? Title { get; set; } = title;
-    public bool IsMain { get; set; } = isMain;
+    public Guid ProductId { get; set; }
+    public string? ImageUrl { get; set; }
+    public string? Alt { get; set; }
+    public string? Title { get; set; }
+    public bool IsMain { get; set; }
     [JsonIgnore] public Product? Product { get; set; }
+
+    /// <summary>
+    /// EF mapping constructor
+    /// </summary>
+    public ProductImage()
+    {
+    }
+
+    public ProductImage(Guid productId, string imageUrl, string? alt, string? title, bool isMain)
+    {
+        ProductId = Guard.Against.Default(productId);
+        ImageUrl = Guard.Against.NullOrEmpty(imageUrl);
+        Alt = alt;
+        Title = title;
+        IsMain = isMain;
+    }
 }

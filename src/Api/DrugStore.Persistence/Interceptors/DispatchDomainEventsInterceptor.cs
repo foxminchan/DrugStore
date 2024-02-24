@@ -1,14 +1,14 @@
 ﻿using DrugStore.Domain.SharedKernel;
 using MediatR;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DrugStore.Persistence.Interceptors;
 
 public sealed class DispatchDomainEventsInterceptor(IPublisher mediator) : SaveChangesInterceptor
 {
     public override InterceptionResult<int> SavingChanges(
-        DbContextEventData eventData, 
+        DbContextEventData eventData,
         InterceptionResult<int> result)
     {
         DispatchDomainEvents(eventData.Context).GetAwaiter().GetResult();
@@ -16,8 +16,8 @@ public sealed class DispatchDomainEventsInterceptor(IPublisher mediator) : SaveC
     }
 
     public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(
-        DbContextEventData eventData, 
-        InterceptionResult<int> result, 
+        DbContextEventData eventData,
+        InterceptionResult<int> result,
         CancellationToken cancellationToken = default)
     {
         await DispatchDomainEvents(eventData.Context);
@@ -26,21 +26,26 @@ public sealed class DispatchDomainEventsInterceptor(IPublisher mediator) : SaveC
 
     public async Task DispatchDomainEvents(DbContext? context)
     {
-        if (context is null) return;
+        if (context is null)
+        {
+            return;
+        }
 
-        var entities = context.ChangeTracker
+        List<AuditableEntityBase> entities = context.ChangeTracker
             .Entries<AuditableEntityBase>()
             .Where(e => e.Entity.DomainEvents.Count != 0)
             .Select(e => e.Entity)
             .ToList();
 
-        var domainEvents = entities
+        List<DomainEventBase> domainEvents = entities
             .SelectMany(e => e.DomainEvents)
             .ToList();
 
         entities.ForEach(e => e.ClearDomainEvents());
 
-        foreach (var domainEvent in domainEvents)
+        foreach (DomainEventBase domainEvent in domainEvents)
+        {
             await mediator.Publish(domainEvent);
+        }
     }
 }

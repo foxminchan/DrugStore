@@ -1,10 +1,10 @@
 ﻿using DrugStore.Domain.SharedKernel;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DrugStore.Persistence.Configurations;
 
-public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> 
+public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
     where TEntity : AuditableEntityBase
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)

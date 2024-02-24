@@ -16,7 +16,7 @@ public static class Extension
         IConfiguration config,
         Action<RedisOptions>? setupAction)
     {
-        Guard.Against.Null(services, nameof(services));
+        Guard.Against.Null(services);
 
         if (services.Contains(ServiceDescriptor.Singleton<IRedisService, RedisService>()))
             return services;

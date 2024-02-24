@@ -1,4 +1,6 @@
-﻿using DrugStore.Persistence;
+﻿using System.Diagnostics;
+
+using DrugStore.Persistence;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using DrugStore.Domain.Identity;
@@ -9,6 +11,7 @@ namespace DrugStore.Presentation.Extension;
 
 public static class ProgramExtension
 {
+    [DebuggerStepThrough]
     public static void AddApplicationIdentity(this IServiceCollection services)
     {
         services.AddAuthentication()
@@ -31,6 +34,7 @@ public static class ProgramExtension
             .AddApiEndpoints();
     }
 
+    [DebuggerStepThrough]
     public static void MapIdentity(this WebApplication app)
     {
         app.UseAuthentication().UseAuthorization();
@@ -39,4 +43,8 @@ public static class ProgramExtension
             .MapIdentityApi<ApplicationUser>()
             .WithTags("Auth");
     }
+
+    [DebuggerStepThrough]
+    public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
+        => services.AddPostgresDbContext(configuration);
 }

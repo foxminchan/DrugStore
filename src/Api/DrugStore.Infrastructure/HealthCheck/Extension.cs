@@ -12,12 +12,10 @@ public static class Extension
 {
     public static WebApplicationBuilder AddHealthCheck(this WebApplicationBuilder builder)
     {
-        var postgresConn = builder.Configuration.GetConnectionString("DefaultConnection");
-
-        Guard.Against.Null(postgresConn, message: "Connection string 'DefaultConnection' not found.");
+        var postgresConn = builder.Configuration.GetConnectionString("Postgres");
+        Guard.Against.Null(postgresConn, message: "Connection string 'Postgres' not found.");
 
         var redisConn = builder.Configuration.GetConnectionString("Redis");
-
         Guard.Against.Null(redisConn, message: "Connection string 'Redis' not found.");
 
         builder.Services.AddHealthChecks()

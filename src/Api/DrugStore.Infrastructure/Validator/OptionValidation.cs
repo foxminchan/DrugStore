@@ -15,7 +15,7 @@ public sealed class OptionValidation<TOption>(IServiceProvider serviceProvider)
         if (name is { } && name != Options.DefaultName)
             return ValidateOptionsResult.Skip;
 
-        Guard.Against.Null(options, nameof(options));
+        Guard.Against.Null(options);
 
         using var scope = serviceProvider.CreateScope();
         var result = scope.ServiceProvider.GetRequiredService<IValidator<TOption>>().Validate(options);

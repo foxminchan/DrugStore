@@ -8,6 +8,6 @@ public sealed class OrderByIdSpec : Specification<Order>
     {
         Query
             .Where(o => o.Id == id)
-            .Include(o => o.Items.Select(i => i.Product));
+            .Include(o => o.OrderItems.Select(i => i.Product));
     }
 }

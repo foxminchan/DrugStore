@@ -6,4 +6,3 @@ public interface IDatabaseFacade
 {
     public DatabaseFacade Database { get; }
 }
-

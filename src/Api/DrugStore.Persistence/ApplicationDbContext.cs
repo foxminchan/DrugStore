@@ -8,10 +8,11 @@ using DrugStore.Domain.Product;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DrugStore.Persistence;
 
-public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
+public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>(options), IDatabaseFacade, IDomainEventContext
 {
     public DbSet<Product> Products => Set<Product>();
@@ -22,25 +23,25 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<News> News => Set<News>();
     public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 
-    protected override void OnModelCreating(ModelBuilder builder)
-    {
-        base.OnModelCreating(builder);
-        builder.ApplyConfigurationsFromAssembly(AssemblyReference.DomainAssembly);
-    }
-
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {
-        var domainEntities = ChangeTracker
+        ImmutableList<EntityEntry<EntityBase>> domainEntities = ChangeTracker
             .Entries<EntityBase>()
             .Where(x => x.Entity.DomainEvents.Count != 0)
             .ToImmutableList();
 
-        var domainEvents = domainEntities
+        ImmutableList<DomainEventBase> domainEvents = domainEntities
             .SelectMany(x => x.Entity.DomainEvents)
             .ToImmutableList();
 
         domainEntities.ForEach(entity => entity.Entity.ClearDomainEvents());
 
         return domainEvents;
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        base.OnModelCreating(builder);
+        builder.ApplyConfigurationsFromAssembly(AssemblyReference.DomainAssembly);
     }
 }

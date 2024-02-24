@@ -82,8 +82,8 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
 
     public T HashGetOrSet<T>(string key, string hashKey, Func<T> valueFactory)
     {
-        Guard.Against.NullOrEmpty(key, nameof(key));
-        Guard.Against.NullOrEmpty(hashKey, nameof(hashKey));
+        Guard.Against.NullOrEmpty(key);
+        Guard.Against.NullOrEmpty(hashKey);
 
         var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
         var value = Database.HashGet(keyWithPrefix, hashKey.ToLower());
@@ -126,5 +126,8 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
             flags: CommandFlags.FireAndForget);
 
     private static T GetByteToObject<T>(RedisValue value)
-        => JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(value!)) ?? throw new NullReferenceException();
+    {
+        var result = JsonSerializer.Deserialize<T>(Encoding.UTF8.GetString(value!));
+        return result is null ? throw new InvalidOperationException("Deserialization failed.") : result;
+    }
 }
