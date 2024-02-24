@@ -17,7 +17,7 @@ services:
       - docker-entrypoint.sh -c config_file=/etc/postgresql/postgres.conf -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
       - ./vol/postgres:/data/postgres
-      - ./vol/configs/postgresql:/etc/postgresql
+      - ./.config/postgresql:/etc/postgresql
     restart: unless-stopped
     networks:
       - bridge-network
@@ -25,8 +25,6 @@ services:
   redis:
     image: redis/redis-stack:7.2.0-v8
     container_name: redis
-    environment:
-      - "REDIS_ARGS=--requirepass redis"
     ports:
       - 6379:6379
     volumes:
@@ -40,7 +38,7 @@ services:
     volumes:
       - ./vol/kafka:/var/lib/kafka
     environment:
-      CLUSTER_ID: kafka
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
       KAFKA_NODE_ID: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
       KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092"
@@ -73,10 +71,10 @@ services:
       - ./vol/kafka-connect:/var/lib/kafka-connect
     environment:
       CONNECT_BOOTSTRAP_SERVERS: "kafka:29092"
-      CONNECT_GROUP_ID: kafka-connect
-      CONNECT_CONFIG_STORAGE_TOPIC: _kafka-connect-configs
-      CONNECT_OFFSET_STORAGE_TOPIC: _kafka-connect-offsets
-      CONNECT_STATUS_STORAGE_TOPIC: _kafka-connect-status
+      CONNECT_GROUP_ID: categories-connect
+      CONNECT_CONFIG_STORAGE_TOPIC: _categories-connect-configs
+      CONNECT_OFFSET_STORAGE_TOPIC: _categories-connect-offsets
+      CONNECT_STATUS_STORAGE_TOPIC: _categories-connect-status
       CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
       CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter

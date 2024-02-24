@@ -1,0 +1,11 @@
+{
+  "name": "redis-cache-sink",
+  "config": {
+    "connector.class": "com.github.jcustenborder.kafka.connect.redis.RedisSinkConnector",
+    "topics": "categories-cache",
+    "tasks.max": "1",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "connection.url": "redis://redis:6379"
+  }
+}

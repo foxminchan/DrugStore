@@ -1,0 +1,18 @@
+{
+  "name": "categories-source",
+  "config": {
+    "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+    "plugin.name": "pgoutput",
+    "database.hostname": "postgres",
+    "database.port": "5432",
+    "database.user": "postgres",
+    "database.dbname": "drugstore",
+    "database.password": "postgres",
+    "topic.prefix": "categories",
+    "table.include.list": "public.categories",
+    "transforms": "rename",
+    "transforms.rename.type": "org.apache.kafka.connect.transforms.RegexRouter",
+    "transforms.rename.regex": "public.categories",
+    "transforms.rename.replacement": "categories"
+  }
+}
