@@ -1,33 +1,120 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  db:
-    image: postgres:latest
-    container_name: db
+  postgres:
+    image: postgres:16.2
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=drugstore
+      - PGDATA=/data/postgres
+    command:
+      - bash
+      - -c
+      - docker-entrypoint.sh -c config_file=/etc/postgresql/postgres.conf -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
-      - ./db-data:/var/lib/postgresql/data
+      - ./vol/postgres:/data/postgres
+      - ./vol/configs/postgresql:/etc/postgresql
+    restart: unless-stopped
     networks:
       - bridge-network
 
-  cache:
-    image: redis:latest
-    container_name: cache
+  redis:
+    image: redis/redis-stack:7.2.0-v8
+    container_name: redis
+    environment:
+      - "REDIS_ARGS=--requirepass redis"
     ports:
-      - "6379:6379"
+      - 6379:6379
     volumes:
-      - ./cache-data:/data
+      - ./vol/redis:/data
+    networks:
+      - bridge-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.6.0
+    container_name: kafka
+    volumes:
+      - ./vol/kafka:/var/lib/kafka
+    environment:
+      CLUSTER_ID: kafka
+      KAFKA_NODE_ID: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092"
+      KAFKA_LISTENERS: "PLAINTEXT://kafka:29092,CONTROLLER://kafka:29093,PLAINTEXT_HOST://0.0.0.0:9092"
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:29093"
+      KAFKA_INTER_BROKER_LISTENER_NAME: "PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - 9092:9092
+      - 29092:29092
+    networks:
+      - bridge-network
+
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:7.6.0
+    container_name: kafka-connect
+    command:
+      - bash
+      - -c
+      - |
+        echo "Installing Connector"
+        confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.2.1
+        confluent connect plugin installjcustenborder/kafka-connect-redis:latest
+        #
+        echo "Launching Kafka Connect"
+        /etc/confluent/docker/run
+    volumes:
+      - ./vol/kafka-connect:/var/lib/kafka-connect
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: "kafka:29092"
+      CONNECT_GROUP_ID: kafka-connect
+      CONNECT_CONFIG_STORAGE_TOPIC: _kafka-connect-configs
+      CONNECT_OFFSET_STORAGE_TOPIC: _kafka-connect-offsets
+      CONNECT_STATUS_STORAGE_TOPIC: _kafka-connect-status
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_PLUGIN_PATH: /usr/share/java,/usr/share/confluent-hub-components
+      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
+      CONNECT_REPLICATION_FACTOR: 1
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+    ports:
+      - 8083:8083
+    depends_on:
+      - kafka
+    networks:
+      - bridge-network
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_NAME: post
+      KAFKA_CLUSTERS_0_KAFKACONNECT_0_ADDRESS: http://kafka-connect:8083
+      DYNAMIC_CONFIG_ENABLED: "true"
+    depends_on:
+      - kafka
+      - kafka-connect
     networks:
       - bridge-network
 
 volumes:
-  db-data:
-  cache-data:
+  postgres:
+  redis:
+  kafka:
 
 networks:
   bridge-network:

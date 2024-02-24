@@ -6,6 +6,8 @@
 An application that allows users to search for drugs and get information about them. The application also allows users to search for drugs based on their location and get a list of drug stores that have the drugs in stock.
 </p>
 
+<img src="./assets/arch.png" alt="Drug Store" width="100%">
+
 ## Prerequisites
 
 - [K6](https://k6.io/docs/getting-started/installation/)

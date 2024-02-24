@@ -13,7 +13,7 @@ public sealed class CloudinaryService(ICloudinaryUploadApi cloudinary) : ICloudi
     private readonly AsyncRetryPolicy _retryPolicy = Policy.Handle<System.Exception>()
             .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
-    public async Task<Result<CloudinaryResult>> AddPhotoAsync(IFormFile? file)
+    public async Task<Result<CloudinaryResult>> AddPhotoAsync(IFormFile? file, string folder = "")
     {
         if (file is not { Length: > 0 })
             return Result<CloudinaryResult>.Error("File is empty");
@@ -22,6 +22,7 @@ public sealed class CloudinaryService(ICloudinaryUploadApi cloudinary) : ICloudi
 
         var uploadParams = new ImageUploadParams
         {
+            Folder = folder,
             File = new(file.FileName, stream),
             Transformation = new Transformation().Height(700).Width(700).Crop("fill").Gravity("face")
         };

@@ -16,5 +16,8 @@ public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEnt
 
         builder.Property(e => e.UpdateDate)
             .HasDefaultValue(DateTime.UtcNow);
+
+        builder.Property(e => e.Version)
+            .IsConcurrencyToken();
     }
 }

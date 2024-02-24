@@ -10,14 +10,14 @@ public sealed class Product(
     string? detail,
     int quantity,
     bool status,
-    Guid categoryId) : AuditableEntityBase, IAggregateRoot
+    Guid? categoryId) : AuditableEntityBase, IAggregateRoot
 {
     public string? Title { get; set; } = title;
     public string? ProductCode { get; set; } = productCode;
     public string? Detail { get; set; } = detail;
     public ProductStatus Status { get; set; } = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
     public int Quantity { get; set; } = quantity;
-    public Guid CategoryId { get; set; } = categoryId;
+    public Guid? CategoryId { get; set; } = categoryId;
     public ProductPrice? Price { get; set; }
     [JsonIgnore] public Category.Category? Category { get; set; }
     public ICollection<ProductImage>? Images { get; set; } = [];

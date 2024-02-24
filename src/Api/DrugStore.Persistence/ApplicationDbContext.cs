@@ -1,5 +1,4 @@
 ﻿using System.Collections.Immutable;
-
 using DrugStore.Domain.Category;
 using DrugStore.Domain.Identity;
 using DrugStore.Domain.News;
@@ -7,7 +6,6 @@ using DrugStore.Domain.Order;
 using DrugStore.Domain.Post;
 using DrugStore.Domain.Product;
 using DrugStore.Domain.SharedKernel;
-
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
