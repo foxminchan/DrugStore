@@ -42,7 +42,8 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
     {
         var validationErrorModel = Result.Invalid(validationException
             .Errors
-            .Select(e => new ValidationError(string.Join(e.PropertyName, ':', e.ErrorMessage)))
+            .Select(e => new ValidationError(e.PropertyName, e.ErrorMessage, StatusCodes.Status400BadRequest.ToString(),
+                ValidationSeverity.Info))
             .ToList());
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
         await httpContext.Response.WriteAsJsonAsync(validationErrorModel, cancellationToken);

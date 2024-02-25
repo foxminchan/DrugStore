@@ -59,4 +59,23 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Quantity -= quantityDesired;
         return Quantity;
     }
+
+    public void Update(string title,
+        string? productCode,
+        string? detail,
+        bool status,
+        int quantity,
+        Guid? categoryId,
+        decimal originalPrice,
+        decimal price,
+        decimal? priceSale)
+    {
+        Title = Guard.Against.NullOrEmpty(title);
+        ProductCode = productCode;
+        Detail = detail;
+        Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
+        Quantity = Guard.Against.NegativeOrZero(quantity);
+        CategoryId = categoryId;
+        Price = new(originalPrice, price, priceSale);
+    }
 }

@@ -11,8 +11,10 @@ An application that allows users to search for drugs and get information about t
 ## Prerequisites
 
 - [K6](https://k6.io/docs/getting-started/installation/)
-- [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Docker](https://docs.docker.com/get-docker/)
+- [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- [Azure Subscription](https://azure.microsoft.com/en-us/free/)
 
 ## Installation
 
@@ -31,7 +33,7 @@ cd DrugStore && dotnet restore ./DrugStore.sln
 4. Set up infrastructure
 
 ```bash
-docker-compose -f ./docker-compose.yml up -d
+docker-compose -f ./docker-compose.yml ./docker-compose.o11y.yaml up -d
 ```
 
 ### Cloudinary Configuration
@@ -60,6 +62,14 @@ dotnet watch -p ./src/Web/DrugStore.StoreFront/ run -lp https
 dotnet watch -p ./src/Web/DrugStore.WebStatus/ run -lp http
 ```
 
+[!NOTE]
+
+If you are using `Tye` to run the application, you can run the following command:
+
+```bash
+tye run
+```
+
 ### Running the tests
 
 For load testing, run the following command:
@@ -72,6 +82,57 @@ For unit testing, run the following command:
 
 ```bash
 dotnet test ./DrugStore.sln
+```
+
+## Azure Deployment
+
+To deploy the application to Azure, follow the steps below:
+
+1. Login and select the subscription
+
+```bash
+az login
+az account set --subscription "subscription_id"
+```
+
+2. Deploy the infrastructure
+
+```bash
+az deployment sub create --location eastus --template-file ./azure/main.bicep
+```
+
+3. Login to the Azure Container Registry
+
+```bash
+export PASSWORD=YOUR_PASSWORD
+echo $PASSWORD | docker login "acr_name".azurecr.io -u "username" --password-stdin
+```
+
+4. Build and push the images to the Azure Container Registry
+
+```bash
+docker compose build
+docker compose push "acr_name".azurecr.io/drug-store-api:latest
+docker compose push "acr_name".azurecr.io/drug-store-storefront:latest
+docker compose push "acr_name".azurecr.io/drug-store-webstatus:latest
+```
+
+5. Get the Azure Kubernetes Service credentials
+
+```bash
+az aks get-credentials --resource-group "resource_group" --name "aks_name"
+```
+
+6. Deploy the application to the Azure Kubernetes Service
+
+```bash
+az deployment group create --resource-group "resource_group" --template-file ./azure/app.bicep
+```
+
+7. Open the application
+
+```bash
+kubectl get ingress
 ```
 
 ## License

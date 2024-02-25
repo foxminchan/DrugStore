@@ -42,6 +42,8 @@ services:
     container_name: redis
     ports:
       - 6370:6379
+    environment:
+      - "REDIS_ARGS=--requirepass drugstore"
     volumes:
       - ./vol/redis:/data
     networks:
@@ -79,7 +81,6 @@ services:
         echo "Installing Connector"
         confluent-hub install --no-prompt debezium/debezium-connector-postgresql:2.2.1
         confluent connect plugin installjcustenborder/kafka-connect-redis:latest
-        #
         echo "Launching Kafka Connect"
         /etc/confluent/docker/run
     volumes:

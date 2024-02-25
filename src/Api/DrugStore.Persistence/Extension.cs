@@ -4,7 +4,6 @@ using DrugStore.Persistence.CompileModels;
 using DrugStore.Persistence.Interceptors;
 using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,17 +12,13 @@ namespace DrugStore.Persistence;
 
 public static class Extension
 {
-    public static IServiceCollection AddPostgresDbContext(this IServiceCollection services,
-        IConfiguration configuration)
+    public static IServiceCollection AddPostgresDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("Postgres");
+        var connectionString = configuration.GetConnectionString("Postgres");
 
         Guard.Against.Null(connectionString, message: "Connection string 'Postgres' not found.");
 
-        services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
-        services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
-
-        services.AddDbContextPool<ApplicationDbContext>((sp, options) =>
+        services.AddDbContextPool<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(connectionString, sqlOptions =>
                 {
@@ -37,9 +32,9 @@ public static class Extension
                 .UseModel(ApplicationDbContextModel.Instance)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-            options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+            options.AddInterceptors(new AuditableEntityInterceptor());
 
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development)
+            if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), Environments.Development, StringComparison.OrdinalIgnoreCase))
             {
                 options
                     .EnableDetailedErrors()

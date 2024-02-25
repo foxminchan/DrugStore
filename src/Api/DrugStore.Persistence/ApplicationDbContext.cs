@@ -25,8 +25,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {
-        ImmutableList<EntityEntry<EntityBase>> domainEntities = ChangeTracker
-            .Entries<EntityBase>()
+        ImmutableList<EntityEntry<AuditableEntityBase>> domainEntities = ChangeTracker
+            .Entries<AuditableEntityBase>()
             .Where(x => x.Entity.DomainEvents.Count != 0)
             .ToImmutableList();
 

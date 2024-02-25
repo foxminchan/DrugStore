@@ -43,7 +43,7 @@ public static class ProgramExtension
         => services.AddApplication();
 
     public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
-        => services.AddPostgresDbContext(configuration);
+        => services.AddPostgresDbContext(configuration).AddDatabaseDeveloperPageExceptionFilter();
 
     public static void UseInfrastructureService(this WebApplication app)
         => app.UseInfrastructure();
@@ -57,7 +57,7 @@ public static class ProgramExtension
 
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
-        ServiceDescriptor[] serviceDescriptors = assembly
+        var serviceDescriptors = assembly
             .DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false } &&
                            type.IsAssignableTo(typeof(IEndpoint)))
@@ -71,13 +71,11 @@ public static class ProgramExtension
 
     public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
     {
-        IEnumerable<IEndpoint> endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
+        var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
         IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
 
         foreach (IEndpoint endpoint in endpoints)
-        {
             endpoint.MapEndpoint(builder);
-        }
 
         return app;
     }

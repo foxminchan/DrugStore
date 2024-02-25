@@ -12,6 +12,11 @@
 
     <ItemGroup>
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
+      <Folder Include="Products\Commands\DeleteProductCommand\" />
+      <Folder Include="Products\EventHandlers\" />
+      <Folder Include="Categories\Validators\" />
+      <Folder Include="Products\ViewModel\" />
+      <Folder Include="Products\Queries\" />
     </ItemGroup>
 
 </Project>
