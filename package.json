@@ -1,0 +1,16 @@
+{
+  "name": "drug-store",
+  "description": "A simple drug store management system",
+  "author": "Nguyen Xuan Nhan",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "husky install",
+    "lint": "markdownlint --ignore node_modules ."
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^18.6.1",
+    "@commitlint/config-conventional": "^18.6.2",
+    "husky": "^9.0.11",
+    "markdownlint": "^0.33.0"
+  }
+}
