@@ -23,32 +23,32 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
                     Contact = new() { Name = "Nhan Nguyen", Email = "nguyenxuannhan407@gmail.com" },
                     License = new() { Name = "MIT", Url = new("https://opensource.org/licenses/MIT") }
                 });
+        }
 
-            options.AddSecurityDefinition("Bearer",
+        options.AddSecurityDefinition("Bearer",
+            new()
+            {
+                Name = "Authorization",
+                Description = "Enter the Bearer Authorization string as following: `Generated-JWT-Token`",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = JwtBearerDefaults.AuthenticationScheme
+            });
+
+        options.AddSecurityRequirement(new()
+        {
+            {
                 new()
                 {
-                    Name = "Authorization",
-                    Description = "Enter the Bearer Authorization string as following: `Generated-JWT-Token`",
+                    Name = JwtBearerDefaults.AuthenticationScheme,
                     In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.Http,
-                    Scheme = JwtBearerDefaults.AuthenticationScheme
-                });
-
-            options.AddSecurityRequirement(new()
-            {
-                {
-                    new()
+                    Reference = new()
                     {
-                        Name = JwtBearerDefaults.AuthenticationScheme,
-                        In = ParameterLocation.Header,
-                        Reference = new()
-                        {
-                            Id = JwtBearerDefaults.AuthenticationScheme, Type = ReferenceType.SecurityScheme
-                        }
-                    },
-                    new List<string>()
-                }
-            });
-        }
+                        Id = JwtBearerDefaults.AuthenticationScheme, Type = ReferenceType.SecurityScheme
+                    }
+                },
+                new List<string>()
+            }
+        });
     }
 }

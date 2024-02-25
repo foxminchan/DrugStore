@@ -23,4 +23,10 @@ public sealed class Category : AuditableEntityBase, IAggregateRoot
         Title = Guard.Against.NullOrEmpty(title);
         Link = link;
     }
+
+    public void Update(string title, string? link)
+    {
+        Title = Guard.Against.NullOrEmpty(title);
+        Link = link;
+    }
 }

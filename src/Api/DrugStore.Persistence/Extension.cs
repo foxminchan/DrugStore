@@ -20,7 +20,6 @@ public static class Extension
 
         Guard.Against.Null(connectionString, message: "Connection string 'Postgres' not found.");
 
-        services.AddScoped<IDbCommandInterceptor, TimingInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
 
@@ -38,7 +37,6 @@ public static class Extension
                 .UseModel(ApplicationDbContextModel.Instance)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-            options.AddInterceptors(sp.GetServices<IDbCommandInterceptor>());
             options.AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
 
             if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development)
