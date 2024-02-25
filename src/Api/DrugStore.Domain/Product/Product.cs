@@ -45,21 +45,6 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Price = new(originalPrice, price, priceSale);
     }
 
-    public int RemoveStock(int quantityDesired)
-    {
-        if (quantityDesired <= 0)
-            throw new InvalidOperationException("Quantity must be greater than 0");
-
-        if (Status == ProductStatus.OutOfStock)
-            throw new InvalidOperationException("Product is out of stock");
-
-        if (Quantity < quantityDesired)
-            throw new InvalidOperationException("Product is out of stock");
-
-        Quantity -= quantityDesired;
-        return Quantity;
-    }
-
     public void Update(string title,
         string? productCode,
         string? detail,
@@ -77,5 +62,29 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Quantity = Guard.Against.NegativeOrZero(quantity);
         CategoryId = categoryId;
         Price = new(originalPrice, price, priceSale);
+    }
+
+
+    public int RemoveStock(int quantityDesired)
+    {
+        if (quantityDesired <= 0)
+            throw new InvalidOperationException("Quantity must be greater than 0");
+
+        if (Status == ProductStatus.OutOfStock)
+            throw new InvalidOperationException("Product is out of stock");
+
+        if (Quantity < quantityDesired)
+            throw new InvalidOperationException("Product is out of stock");
+
+        Quantity -= quantityDesired;
+        return Quantity;
+    }
+
+    public void Disable()
+    {
+        if (Status == ProductStatus.OutOfStock)
+            throw new InvalidOperationException("Product is already disabled");
+
+        Status = ProductStatus.OutOfStock;
     }
 }

@@ -12,11 +12,19 @@
 
     <ItemGroup>
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
+      <Folder Include="Baskets\" />
+      <Folder Include="Users\" />
+      <Folder Include="Posts\" />
+      <Folder Include="News\" />
+      <Folder Include="Orders\Commands\CreateOrderCommand\" />
+      <Folder Include="Orders\Commands\DeleteOrderCommand\" />
+      <Folder Include="Orders\Commands\UpdateOrderCommand\" />
+      <Folder Include="Orders\ViewModel\" />
       <Folder Include="Products\Commands\DeleteProductCommand\" />
-      <Folder Include="Products\EventHandlers\" />
+      <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Categories\Validators\" />
       <Folder Include="Products\ViewModel\" />
-      <Folder Include="Products\Queries\" />
+      <Folder Include="Orders\Queries\" />
     </ItemGroup>
 
 </Project>

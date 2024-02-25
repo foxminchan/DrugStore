@@ -6,7 +6,8 @@ using DrugStore.Application.Categories.Queries.GetByIdQuery;
 using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Application.Categories.ViewModel;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Presentation.Extension;
+using DrugStore.Presentation.Extensions;
+
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

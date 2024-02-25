@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Identity;
-using DrugStore.Domain.Identity;
-using DrugStore.Persistence;
-using System.Reflection;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Reflection;
 using System.Security.Claims;
+
 using DrugStore.Application;
+using DrugStore.Domain.Identity;
 using DrugStore.Domain.Identity.Constants;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
+using DrugStore.Persistence;
+
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace DrugStore.Presentation.Extension;
+namespace DrugStore.Presentation.Extensions;
 
 public static class ProgramExtension
 {

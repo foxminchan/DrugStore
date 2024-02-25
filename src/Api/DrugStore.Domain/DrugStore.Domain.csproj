@@ -22,6 +22,8 @@
     <ItemGroup>
       <Folder Include="Order\DomainEvents\" />
       <Folder Include="Order\Specifications\" />
+      <Folder Include="Product\DomainEvents\" />
+      <Folder Include="Product\Specifications\" />
     </ItemGroup>
 
 </Project>

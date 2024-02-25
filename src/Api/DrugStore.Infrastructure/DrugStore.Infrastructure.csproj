@@ -60,8 +60,4 @@
         <ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Versioning\" />
-    </ItemGroup>
-
 </Project>

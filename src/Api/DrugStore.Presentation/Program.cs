@@ -1,7 +1,9 @@
 using Asp.Versioning.Builder;
 using DrugStore.Domain.Identity;
 using DrugStore.Presentation;
-using DrugStore.Presentation.Extension;
+using DrugStore.Presentation.Extensions;
+
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ builder.Services.AddApplicationService();
 builder.Services.AddEndpoints(AssemblyReference.Program);
 builder.Services.AddInfrastructureService(builder);
 builder.Services.AddCustomDbContext(builder.Configuration);
+
+Log.Logger.Information("Total services: {count}", builder.Services.Count);
 
 var app = builder.Build();
 

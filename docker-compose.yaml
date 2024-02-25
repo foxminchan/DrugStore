@@ -42,8 +42,6 @@ services:
     container_name: redis
     ports:
       - 6370:6379
-    environment:
-      - "REDIS_ARGS=--requirepass drugstore"
     volumes:
       - ./vol/redis:/data
     networks:

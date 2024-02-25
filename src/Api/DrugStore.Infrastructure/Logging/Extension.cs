@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using Serilog.Exceptions;
 using Serilog.Settings.Configuration;
-using Serilog.Sinks.SystemConsole.Themes;
 using Serilog;
 
 namespace DrugStore.Infrastructure.Logging;
@@ -26,8 +25,7 @@ public static class Extension
 
             config.WriteTo.Async(writeTo =>
                 writeTo.Console(
-                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level} - {Message:lj}{NewLine}{Exception}",
-                    theme: AnsiConsoleTheme.Literate));
+                    outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} {Level} - {Message:lj}{NewLine}{Exception}"));
         });
     }
 }
