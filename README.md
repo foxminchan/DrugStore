@@ -64,7 +64,7 @@ Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> 
 ```bash
 dotnet watch -p ./src/Api/DrugStore.Presentation/ run -lp https
 dotnet watch -p ./src/Web/DrugStore.StoreFront/ run -lp https
-dotwatch -p ./src/Web/DrugStore.BackOffice/ run -lp https
+dotnet watch -p ./src/Web/DrugStore.BackOffice/ run -lp https
 dotnet watch -p ./src/Web/DrugStore.WebStatus/ run -lp https
 ```
 
