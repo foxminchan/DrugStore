@@ -13,6 +13,8 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
         <PackageReference Include="xunit" Version="2.7.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7" />
+        <PackageReference Include="NetArchTest.Rules" Version="1.3.2" />
+        <PackageReference Include="FluentAssertions" Version="6.12.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -21,6 +23,10 @@
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
             <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
         </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj" />
     </ItemGroup>
 
 </Project>

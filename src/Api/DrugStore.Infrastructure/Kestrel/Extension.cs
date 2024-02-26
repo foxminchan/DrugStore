@@ -21,11 +21,14 @@ public static class Extension
         builder.Services.AddResponseCompression()
             .AddResponseCaching(options => options.MaximumBodySize = 1024)
             .AddRouting(options => options.LowercaseUrls = true);
+
+        builder.Services.AddRequestTimeouts();
     }
 
     public static void UseKestrel(this IApplicationBuilder app)
     {
         app.UseHsts();
+        app.UseRequestTimeouts();
         app.UseResponseCompression();
         app.UseResponseCaching();
         app.UseHttpsRedirection();

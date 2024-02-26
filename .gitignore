@@ -36,6 +36,7 @@ bld/
 [Bb]uild[Ll]og.*
 
 vol/
+StrykerOutput/
 
 # NUNIT
 *.VisualState.xml

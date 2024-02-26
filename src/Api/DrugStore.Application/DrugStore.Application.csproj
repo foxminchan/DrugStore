@@ -13,6 +13,9 @@
     <ItemGroup>
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
       <Folder Include="Baskets\" />
+      <Folder Include="Orders\Queries\" />
+      <Folder Include="Products\Queries\GetByIdQuery\" />
+      <Folder Include="Products\Queries\GetListQuery\" />
       <Folder Include="Users\" />
       <Folder Include="Posts\" />
       <Folder Include="News\" />
@@ -24,7 +27,6 @@
       <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Categories\Validators\" />
       <Folder Include="Products\ViewModel\" />
-      <Folder Include="Orders\Queries\" />
     </ItemGroup>
 
 </Project>

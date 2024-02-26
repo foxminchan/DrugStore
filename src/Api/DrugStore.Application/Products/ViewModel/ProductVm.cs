@@ -1,13 +1,13 @@
-﻿namespace DrugStore.Application.Products.ViewModel;
+﻿using DrugStore.Domain.Product;
+
+namespace DrugStore.Application.Products.ViewModel;
 
 public sealed record ProductVm(
     Guid Id,
     string Title,
     string? ProductCode,
     string? Detail,
-    bool Status,
+    ProductStatus Status,
     int Quantity,
-    Guid? CategoryId,
-    decimal OriginalPrice,
-    decimal Price,
-    decimal? PriceSale);
+    Guid? CategoryId, 
+    ProductPrice Price);

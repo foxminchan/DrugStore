@@ -11,7 +11,9 @@ An application that allows users to search for drugs and get information about t
 ## Prerequisites
 
 - [K6](https://k6.io/docs/getting-started/installation/)
+- [pnpm](https://pnpm.io/installation)
 - [Docker](https://docs.docker.com/get-docker/)
+- [Node.js](https://nodejs.org/en/download/)
 - [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 - [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 - [Azure Subscription](https://azure.microsoft.com/en-us/free/)

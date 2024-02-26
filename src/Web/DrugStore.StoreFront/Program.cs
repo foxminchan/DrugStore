@@ -1,6 +1,11 @@
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+using DrugStore.Infrastructure.Logging;
+using DrugStore.Infrastructure.OpenTelemetry;
+
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.AddOpenTelemetry(builder.Configuration);
+builder.AddSerilog(builder.Environment.ApplicationName);
 
 WebApplication app = builder.Build();
 
@@ -15,4 +20,5 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
+app.MapPrometheusScrapingEndpoint();
 app.Run();
