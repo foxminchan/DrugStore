@@ -20,8 +20,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ContainerEnvironmentVariable Include="ASPNETCORE_HTTPS_PORTS">
-        <Value>7030</Value>
-      </ContainerEnvironmentVariable>
+        <ContainerEnvironmentVariable Include="ASPNETCORE_HTTPS_PORTS">
+            <Value>7030</Value>
+        </ContainerEnvironmentVariable>
     </ItemGroup>
+
 </Project>

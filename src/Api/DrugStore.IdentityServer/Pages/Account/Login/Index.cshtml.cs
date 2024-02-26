@@ -1,17 +1,14 @@
 using DrugStore.Domain.Identity;
-
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace DrugStore.IdentityServer.Pages.Account.Login;
@@ -34,12 +31,9 @@ public class Index(
     {
         await BuildModelAsync(returnUrl);
 
-        if (View.IsExternalLoginOnly)
-        {
-            return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
-        }
-
-        return Page();
+        return View.IsExternalLoginOnly
+            ? RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl })
+            : Page();
     }
 
     public async Task<IActionResult> OnPost()
@@ -50,26 +44,23 @@ public class Index(
         // the user clicked the "cancel" button
         if (Input.Button != "login")
         {
-            if (context != null)
+            if (context is null)
             {
-                // if the user cancels, send a result back into IdentityServer as if they 
-                // denied the consent (even if this client does not require consent).
-                // this will send back an access denied OIDC error response to the client.
-                await interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
-
-                // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                if (context.IsNativeClient())
-                {
-                    // The client is native, so this change in how to
-                    // return the response is for better UX for the end user.
-                    return this.LoadingPage(Input.ReturnUrl);
-                }
-
-                return Redirect(Input.ReturnUrl);
+                return Redirect("~/");
             }
 
+            // if the user cancels, send a result back into IdentityServer as if they 
+            // denied the consent (even if this client does not require consent).
+            // this will send back an access denied OIDC error response to the client.
+            await interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
+
+            // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+            return context.IsNativeClient() ?
+                // The client is native, so this change in how to
+                // return the response is for better UX for the end user.
+                this.LoadingPage(Input.ReturnUrl) : Redirect(Input.ReturnUrl);
+
             // since we don't have a valid context, then we just go back to the home page
-            return Redirect("~/");
         }
 
         if (ModelState.IsValid)
@@ -79,20 +70,17 @@ public class Index(
             if (result.Succeeded)
             {
                 ApplicationUser user = await userManager.FindByNameAsync(Input.Username);
-                await events.RaiseAsync(new UserLoginSuccessEvent(user.UserName, user.Id.ToString(), user.UserName,
+                await events.RaiseAsync(new UserLoginSuccessEvent(user?.UserName, user!.Id.ToString(), user!.UserName,
                     clientId: context?.Client.ClientId));
 
-                if (context != null)
+                if (context is { })
                 {
-                    if (context.IsNativeClient())
-                    {
+                    return context.IsNativeClient() ?
                         // The client is native, so this change in how to
                         // return the response is for better UX for the end user.
-                        return this.LoadingPage(Input.ReturnUrl);
-                    }
-
-                    // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
-                    return Redirect(Input.ReturnUrl);
+                        this.LoadingPage(Input.ReturnUrl) :
+                        // we can trust model.ReturnUrl since GetAuthorizationContextAsync returned non-null
+                        Redirect(Input.ReturnUrl);
                 }
 
                 // request for a local page
@@ -137,7 +125,7 @@ public class Index(
             if (!local)
             {
                 View.ExternalProviders =
-                    new[] { new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
+                    [new() { AuthenticationScheme = context.IdP }];
             }
 
             return;
@@ -152,21 +140,21 @@ public class Index(
                 DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name
             }).ToList();
 
-        IEnumerable<ViewModel.ExternalProvider> dyanmicSchemes = (await identityProviderStore.GetAllSchemeNamesAsync())
+        IEnumerable<ViewModel.ExternalProvider> dynamicSchemes = (await identityProviderStore.GetAllSchemeNamesAsync())
             .Where(x => x.Enabled)
             .Select(x => new ViewModel.ExternalProvider
             {
                 AuthenticationScheme = x.Scheme, DisplayName = x.DisplayName
             });
-        providers.AddRange(dyanmicSchemes);
+        providers.AddRange(dynamicSchemes);
 
 
         bool allowLocal = true;
         Client client = context?.Client;
-        if (client != null)
+        if (client is { })
         {
             allowLocal = client.EnableLocalLogin;
-            if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+            if (client.IdentityProviderRestrictions.Count != 0)
             {
                 providers = providers.Where(provider =>
                     client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
@@ -177,7 +165,7 @@ public class Index(
         {
             AllowRememberLogin = LoginOptions.AllowRememberLogin,
             EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
-            ExternalProviders = providers.ToArray()
+            ExternalProviders = [.. providers]
         };
     }
 }

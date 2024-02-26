@@ -2,10 +2,8 @@
 // See LICENSE in the project root for license information.
 
 using System.ComponentModel.DataAnnotations;
-
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -14,23 +12,14 @@ namespace DrugStore.IdentityServer.Pages.Ciba;
 
 [SecurityHeaders]
 [Authorize]
-public class AllModel : PageModel
+public class AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService)
+    : PageModel
 {
-    private readonly IBackchannelAuthenticationInteractionService _backchannelAuthenticationInteraction;
-
-    public AllModel(IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService)
-    {
-        _backchannelAuthenticationInteraction = backchannelAuthenticationInteractionService;
-    }
-
     public IEnumerable<BackchannelUserLoginRequest> Logins { get; set; }
 
     [BindProperty] [Required] public string Id { get; set; }
 
     [BindProperty] [Required] public string Button { get; set; }
 
-    public async Task OnGet()
-    {
-        Logins = await _backchannelAuthenticationInteraction.GetPendingLoginRequestsForCurrentUserAsync();
-    }
+    public async Task OnGet() => Logins = await backchannelAuthenticationInteractionService.GetPendingLoginRequestsForCurrentUserAsync();
 }

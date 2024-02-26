@@ -1,19 +1,15 @@
-using System.Security.Claims;
-
 using DrugStore.Domain.Identity;
-
-using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-
+using Duende.IdentityServer;
 using IdentityModel;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace DrugStore.IdentityServer.Pages.ExternalLogin;
 
@@ -56,19 +52,15 @@ public class Callback(
         string providerUserId = userIdClaim.Value;
 
         // find external user
-        ApplicationUser user = await userManager.FindByLoginAsync(provider, providerUserId);
-        if (user == null)
-        {
-            // this might be where you might initiate a custom workflow for user registration
-            // in this sample we don't show how that would be done, as our sample implementation
-            // simply auto-provisions new external user
-            user = await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
-        }
+        // this might be where you might initiate a custom workflow for user registration
+        // in this sample we don't show how that would be done, as our sample implementation
+        // simply auto-provisions new external user
+        ApplicationUser user = await userManager.FindByLoginAsync(provider, providerUserId) ?? await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
 
         // this allows us to collect any additional claims or properties
         // for the specific protocols used and store them in the local auth cookie.
         // this is typically used to store data needed for signout from those protocols.
-        List<Claim> additionalLocalClaims = new();
+        List<Claim> additionalLocalClaims = [];
         AuthenticationProperties localSignInProps = new();
         CaptureExternalLoginContext(result, additionalLocalClaims, localSignInProps);
 
@@ -87,17 +79,12 @@ public class Callback(
             true,
             context?.Client.ClientId));
 
-        if (context != null)
-        {
-            if (context.IsNativeClient())
-            {
-                // The client is native, so this change in how to
-                // return the response is for better UX for the end user.
-                return this.LoadingPage(returnUrl);
-            }
-        }
-
-        return Redirect(returnUrl);
+        return context is null
+            ? Redirect(returnUrl)
+            : context.IsNativeClient() ?
+            // The client is native, so this change in how to
+            // return the response is for better UX for the end user.
+            this.LoadingPage(returnUrl) : Redirect(returnUrl);
     }
 
     private async Task<ApplicationUser> AutoProvisionUserAsync(string provider, string providerUserId,
@@ -108,40 +95,47 @@ public class Callback(
         ApplicationUser user = new() { Id = sub, UserName = sub.ToString() };
 
         // email
-        string email = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
-                       claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+        IEnumerable<Claim> enumerable = claims as Claim[] ?? claims.ToArray();
+        string email = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
+                       enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
         if (email != null)
         {
             user.Email = email;
         }
 
         // create a list of claims that we want to transfer into our store
-        List<Claim> filtered = new();
+        List<Claim> filtered = [];
 
         // user's display name
-        string name = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
-                      claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+        string name = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
+                      enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
         if (name != null)
         {
             filtered.Add(new(JwtClaimTypes.Name, name));
         }
         else
         {
-            string first = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
-                           claims.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
-            string last = claims.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
-                          claims.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
-            if (first != null && last != null)
+            string first = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.GivenName)?.Value ??
+                           enumerable.FirstOrDefault(x => x.Type == ClaimTypes.GivenName)?.Value;
+            string last = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.FamilyName)?.Value ??
+                          enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
+            switch (first)
             {
-                filtered.Add(new(JwtClaimTypes.Name, first + " " + last));
-            }
-            else if (first != null)
-            {
-                filtered.Add(new(JwtClaimTypes.Name, first));
-            }
-            else if (last != null)
-            {
-                filtered.Add(new(JwtClaimTypes.Name, last));
+                case { } when last is { }:
+                    filtered.Add(new(JwtClaimTypes.Name, first + " " + last));
+                    break;
+                case { }:
+                    filtered.Add(new(JwtClaimTypes.Name, first));
+                    break;
+                default:
+                    {
+                        if (last is { })
+                        {
+                            filtered.Add(new(JwtClaimTypes.Name, last));
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -151,7 +145,7 @@ public class Callback(
             throw new(identityResult.Errors.First().Description);
         }
 
-        if (filtered.Any())
+        if (filtered.Count != 0)
         {
             identityResult = await userManager.AddClaimsAsync(user, filtered);
             if (!identityResult.Succeeded)
@@ -161,17 +155,12 @@ public class Callback(
         }
 
         identityResult = await userManager.AddLoginAsync(user, new(provider, providerUserId, provider));
-        if (!identityResult.Succeeded)
-        {
-            throw new(identityResult.Errors.First().Description);
-        }
-
-        return user;
+        return !identityResult.Succeeded ? throw new(identityResult.Errors.First().Description) : user;
     }
 
     // if the external login is OIDC-based, there are certain things we need to preserve to make logout work
     // this will be different for WS-Fed, SAML2p or other protocols
-    private void CaptureExternalLoginContext(AuthenticateResult externalResult, List<Claim> localClaims,
+    private static void CaptureExternalLoginContext(AuthenticateResult externalResult, List<Claim> localClaims,
         AuthenticationProperties localSignInProps)
     {
         // capture the idp used to login, so the session knows where the user came from
@@ -179,17 +168,17 @@ public class Callback(
 
         // if the external system sent a session id claim, copy it over
         // so we can use it for single sign-out
-        Claim sid = externalResult.Principal.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
-        if (sid != null)
+        Claim sid = externalResult.Principal?.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
+        if (sid is { })
         {
             localClaims.Add(new(JwtClaimTypes.SessionId, sid.Value));
         }
 
         // if the external provider issued an id_token, we'll keep it for signout
         string idToken = externalResult.Properties.GetTokenValue("id_token");
-        if (idToken != null)
+        if (idToken is { })
         {
-            localSignInProps.StoreTokens(new[] { new AuthenticationToken { Name = "id_token", Value = idToken } });
+            localSignInProps.StoreTokens([new() { Name = "id_token", Value = idToken }]);
         }
     }
 }

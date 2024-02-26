@@ -18,7 +18,8 @@
         <PackageReference Include="Testcontainers.PostgreSql" Version="3.7.0" />
         <PackageReference Include="Testcontainers.Redis" Version="3.7.0" />
         <PackageReference Include="FluentAssertions" Version="6.12.0" />
-        <PackageReference Include="Bogus" Version="35.4.0" />
+        <PackageReference Include="AutoBogus.Conventions" Version="2.13.1" />
+        <PackageReference Include="AutoBogus.NSubstitute" Version="2.13.1" />
         <PackageReference Include="Polly" Version="8.3.0" />
     </ItemGroup>
 
@@ -31,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj" />
+        <ProjectReference Include="..\..\src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj" />
     </ItemGroup>
 
 </Project>

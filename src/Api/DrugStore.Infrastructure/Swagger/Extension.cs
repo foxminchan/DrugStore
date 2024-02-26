@@ -46,7 +46,7 @@ public static class Extension
                 c.SwaggerEndpoint(url, name);
             }
 
-            c.DocumentTitle = "Rent Car API";
+            c.DocumentTitle = "Drug Store API";
             c.DisplayRequestDuration();
             c.EnableFilter();
             c.EnableValidator();

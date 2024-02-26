@@ -1,9 +1,9 @@
 using DrugStore.Domain.Identity;
+using DrugStore.Persistence.CompileModels;
 using DrugStore.Persistence;
-
+using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
 using Serilog;
 
 namespace DrugStore.IdentityServer;
@@ -14,8 +14,11 @@ internal static class HostingExtensions
     {
         builder.Services.AddRazorPages();
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+            options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+                .UseExceptionProcessor()
+                .UseModel(ApplicationDbContextModel.Instance)
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -32,7 +35,8 @@ internal static class HostingExtensions
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients)
+            .AddInMemoryApiResources(Config.ApiResources)
+            .AddInMemoryClients(Config.Clients(builder.Configuration))
             .AddAspNetIdentity<ApplicationUser>();
 
         builder.Services.AddAuthentication();
@@ -45,9 +49,7 @@ internal static class HostingExtensions
         app.UseSerilogRequestLogging();
 
         if (app.Environment.IsDevelopment())
-        {
             app.UseDeveloperExceptionPage();
-        }
 
         app.UseStaticFiles();
         app.UseRouting();

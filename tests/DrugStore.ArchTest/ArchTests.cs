@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
 using NetArchTest.Rules;
-using Xunit;
 
-namespace DrugStore.IntegrationTest;
+namespace DrugStore.ArchTest;
 
 public class ArchTests
 {

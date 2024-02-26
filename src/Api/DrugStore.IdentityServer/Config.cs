@@ -1,39 +1,80 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace DrugStore.IdentityServer;
 
 public static class Config
 {
     public static IEnumerable<IdentityResource> IdentityResources =>
-        new IdentityResource[] { new IdentityResources.OpenId(), new IdentityResources.Profile() };
+        [new IdentityResources.OpenId(), new IdentityResources.Profile()];
 
     public static IEnumerable<ApiScope> ApiScopes =>
-        new ApiScope[] { new("scope1"), new("scope2") };
+    [
+        new("read", "Read Access to API"),
+        new("write", "Write Access to API"),
+        new("manage", "Manage Access to API")
+    ];
 
-    public static IEnumerable<Client> Clients =>
-        new Client[]
+    public static IEnumerable<ApiResource> ApiResources =>
+    [
+        new()
         {
-            // m2m client credentials flow client
-            new()
-            {
-                ClientId = "m2m.client",
-                ClientName = "Client Credentials Client",
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-                AllowedScopes = { "scope1" }
-            },
+            Name = "drugstore",
+            DisplayName = "DrugStore API",
+            Scopes = { "read", "write", "manage" }
+        }
+    ];
 
-            // interactive client using code flow + pkce
-            new()
+    public static IEnumerable<Client> Clients(IConfiguration configuration) =>
+    [
+        new()
+        {
+            ClientId = "storefront",
+            ClientName = "Storefront Client",
+            AllowedGrantTypes = GrantTypes.Code,
+            RequirePkce = true,
+            RequireClientSecret = false,
+            RequireConsent = false,
+            AllowedCorsOrigins = { configuration["StorefrontClient"] },
+            RedirectUris = { $"{configuration["StorefrontClient"]}/authentication/login-callback" },
+            PostLogoutRedirectUris = { $"{configuration["StorefrontClient"]}/authentication/logout-callback" },
+            AllowedScopes =
             {
-                ClientId = "interactive",
-                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-                AllowedGrantTypes = GrantTypes.Code,
-                RedirectUris = { "https://localhost:44300/signin-oidc" },
-                FrontChannelLogoutUri = "https://localhost:44300/signout-oidc",
-                PostLogoutRedirectUris = { "https://localhost:44300/signout-callback-oidc" },
-                AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "scope2" }
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "read",
+                "write"
             }
-        };
+        },
+        new()
+        {
+            ClientId = "backoffice",
+            ClientName = "Backoffice Client",
+            AllowedGrantTypes = GrantTypes.Code,
+            RequirePkce = true,
+            RequireClientSecret = false,
+            RequireConsent = false,
+            AllowedCorsOrigins = { configuration["BackofficeClient"] },
+            RedirectUris = { $"{configuration["BackofficeClient"]}/authentication/login-callback" },
+            PostLogoutRedirectUris = { $"{configuration["BackofficeClient"]}/authentication/logout-callback" },
+            AllowedScopes =
+            {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "read",
+                "write",
+                "manage"
+            }
+        },
+        new()
+        {
+            ClientId = "apiswaggerui",
+            ClientName = "DrugStore API",
+            AllowedGrantTypes = GrantTypes.Implicit,
+            AllowAccessTokensViaBrowser = true,
+            RedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/oauth2-redirect.html" },
+            PostLogoutRedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/" },
+            AllowedScopes = { "read", "write", "manage" }
+        }
+    ];
 }

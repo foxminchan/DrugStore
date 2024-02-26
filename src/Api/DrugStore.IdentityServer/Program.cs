@@ -1,5 +1,4 @@
 ﻿using DrugStore.IdentityServer;
-
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

@@ -1,5 +1,6 @@
 ﻿using Asp.Versioning.ApiExplorer;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -7,7 +8,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DrugStore.Infrastructure.Swagger;
 
-public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider) : IConfigureOptions<SwaggerGenOptions>
+public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider, IConfiguration config) : IConfigureOptions<SwaggerGenOptions>
 {
     public void Configure(SwaggerGenOptions options)
     {
@@ -35,6 +36,34 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
                 Scheme = JwtBearerDefaults.AuthenticationScheme
             });
 
+        var identityUrlExternal = config.GetValue<string>("IdentityUrlExternal");
+
+        options.AddSecurityDefinition("oauth2", 
+            new() 
+            {
+            Type = SecuritySchemeType.OAuth2,
+            Flows = new()
+            {
+                Implicit = new()
+                {
+                    AuthorizationUrl = new Uri($"{identityUrlExternal}/connect/authorize"),
+                    TokenUrl = new($"{identityUrlExternal}/connect/token"),
+                    Scopes = new Dictionary<string, string>()
+                    {
+                        {
+                            "read", "Read Access to API"
+                        },
+                        {
+                            "write", "Write Access to API"
+                        },
+                        {
+                            "manage", "Manage Access to API"
+                        }
+                    }
+                }
+            }
+        });
+
         options.AddSecurityRequirement(new()
         {
             {
@@ -50,5 +79,7 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider)
                 new List<string>()
             }
         });
+
+        options.OperationFilter<AuthorizeCheckOperationFilter>();
     }
 }

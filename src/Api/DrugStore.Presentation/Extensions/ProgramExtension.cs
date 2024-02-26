@@ -1,13 +1,11 @@
 ﻿using System.Reflection;
 using System.Security.Claims;
-
 using DrugStore.Application;
 using DrugStore.Domain.Identity;
 using DrugStore.Domain.Identity.Constants;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
-
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -26,11 +24,11 @@ public static class ProgramExtension
             .AddPolicy(Roles.Admin,
                 policy => policy
                     .RequireRole(Policies.Admin)
-                    .RequireClaim(ClaimTypes.Role, Claims.Create, Claims.Read, Claims.Update, Claims.Delete))
+                    .RequireClaim(ClaimTypes.Role,  Claims.Read, Claims.Write, Claims.Manage))
             .AddPolicy(Roles.Customer,
                 policy => policy
                     .RequireRole(Policies.Customer)
-                    .RequireClaim(ClaimTypes.Role, Claims.Create, Claims.Read));
+                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write));
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()

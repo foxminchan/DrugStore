@@ -1,6 +1,5 @@
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -8,21 +7,14 @@ namespace DrugStore.IdentityServer.Pages.Account.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class LoggedOut : PageModel
+public class LoggedOut(IIdentityServerInteractionService interactionService) : PageModel
 {
-    private readonly IIdentityServerInteractionService _interactionService;
-
-    public LoggedOut(IIdentityServerInteractionService interactionService)
-    {
-        _interactionService = interactionService;
-    }
-
     public LoggedOutViewModel View { get; set; }
 
     public async Task OnGet(string logoutId)
     {
         // get context information (client name, post logout redirect URI and iframe for federated signout)
-        LogoutRequest logout = await _interactionService.GetLogoutContextAsync(logoutId);
+        LogoutRequest logout = await interactionService.GetLogoutContextAsync(logoutId);
 
         View = new()
         {

@@ -62,17 +62,6 @@ Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> 
 ### Running the application
 
 ```bash
-dotnet watch -p ./src/Api/DrugStore.Presentation/ run -lp https
-dotnet watch -p ./src/Web/DrugStore.StoreFront/ run -lp https
-dotnet watch -p ./src/Web/DrugStore.BackOffice/ run -lp https
-dotnet watch -p ./src/Web/DrugStore.WebStatus/ run -lp https
-```
-
-[!NOTE]
-
-If you are using `Tye` to run the application, you can run the following command:
-
-```bash
 tye run
 ```
 
