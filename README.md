@@ -1,12 +1,15 @@
 # Drug Store
 
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=foxminchan_DrugStore&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=foxminchan_DrugStore)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=foxminchan_DrugStore&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=foxminchan_DrugStore)
+
 ## Description
 
 <p align="justify">
 An application that allows users to search for drugs and get information about them. The application also allows users to search for drugs based on their location and get a list of drug stores that have the drugs in stock.
 </p>
 
-<img src="./assets/arch.png" alt="Drug Store" width="100%">
+<img src="./assets/DrugStore.png" alt="Drug Store" width="100%">
 
 ## Prerequisites
 
@@ -26,10 +29,10 @@ An application that allows users to search for drugs and get information about t
 git clone https://github.com/foxminchan/DrugStore
 ```
 
-3. Restore the packages
+3. Restore the packages and install the dependencies
 
 ```bash
-cd DrugStore && dotnet restore ./DrugStore.sln
+cd DrugStore && dotnet restore ./DrugStore.sln && pnpm install
 ```
 
 4. Set up infrastructure
@@ -61,6 +64,7 @@ Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> 
 ```bash
 dotnet watch -p ./src/Api/DrugStore.Presentation/ run -lp https
 dotnet watch -p ./src/Web/DrugStore.StoreFront/ run -lp https
+dotwatch -p ./src/Web/DrugStore.BackOffice/ run -lp https
 dotnet watch -p ./src/Web/DrugStore.WebStatus/ run -lp https
 ```
 
