@@ -20,7 +20,7 @@ An application that allows users to search for drugs and get information about t
 - [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 > [!NOTE]
-> If you want to deploy the application to Azure, you need to install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and have an [Azure Subscription](https://azure.microsoft.com/en-us/free/) .
+> If you want to deploy the application to Azure, you need to install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and have an [Azure Subscription](https://azure.microsoft.com/en-us/free/).
 
 ## Installation
 
