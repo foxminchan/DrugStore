@@ -36,13 +36,13 @@ public sealed class ProductEndpoint : IEndpoint
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
-    private static async Task<Result<IEnumerable<ProductVm>>> GetProducts(
+    private static async Task<Result<List<ProductVm>>> GetProducts(
         [FromServices] ISender sender,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
 
-    private static async Task<Result<IEnumerable<ProductVm>>> GetProductsByCategoryId(
+    private static async Task<Result<List<ProductVm>>> GetProductsByCategoryId(
         [FromServices] ISender sender,
         [FromRoute] Guid id,
         [AsParameters] BaseFilter filter,

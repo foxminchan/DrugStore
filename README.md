@@ -44,7 +44,7 @@ pnpm install
 4. Set up infrastructure
 
 ```bash
-docker-compose -f ./docker-compose.yml ./docker-compose.o11y.yaml up -d
+docker-compose -f ./docker-compose.yml -f ./docker-compose.o11y.yaml up -d
 ```
 
 ### Cloudinary Configuration

@@ -8,14 +8,13 @@ using Microsoft.EntityFrameworkCore;
 namespace DrugStore.Application.Users.Queries.GetListQuery;
 
 public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager)
-    : IQueryHandler<GetListQuery, PagedResult<IEnumerable<UserVm>>>
+    : IQueryHandler<GetListQuery, PagedResult<List<UserVm>>>
 {
-    public async Task<PagedResult<IEnumerable<UserVm>>> Handle(
+    public async Task<PagedResult<List<UserVm>>> Handle(
         GetListQuery request,
         CancellationToken cancellationToken)
     {
-        var query = userManager.Users.OrderBy(x =>
-            x.GetType().GetProperty(request.Filter.OrderBy ?? "Id")!.GetValue(x, null));
+        var query = userManager.Users.OrderBy(x => x.Id);
 
         if (!request.Filter.IsAscending)
             query = query.OrderDescending();

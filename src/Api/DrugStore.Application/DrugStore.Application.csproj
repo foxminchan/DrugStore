@@ -32,10 +32,11 @@
       <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Categories\Validators\" />
       <Folder Include="Products\ViewModel\" />
-      <Folder Include="Users\Commands\" />
+      <Folder Include="Users\Commands\CreateUserCommand\" />
+      <Folder Include="Users\Commands\DeleteUserCommand\" />
+      <Folder Include="Users\Commands\UpdateUserCommand\" />
       <Folder Include="Users\Queries\GetByIdQuery\" />
       <Folder Include="Users\Queries\GetListQuery\" />
-      <Folder Include="Users\Validators\" />
       <Folder Include="Users\ViewModel\" />
     </ItemGroup>
 

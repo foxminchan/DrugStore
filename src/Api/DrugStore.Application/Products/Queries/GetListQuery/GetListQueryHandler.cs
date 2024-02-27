@@ -9,9 +9,9 @@ using Mapster;
 namespace DrugStore.Application.Products.Queries.GetListQuery;
 
 public sealed class GetListQueryHandler(Repository<Product> repository)
-    : IQueryHandler<GetListQuery, PagedResult<IEnumerable<ProductVm>>>
+    : IQueryHandler<GetListQuery, PagedResult<List<ProductVm>>>
 {
-    public async Task<PagedResult<IEnumerable<ProductVm>>> Handle(GetListQuery request,
+    public async Task<PagedResult<List<ProductVm>>> Handle(GetListQuery request,
         CancellationToken cancellationToken)
     {
         var spec = new ProductsFilterSpec(
@@ -26,6 +26,6 @@ public sealed class GetListQueryHandler(Repository<Product> repository)
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         var pageInfo = new PagedInfo(request.Filter.PageNumber, request.Filter.PageSize, totalPages, totalRecords);
-        return new(pageInfo, entities.Adapt<IEnumerable<ProductVm>>());
+        return new(pageInfo, entities.Adapt<List<ProductVm>>());
     }
 }

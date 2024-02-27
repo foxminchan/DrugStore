@@ -34,7 +34,7 @@ public sealed class CategoryEndpoint : IEndpoint
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
-    private static async Task<Result<IEnumerable<CategoryVm>>> GetCategories(
+    private static async Task<Result<List<CategoryVm>>> GetCategories(
         [FromServices] ISender sender,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(), cancellationToken);

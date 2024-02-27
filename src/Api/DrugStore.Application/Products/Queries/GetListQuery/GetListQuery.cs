@@ -4,4 +4,4 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Products.Queries.GetListQuery;
 
-public sealed record GetListQuery(BaseFilter Filter) : IQuery<PagedResult<IEnumerable<ProductVm>>>;
+public sealed record GetListQuery(BaseFilter Filter) : IQuery<PagedResult<List<ProductVm>>>;

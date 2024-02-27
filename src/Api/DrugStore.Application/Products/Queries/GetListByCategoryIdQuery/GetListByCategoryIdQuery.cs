@@ -5,4 +5,4 @@ using DrugStore.Domain.SharedKernel;
 namespace DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 
 public sealed record GetListByCategoryIdQuery(Guid CategoryId, BaseFilter Filter) 
-    : IQuery<PagedResult<IEnumerable<ProductVm>>>;
+    : IQuery<PagedResult<List<ProductVm>>>;

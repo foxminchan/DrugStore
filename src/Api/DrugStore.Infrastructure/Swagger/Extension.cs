@@ -47,6 +47,8 @@ public static class Extension
             }
 
             c.DocumentTitle = "Drug Store API";
+            c.OAuthClientId("apiswaggerui");
+            c.OAuthAppName("DrugStore API");
             c.DisplayRequestDuration();
             c.EnableFilter();
             c.EnableValidator();
