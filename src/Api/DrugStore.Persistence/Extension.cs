@@ -44,6 +44,8 @@ public static class Extension
 
         services.AddScoped<IDatabaseFacade>(p => p.GetRequiredService<ApplicationDbContext>());
         services.AddScoped<IDomainEventContext>(p => p.GetRequiredService<ApplicationDbContext>());
+
+                services.AddScoped<ApplicationDbContextInitializer>();
         services.AddScoped(typeof(Repository<>));
 
         return services;

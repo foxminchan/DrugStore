@@ -1,9 +1,7 @@
 using Asp.Versioning.Builder;
 using DrugStore.Domain.Identity;
-using DrugStore.Presentation;
 using DrugStore.Presentation.Extensions;
-
-using Serilog;
+using DrugStore.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,13 +10,16 @@ builder.Services.AddRateLimiting();
 builder.Services.AddCustomCors();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddApplicationService();
-builder.Services.AddEndpoints(AssemblyReference.Program);
+builder.Services.AddEndpoints(DrugStore.Presentation.AssemblyReference.Program);
 builder.Services.AddInfrastructureService(builder);
 builder.Services.AddCustomDbContext(builder.Configuration);
 
-Log.Logger.Information("Total services: {count}", builder.Services.Count);
-
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    await app.InitializeDatabaseAsync();
+}
 
 app.UseCustomCors();
 app.UseRateLimiter();
