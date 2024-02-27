@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
 namespace DrugStore.Infrastructure.OpenTelemetry;
 
@@ -32,6 +33,12 @@ public static class Extension
         });
 
         builder.Services.AddOpenTelemetry()
+            .WithTracing(trace =>
+                trace.SetResourceBuilder(resourceBuilder)
+                    .AddOtlpExporter(options => options.Endpoint = oltpEndpoint)
+                    .AddSource("Microsoft.AspNetCore", "System.Net.Http")
+                    .AddEntityFrameworkCoreInstrumentation(b => b.SetDbStatementForText = true)
+            )
             .WithMetrics(meter =>
                 meter.SetResourceBuilder(resourceBuilder)
                     .AddPrometheusExporter()

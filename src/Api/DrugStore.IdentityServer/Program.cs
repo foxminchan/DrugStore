@@ -1,27 +1,20 @@
 ﻿using DrugStore.IdentityServer;
+using DrugStore.Infrastructure.Logging;
+using DrugStore.Infrastructure.OpenTelemetry;
 using Serilog;
-
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .CreateBootstrapLogger();
-
-Log.Information("Starting up");
 
 try
 {
     WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.UseSerilog((ctx, lc) => lc
-        .WriteTo.Console(
-            outputTemplate:
-            "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-        .Enrich.FromLogContext()
-        .ReadFrom.Configuration(ctx.Configuration));
+    builder.AddSerilog(builder.Environment.ApplicationName);
+    builder.AddOpenTelemetry(builder.Configuration);
 
-    WebApplication app = builder
+    var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
 
+    app.MapPrometheusScrapingEndpoint();
     app.Run();
 }
 catch (Exception ex) when (

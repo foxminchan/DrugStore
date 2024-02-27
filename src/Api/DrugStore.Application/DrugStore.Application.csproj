@@ -17,13 +17,13 @@
       <Folder Include="Baskets\Queries\" />
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
       <Folder Include="News\Commands\UpdateNewsCommand\" />
-      <Folder Include="News\Queries\" />
+      <Folder Include="News\Queries\GetByIdQuery\" />
+      <Folder Include="News\Queries\GetListQuery\" />
       <Folder Include="Orders\Queries\GetListQuery\" />
       <Folder Include="Posts\Commands\" />
       <Folder Include="Posts\Queries\" />
       <Folder Include="Products\Queries\GetByIdQuery\" />
       <Folder Include="Products\Queries\GetListQuery\" />
-      <Folder Include="Users\" />
       <Folder Include="Orders\Commands\CreateOrderCommand\" />
       <Folder Include="Orders\Commands\DeleteOrderCommand\" />
       <Folder Include="Orders\Commands\UpdateOrderCommand\" />
@@ -32,6 +32,11 @@
       <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Categories\Validators\" />
       <Folder Include="Products\ViewModel\" />
+      <Folder Include="Users\Commands\" />
+      <Folder Include="Users\Queries\GetByIdQuery\" />
+      <Folder Include="Users\Queries\GetListQuery\" />
+      <Folder Include="Users\Validators\" />
+      <Folder Include="Users\ViewModel\" />
     </ItemGroup>
 
 </Project>

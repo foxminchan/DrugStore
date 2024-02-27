@@ -18,9 +18,14 @@ public static class Extension
         var redisConn = builder.Configuration.GetConnectionString("Redis");
         Guard.Against.Null(redisConn, message: "Connection string 'Redis' not found.");
 
+        var identityServer = builder.Configuration.GetValue<string>("IdentityUrlExternal");
+        Guard.Against.Null(identityServer, message: "IdentityServer URL not found.");
+
         builder.Services.AddHealthChecks()
-            .AddNpgSql(postgresConn, tags: ["database"])
-            .AddRedis(redisConn, tags: ["redis"]);
+            .AddNpgSql(postgresConn, name: "Postgres", tags: ["database"])
+            .AddRedis(redisConn, name: "Redis", tags: ["redis"])
+            .AddIdentityServer(new Uri(identityServer), name: "Identity Server", tags: ["identity-server"])
+            .AddKafka(options => options.BootstrapServers = "localhost:9092", name: "Kafka", tags: ["kafka"]);
 
         builder.Services
             .AddHealthChecksUI(options =>
@@ -50,10 +55,7 @@ public static class Extension
                 }
             });
 
-        app.MapHealthChecks("/liveness", new()
-        {
-            Predicate = r => r.Name.Contains("self")
-        });
+        app.MapHealthChecks("/liveness", new() { Predicate = r => r.Name.Contains("self") });
 
         app.MapHealthChecksUI(options => options.UIPath = "/hc-ui");
     }

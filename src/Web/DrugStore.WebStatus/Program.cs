@@ -12,8 +12,6 @@ builder.AddSerilog(builder.Environment.ApplicationName);
 var app = builder.Build();
 
 app.MapHealthCheck();
-
 app.Map("/", () => Results.Redirect("/hc-ui"));
-
 app.MapPrometheusScrapingEndpoint();
 app.Run();

@@ -12,6 +12,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
         <ContainerEnvironmentVariable Include="ASPNETCORE_HTTPS_PORTS">
             <Value>7060</Value>
         </ContainerEnvironmentVariable>

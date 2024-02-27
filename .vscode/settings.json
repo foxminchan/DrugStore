@@ -1,4 +1,8 @@
 {
   "files.eol": "\n",
   "dotnet.defaultSolution": "DrugStore.sln",
+  "sonarlint.connectedMode.project": {
+    "connectionId": "foxminchan",
+    "projectKey": "foxminchan_DrugStore"
+  }
 }
