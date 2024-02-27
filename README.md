@@ -24,6 +24,8 @@ An application that allows users to search for drugs and get information about t
 
 ## Installation
 
+### Local Development
+
 1. Clone the repository
 
 ```bash
@@ -64,6 +66,8 @@ Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> 
 ## Usage
 
 ### Running the application
+
+From the root directory, run the following command:
 
 ```bash
 tye run
