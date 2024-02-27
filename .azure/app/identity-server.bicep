@@ -38,7 +38,7 @@ resource identityServerDeployment 'apps/Deployment@v1' = {
         containers: [
           {
             name: 'identity-server'
-            image: '${containerRegistry}/identity-server:${containerTag}'
+            image: '${containerRegistry}/drug-store-identityserver:${containerTag}'
             imagePullPolicy: 'Always'
             env: [
               {

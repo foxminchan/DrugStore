@@ -38,7 +38,7 @@ resource backOfficeDeployment 'apps/Deployment@v1' = {
         containers: [
           {
             name: 'back-office'
-            image: '${containerRegistry}/back-office:${containerTag}'
+            image: '${containerRegistry}/drug-store-backoffice:${containerTag}'
             imagePullPolicy: 'Always'
             env: [
               {

@@ -4,9 +4,5 @@ namespace DrugStore.Application.Categories.Queries.GetByIdQuery;
 
 public sealed class GetByIdQueryValidator : AbstractValidator<GetByIdQuery>
 {
-    public GetByIdQueryValidator()
-    {
-        RuleFor(x => x.Id)
-            .NotEmpty();
-    }
+    public GetByIdQueryValidator() => RuleFor(x => x.Id).NotEmpty();
 }

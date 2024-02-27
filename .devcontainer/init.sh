@@ -1,2 +1,3 @@
-dotnet tool install --global dotnet-ef
 dotnet restore ./DrugStore.sln
+dotnet tool restore
+pnpm install

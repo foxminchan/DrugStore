@@ -10,4 +10,7 @@ public sealed record ProductVm(
     ProductStatus Status,
     int Quantity,
     Guid? CategoryId, 
-    ProductPrice Price);
+    ProductPrice Price,
+    DateTime CreatedDate,
+    DateTime? UpdateDate,
+    Guid Version);

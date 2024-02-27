@@ -38,7 +38,7 @@ resource storeFrontDeployment 'apps/Deployment@v1' = {
         containers: [
           {
             name: 'store-front'
-            image: '${containerRegistry}/store-front:${containerTag}'
+            image: '${containerRegistry}/drug-store-storefront:${containerTag}'
             imagePullPolicy: 'Always'
             env: [
               {

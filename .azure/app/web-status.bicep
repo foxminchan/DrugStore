@@ -38,7 +38,7 @@ resource webStatusDeployment 'apps/Deployment@v1' = {
         containers: [
           {
             name: 'web-status'
-            image: '${containerRegistry}/web-status:${containerTag}'
+            image: '${containerRegistry}/drug-store-webstatus:${containerTag}'
             imagePullPolicy: 'Always'
             env: [
               {

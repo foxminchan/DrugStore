@@ -9,6 +9,8 @@
       "version": "latest",
       "dockerDashComposeVersion": "v2"
     },
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {},
+    "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers-contrib/features/k6:1": {
       "version": "latest"
     },
@@ -18,24 +20,36 @@
   },
   "postCreateCommand": "bash .devcontainer/init.sh",
   "forwardPorts": [
-    "api:8080",
-    "storefont:7119",
-    "webstatus:5246",
+    "api:7070",
+    "storefont:7060",
+    "webstatus:7050",
+    "backoffice:7040",
+    "identityserver:7030",
     "db:5432",
-    "redis:6379"
+    "redis:6379",
+    "pgadmin:5050",
+    "kafkaui:8083"
   ],
   "portsAttributes": {
-    "8080": {
+    "7070": {
       "protocol": "https",
       "label": "API"
     },
-    "7119": {
+    "7060": {
       "protocol": "https",
-      "label": "Storefront"
+      "label": "StoreFront"
     },
-    "5246": {
-      "protocol": "http",
-      "label": "Web Status"
+    "7050": {
+      "protocol": "https",
+      "label": "WebStatus"
+    },
+    "7040": {
+      "protocol": "https",
+      "label": "BackOffice"
+    },
+    "7030": {
+      "protocol": "https",
+      "label": "IdentityServer"
     }
   },
   "customizations": {

@@ -22,10 +22,10 @@ public sealed class Order : AuditableEntityBase, IAggregateRoot
     {
     }
 
-    public Order(string? code, bool status, PaymentMethod paymentMethod, Guid? customerId)
+    public Order(string? code, OrderStatus status, PaymentMethod paymentMethod, Guid? customerId)
     {
         Code = code;
-        Status = status ? OrderStatus.Completed : OrderStatus.Pending;
+        Status = status;
         PaymentMethod = Guard.Against.Null(paymentMethod);
         CustomerId = customerId;
     }

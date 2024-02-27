@@ -18,8 +18,9 @@ An application that allows users to search for drugs and get information about t
 - [Docker](https://docs.docker.com/get-docker/)
 - [Node.js](https://nodejs.org/en/download/)
 - [.NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-- [Azure Subscription](https://azure.microsoft.com/en-us/free/)
+
+> [!NOTE]
+> If you want to deploy the application to Azure, you need to install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and have an [Azure Subscription](https://azure.microsoft.com/en-us/free/) .
 
 ## Installation
 
@@ -32,7 +33,10 @@ git clone https://github.com/foxminchan/DrugStore
 3. Restore the packages and install the dependencies
 
 ```bash
-cd DrugStore && dotnet restore ./DrugStore.sln && pnpm install
+cd DrugStore
+dotnet restore ./DrugStore.sln
+dotnet tool restore
+pnpm install
 ```
 
 4. Set up infrastructure
@@ -79,6 +83,12 @@ For unit testing, run the following command:
 dotnet test ./DrugStore.sln
 ```
 
+For test the tests, run the following command:
+
+```bash
+dotnet stryker
+```
+
 ## Azure Deployment
 
 To deploy the application to Azure, follow the steps below:
@@ -109,7 +119,9 @@ echo $PASSWORD | docker login "acr_name".azurecr.io -u "username" --password-std
 docker compose build
 docker compose push "acr_name".azurecr.io/drug-store-api:latest
 docker compose push "acr_name".azurecr.io/drug-store-storefront:latest
+docker compose push "acr_name".azurecr.io/drug-store-backoffice:latest
 docker compose push "acr_name".azurecr.io/drug-store-webstatus:latest
+docker compose push "acr_name".azurecr.io/drug-store-identityserver:latest
 ```
 
 5. Get the Azure Kubernetes Service credentials

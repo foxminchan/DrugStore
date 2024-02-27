@@ -11,14 +11,19 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Baskets\Commands\CreateBasketCommand\" />
+      <Folder Include="Baskets\Commands\DeleteBasketCommand\" />
+      <Folder Include="Baskets\Commands\UpdateBasketCommand\" />
+      <Folder Include="Baskets\Queries\" />
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
-      <Folder Include="Baskets\" />
-      <Folder Include="Orders\Queries\" />
+      <Folder Include="News\Commands\UpdateNewsCommand\" />
+      <Folder Include="News\Queries\" />
+      <Folder Include="Orders\Queries\GetListQuery\" />
+      <Folder Include="Posts\Commands\" />
+      <Folder Include="Posts\Queries\" />
       <Folder Include="Products\Queries\GetByIdQuery\" />
       <Folder Include="Products\Queries\GetListQuery\" />
       <Folder Include="Users\" />
-      <Folder Include="Posts\" />
-      <Folder Include="News\" />
       <Folder Include="Orders\Commands\CreateOrderCommand\" />
       <Folder Include="Orders\Commands\DeleteOrderCommand\" />
       <Folder Include="Orders\Commands\UpdateOrderCommand\" />

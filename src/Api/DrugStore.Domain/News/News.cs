@@ -21,7 +21,15 @@ public sealed class News : AuditableEntityBase, IAggregateRoot
     public News(string title, string? detail, string? image, Guid? categoryId)
     {
         Title = Guard.Against.NullOrEmpty(title);
-        Detail = detail;
+        Detail = Guard.Against.NullOrEmpty(detail);
+        Image = image;
+        CategoryId = categoryId;
+    }
+
+    public void Update(string title, string? detail, string? image, Guid? categoryId)
+    {
+        Title = Guard.Against.NullOrEmpty(title);
+        Detail = Guard.Against.NullOrEmpty(detail);
         Image = image;
         CategoryId = categoryId;
     }

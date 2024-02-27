@@ -1,9 +1,9 @@
+using DrugStore.IdentityServer.Pages.Account.Login;
 using Duende.IdentityServer.Services;
-
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.IdentityServer.Pages.ExternalLogin;
 
@@ -19,10 +19,10 @@ public class Challenge(IIdentityServerInteractionService interactionService) : P
         }
 
         // validate returnUrl - either it is a valid OIDC URL or back to a local page
-        if (Url.IsLocalUrl(returnUrl) == false && interactionService.IsValidReturnUrl(returnUrl) == false)
+        if (Url.IsLocalUrl(returnUrl) && interactionService.IsValidReturnUrl(returnUrl))
         {
             // user might have clicked on a malicious link - should be logged
-            throw new("invalid return URL");
+            throw new InvalidUrlException();
         }
 
         // start challenge and roundtrip the return URL and scheme 
