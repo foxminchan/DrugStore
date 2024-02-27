@@ -6,7 +6,10 @@ namespace DrugStore.IdentityServer;
 public static class Config
 {
     public static IEnumerable<IdentityResource> IdentityResources =>
-        [new IdentityResources.OpenId(), new IdentityResources.Profile()];
+    [
+        new IdentityResources.OpenId(),
+        new IdentityResources.Profile()
+    ];
 
     public static IEnumerable<ApiScope> ApiScopes =>
     [
@@ -17,12 +20,7 @@ public static class Config
 
     public static IEnumerable<ApiResource> ApiResources =>
     [
-        new()
-        {
-            Name = "drugstore",
-            DisplayName = "DrugStore API",
-            Scopes = { "read", "write", "manage" }
-        }
+        new() { Name = "drugstore", DisplayName = "DrugStore API", Scopes = { "read", "write", "manage" } }
     ];
 
     public static IEnumerable<Client> Clients(IConfiguration configuration) =>

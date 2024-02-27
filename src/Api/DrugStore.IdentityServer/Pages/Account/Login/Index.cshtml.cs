@@ -85,17 +85,13 @@ public class Index(
 
                 // request for a local page
                 if (Url.IsLocalUrl(Input.ReturnUrl))
-                {
                     return Redirect(Input.ReturnUrl);
-                }
 
                 if (string.IsNullOrEmpty(Input.ReturnUrl))
-                {
                     return Redirect("~/");
-                }
 
                 // user might have clicked on a malicious link - should be logged
-                throw new("invalid return URL");
+                throw new InvalidUrlException();
             }
 
             await events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "invalid credentials",
@@ -113,14 +109,14 @@ public class Index(
         Input = new() { ReturnUrl = returnUrl };
 
         AuthorizationRequest context = await interaction.GetAuthorizationContextAsync(returnUrl);
-        if (context?.IdP != null && await schemeProvider.GetSchemeAsync(context.IdP) != null)
+        if (context?.IdP is { } && await schemeProvider.GetSchemeAsync(context.IdP) is { })
         {
             bool local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
             // this is meant to short circuit the UI and only trigger the one external IdP
             View = new() { EnableLocalLogin = local };
 
-            Input.Username = context?.LoginHint;
+            Input.Username = context.LoginHint;
 
             if (!local)
             {
@@ -134,7 +130,7 @@ public class Index(
         IEnumerable<AuthenticationScheme> schemes = await schemeProvider.GetAllSchemesAsync();
 
         List<ViewModel.ExternalProvider> providers = schemes
-            .Where(x => x.DisplayName != null)
+            .Where(x => x.DisplayName is { })
             .Select(x => new ViewModel.ExternalProvider
             {
                 DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name

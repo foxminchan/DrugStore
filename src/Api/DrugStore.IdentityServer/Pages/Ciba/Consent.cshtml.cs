@@ -24,10 +24,8 @@ public class Consent(
     public async Task<IActionResult> OnGet(string id)
     {
         View = await BuildViewModelAsync(id);
-        if (View == null)
-        {
+        if (View is null)
             return RedirectToPage("/Home/Error/Index");
-        }
 
         Input = new() { Id = id };
 
@@ -38,7 +36,7 @@ public class Consent(
     {
         // validate return url is still valid
         BackchannelUserLoginRequest request = await interaction.GetLoginRequestByInternalIdAsync(Input.Id);
-        if (request == null || request.Subject.GetSubjectId() != User.GetSubjectId())
+        if (request is null || request.Subject.GetSubjectId() != User.GetSubjectId())
         {
             logger.LogError("Invalid id {id}", Input.Id);
             return RedirectToPage("/Home/Error/Index");
@@ -58,10 +56,10 @@ public class Consent(
                 break;
             // user clicked 'yes' - validate the data
             // if the user consented to some scope, build the response model
-            case "yes" when Input.ScopesConsented != null && Input.ScopesConsented.Any():
+            case "yes" when Input.ScopesConsented is { } && Input.ScopesConsented.Any():
                 {
                     IEnumerable<string> scopes = Input.ScopesConsented;
-                    if (ConsentOptions.EnableOfflineAccess == false)
+                    if (ConsentOptions.EnableOfflineAccess)
                     {
                         scopes = scopes.Where(x => x != IdentityServerConstants.StandardScopes.OfflineAccess);
                     }
@@ -81,7 +79,7 @@ public class Consent(
                 break;
         }
 
-        if (result != null)
+        if (result is { })
         {
             // communicate outcome of consent back to identityserver
             await interaction.CompleteLoginRequestAsync(result);
@@ -97,7 +95,7 @@ public class Consent(
     private async Task<ViewModel> BuildViewModelAsync(string id, InputModel model = null)
     {
         BackchannelUserLoginRequest request = await interaction.GetLoginRequestByInternalIdAsync(id);
-        if (request != null && request.Subject.GetSubjectId() == User.GetSubjectId())
+        if (request is { } && request.Subject.GetSubjectId() == User.GetSubjectId())
         {
             return CreateConsentViewModel(model, id, request);
         }
@@ -118,13 +116,16 @@ public class Consent(
             BindingMessage = request.BindingMessage,
             IdentityScopes = request.ValidatedResources.Resources.IdentityResources
                 .Select(x => CreateScopeViewModel(x,
-                    model?.ScopesConsented == null || model.ScopesConsented?.Contains(x.Name) == true))
+                    model?.ScopesConsented is null || model.ScopesConsented?.Contains(x.Name) == true))
                 .ToArray()
         };
 
-        IEnumerable<string> resourceIndicators = request.RequestedResourceIndicators ?? Enumerable.Empty<string>();
-        IEnumerable<ApiResource> apiResources =
-            request.ValidatedResources.Resources.ApiResources.Where(x => resourceIndicators.Contains(x.Name));
+        logger.LogDebug("Id {id} has identity scopes: {scopes}", id, vm.IdentityScopes.Select(x => x.Name));
+
+        IEnumerable<string> resourceIndicators = request.RequestedResourceIndicators ?? [];
+        List<ApiResource> apiResources =
+            request.ValidatedResources.Resources.ApiResources.Where(x => resourceIndicators.Contains(x.Name))
+            .ToList();
 
         List<ScopeViewModel> apiScopes = [];
         foreach (ParsedScopeValue parsedScope in request.ValidatedResources.ParsedScopes)
@@ -136,7 +137,7 @@ public class Consent(
             }
 
             ScopeViewModel scopeVm = CreateScopeViewModel(parsedScope, apiScope,
-                model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
+                model is null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true);
             scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
                 .Select(x => new ResourceViewModel { Name = x.Name, DisplayName = x.DisplayName ?? x.Name })
                 .ToArray();
@@ -145,7 +146,7 @@ public class Consent(
 
         if (ConsentOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
         {
-            apiScopes.Add(GetOfflineAccessScope(model == null ||
+            apiScopes.Add(GetOfflineAccessScope(model is null ||
                                                 model.ScopesConsented?.Contains(IdentityServerConstants.StandardScopes
                                                     .OfflineAccess) == true));
         }

@@ -66,7 +66,7 @@ public class Index(
                 break;
             // user clicked 'yes' - validate the data
             // if the user consented to some scope, build the response model
-            case "yes" when Input.ScopesConsented != null && Input.ScopesConsented.Any():
+            case "yes" when Input.ScopesConsented is { } && Input.ScopesConsented.Any():
                 {
                     IEnumerable<string> scopes = Input.ScopesConsented;
                     if (ConsentOptions.EnableOfflineAccess)
@@ -125,15 +125,15 @@ public class Index(
             ClientLogoUrl = request.Client.LogoUri,
             AllowRememberConsent = request.Client.AllowRememberConsent,
             IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x =>
-                CreateScopeViewModel(x, model == null || model.ScopesConsented?.Contains(x.Name) == true)).ToArray()
+                CreateScopeViewModel(x, model is null || model.ScopesConsented?.Contains(x.Name) == true)).ToArray()
         };
 
         List<ScopeViewModel> apiScopes = [];
-        apiScopes.AddRange(from parsedScope in request.ValidatedResources.ParsedScopes let apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName) where apiScope != null select CreateScopeViewModel(parsedScope, apiScope, model == null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true));
+        apiScopes.AddRange(from parsedScope in request.ValidatedResources.ParsedScopes let apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName) where apiScope is { } select CreateScopeViewModel(parsedScope, apiScope, model is null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true));
 
         if (DeviceOptions.EnableOfflineAccess && request.ValidatedResources.Resources.OfflineAccess)
         {
-            apiScopes.Add(GetOfflineAccessScope(model == null ||
+            apiScopes.Add(GetOfflineAccessScope(model is null ||
                                                 model.ScopesConsented?.Contains(IdentityServerConstants.StandardScopes
                                                     .OfflineAccess) == true));
         }

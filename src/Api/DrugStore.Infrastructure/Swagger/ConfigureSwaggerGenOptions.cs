@@ -77,6 +77,17 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider,
                     }
                 },
                 new List<string>()
+            },
+            {
+                new()
+                {
+                    Reference = new()
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "OAuth2"
+                    }
+                },
+                new List<string>()
             }
         });
 

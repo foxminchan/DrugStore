@@ -27,9 +27,9 @@ public class Callback(
         // read external identity from the temporary cookie
         AuthenticateResult result =
             await HttpContext.AuthenticateAsync(IdentityServerConstants.ExternalCookieAuthenticationScheme);
-        if (result?.Succeeded != true)
+        if (!result.Succeeded)
         {
-            throw new("External authentication error");
+            throw new ExternalAuthenticationException();
         }
 
         ClaimsPrincipal externalUser = result.Principal;
@@ -46,7 +46,7 @@ public class Callback(
         // depending on the external provider, some other claim type might be used
         Claim userIdClaim = externalUser.FindFirst(JwtClaimTypes.Subject) ??
                             externalUser.FindFirst(ClaimTypes.NameIdentifier) ??
-                            throw new("Unknown userid");
+                            throw new UnknownUserIdException();
 
         string provider = result.Properties.Items["scheme"];
         string providerUserId = userIdClaim.Value;
@@ -59,7 +59,7 @@ public class Callback(
 
         // this allows us to collect any additional claims or properties
         // for the specific protocols used and store them in the local auth cookie.
-        // this is typically used to store data needed for signout from those protocols.
+        // this is typically used to store data needed for sign out from those protocols.
         List<Claim> additionalLocalClaims = [];
         AuthenticationProperties localSignInProps = new();
         CaptureExternalLoginContext(result, additionalLocalClaims, localSignInProps);
@@ -79,12 +79,12 @@ public class Callback(
             true,
             context?.Client.ClientId));
 
-        return context is null
-            ? Redirect(returnUrl)
-            : context.IsNativeClient() ?
-            // The client is native, so this change in how to
-            // return the response is for better UX for the end user.
-            this.LoadingPage(returnUrl) : Redirect(returnUrl);
+        if (context is null)
+            return Redirect(returnUrl);
+
+        return context.IsNativeClient()
+            ? this.LoadingPage(returnUrl)
+            : Redirect(returnUrl);
     }
 
     private async Task<ApplicationUser> AutoProvisionUserAsync(string provider, string providerUserId,
@@ -98,7 +98,7 @@ public class Callback(
         IEnumerable<Claim> enumerable = claims as Claim[] ?? claims.ToArray();
         string email = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
                        enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-        if (email != null)
+        if (email is { })
         {
             user.Email = email;
         }
@@ -109,7 +109,7 @@ public class Callback(
         // user's display name
         string name = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
                       enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-        if (name != null)
+        if (name is { })
         {
             filtered.Add(new(JwtClaimTypes.Name, name));
         }
@@ -141,21 +141,19 @@ public class Callback(
 
         IdentityResult identityResult = await userManager.CreateAsync(user);
         if (!identityResult.Succeeded)
-        {
-            throw new(identityResult.Errors.First().Description);
-        }
+            throw new IdentityErrorsException(identityResult.Errors.First().Description);
 
         if (filtered.Count != 0)
         {
             identityResult = await userManager.AddClaimsAsync(user, filtered);
             if (!identityResult.Succeeded)
-            {
-                throw new(identityResult.Errors.First().Description);
-            }
+                throw new IdentityErrorsException(identityResult.Errors.First().Description);
         }
 
         identityResult = await userManager.AddLoginAsync(user, new(provider, providerUserId, provider));
-        return !identityResult.Succeeded ? throw new(identityResult.Errors.First().Description) : user;
+        return !identityResult.Succeeded 
+            ? throw new IdentityErrorsException(identityResult.Errors.First().Description) 
+            : user;
     }
 
     // if the external login is OIDC-based, there are certain things we need to preserve to make logout work
@@ -164,7 +162,7 @@ public class Callback(
         AuthenticationProperties localSignInProps)
     {
         // capture the idp used to login, so the session knows where the user came from
-        localClaims.Add(new(JwtClaimTypes.IdentityProvider, externalResult.Properties.Items["scheme"]));
+        localClaims.Add(new(JwtClaimTypes.IdentityProvider, externalResult.Properties?.Items["scheme"] ?? throw new InvalidOperationException()));
 
         // if the external system sent a session id claim, copy it over
         // so we can use it for single sign-out

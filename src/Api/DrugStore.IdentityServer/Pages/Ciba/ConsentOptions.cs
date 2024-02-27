@@ -4,7 +4,7 @@
 
 namespace DrugStore.IdentityServer.Pages.Ciba;
 
-public class ConsentOptions
+public static class ConsentOptions
 {
     public static bool EnableOfflineAccess = true;
     public static string OfflineAccessDisplayName = "Offline Access";

@@ -19,9 +19,9 @@ public class LoggedOut(IIdentityServerInteractionService interactionService) : P
         View = new()
         {
             AutomaticRedirectAfterSignOut = LogoutOptions.AutomaticRedirectAfterSignOut,
-            PostLogoutRedirectUri = logout?.PostLogoutRedirectUri,
-            ClientName = String.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
-            SignOutIframeUrl = logout?.SignOutIFrameUrl
+            PostLogoutRedirectUri = logout.PostLogoutRedirectUri,
+            ClientName = String.IsNullOrEmpty(logout.ClientName) ? logout.ClientId : logout.ClientName,
+            SignOutIframeUrl = logout.SignOutIFrameUrl
         };
     }
 }
