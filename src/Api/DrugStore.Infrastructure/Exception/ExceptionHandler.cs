@@ -32,12 +32,28 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 await HandleUnauthorizedAccessException(httpContext, unauthorizedAccessException, cancellationToken);
                 break;
 
+            case InvalidIdempotencyException invalidIdempotencyException:
+                await HandleInvalidIdempotencyException(httpContext, invalidIdempotencyException, cancellationToken);
+                break;
+
             default:
                 await HandleDefaultException(httpContext, cancellationToken);
                 break;
         }
 
         return true;
+    }
+
+    private static async Task HandleInvalidIdempotencyException(
+        HttpContext httpContext,
+        System.Exception invalidIdempotencyException,
+        CancellationToken cancellationToken)
+    {
+        var invalidIdempotencyErrorModel = Result.Invalid(
+            new ValidationError("X-Idempotency-Key", invalidIdempotencyException.Message,
+                StatusCodes.Status400BadRequest.ToString(), ValidationSeverity.Info));
+        httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await httpContext.Response.WriteAsJsonAsync(invalidIdempotencyErrorModel, cancellationToken);
     }
 
     private static async Task HandleValidationException(

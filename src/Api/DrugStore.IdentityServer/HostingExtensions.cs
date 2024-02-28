@@ -1,5 +1,6 @@
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Persistence;
+using DrugStore.Persistence.CompiledModels;
 
 using EntityFramework.Exceptions.PostgreSQL;
 
@@ -19,6 +20,7 @@ internal static class HostingExtensions
         builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
                 .UseExceptionProcessor()
+                .UseModel(ApplicationDbContextModel.Instance)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()

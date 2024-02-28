@@ -6,11 +6,14 @@ public class CreateCategoryCommandValidator : AbstractValidator<CreateCategoryCo
 {
     public CreateCategoryCommandValidator()
     {
-        RuleFor(x => x.Title)
+        RuleFor(x => x.RequestId)
+            .NotEmpty();
+
+        RuleFor(x => x.CategoryRequest.Title)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(x => x.Link)
+        RuleFor(x => x.CategoryRequest.Link)
             .MaximumLength(100);
     }
 }

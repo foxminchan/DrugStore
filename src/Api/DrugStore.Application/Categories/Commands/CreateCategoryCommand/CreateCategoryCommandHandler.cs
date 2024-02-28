@@ -7,11 +7,11 @@ using DrugStore.Persistence;
 namespace DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 
 public class CreateCategoryCommandHandler(Repository<Category> repository)
-    : ICommandHandler<CreateCategoryCommand, Result<Guid>>
+    : IIdempotencyCommandHandler<CreateCategoryCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = new Category(request.Title, request.Link);
+        var category = new Category(request.CategoryRequest.Title, request.CategoryRequest.Link);
         await repository.AddAsync(category, cancellationToken);
         return Result<Guid>.Success(category.Id);
     }

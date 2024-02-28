@@ -7,6 +7,7 @@ using DrugStore.Application.Categories.Queries.GetByIdQuery;
 using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Infrastructure.Exception;
 using DrugStore.Presentation.Extensions;
 
 using MediatR;
@@ -44,9 +45,13 @@ public sealed class CategoryEndpoint : IEndpoint
 
     private static async Task<Result<Guid>> CreateCategory(
         [FromServices] ISender sender,
-        [FromBody] CreateCategoryCommand command,
+        [FromHeader(Name = "X-Idempotency-Key")]
+        string idempotencyKey,
+        [FromBody] CategoryCreateRequest command,
         CancellationToken cancellationToken)
-        => await sender.Send(command, cancellationToken);
+        => !Guid.TryParse(idempotencyKey, out var requestId)
+            ? throw new InvalidIdempotencyException()
+            : await sender.Send(new CreateCategoryCommand(requestId, command), cancellationToken);
 
     private static async Task<Result<CategoryVm>> UpdateCategory(
         [FromServices] ISender sender,
