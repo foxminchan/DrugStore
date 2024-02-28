@@ -13,18 +13,6 @@
       "commands": [
         "dotnet-stryker"
       ]
-    },
-    "dotnet-ef": {
-      "version": "8.0.2",
-      "commands": [
-        "dotnet-ef"
-      ]
-    },
-    "nuke.globaltool": {
-      "version": "8.0.0",
-      "commands": [
-        "nuke"
-      ]
     }
   }
 }

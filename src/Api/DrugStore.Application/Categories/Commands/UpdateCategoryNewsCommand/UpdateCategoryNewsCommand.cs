@@ -7,10 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryNewsCommand;
 
-public record UpdateCategoryNewsCommand(
-    Guid CategoryId,
-    Guid NewsId,
-    string Title,
-    string Detail,
-    IFormFile? ImageFile,
-    string? ImageUrl) : ICommand<Result<NewsVm>>;
+public sealed record NewsUpdateRequest(Guid CategoryId, Guid NewsId, string Title, string Detail, string? ImageUrl);
+
+public record UpdateCategoryNewsCommand(NewsUpdateRequest NewsRequest, IFormFile? ImageFile) 
+    : ICommand<Result<NewsVm>>;

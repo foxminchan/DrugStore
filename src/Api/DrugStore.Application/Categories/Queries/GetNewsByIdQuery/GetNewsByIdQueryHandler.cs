@@ -3,7 +3,6 @@ using Ardalis.Result;
 
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 
@@ -16,7 +15,7 @@ public sealed class GetNewsByIdQueryHandler(Repository<Category> repository)
 {
     public async Task<Result<NewsVm>> Handle(GetNewsByIdQuery request, CancellationToken cancellationToken)
     {
-        var category = await repository.FirstOrDefaultAsync(new CategoryByIdSpec(request.CategoryId), cancellationToken);
+        var category = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
         Guard.Against.NotFound(request.CategoryId, category);
 
         var news = category.News?.FirstOrDefault(n => n.Id == request.NewsId);

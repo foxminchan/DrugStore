@@ -47,15 +47,17 @@ public sealed class NewsEndpoint : IEndpoint
 
     private static async Task<Result<Guid>> CreateNews(
         [FromServices] ISender sender,
-        [FromBody] CreateCategoryNewsCommand command,
+        [FromForm] IFormFile? imageFile,    
+        [FromForm] NewsCreateRequest command,
         CancellationToken cancellationToken)
-        => await sender.Send(command, cancellationToken);
+        =>  await sender.Send(new CreateCategoryNewsCommand(command, imageFile), cancellationToken);
 
     private static async Task<Result<NewsVm>> UpdateNews(
         [FromServices] ISender sender,
-        [FromBody] UpdateCategoryNewsCommand command,
+        [FromForm] IFormFile? imageFile,
+        [FromForm] NewsUpdateRequest command,
         CancellationToken cancellationToken)
-        => await sender.Send(command, cancellationToken);
+        => await sender.Send(new UpdateCategoryNewsCommand(command, imageFile), cancellationToken);
 
     private static async Task<Result> DeleteNews(
         [FromServices] ISender sender,

@@ -20,6 +20,8 @@
       <Folder Include="Categories\Commands\UpdateCategoryPostCommand\" />
       <Folder Include="Categories\Commands\UpdateCategoryNewsCommand\" />
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
+      <Folder Include="Categories\Queries\GetPostByIdQuery\" />
+      <Folder Include="Categories\Queries\GetPostListQuery\" />
       <Folder Include="Orders\Queries\GetListQuery\" />
       <Folder Include="Products\Queries\GetByIdQuery\" />
       <Folder Include="Products\Queries\GetListQuery\" />

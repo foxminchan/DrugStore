@@ -6,17 +6,17 @@ public sealed class UpdateCategoryNewsCommandValidator : AbstractValidator<Updat
 {
     public UpdateCategoryNewsCommandValidator()
     {
-        RuleFor(x => x.CategoryId)
+        RuleFor(x => x.NewsRequest.CategoryId)
             .NotEmpty();
 
-        RuleFor(x => x.NewsId)
+        RuleFor(x => x.NewsRequest.NewsId)
             .NotEmpty();
 
-        RuleFor(x => x.Title)
+        RuleFor(x => x.NewsRequest.Title)
             .MaximumLength(50)
             .NotEmpty();
 
-        RuleFor(x => x.Detail)
+        RuleFor(x => x.NewsRequest.Detail)
             .MaximumLength(500)
             .NotEmpty();
 
@@ -28,7 +28,7 @@ public sealed class UpdateCategoryNewsCommandValidator : AbstractValidator<Updat
             .Must(x => x is "image/jpeg" or "image/png" or "image/jpg")
             .WithMessage("Image must be in jpeg or png format");
 
-        RuleFor(x => x.ImageUrl)
+        RuleFor(x => x.NewsRequest.ImageUrl)
             .MaximumLength(100);
     }
 }

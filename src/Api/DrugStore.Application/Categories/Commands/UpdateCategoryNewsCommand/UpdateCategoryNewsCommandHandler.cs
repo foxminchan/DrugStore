@@ -17,16 +17,16 @@ public class UpdateCategoryNewsCommandHandler(
 {
     public async Task<Result<NewsVm>> Handle(UpdateCategoryNewsCommand request, CancellationToken cancellationToken)
     {
-        var category = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
-        Guard.Against.NotFound(request.CategoryId, category);
+        var category = await repository.GetByIdAsync(request.NewsRequest.CategoryId, cancellationToken);
+        Guard.Against.NotFound(request.NewsRequest.CategoryId, category);
 
-        var news = category.News?.FirstOrDefault(x => x.Id == request.NewsId);
-        Guard.Against.NotFound(request.NewsId, news);
+        var news = category.News?.FirstOrDefault(x => x.Id == request.NewsRequest.NewsId);
+        Guard.Against.NotFound(request.NewsRequest.NewsId, news);
 
-        if (request.ImageUrl is { })
+        if (request.NewsRequest.ImageUrl is { })
         {
             await DeleteNewsImageAsync(news);
-            news.Image = request.ImageUrl;
+            news.Image = request.NewsRequest.ImageUrl;
         }
 
         if (request.ImageFile is { })
@@ -35,7 +35,7 @@ public class UpdateCategoryNewsCommandHandler(
             news.Image = (await cloudinary.AddPhotoAsync(request.ImageFile, "news")).Value.Url;
         }
 
-        news.Update(request.Title, request.Detail, news.Image, request.CategoryId);
+        news.Update(request.NewsRequest.Title, request.NewsRequest.Detail, news.Image, request.NewsRequest.CategoryId);
 
         await repository.UpdateAsync(category, cancellationToken);
 

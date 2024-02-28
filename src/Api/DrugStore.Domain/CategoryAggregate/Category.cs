@@ -35,4 +35,8 @@ public sealed class Category : AuditableEntityBase, IAggregateRoot
     public void AddNews(News news) => News?.Add(news);
 
     public void RemoveNews(News news) => News?.Remove(news);
+
+    public void AddPost(Post post) => Posts?.Add(post);
+
+    public void RemovePost(Post post) => Posts?.Remove(post);
 }

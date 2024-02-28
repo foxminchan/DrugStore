@@ -17,67 +17,67 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 #pragma warning disable 219, 612, 618
 #nullable disable
 
-namespace DrugStore.Persistence.CompiledModels
+namespace DrugStore.Persistence.CompiledModels;
+
+internal partial class OrderEntityType
 {
-    internal partial class OrderEntityType
+    public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
     {
-        public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
-        {
-            var runtimeEntityType = model.AddEntityType(
-                "DrugStore.Domain.OrderAggregate.Order",
-                typeof(Order),
-                baseEntityType);
+        var runtimeEntityType = model.AddEntityType(
+            "DrugStore.Domain.OrderAggregate.Order",
+            typeof(Order),
+            baseEntityType);
 
-            var id = runtimeEntityType.AddProperty(
-                "Id",
-                typeof(Guid),
-                propertyInfo: typeof(EntityBase).GetProperty("Id", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(EntityBase).GetField("<Id>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                valueGenerated: ValueGenerated.OnAdd,
-                afterSaveBehavior: PropertySaveBehavior.Throw,
-                sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
-            id.TypeMapping = GuidTypeMapping.Default.Clone(
-                comparer: new ValueComparer<Guid>(
-                    (Guid v1, Guid v2) => v1 == v2,
-                    (Guid v) => v.GetHashCode(),
-                    (Guid v) => v),
-                keyComparer: new ValueComparer<Guid>(
-                    (Guid v1, Guid v2) => v1 == v2,
-                    (Guid v) => v.GetHashCode(),
-                    (Guid v) => v),
-                providerValueComparer: new ValueComparer<Guid>(
-                    (Guid v1, Guid v2) => v1 == v2,
-                    (Guid v) => v.GetHashCode(),
-                    (Guid v) => v),
-                mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "uuid"));
-            id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-            id.AddAnnotation("Relational:ColumnName", "id");
+        var id = runtimeEntityType.AddProperty(
+            "Id",
+            typeof(Guid),
+            propertyInfo: typeof(EntityBase).GetProperty("Id", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            fieldInfo: typeof(EntityBase).GetField("<Id>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            valueGenerated: ValueGenerated.OnAdd,
+            afterSaveBehavior: PropertySaveBehavior.Throw,
+            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+        id.TypeMapping = GuidTypeMapping.Default.Clone(
+            comparer: new ValueComparer<Guid>(
+                (Guid v1, Guid v2) => v1 == v2,
+                (Guid v) => v.GetHashCode(),
+                (Guid v) => v),
+            keyComparer: new ValueComparer<Guid>(
+                (Guid v1, Guid v2) => v1 == v2,
+                (Guid v) => v.GetHashCode(),
+                (Guid v) => v),
+            providerValueComparer: new ValueComparer<Guid>(
+                (Guid v1, Guid v2) => v1 == v2,
+                (Guid v) => v.GetHashCode(),
+                (Guid v) => v),
+            mappingInfo: new RelationalTypeMappingInfo(
+                storeTypeName: "uuid"));
+        id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+        id.AddAnnotation("Relational:ColumnName", "id");
 
-            var code = runtimeEntityType.AddProperty(
-                "Code",
-                typeof(string),
-                propertyInfo: typeof(Order).GetProperty("Code", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(Order).GetField("<Code>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                nullable: true,
-                maxLength: 20);
-            code.TypeMapping = NpgsqlStringTypeMapping.Default.Clone(
-                comparer: new ValueComparer<string>(
-                    (string v1, string v2) => v1 == v2,
-                    (string v) => v.GetHashCode(),
-                    (string v) => v),
-                keyComparer: new ValueComparer<string>(
-                    (string v1, string v2) => v1 == v2,
-                    (string v) => v.GetHashCode(),
-                    (string v) => v),
-                providerValueComparer: new ValueComparer<string>(
-                    (string v1, string v2) => v1 == v2,
-                    (string v) => v.GetHashCode(),
-                    (string v) => v),
-                mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "character varying(20)",
-                    size: 20));
-            code.TypeMapping = ((NpgsqlStringTypeMapping)code.TypeMapping).Clone(npgsqlDbType: NpgsqlTypes.NpgsqlDbType.Varchar);
+        var code = runtimeEntityType.AddProperty(
+            "Code",
+            typeof(string),
+            propertyInfo: typeof(Order).GetProperty("Code", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            fieldInfo: typeof(Order).GetField("<Code>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            nullable: true,
+            maxLength: 20);
+        code.TypeMapping = NpgsqlStringTypeMapping.Default.Clone(
+            comparer: new ValueComparer<string>(
+                (string v1, string v2) => v1 == v2,
+                (string v) => v.GetHashCode(),
+                (string v) => v),
+            keyComparer: new ValueComparer<string>(
+                (string v1, string v2) => v1 == v2,
+                (string v) => v.GetHashCode(),
+                (string v) => v),
+            providerValueComparer: new ValueComparer<string>(
+                (string v1, string v2) => v1 == v2,
+                (string v) => v.GetHashCode(),
+                (string v) => v),
+            mappingInfo: new RelationalTypeMappingInfo(
+                storeTypeName: "character varying(20)",
+                size: 20));
+        code.TypeMapping = ((NpgsqlStringTypeMapping)code.TypeMapping).Clone(npgsqlDbType: NpgsqlTypes.NpgsqlDbType.Varchar);
         code.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         code.AddAnnotation("Relational:ColumnName", "code");
 
@@ -292,5 +292,4 @@ namespace DrugStore.Persistence.CompiledModels
     }
 
     static partial void Customize(RuntimeEntityType runtimeEntityType);
-}
 }

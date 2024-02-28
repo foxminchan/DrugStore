@@ -14,10 +14,14 @@ public sealed class CreateCategoryNewsCommandHandler(
 {
     public async Task<Result<Guid>> Handle(CreateCategoryNewsCommand request, CancellationToken cancellationToken)
     {
-        var category = await repository.GetByIdAsync(request.CategoryId, cancellationToken);
-        Guard.Against.NotFound(request.CategoryId, category);
+        var category = await repository.GetByIdAsync(request.NewsRequest.CategoryId, cancellationToken);
+        Guard.Against.NotFound(request.NewsRequest.CategoryId, category);
 
-        var news = new News(request.Title, request.Detail, null, request.CategoryId);
+        var news = new News(
+            request.NewsRequest.Title, 
+            request.NewsRequest.Detail, 
+            null, 
+            request.NewsRequest.CategoryId);
 
         if (request.ImageFile is { })
         {

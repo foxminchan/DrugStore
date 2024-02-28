@@ -3,7 +3,6 @@ using Ardalis.Result;
 
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Persistence;
@@ -26,7 +25,7 @@ public sealed class GetByIdQueryHandler(Repository<Category> repository, IRedisS
             return Result<CategoryVm>.Success(category);
         }
 
-        var entity = await repository.FirstOrDefaultAsync(new CategoryByIdSpec(request.Id), cancellationToken);
+        var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
         return Result<CategoryVm>.Success(entity.Adapt<CategoryVm>());
     }

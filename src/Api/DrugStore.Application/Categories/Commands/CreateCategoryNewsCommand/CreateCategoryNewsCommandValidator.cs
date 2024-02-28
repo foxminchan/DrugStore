@@ -6,11 +6,11 @@ public class CreateCategoryNewsCommandValidator : AbstractValidator<CreateCatego
 {
     public CreateCategoryNewsCommandValidator()
     {
-        RuleFor(x => x.Title)
+        RuleFor(x => x.NewsRequest.Title)
             .MaximumLength(50)
             .NotEmpty();
 
-        RuleFor(x => x.Detail)
+        RuleFor(x => x.NewsRequest.Detail)
             .MaximumLength(500)
             .NotEmpty();
 
@@ -22,7 +22,7 @@ public class CreateCategoryNewsCommandValidator : AbstractValidator<CreateCatego
             .Must(x => x is "image/jpeg" or "image/png" or "image/jpg")
             .WithMessage("Image must be in jpeg or png format");
 
-        RuleFor(x => x.CategoryId)
+        RuleFor(x => x.NewsRequest.CategoryId)
             .NotEmpty();
     }
 }
