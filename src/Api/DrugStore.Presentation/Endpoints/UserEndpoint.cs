@@ -34,7 +34,7 @@ public sealed class UserEndpoint : IEndpoint
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
-    private static async Task<Result<List<UserVm>>> GetUsers(
+    private static async Task<PagedResult<List<UserVm>>> GetUsers(
         [FromServices] ISender sender,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)

@@ -17,7 +17,6 @@
       <Folder Include="Baskets\Queries\" />
       <Folder Include="Categories\Commands\UpdateCategoryCommand\" />
       <Folder Include="News\Commands\UpdateNewsCommand\" />
-      <Folder Include="News\Queries\GetByIdQuery\" />
       <Folder Include="News\Queries\GetListQuery\" />
       <Folder Include="Orders\Queries\GetListQuery\" />
       <Folder Include="Posts\Commands\" />
@@ -32,12 +31,6 @@
       <Folder Include="Orders\EventHandlers\" />
       <Folder Include="Categories\Validators\" />
       <Folder Include="Products\ViewModel\" />
-      <Folder Include="Users\Commands\CreateUserCommand\" />
-      <Folder Include="Users\Commands\DeleteUserCommand\" />
-      <Folder Include="Users\Commands\UpdateUserCommand\" />
-      <Folder Include="Users\Queries\GetByIdQuery\" />
-      <Folder Include="Users\Queries\GetListQuery\" />
-      <Folder Include="Users\ViewModel\" />
     </ItemGroup>
 
 </Project>

@@ -17,14 +17,16 @@ public sealed class UpdateNewsCommandHandler(
         var news = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, news);
 
-        await DeleteExistingImageAsync(news);
-
-        if (!string.IsNullOrEmpty(request.ImageUrl))
-            news.Image = request.ImageUrl;
-        else if (request.ImageFile is { })
+        if (request.ImageUrl is { })
         {
-            var image = await cloudinary.AddPhotoAsync(request.ImageFile, "news");
-            news.Image = image.Value.Url;
+            await DeleteNewsImageAsync(news);
+            news.Image = request.ImageUrl;
+        }
+
+        if (request.ImageFile is { })
+        {
+            await DeleteNewsImageAsync(news);
+            news.Image = (await cloudinary.AddPhotoAsync(request.ImageFile, "news")).Value.Url;
         }
 
         news.Update(request.Title, request.Detail, news.Image, request.CategoryId);
@@ -33,11 +35,9 @@ public sealed class UpdateNewsCommandHandler(
         return Result<NewsVm>.Success(news.Adapt<NewsVm>());
     }
 
-    private async Task DeleteExistingImageAsync(Domain.News.News news)
+    private async Task DeleteNewsImageAsync(Domain.News.News news)
     {
-        if (!string.IsNullOrEmpty(news.Image))
-        {
+        if (news.Image is { }) 
             await cloudinary.DeletePhotoAsync(news.Image);
-        }
     }
 }

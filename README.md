@@ -73,6 +73,9 @@ From the root directory, run the following command:
 tye run
 ```
 
+> [!WARNING]
+> Ensure that the Docker Desktop is running.
+
 ### Running the tests
 
 For load testing, run the following command:
