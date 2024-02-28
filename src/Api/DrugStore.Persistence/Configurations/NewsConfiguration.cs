@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.News;
+﻿using DrugStore.Domain.CategoryAggregate;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

@@ -1,11 +1,13 @@
 ﻿using System.Reflection;
 using System.Security.Claims;
+
 using DrugStore.Application;
-using DrugStore.Domain.Identity;
-using DrugStore.Domain.Identity.Constants;
+using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
+
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -21,18 +23,19 @@ public static class ProgramExtension
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
         services.AddAuthorizationBuilder()
-            .AddPolicy(Roles.Admin,
+            .AddPolicy(Policies.Admin,
                 policy => policy
-                    .RequireRole(Policies.Admin)
-                    .RequireClaim(ClaimTypes.Role,  Claims.Read, Claims.Write, Claims.Manage))
-            .AddPolicy(Roles.Customer,
+                    .RequireRole(Roles.Admin)
+                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write, Claims.Manage))
+            .AddPolicy(Policies.Customer,
                 policy => policy
-                    .RequireRole(Policies.Customer)
+                    .RequireRole(Roles.Customer)
                     .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write));
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders()
             .AddApiEndpoints();
     }
 

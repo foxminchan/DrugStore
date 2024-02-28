@@ -1,8 +1,11 @@
 ﻿using Ardalis.GuardClauses;
+
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence.CompileModels;
+using DrugStore.Persistence.CompiledModels;
 using DrugStore.Persistence.Interceptors;
+
 using EntityFramework.Exceptions.PostgreSQL;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,9 +15,10 @@ namespace DrugStore.Persistence;
 
 public static class Extension
 {
-    public static IServiceCollection AddPostgresDbContext(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPostgresDbContext(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("Postgres");
+        string? connectionString = configuration.GetConnectionString("Postgres");
 
         Guard.Against.Null(connectionString, message: "Connection string 'Postgres' not found.");
 
@@ -34,7 +38,8 @@ public static class Extension
 
             options.AddInterceptors(new AuditableEntityInterceptor());
 
-            if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), Environments.Development, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"), Environments.Development,
+                    StringComparison.OrdinalIgnoreCase))
             {
                 options
                     .EnableDetailedErrors()

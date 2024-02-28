@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using System.Net.Mime;
+
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Net.Http.Headers;
-using System.Net.Mime;
 
 namespace DrugStore.Infrastructure.ProblemDetails;
 

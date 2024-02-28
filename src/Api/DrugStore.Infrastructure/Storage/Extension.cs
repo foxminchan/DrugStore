@@ -1,7 +1,9 @@
 ﻿using CloudinaryDotNet;
-using DrugStore.Infrastructure.Storage.Cloudinary.Internal;
+
 using DrugStore.Infrastructure.Storage.Cloudinary;
+using DrugStore.Infrastructure.Storage.Cloudinary.Internal;
 using DrugStore.Infrastructure.Validator;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

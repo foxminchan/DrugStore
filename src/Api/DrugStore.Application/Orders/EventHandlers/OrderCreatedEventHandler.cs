@@ -1,7 +1,9 @@
 ﻿using Ardalis.GuardClauses;
-using DrugStore.Domain.Order.DomainEvents;
-using DrugStore.Domain.Product;
+
+using DrugStore.Domain.OrderAggregate.DomainEvents;
+using DrugStore.Domain.ProductAggregate;
 using DrugStore.Persistence;
+
 using MediatR;
 
 namespace DrugStore.Application.Orders.EventHandlers;

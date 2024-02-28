@@ -1,9 +1,12 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Categories.ViewModel;
-using DrugStore.Domain.Category;
+
+using DrugStore.Application.Categories.ViewModels;
+using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Persistence;
+
 using Mapster;
+
 using MediatR;
 
 namespace DrugStore.Application.Categories.Queries.GetListQuery;

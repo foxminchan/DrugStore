@@ -1,13 +1,15 @@
+using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Validation;
-using Duende.IdentityServer;
+
 using IdentityModel;
+
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DrugStore.IdentityServer.Pages.Consent;
 
@@ -78,6 +80,7 @@ public class Index(
             case "yes":
                 ModelState.AddModelError("", ConsentOptions.MustChooseOneErrorMessage);
                 break;
+
             default:
                 ModelState.AddModelError("", ConsentOptions.InvalidSelectionErrorMessage);
                 break;

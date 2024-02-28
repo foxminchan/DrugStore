@@ -1,15 +1,19 @@
-using DrugStore.Domain.Identity;
+using System.Security.Claims;
+
+using DrugStore.Domain.IdentityAggregate;
+
+using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
-using Duende.IdentityServer;
+
 using IdentityModel;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DrugStore.IdentityServer.Pages.ExternalLogin;
 
@@ -124,9 +128,11 @@ public class Callback(
                 case { } when last is { }:
                     filtered.Add(new(JwtClaimTypes.Name, first + " " + last));
                     break;
+
                 case { }:
                     filtered.Add(new(JwtClaimTypes.Name, first));
                     break;
+
                 default:
                     {
                         if (last is { })
@@ -151,8 +157,8 @@ public class Callback(
         }
 
         identityResult = await userManager.AddLoginAsync(user, new(provider, providerUserId, provider));
-        return !identityResult.Succeeded 
-            ? throw new IdentityErrorsException(identityResult.Errors.First().Description) 
+        return !identityResult.Succeeded
+            ? throw new IdentityErrorsException(identityResult.Errors.First().Description)
             : user;
     }
 

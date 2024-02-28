@@ -1,6 +1,7 @@
 ﻿using DrugStore.IdentityServer;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
+
 using Serilog;
 
 try

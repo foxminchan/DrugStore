@@ -1,12 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
+
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DrugStore.IdentityServer.Pages.Grants;
 
@@ -20,7 +22,7 @@ public class Index(
 {
     public ViewModel View { get; set; }
 
-    [BindProperty] [Required] public string ClientId { get; set; }
+    [BindProperty][Required] public string ClientId { get; set; }
 
     public async Task OnGet()
     {

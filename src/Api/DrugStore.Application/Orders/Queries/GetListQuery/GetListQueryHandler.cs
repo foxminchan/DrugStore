@@ -1,9 +1,11 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Orders.ViewModel;
-using DrugStore.Domain.Order.Specifications;
-using DrugStore.Domain.Order;
+
+using DrugStore.Application.Orders.ViewModels;
+using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
+
 using Mapster;
 
 namespace DrugStore.Application.Orders.Queries.GetListQuery;

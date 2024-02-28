@@ -1,15 +1,17 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Products.ViewModel;
-using DrugStore.Domain.Product.Specifications;
-using DrugStore.Domain.Product;
+
+using DrugStore.Application.Products.ViewModels;
+using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
+
 using Mapster;
 
 namespace DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 
 public sealed class GetListByCategoryIdQueryHandler(Repository<Product> repository)
-    : IQueryHandler<GetListByCategoryIdQuery, PagedResult<List<ProductVm>>>  
+    : IQueryHandler<GetListByCategoryIdQuery, PagedResult<List<ProductVm>>>
 {
     public async Task<PagedResult<List<ProductVm>>> Handle(GetListByCategoryIdQuery request, CancellationToken cancellationToken)
     {

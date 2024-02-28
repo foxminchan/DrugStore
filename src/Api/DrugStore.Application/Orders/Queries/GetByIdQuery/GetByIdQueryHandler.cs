@@ -1,7 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Application.Orders.ViewModel;
-using DrugStore.Domain.Order;
+
+using DrugStore.Application.Orders.ViewModels;
+using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 

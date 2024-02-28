@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
-using DrugStore.Domain.Identity.Constants;
-using DrugStore.Domain.Identity;
+
+using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Constants;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,17 +45,17 @@ public sealed class ApplicationDbContextInitializer(
 
     private async Task TrySeedAsync()
     {
-        var admin = new ApplicationRole(Roles.Admin);
+        ApplicationRole admin = new(Roles.Admin);
 
         if (!await roleManager.RoleExistsAsync(Roles.Admin))
         {
             await roleManager.CreateAsync(admin);
             await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Manage));
             await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Read));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));   
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));
         }
 
-        var customer = new ApplicationRole(Roles.Customer);
+        ApplicationRole customer = new(Roles.Customer);
         if (!await roleManager.RoleExistsAsync(Roles.Customer))
         {
             await roleManager.CreateAsync(customer);
@@ -63,12 +65,12 @@ public sealed class ApplicationDbContextInitializer(
 
         const string password = "P@ssw0rd";
 
-        var administrator = new ApplicationUser
+        ApplicationUser administrator = new()
         {
             UserName = "nguyenxuannhan@gmail.com",
             Email = "nguyenxuannhan@gmail.com",
             FullName = "Nguyen Xuan Nhan",
-            Phone = "0123456789"
+            PhoneNumber = "0123456789"
         };
 
         if (userManager.Users.All(u => u.UserName != administrator.UserName))
@@ -77,12 +79,12 @@ public sealed class ApplicationDbContextInitializer(
             await userManager.AddToRoleAsync(administrator, admin.Name!);
         }
 
-        var user = new ApplicationUser
+        ApplicationUser user = new()
         {
             UserName = "lelavy@gmail.com",
             Email = "lelavy@gmail.com",
             FullName = "Le La Vy",
-            Phone = "0123456789"
+            PhoneNumber = "0123456789"
         };
 
         if (userManager.Users.All(u => u.UserName != user.UserName))
@@ -97,8 +99,9 @@ public static class InitializerExtensions
 {
     public static async Task InitializeDatabaseAsync(this WebApplication app)
     {
-        using var scope = app.Services.CreateScope();
-        var initializer = scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
+        using IServiceScope scope = app.Services.CreateScope();
+        ApplicationDbContextInitializer initializer =
+            scope.ServiceProvider.GetRequiredService<ApplicationDbContextInitializer>();
         await initializer.InitialiseAsync();
         await initializer.SeedAsync();
     }

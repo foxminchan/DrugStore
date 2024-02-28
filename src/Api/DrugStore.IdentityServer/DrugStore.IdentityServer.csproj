@@ -16,13 +16,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DrugStore.Presentation\DrugStore.Presentation.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
         <ContainerEnvironmentVariable Include="ASPNETCORE_HTTPS_PORTS">
             <Value>7030</Value>
         </ContainerEnvironmentVariable>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\DrugStore.Persistence\DrugStore.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

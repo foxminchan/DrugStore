@@ -1,7 +1,9 @@
-﻿using DrugStore.Infrastructure.Cache.Redis.Internal;
-using DrugStore.Infrastructure.Cache.Redis;
+﻿using DrugStore.Infrastructure.Cache.Redis;
+using DrugStore.Infrastructure.Cache.Redis.Internal;
+
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+
 using StackExchange.Redis;
 
 namespace DrugStore.Infrastructure.Cache;

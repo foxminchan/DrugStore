@@ -1,8 +1,11 @@
-﻿using Ardalis.GuardClauses;
-using Microsoft.Extensions.Options;
-using StackExchange.Redis;
+﻿using System.Text;
 using System.Text.Json;
-using System.Text;
+
+using Ardalis.GuardClauses;
+
+using Microsoft.Extensions.Options;
+
+using StackExchange.Redis;
 
 namespace DrugStore.Infrastructure.Cache.Redis.Internal;
 

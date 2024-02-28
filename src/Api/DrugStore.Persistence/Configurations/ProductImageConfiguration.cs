@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.Product;
+﻿using DrugStore.Domain.ProductAggregate;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

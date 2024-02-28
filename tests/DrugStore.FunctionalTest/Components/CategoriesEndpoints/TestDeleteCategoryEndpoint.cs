@@ -1,9 +1,12 @@
-﻿using DrugStore.FunctionalTest.Extensions;
+﻿using System.Net;
+
+using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
+
 using FluentAssertions;
+
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net;
 
 namespace DrugStore.FunctionalTest.Components.CategoriesEndpoints;
 
@@ -14,6 +17,7 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
     private readonly CategoryFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
+
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
 
     [Fact]

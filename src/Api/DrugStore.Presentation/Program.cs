@@ -1,7 +1,8 @@
 using Asp.Versioning.Builder;
-using DrugStore.Domain.Identity;
-using DrugStore.Presentation.Extensions;
+
+using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Persistence;
+using DrugStore.Presentation.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,5 +1,6 @@
-﻿using DrugStore.Domain.Category;
+﻿using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Persistence;
+
 using FluentValidation;
 
 namespace DrugStore.Application.Categories.Validators;

@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Domain.Product;
+
+using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 

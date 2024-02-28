@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.Identity;
+﻿using DrugStore.Domain.IdentityAggregate;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +13,7 @@ public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Appl
             .HasMaxLength(50)
             .IsRequired();
 
-        builder.Property(u => u.Phone)
+        builder.Property(u => u.PhoneNumber)
             .HasMaxLength(10);
 
         builder.Property(u => u.Address)

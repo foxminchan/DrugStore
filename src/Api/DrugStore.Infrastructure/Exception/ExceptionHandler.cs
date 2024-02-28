@@ -1,6 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
+
 using FluentValidation;
+
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -21,12 +23,15 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
             case ValidationException { Errors: { } } validationException:
                 await HandleValidationException(httpContext, validationException, cancellationToken);
                 break;
+
             case NotFoundException notFoundException:
                 await HandleNotFoundException(httpContext, notFoundException, cancellationToken);
                 break;
+
             case UnauthorizedAccessException unauthorizedAccessException:
                 await HandleUnauthorizedAccessException(httpContext, unauthorizedAccessException, cancellationToken);
                 break;
+
             default:
                 await HandleDefaultException(httpContext, cancellationToken);
                 break;
@@ -68,7 +73,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
         await httpContext.Response.WriteAsJsonAsync(unauthorizedErrorModel, cancellationToken);
     }
-
 
     private static async Task HandleDefaultException(
         HttpContext httpContext,

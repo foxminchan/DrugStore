@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Users.Validators;
-using DrugStore.Domain.Identity.Constants;
+using DrugStore.Domain.IdentityAggregate.Constants;
+
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Commands.UpdateUserCommand;

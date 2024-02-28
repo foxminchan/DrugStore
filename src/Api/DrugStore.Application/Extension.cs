@@ -1,9 +1,13 @@
 ﻿using System.Diagnostics;
+
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.Validator;
 using DrugStore.Persistence;
+
 using FluentValidation;
+
 using MediatR;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DrugStore.Application;

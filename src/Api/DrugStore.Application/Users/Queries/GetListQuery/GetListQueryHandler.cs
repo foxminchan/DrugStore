@@ -1,7 +1,9 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Users.ViewModel;
-using DrugStore.Domain.Identity;
+
+using DrugStore.Application.Users.ViewModels;
+using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,7 +24,7 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
         var users = await query
             .Skip((request.Filter.PageNumber - 1) * request.Filter.PageSize)
             .Take(request.Filter.PageSize)
-            .Select(x => new UserVm(x.Id, x.Email, x.FullName, x.Phone, x.Address))
+            .Select(x => new UserVm(x.Id, x.Email, x.FullName, x.PhoneNumber, x.Address))
             .ToListAsync(cancellationToken);
 
         if (!string.IsNullOrEmpty(request.Filter.Search))

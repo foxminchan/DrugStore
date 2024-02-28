@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
+
+using Serilog;
 using Serilog.Exceptions;
 using Serilog.Settings.Configuration;
-using Serilog;
 
 namespace DrugStore.Infrastructure.Logging;
 

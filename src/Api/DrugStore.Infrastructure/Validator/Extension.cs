@@ -1,7 +1,9 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+
+using FluentValidation;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using System.Diagnostics;
 
 namespace DrugStore.Infrastructure.Validator;
 

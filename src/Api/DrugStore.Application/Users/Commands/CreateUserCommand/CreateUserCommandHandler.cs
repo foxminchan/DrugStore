@@ -1,7 +1,9 @@
 ﻿using Ardalis.Result;
-using DrugStore.Domain.Identity.Constants;
-using DrugStore.Domain.Identity;
+
+using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.SharedKernel;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
@@ -25,7 +27,7 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
             UserName = request.Email,
             Email = request.Email,
             FullName = request.FullName,
-            Phone = request.Phone,
+            PhoneNumber = request.Phone,
             Address = request.Address
         };
 

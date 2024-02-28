@@ -1,14 +1,17 @@
 ﻿using Ardalis.Result;
+
 using DrugStore.Application.Products.Commands.CreateProductCommand;
 using DrugStore.Application.Products.Commands.DeleteProductCommand;
 using DrugStore.Application.Products.Commands.UpdateProductCommand;
 using DrugStore.Application.Products.Queries.GetByIdQuery;
 using DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 using DrugStore.Application.Products.Queries.GetListQuery;
-using DrugStore.Application.Products.ViewModel;
+using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Presentation.Extensions;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.Presentation.Endpoints;

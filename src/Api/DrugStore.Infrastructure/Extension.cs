@@ -1,4 +1,6 @@
-﻿using DrugStore.Infrastructure.Cache;
+﻿using System.Diagnostics;
+
+using DrugStore.Infrastructure.Cache;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.Infrastructure.Kestrel;
 using DrugStore.Infrastructure.Logging;
@@ -8,9 +10,9 @@ using DrugStore.Infrastructure.Storage;
 using DrugStore.Infrastructure.Swagger;
 using DrugStore.Infrastructure.Validator;
 using DrugStore.Infrastructure.Versioning;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace DrugStore.Infrastructure;
 

@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DrugStore.Infrastructure.Versioning;
@@ -17,7 +18,6 @@ public static class Extension
                 options.GroupNameFormat = "'v'V";
                 options.SubstituteApiVersionInUrl = true;
             });
-
 
         return services;
     }

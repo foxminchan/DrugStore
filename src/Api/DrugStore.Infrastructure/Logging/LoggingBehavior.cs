@@ -1,8 +1,11 @@
-﻿using Ardalis.GuardClauses;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
+
+using Ardalis.GuardClauses;
+
+using MediatR;
+
+using Microsoft.Extensions.Logging;
 
 namespace DrugStore.Infrastructure.Logging;
 

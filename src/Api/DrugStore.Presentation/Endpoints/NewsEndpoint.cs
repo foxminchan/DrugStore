@@ -1,13 +1,16 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.News.Commands.CreateNewsCommand;
-using DrugStore.Application.News.Commands.DeleteNewsCommand;
-using DrugStore.Application.News.Commands.UpdateNewsCommand;
-using DrugStore.Application.News.Queries.GetByIdQuery;
-using DrugStore.Application.News.Queries.GetListQuery;
-using DrugStore.Application.News.ViewModel;
+
+using DrugStore.Application.Categories.Commands.CreateCategoryNewsCommand;
+using DrugStore.Application.Categories.Commands.DeleteCategoryNewsCommand;
+using DrugStore.Application.Categories.Commands.UpdateCategoryNewsCommand;
+using DrugStore.Application.Categories.Queries.GetNewsByIdQuery;
+using DrugStore.Application.Categories.Queries.GetNewsListQuery;
+using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Presentation.Extensions;
+
 using MediatR;
+
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.Presentation.Endpoints;
@@ -18,43 +21,46 @@ public sealed class NewsEndpoint : IEndpoint
     {
         var group = app
             .MapGroup("/news")
-            .WithTags("News")
+            .WithTags("Category News")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
-        group.MapGet("", GetNews).WithName(nameof(GetNews));
-        group.MapGet("{id:guid}", GetNewsById).WithName(nameof(GetNewsById));
+        group.MapGet("{categoryId:guid}", GetNews).WithName(nameof(GetNews));
+        group.MapGet("{newsId:guid}/categories/{categoryId:guid}", GetNewsById).WithName(nameof(GetNewsById));
         group.MapPost("", CreateNews).WithName(nameof(CreateNews));
         group.MapPut("", UpdateNews).WithName(nameof(UpdateNews));
-        group.MapDelete("{id:guid}", DeleteNews).WithName(nameof(DeleteNews));
+        group.MapDelete("{newsId:guid}/categories/{categoryId:guid}", DeleteNews).WithName(nameof(DeleteNews));
     }
-
-    private static async Task<Result<NewsVm>> GetNewsById(
-        [FromServices] ISender sender,
-        [FromRoute] Guid id,
-        CancellationToken cancellationToken)
-        => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
     private static async Task<PagedResult<List<NewsVm>>> GetNews(
         [FromServices] ISender sender,
+        [FromRoute] Guid categoryId,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
-        => await sender.Send(new GetListQuery(filter), cancellationToken);
+        => await sender.Send(new GetNewsListQuery(categoryId, filter), cancellationToken);
+
+    private static async Task<Result<NewsVm>> GetNewsById(
+        [FromServices] ISender sender,
+        [FromRoute] Guid newsId,
+        [FromRoute] Guid categoryId,
+        CancellationToken cancellationToken)
+        => await sender.Send(new GetNewsByIdQuery(categoryId, newsId), cancellationToken);
 
     private static async Task<Result<Guid>> CreateNews(
         [FromServices] ISender sender,
-        [FromBody] CreateNewsCommand command,
+        [FromBody] CreateCategoryNewsCommand command,
         CancellationToken cancellationToken)
         => await sender.Send(command, cancellationToken);
 
     private static async Task<Result<NewsVm>> UpdateNews(
         [FromServices] ISender sender,
-        [FromBody] UpdateNewsCommand command,
+        [FromBody] UpdateCategoryNewsCommand command,
         CancellationToken cancellationToken)
         => await sender.Send(command, cancellationToken);
 
     private static async Task<Result> DeleteNews(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] Guid categoryId,
+        [FromRoute] Guid newsId,
         CancellationToken cancellationToken)
-        => await sender.Send(new DeleteNewsCommand(id), cancellationToken);
+        => await sender.Send(new DeleteCategoryNewsCommand(categoryId, newsId), cancellationToken);
 }

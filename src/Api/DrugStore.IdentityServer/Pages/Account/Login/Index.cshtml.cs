@@ -1,14 +1,17 @@
-using DrugStore.Domain.Identity;
+using DrugStore.Domain.IdentityAggregate;
+
 using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Stores;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace DrugStore.IdentityServer.Pages.Account.Login;
@@ -49,7 +52,7 @@ public class Index(
                 return Redirect("~/");
             }
 
-            // if the user cancels, send a result back into IdentityServer as if they 
+            // if the user cancels, send a result back into IdentityServer as if they
             // denied the consent (even if this client does not require consent).
             // this will send back an access denied OIDC error response to the client.
             await interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
@@ -133,17 +136,18 @@ public class Index(
             .Where(x => x.DisplayName is { })
             .Select(x => new ViewModel.ExternalProvider
             {
-                DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name
+                DisplayName = x.DisplayName ?? x.Name,
+                AuthenticationScheme = x.Name
             }).ToList();
 
         IEnumerable<ViewModel.ExternalProvider> dynamicSchemes = (await identityProviderStore.GetAllSchemeNamesAsync())
             .Where(x => x.Enabled)
             .Select(x => new ViewModel.ExternalProvider
             {
-                AuthenticationScheme = x.Scheme, DisplayName = x.DisplayName
+                AuthenticationScheme = x.Scheme,
+                DisplayName = x.DisplayName
             });
         providers.AddRange(dynamicSchemes);
-
 
         bool allowLocal = true;
         Client client = context?.Client;

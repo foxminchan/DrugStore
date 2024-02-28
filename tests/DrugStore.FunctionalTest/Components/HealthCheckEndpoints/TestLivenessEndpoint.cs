@@ -1,7 +1,9 @@
-﻿using FluentAssertions;
+﻿using System.Net;
+
+using FluentAssertions;
+
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net;
 
 namespace DrugStore.FunctionalTest.Components.HealthCheckEndpoints;
 

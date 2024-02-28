@@ -1,9 +1,11 @@
 using DrugStore.IdentityServer.Pages.Account.Login;
+
 using Duende.IdentityServer.Services;
+
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DrugStore.IdentityServer.Pages.ExternalLogin;
 
@@ -25,7 +27,7 @@ public class Challenge(IIdentityServerInteractionService interactionService) : P
             throw new InvalidUrlException();
         }
 
-        // start challenge and roundtrip the return URL and scheme 
+        // start challenge and roundtrip the return URL and scheme
         AuthenticationProperties props = new()
         {
             RedirectUri = Url.Page("/externallogin/callback"),

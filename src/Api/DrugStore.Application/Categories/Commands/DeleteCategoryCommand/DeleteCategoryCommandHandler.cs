@@ -1,12 +1,13 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Domain.Category;
+
+using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Categories.Commands.DeleteCategoryCommand;
 
-public sealed class DeleteCategoryCommandHandler(Repository<Category>  repository) 
+public sealed class DeleteCategoryCommandHandler(Repository<Category> repository)
     : ICommandHandler<DeleteCategoryCommand, Result>
 {
     public async Task<Result> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)

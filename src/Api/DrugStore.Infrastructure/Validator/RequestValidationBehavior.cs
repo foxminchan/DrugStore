@@ -1,9 +1,12 @@
-﻿using FluentValidation;
+﻿using System.Diagnostics;
+using System.Text.Json;
+
+using FluentValidation;
+
 using MediatR;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
-using System.Text.Json;
 
 namespace DrugStore.Infrastructure.Validator;
 

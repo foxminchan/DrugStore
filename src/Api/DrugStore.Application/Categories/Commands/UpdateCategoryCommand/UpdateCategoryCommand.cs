@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Categories.ViewModel;
+
+using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryCommand;

@@ -1,5 +1,7 @@
-﻿using DrugStore.Domain.Identity;
+﻿using DrugStore.Domain.IdentityAggregate;
+
 using FluentValidation;
+
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Validators;

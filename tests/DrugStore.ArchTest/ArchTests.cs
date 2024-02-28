@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+
 using NetArchTest.Rules;
 
 namespace DrugStore.ArchTest;
@@ -18,9 +19,9 @@ public class ArchTests
         var assembly = Domain.AssemblyReference.Assembly;
         string[] layers =
         [
-            DomainNamespace, 
-            InfrastructureNamespace, 
-            ApplicationNamespace, 
+            DomainNamespace,
+            InfrastructureNamespace,
+            ApplicationNamespace,
             PresentationNamespace,
             PersistenceNamespace
         ];
@@ -43,9 +44,9 @@ public class ArchTests
         var assembly = Infrastructure.AssemblyReference.Assembly;
         string[] layers =
         [
-            DomainNamespace, 
-            InfrastructureNamespace, 
-            ApplicationNamespace, 
+            DomainNamespace,
+            InfrastructureNamespace,
+            ApplicationNamespace,
             PresentationNamespace,
             PersistenceNamespace
         ];
@@ -68,9 +69,9 @@ public class ArchTests
         var assembly = Application.AssemblyReference.Assembly;
         string[] layers =
         [
-            DomainNamespace, 
-            InfrastructureNamespace, 
-            ApplicationNamespace, 
+            DomainNamespace,
+            InfrastructureNamespace,
+            ApplicationNamespace,
             PresentationNamespace,
             PersistenceNamespace
         ];
@@ -93,9 +94,9 @@ public class ArchTests
         var assembly = Presentation.AssemblyReference.Assembly;
         string[] layers =
         [
-            DomainNamespace, 
-            InfrastructureNamespace, 
-            ApplicationNamespace, 
+            DomainNamespace,
+            InfrastructureNamespace,
+            ApplicationNamespace,
             PresentationNamespace,
             PersistenceNamespace
         ];
@@ -118,9 +119,9 @@ public class ArchTests
         var assembly = Persistence.AssemblyReference.Assembly;
         string[] layers =
         [
-            DomainNamespace, 
-            InfrastructureNamespace, 
-            ApplicationNamespace, 
+            DomainNamespace,
+            InfrastructureNamespace,
+            ApplicationNamespace,
             PresentationNamespace,
             PersistenceNamespace
         ];

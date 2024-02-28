@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -14,7 +15,7 @@ public static class Extension
     public static void AddOpenTelemetry(this WebApplicationBuilder builder, IConfiguration config)
     {
         var resourceBuilder = ResourceBuilder.CreateDefault()
-            .AddService(builder.Environment.ApplicationName, 
+            .AddService(builder.Environment.ApplicationName,
                 serviceVersion: "unknown", serviceInstanceId: Environment.MachineName);
 
         var oltpEndpoint = new Uri(config.GetValue<string>("OlptEndpoint")

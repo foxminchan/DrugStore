@@ -25,7 +25,7 @@ public class AuthorizeCheckOperationFilter : IOperationFilter
         [
             new()
             {
-                [ oAuthScheme ] = ["ordering"]
+                [ oAuthScheme ] = ["drugstore"]
             }
         ];
     }

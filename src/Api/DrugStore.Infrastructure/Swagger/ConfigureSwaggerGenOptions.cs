@@ -1,9 +1,11 @@
 ﻿using Asp.Versioning.ApiExplorer;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DrugStore.Infrastructure.Swagger;
@@ -38,17 +40,17 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider,
 
         var identityUrlExternal = config.GetValue<string>("IdentityUrlExternal");
 
-        options.AddSecurityDefinition("oauth2", 
-            new() 
+        options.AddSecurityDefinition("oauth2",
+            new()
             {
-            Type = SecuritySchemeType.OAuth2,
-            Flows = new()
-            {
-                Implicit = new()
+                Type = SecuritySchemeType.OAuth2,
+                Flows = new()
                 {
-                    AuthorizationUrl = new Uri($"{identityUrlExternal}/connect/authorize"),
-                    TokenUrl = new($"{identityUrlExternal}/connect/token"),
-                    Scopes = new Dictionary<string, string>()
+                    Implicit = new()
+                    {
+                        AuthorizationUrl = new Uri($"{identityUrlExternal}/connect/authorize"),
+                        TokenUrl = new($"{identityUrlExternal}/connect/token"),
+                        Scopes = new Dictionary<string, string>()
                     {
                         {
                             "read", "Read Access to API"
@@ -60,9 +62,9 @@ public class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider provider,
                             "manage", "Manage Access to API"
                         }
                     }
+                    }
                 }
-            }
-        });
+            });
 
         options.AddSecurityRequirement(new()
         {

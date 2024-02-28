@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.Category;
+﻿using DrugStore.Domain.CategoryAggregate;
+
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DrugStore.Persistence.Configurations;

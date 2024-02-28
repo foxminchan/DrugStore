@@ -1,11 +1,15 @@
-﻿using Ardalis.Result;
-using DrugStore.Application.Categories.ViewModel;
+﻿using System.Net.Http.Json;
+
+using Ardalis.Result;
+
+using DrugStore.Application.Categories.ViewModels;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
+
 using FluentAssertions;
+
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net.Http.Json;
 
 namespace DrugStore.FunctionalTest.Components.CategoriesEndpoints;
 
@@ -16,6 +20,7 @@ public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factor
     private readonly CategoryFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
+
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
 
     [Fact]

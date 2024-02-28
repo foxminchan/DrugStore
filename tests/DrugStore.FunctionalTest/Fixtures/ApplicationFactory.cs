@@ -1,7 +1,10 @@
 ﻿using DotNet.Testcontainers.Containers;
+
 using DrugStore.FunctionalTest.Extensions;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
+
 using Testcontainers.PostgreSql;
 using Testcontainers.Redis;
 

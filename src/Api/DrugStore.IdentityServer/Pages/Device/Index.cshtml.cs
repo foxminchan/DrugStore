@@ -1,13 +1,15 @@
 using DrugStore.IdentityServer.Pages.Consent;
+
+using Duende.IdentityServer;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
 using Duende.IdentityServer.Validation;
-using Duende.IdentityServer;
+
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DrugStore.IdentityServer.Pages.Device;
 
@@ -90,6 +92,7 @@ public class Index(
             case "yes":
                 ModelState.AddModelError("", ConsentOptions.MustChooseOneErrorMessage);
                 break;
+
             default:
                 ModelState.AddModelError("", ConsentOptions.InvalidSelectionErrorMessage);
                 break;
@@ -108,7 +111,6 @@ public class Index(
         View = await BuildViewModelAsync(Input.UserCode, Input);
         return Page();
     }
-
 
     private async Task<ViewModel> BuildViewModelAsync(string userCode, InputModel model = null)
     {

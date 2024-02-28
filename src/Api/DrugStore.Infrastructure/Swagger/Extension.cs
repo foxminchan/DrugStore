@@ -1,10 +1,14 @@
 ﻿using Ardalis.GuardClauses;
+
 using Asp.Versioning.ApiExplorer;
+
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace DrugStore.Infrastructure.Swagger;

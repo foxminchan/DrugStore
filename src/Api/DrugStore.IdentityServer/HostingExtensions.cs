@@ -1,9 +1,11 @@
-using DrugStore.Domain.Identity;
-using DrugStore.Persistence.CompileModels;
+using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Persistence;
+
 using EntityFramework.Exceptions.PostgreSQL;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 using Serilog;
 
 namespace DrugStore.IdentityServer;
@@ -17,7 +19,6 @@ internal static class HostingExtensions
         builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
                 .UseExceptionProcessor()
-                .UseModel(ApplicationDbContextModel.Instance)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
         builder.Services.AddIdentity<ApplicationUser, ApplicationRole>()

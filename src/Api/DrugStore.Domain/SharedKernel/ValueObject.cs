@@ -3,7 +3,7 @@
 [Serializable]
 public abstract class ValueObject
 {
-    protected static bool EqualOperator(ValueObject? left, ValueObject? right) 
+    protected static bool EqualOperator(ValueObject? left, ValueObject? right)
         => !(left is null ^ right is null) && left?.Equals(right!) != false;
 
     protected static bool NotEqualOperator(ValueObject left, ValueObject right) => !(EqualOperator(left, right));

@@ -1,4 +1,5 @@
 ﻿using DrugStore.Application.Users.Validators;
+
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;

@@ -1,10 +1,14 @@
 ﻿using Ardalis.Result;
-using CloudinaryDotNet.Actions;
+
 using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+
 using DrugStore.Infrastructure.Storage.Abstractions;
+
 using Microsoft.AspNetCore.Http;
-using Polly.Retry;
+
 using Polly;
+using Polly.Retry;
 
 namespace DrugStore.Infrastructure.Storage.Cloudinary.Internal;
 

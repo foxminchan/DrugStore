@@ -1,10 +1,14 @@
-﻿using Bogus;
+﻿using System.Net;
+using System.Net.Http.Json;
+
+using Bogus;
+
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fixtures;
+
 using FluentAssertions;
+
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net.Http.Json;
-using System.Net;
 
 namespace DrugStore.FunctionalTest.Components.CategoriesEndpoints;
 

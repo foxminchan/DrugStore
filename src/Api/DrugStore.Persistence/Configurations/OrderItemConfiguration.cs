@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.Order;
+﻿using DrugStore.Domain.OrderAggregate;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

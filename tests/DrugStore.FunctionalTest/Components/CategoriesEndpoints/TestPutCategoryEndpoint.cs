@@ -1,10 +1,13 @@
-﻿using DrugStore.FunctionalTest.Extensions;
+﻿using System.Net;
+using System.Net.Http.Json;
+
+using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
+
 using FluentAssertions;
+
 using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net.Http.Json;
-using System.Net;
 
 namespace DrugStore.FunctionalTest.Components.CategoriesEndpoints;
 
@@ -15,6 +18,7 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory)
     private readonly CategoryFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
+
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
 
     [Fact]
