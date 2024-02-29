@@ -19,8 +19,4 @@
         <PackageReference Include="Ardalis.Specification" Version="8.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="BasketAggregate\DomainEvents\" />
-    </ItemGroup>
-
 </Project>

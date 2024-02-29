@@ -17,7 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
         <ProjectReference Include="..\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj" />
     </ItemGroup>
 

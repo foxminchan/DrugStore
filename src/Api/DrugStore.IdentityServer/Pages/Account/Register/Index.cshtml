@@ -1,0 +1,74 @@
+﻿@page
+@model DrugStore.IdentityServer.Pages.Account.Register.IndexModel
+
+<div class="register-page">
+    <div class="lead">
+        <h1>Register</h1>
+        <p>Register a new account</p>
+    </div>
+
+    <partial name="_ValidationSummary"/>
+
+    <div class="card">
+        <div class="card-header">
+            <h2>Local Account</h2>
+        </div>
+        <div class="card-body">
+            <form asp-page="/Account/Register/Index">
+                <input type="hidden" asp-for="Input.ReturnUrl"/>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.FullName"></label>
+                            <input type="text" class="form-control" placeholder="FullName" asp-for="Input.FullName" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.PhoneNumber"></label>
+                            <input type="tel" class="form-control" placeholder="Phone Number" asp-for="Input.PhoneNumber" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Email"></label>
+                    <input class="form-control" placeholder="Email" asp-for="Input.Email" autofocus>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input type="password" class="form-control" placeholder="Password" asp-for="Input.Password" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword"></label>
+                            <input type="password" class="form-control" placeholder="Confirm Password" asp-for="Input.ConfirmPassword" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Input.Street"></label>
+                    <input type="text" class="form-control" placeholder="Street" asp-for="Input.Street" autocomplete="off">
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.City"></label>
+                            <input type="text" class="form-control" placeholder="City" asp-for="Input.City" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label asp-for="Input.Province"></label>
+                            <input type="text" class="form-control" placeholder="Province" asp-for="Input.Province" autocomplete="off">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" name="Input.Button" value="register">Register</button>
+                <button class="btn btn-danger" name="Input.Button" value="cancel">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

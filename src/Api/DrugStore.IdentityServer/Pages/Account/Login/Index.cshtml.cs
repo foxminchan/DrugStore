@@ -44,8 +44,13 @@ public class Index(
         // check if we are in the context of an authorization request
         AuthorizationRequest context = await interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
 
+        if (Input.Button == "register")
+        {
+            return Redirect("~/Account/Register?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl));
+        }
+
         // the user clicked the "cancel" button
-        if (Input.Button != "login")
+        if (Input.Button != "login" && Input.Button != "register")
         {
             if (context is null)
             {

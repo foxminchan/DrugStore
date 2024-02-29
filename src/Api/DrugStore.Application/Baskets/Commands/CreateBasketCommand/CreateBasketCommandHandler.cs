@@ -11,15 +11,16 @@ public sealed class CreateBasketCommandHandler(IRedisService redisService)
 {
     public Task<Result<Guid>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {
-        var basketItem = new BasketItem(
+        BasketItem basketItem = new BasketItem(
             request.BasketRequest.Item.Id,
             request.BasketRequest.Item.ProductName,
             request.BasketRequest.Item.Quantity,
             request.BasketRequest.Item.Price
         );
 
-        var key = $"user:{request.BasketRequest.CustomerId}:cart";
-        var basket = redisService.Get<CustomerBasket>(key) ?? new CustomerBasket { Id = request.BasketRequest.CustomerId };
+        string key = $"user:{request.BasketRequest.CustomerId}:cart";
+        CustomerBasket basket = redisService.Get<CustomerBasket>(key) ??
+                                new CustomerBasket { Id = request.BasketRequest.CustomerId };
 
         basket.Items.Add(basketItem);
         redisService.HashGetOrSet(key, request.BasketRequest.CustomerId.ToString(), () => basket);

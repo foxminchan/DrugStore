@@ -13,7 +13,7 @@ public sealed class BasketUpdatedEventHandler(Repository<Product> repository)
 {
     public async Task Handle(BasketUpdatedEvent notification, CancellationToken cancellationToken)
     {
-        var product = await repository.GetByIdAsync(notification.ProductId, cancellationToken);
+        Product? product = await repository.GetByIdAsync(notification.ProductId, cancellationToken);
         Guard.Against.NotFound(notification.ProductId, product);
         product.RemoveStock(notification.Quantity);
         await repository.UpdateAsync(product, cancellationToken);

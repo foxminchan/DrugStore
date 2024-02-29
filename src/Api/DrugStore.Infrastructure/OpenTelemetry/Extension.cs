@@ -18,7 +18,7 @@ public static class Extension
             .AddService(builder.Environment.ApplicationName,
                 serviceVersion: "unknown", serviceInstanceId: Environment.MachineName);
 
-        var oltpEndpoint = new Uri(config.GetValue<string>("OlptEndpoint")
+        var oltpEndpoint = new Uri(config.GetValue<string>("OtlpEndpoint")
                                    ?? throw new InvalidOperationException("Endpoint is not configured"));
 
         builder.Logging.AddOpenTelemetry(logging =>

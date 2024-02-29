@@ -12,12 +12,12 @@ public sealed class DeleteBasketCommandHandler(IRedisService redisService)
 {
     public Task<Result> Handle(DeleteBasketCommand request, CancellationToken cancellationToken)
     {
-        var key = $"user:{request.BasketId}:cart";
+        string key = $"user:{request.BasketId}:cart";
 
-        var basket = redisService.Get<CustomerBasket>(key);
+        CustomerBasket? basket = redisService.Get<CustomerBasket>(key);
         Guard.Against.NotFound(key, basket);
 
-        var basketItems = basket.Items.ToDictionary(x => x.Id, x => x.Quantity);
+        Dictionary<Guid, int> basketItems = basket.Items.ToDictionary(x => x.Id, x => x.Quantity);
         redisService.Remove(key);
         basket.RemoveItems(basketItems);
 
