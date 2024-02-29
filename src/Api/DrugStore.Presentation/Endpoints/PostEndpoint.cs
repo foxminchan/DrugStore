@@ -7,6 +7,7 @@ using DrugStore.Application.Categories.Queries.GetPostByIdQuery;
 using DrugStore.Application.Categories.Queries.GetPostListQuery;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Infrastructure.Exception;
 using DrugStore.Presentation.Extensions;
 
 using MediatR;
@@ -21,7 +22,7 @@ public sealed class PostEndpoint : IEndpoint
     {
         var group = app
             .MapGroup("/posts")
-            .WithTags("Category Post")
+            .WithTags("Post")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("{categoryId:guid}", GetPosts).WithName(nameof(GetPosts));
@@ -47,10 +48,14 @@ public sealed class PostEndpoint : IEndpoint
 
     private static async Task<Result<Guid>> CreatePost(
         [FromServices] ISender sender,
+        [FromHeader(Name = "X-Idempotency-Key")]
+        string idempotencyKey,
         [FromForm] IFormFile? imageFile,
         [FromForm] PostCreateRequest command,
         CancellationToken cancellationToken)
-        => await sender.Send(new CreateCategoryPostCommand(command, imageFile), cancellationToken);
+        => !Guid.TryParse(idempotencyKey, out var requestId)
+            ? throw new InvalidIdempotencyException()
+            : await sender.Send(new CreateCategoryPostCommand(requestId, command, imageFile), cancellationToken);
 
     private static async Task<Result<PostVm>> UpdatePost(
         [FromServices] ISender sender,

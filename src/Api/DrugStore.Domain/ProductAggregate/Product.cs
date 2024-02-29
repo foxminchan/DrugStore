@@ -35,9 +35,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         bool status,
         int quantity,
         Guid? categoryId,
-        decimal originalPrice,
-        decimal price,
-        decimal? priceSale)
+        ProductPrice productPrice)
     {
         Title = Guard.Against.NullOrEmpty(title);
         ProductCode = productCode;
@@ -45,7 +43,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
         Quantity = Guard.Against.NegativeOrZero(quantity);
         CategoryId = categoryId;
-        Price = new(originalPrice, price, priceSale);
+        Price = productPrice;
     }
 
     public void Update(string title,
@@ -54,9 +52,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         bool status,
         int quantity,
         Guid? categoryId,
-        decimal originalPrice,
-        decimal price,
-        decimal? priceSale)
+        ProductPrice productPrice)
     {
         Title = Guard.Against.NullOrEmpty(title);
         ProductCode = productCode;
@@ -64,29 +60,22 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
         Quantity = Guard.Against.NegativeOrZero(quantity);
         CategoryId = categoryId;
-        Price = new(originalPrice, price, priceSale);
+        Price = productPrice;
     }
 
-    public int RemoveStock(int quantityDesired)
+    public void RemoveStock(int quantityDesired)
     {
-        if (quantityDesired <= 0)
-            throw new InvalidOperationException("Quantity must be greater than 0");
+        Quantity -= Guard.Against.NegativeOrZero(quantityDesired);
 
-        if (Status == ProductStatus.OutOfStock)
-            throw new InvalidOperationException("Product is out of stock");
-
-        if (Quantity < quantityDesired)
-            throw new InvalidOperationException("Product is out of stock");
-
-        Quantity -= quantityDesired;
-        return Quantity;
+        if (Status == ProductStatus.InStock && Quantity == 0)
+            Status = ProductStatus.OutOfStock;
     }
 
-    public void Disable()
+    public void AddStock(int quantityDesired)
     {
-        if (Status == ProductStatus.OutOfStock)
-            throw new InvalidOperationException("Product is already disabled");
+        Quantity +=  Guard.Against.NegativeOrZero(quantityDesired);
 
-        Status = ProductStatus.OutOfStock;
+        if (Status == ProductStatus.OutOfStock && Quantity > 0)
+            Status = ProductStatus.InStock;
     }
 }

@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Created by yFiles WPF 3.4.0.0-->
+<graphml xmlns:y="http://www.yworks.com/xml/yfiles-common/3.0" xmlns:xps="http://schemas.microsoft.com/xps/2005/06" xmlns:ywpf="http://www.yworks.com/xml/yfiles-wpf/3.0/xaml" xmlns:x="http://www.yworks.com/xml/yfiles-common/markup/3.0" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://www.yworks.com/xml/schema/graphml.wpf/3.0/ygraphml.xsd " xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://graphml.graphdrawing.org/xmlns">
+  <key id="d0" attr.type="boolean" attr.name="Expanded" for="node" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/Expanded">
+    <default>true</default>
+  </key>
+  <key id="d1" attr.type="string" attr.name="type" for="node" />
+  <key id="d2" attr.type="string" attr.name="path" for="node" />
+  <key id="d3" attr.type="string" attr.name="display_name" for="node" />
+  <key id="d4" attr.name="NodeLabels" for="node" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeLabels" />
+  <key id="d5" attr.name="NodeGeometry" for="node" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeGeometry" />
+  <key id="d6" attr.name="UserTags" for="all" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/UserTags" />
+  <key id="d7" attr.name="NodeStyle" for="node" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/NodeStyle" />
+  <key id="d8" attr.name="NodeViewState" for="node" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/NodeViewState" />
+  <key id="d9" attr.type="string" attr.name="dependency_type" for="edge" />
+  <key id="d10" attr.name="EdgeLabels" for="edge" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeLabels" />
+  <key id="d11" attr.name="EdgeGeometry" for="edge" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeGeometry" />
+  <key id="d12" attr.name="EdgeStyle" for="edge" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/EdgeStyle" />
+  <key id="d13" attr.name="EdgeViewState" for="edge" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/EdgeViewState" />
+  <key id="d14" attr.name="PortLabels" for="port" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLabels" />
+  <key id="d15" attr.name="PortLocationParameter" for="port" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortLocationParameter">
+    <default />
+  </key>
+  <key id="d16" attr.name="PortStyle" for="port" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/PortStyle">
+    <default>
+      <x:Static Member="y:VoidPortStyle.Instance" />
+    </default>
+  </key>
+  <key id="d17" attr.name="PortViewState" for="port" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/folding/1.1/PortViewState" />
+  <key id="d18" attr.name="SharedData" y:attr.uri="http://www.yworks.com/xml/yfiles-common/2.0/SharedData" />
+  <data key="d18">
+    <y:SharedData />
+  </data>
+  <graph id="G">
+    <node id="n0">
+      <data key="d1"><![CDATA[0]]></data>
+      <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+      <data key="d3"><![CDATA[tests]]></data>
+      <data key="d4" />
+      <data key="d5">
+        <y:RectD X="52.5" Y="-180" Width="2583" Height="230" />
+      </data>
+      <data key="d6" />
+      <data key="d7" />
+      <data key="d8">
+        <y:ViewState />
+      </data>
+      <graph id="n0:">
+        <node id="n0::n0">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\BackOffice.EndToEnd]]></data>
+          <data key="d3"><![CDATA[BackOffice.EndToEnd]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="102.5" Y="-90" Width="376" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+        <node id="n0::n1">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\DrugStore.ArchTest]]></data>
+          <data key="d3"><![CDATA[DrugStore.ArchTest]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="924.5" Y="-90" Width="354" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+        <node id="n0::n2">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\DrugStore.FunctionalTest]]></data>
+          <data key="d3"><![CDATA[DrugStore.FunctionalTest]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="1308.5" Y="-90" Width="430" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+        <node id="n0::n3">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\DrugStore.IntegrationTest]]></data>
+          <data key="d3"><![CDATA[DrugStore.IntegrationTest]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="1768.5" Y="-90" Width="439" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+        <node id="n0::n4">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\DrugStore.UnitTest]]></data>
+          <data key="d3"><![CDATA[DrugStore.UnitTest]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="2237.5" Y="-90" Width="348" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+        <node id="n0::n5">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore\tests\StroreFront.EndToEnd]]></data>
+          <data key="d3"><![CDATA[StroreFront.EndToEnd]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="508.5" Y="-90" Width="386" Height="90" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <port name="p0">
+            <data key="d15" />
+          </port>
+        </node>
+      </graph>
+    </node>
+    <node id="n1">
+      <data key="d1"><![CDATA[0]]></data>
+      <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+      <data key="d3"><![CDATA[apps]]></data>
+      <data key="d4" />
+      <data key="d5">
+        <y:RectD X="0" Y="-1585" Width="2461.5" Height="1385" />
+      </data>
+      <data key="d6" />
+      <data key="d7" />
+      <data key="d8">
+        <y:ViewState />
+      </data>
+      <graph id="n1:">
+        <node id="n1::n0">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+          <data key="d3"><![CDATA[Web]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="50" Y="-480" Width="1304" Height="230" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <data key="d8">
+            <y:ViewState />
+          </data>
+          <graph id="n1::n0:">
+            <node id="n1::n0::n0">
+              <data key="d1"><![CDATA[0]]></data>
+              <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Web\DrugStore.BackOffice]]></data>
+              <data key="d3"><![CDATA[DrugStore.BackOffice]]></data>
+              <data key="d4" />
+              <data key="d5">
+                <y:RectD X="100" Y="-390" Width="381" Height="90" />
+              </data>
+              <data key="d6" />
+              <data key="d7" />
+              <port name="p0">
+                <data key="d15" />
+              </port>
+              <port name="p1">
+                <data key="d15" />
+              </port>
+            </node>
+            <node id="n1::n0::n1">
+              <data key="d1"><![CDATA[0]]></data>
+              <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Web\DrugStore.StoreFront]]></data>
+              <data key="d3"><![CDATA[DrugStore.StoreFront]]></data>
+              <data key="d4" />
+              <data key="d5">
+                <y:RectD X="511" Y="-390" Width="381" Height="90" />
+              </data>
+              <data key="d6" />
+              <data key="d7" />
+              <port name="p0">
+                <data key="d15" />
+              </port>
+              <port name="p1">
+                <data key="d15" />
+              </port>
+            </node>
+            <node id="n1::n0::n2">
+              <data key="d1"><![CDATA[0]]></data>
+              <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Web\DrugStore.WebStatus]]></data>
+              <data key="d3"><![CDATA[DrugStore.WebStatus]]></data>
+              <data key="d4" />
+              <data key="d5">
+                <y:RectD X="922" Y="-390" Width="382" Height="90" />
+              </data>
+              <data key="d6" />
+              <data key="d7" />
+              <port name="p0">
+                <data key="d15" />
+              </port>
+            </node>
+          </graph>
+        </node>
+        <node id="n1::n1">
+          <data key="d1"><![CDATA[0]]></data>
+          <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+          <data key="d3"><![CDATA[Api]]></data>
+          <data key="d4" />
+          <data key="d5">
+            <y:RectD X="190.5" Y="-1495" Width="1688" Height="995" />
+          </data>
+          <data key="d6" />
+          <data key="d7" />
+          <data key="d8">
+            <y:ViewState />
+          </data>
+          <graph id="n1::n1:">
+            <node id="n1::n1::n0">
+              <data key="d1"><![CDATA[0]]></data>
+              <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+              <data key="d3"><![CDATA[Hosts]]></data>
+              <data key="d4" />
+              <data key="d5">
+                <y:RectD X="865.5" Y="-780" Width="963" Height="230" />
+              </data>
+              <data key="d6" />
+              <data key="d7" />
+              <data key="d8">
+                <y:ViewState />
+              </data>
+              <graph id="n1::n1::n0:">
+                <node id="n1::n1::n0::n0">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.IdentityServer]]></data>
+                  <data key="d3"><![CDATA[DrugStore.IdentityServer]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="915.5" Y="-690" Width="425" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                </node>
+                <node id="n1::n1::n0::n1">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.Presentation]]></data>
+                  <data key="d3"><![CDATA[DrugStore.Presentation]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="1370.5" Y="-690" Width="408" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                  <port name="p1">
+                    <data key="d15" />
+                  </port>
+                  <port name="p2">
+                    <data key="d15" />
+                  </port>
+                  <port name="p3">
+                    <data key="d15" />
+                  </port>
+                  <port name="p4">
+                    <data key="d15" />
+                  </port>
+                </node>
+              </graph>
+            </node>
+            <node id="n1::n1::n1">
+              <data key="d1"><![CDATA[0]]></data>
+              <data key="d2"><![CDATA[D:\Coding\DrugStore]]></data>
+              <data key="d3"><![CDATA[Libs]]></data>
+              <data key="d4" />
+              <data key="d5">
+                <y:RectD X="240.5" Y="-1405" Width="1580" Height="620" />
+              </data>
+              <data key="d6" />
+              <data key="d7" />
+              <data key="d8">
+                <y:ViewState />
+              </data>
+              <graph id="n1::n1::n1:">
+                <node id="n1::n1::n1::n0">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.Application]]></data>
+                  <data key="d3"><![CDATA[DrugStore.Application]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="1378.5" Y="-925" Width="392" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                  <port name="p1">
+                    <data key="d15" />
+                  </port>
+                </node>
+                <node id="n1::n1::n1::n1">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.Domain]]></data>
+                  <data key="d3"><![CDATA[DrugStore.Domain]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="580.875" Y="-1315" Width="346" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                </node>
+                <node id="n1::n1::n1::n2">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.Infrastructure]]></data>
+                  <data key="d3"><![CDATA[DrugStore.Infrastructure]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="544.375" Y="-1185" Width="419" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                  <port name="p1">
+                    <data key="d15" />
+                  </port>
+                  <port name="p2">
+                    <data key="d15" />
+                  </port>
+                  <port name="p3">
+                    <data key="d15" />
+                  </port>
+                  <port name="p4">
+                    <data key="d15" />
+                  </port>
+                </node>
+                <node id="n1::n1::n1::n3">
+                  <data key="d1"><![CDATA[0]]></data>
+                  <data key="d2"><![CDATA[D:\Coding\DrugStore\src\Api\DrugStore.Persistence]]></data>
+                  <data key="d3"><![CDATA[DrugStore.Persistence]]></data>
+                  <data key="d4" />
+                  <data key="d5">
+                    <y:RectD X="1030.75" Y="-1055" Width="389" Height="90" />
+                  </data>
+                  <data key="d6" />
+                  <data key="d7" />
+                  <port name="p0">
+                    <data key="d15" />
+                  </port>
+                  <port name="p1">
+                    <data key="d15" />
+                  </port>
+                  <port name="p2">
+                    <data key="d15" />
+                  </port>
+                </node>
+                <edge id="n1::n1::n1::e0" source="n1::n1::n1::n0" target="n1::n1::n1::n3" sourceport="p1" targetport="p1">
+                  <data key="d9"><![CDATA[Direct]]></data>
+                  <data key="d11" />
+                  <data key="d12" />
+                  <data key="d6" />
+                </edge>
+                <edge id="n1::n1::n1::e1" source="n1::n1::n1::n2" target="n1::n1::n1::n1" sourceport="p0" targetport="p0">
+                  <data key="d9"><![CDATA[Direct]]></data>
+                  <data key="d12" />
+                  <data key="d6" />
+                </edge>
+                <edge id="n1::n1::n1::e2" source="n1::n1::n1::n3" target="n1::n1::n1::n2" sourceport="p2" targetport="p1">
+                  <data key="d9"><![CDATA[Direct]]></data>
+                  <data key="d11" />
+                  <data key="d12" />
+                  <data key="d6" />
+                </edge>
+              </graph>
+            </node>
+            <edge id="n1::n1::e0" source="n1::n1::n0::n0" target="n1::n1::n1::n3" sourceport="p0" targetport="p0">
+              <data key="d9"><![CDATA[Direct]]></data>
+              <data key="d12" />
+              <data key="d6" />
+            </edge>
+            <edge id="n1::n1::e1" source="n1::n1::n0::n1" target="n1::n1::n1::n0" sourceport="p0" targetport="p0">
+              <data key="d9"><![CDATA[Direct]]></data>
+              <data key="d12" />
+              <data key="d6" />
+            </edge>
+          </graph>
+        </node>
+        <edge id="n1::e0" source="n1::n0::n0" target="n1::n1::n1::n2" sourceport="p0" targetport="p2">
+          <data key="d9"><![CDATA[Direct]]></data>
+          <data key="d11" />
+          <data key="d12" />
+          <data key="d6" />
+        </edge>
+        <edge id="n1::e1" source="n1::n0::n1" target="n1::n1::n1::n2" sourceport="p0" targetport="p3">
+          <data key="d9"><![CDATA[Direct]]></data>
+          <data key="d12" />
+          <data key="d6" />
+        </edge>
+        <edge id="n1::e2" source="n1::n0::n2" target="n1::n1::n1::n2" sourceport="p0" targetport="p4">
+          <data key="d9"><![CDATA[Direct]]></data>
+          <data key="d11" />
+          <data key="d12" />
+          <data key="d6" />
+        </edge>
+      </graph>
+    </node>
+    <edge id="e0" source="n0::n0" target="n1::n0::n0" sourceport="p0" targetport="p1">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+    <edge id="e1" source="n0::n1" target="n1::n1::n0::n1" sourceport="p0" targetport="p1">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d11" />
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+    <edge id="e2" source="n0::n2" target="n1::n1::n0::n1" sourceport="p0" targetport="p2">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+    <edge id="e3" source="n0::n3" target="n1::n1::n0::n1" sourceport="p0" targetport="p3">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d11" />
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+    <edge id="e4" source="n0::n4" target="n1::n1::n0::n1" sourceport="p0" targetport="p4">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d11" />
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+    <edge id="e5" source="n0::n5" target="n1::n0::n1" sourceport="p0" targetport="p1">
+      <data key="d9"><![CDATA[Direct]]></data>
+      <data key="d12" />
+      <data key="d6" />
+    </edge>
+  </graph>
+</graphml>

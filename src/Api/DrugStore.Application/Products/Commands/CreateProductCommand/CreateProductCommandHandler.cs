@@ -18,9 +18,7 @@ public sealed class CreateProductCommandHandler(Repository<Product> repository)
             request.Status,
             request.Quantity,
             request.CategoryId,
-            request.OriginalPrice,
-            request.Price,
-            request.PriceSale);
+            request.ProductPrice);
 
         await repository.AddAsync(product, cancellationToken);
 

@@ -10,7 +10,7 @@ namespace DrugStore.Application.Categories.Commands.CreateCategoryNewsCommand;
 
 public sealed class CreateCategoryNewsCommandHandler(
     Repository<Category> repository,
-    ICloudinaryService cloudinary) : ICommandHandler<CreateCategoryNewsCommand, Result<Guid>>
+    ICloudinaryService cloudinary) : IIdempotencyCommandHandler<CreateCategoryNewsCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateCategoryNewsCommand request, CancellationToken cancellationToken)
     {
@@ -29,8 +29,7 @@ public sealed class CreateCategoryNewsCommandHandler(
             news.Image = image.Value.Url;
         }
 
-        category.AddNews(news);
-
+        category.News?.Add(news);
         await repository.UpdateAsync(category, cancellationToken);
 
         return Result<Guid>.Success(news.Id);

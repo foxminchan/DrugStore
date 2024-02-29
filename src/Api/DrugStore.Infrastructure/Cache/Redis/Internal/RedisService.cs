@@ -104,7 +104,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
         => ((RedisResult[])Database.ScriptEvaluate(GetKeysLuaScript, values: [pattern])!)
             .Where(x => x.ToString().StartsWith(_redisCacheOption.Prefix))
             .Select(x => x.ToString())
-            .ToArray()!;
+            .ToArray();
 
     public IEnumerable<T> GetValues<T>(string key)
         => Database.HashGetAll($"{_redisCacheOption.Prefix}:{key}").Select(x => GetByteToObject<T>(x.Value));

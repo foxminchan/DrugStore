@@ -3,7 +3,6 @@
 using Ardalis.GuardClauses;
 
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.OrderAggregate.DomainEvents;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.OrderAggregate;
@@ -31,7 +30,4 @@ public sealed class Order : AuditableEntityBase, IAggregateRoot
         PaymentMethod = Guard.Against.Null(paymentMethod);
         CustomerId = customerId;
     }
-
-    public void AddOrderItem(Dictionary<Guid, int> products)
-        => RegisterDomainEvent(new OrderCreatedEvent(products));
 }

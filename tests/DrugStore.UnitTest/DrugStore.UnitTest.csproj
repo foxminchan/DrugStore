@@ -23,4 +23,8 @@
         </Content>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\Api\DrugStore.Presentation\DrugStore.Presentation.csproj" />
+    </ItemGroup>
+
 </Project>

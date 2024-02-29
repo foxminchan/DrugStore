@@ -24,9 +24,7 @@ public sealed class UpdateProductCommandHandler(Repository<Product> repository)
             request.Status,
             request.Quantity,
             request.CategoryId,
-            request.OriginalPrice,
-            request.Price,
-            request.PriceSale);
+            request.ProductPrice);
         await repository.UpdateAsync(product, cancellationToken);
         return Result<ProductVm>.Success(product.Adapt<ProductVm>());
     }

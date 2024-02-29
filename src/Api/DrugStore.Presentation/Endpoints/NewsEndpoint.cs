@@ -7,6 +7,7 @@ using DrugStore.Application.Categories.Queries.GetNewsByIdQuery;
 using DrugStore.Application.Categories.Queries.GetNewsListQuery;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Infrastructure.Exception;
 using DrugStore.Presentation.Extensions;
 
 using MediatR;
@@ -21,7 +22,7 @@ public sealed class NewsEndpoint : IEndpoint
     {
         var group = app
             .MapGroup("/news")
-            .WithTags("Category News")
+            .WithTags("News")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("{categoryId:guid}", GetNews).WithName(nameof(GetNews));
@@ -47,10 +48,14 @@ public sealed class NewsEndpoint : IEndpoint
 
     private static async Task<Result<Guid>> CreateNews(
         [FromServices] ISender sender,
+        [FromHeader(Name = "X-Idempotency-Key")]
+        string idempotencyKey,
         [FromForm] IFormFile? imageFile,    
         [FromForm] NewsCreateRequest command,
         CancellationToken cancellationToken)
-        =>  await sender.Send(new CreateCategoryNewsCommand(command, imageFile), cancellationToken);
+        => !Guid.TryParse(idempotencyKey, out var requestId)
+            ? throw new InvalidIdempotencyException()
+            : await sender.Send(new CreateCategoryNewsCommand(requestId, command, imageFile), cancellationToken);
 
     private static async Task<Result<NewsVm>> UpdateNews(
         [FromServices] ISender sender,

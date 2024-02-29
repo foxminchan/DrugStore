@@ -25,8 +25,7 @@ public sealed class DeleteCategoryPostCommandHandler(
             await cloudinary.DeletePhotoAsync(post.Image);
         }
 
-        category.RemovePost(post);
-
+        category.Posts?.Remove(post);
         await repository.UpdateAsync(category, cancellationToken);
 
         return Result.Success();

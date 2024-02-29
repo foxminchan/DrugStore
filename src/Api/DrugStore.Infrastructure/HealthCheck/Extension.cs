@@ -23,11 +23,14 @@ public static class Extension
         var identityServer = builder.Configuration.GetValue<string>("IdentityUrlExternal");
         Guard.Against.Null(identityServer, message: "IdentityServer URL not found.");
 
+        var kafka = builder.Configuration.GetValue<string>("KafkaUrl");
+        Guard.Against.Null(kafka, message: "Kafka URL not found.");
+
         builder.Services.AddHealthChecks()
             .AddNpgSql(postgresConn, name: "Postgres", tags: ["database"])
             .AddRedis(redisConn, name: "Redis", tags: ["redis"])
             .AddIdentityServer(new Uri(identityServer), name: "Identity Server", tags: ["identity-server"])
-            .AddKafka(options => options.BootstrapServers = "localhost:9092", name: "Kafka", tags: ["kafka"]);
+            .AddKafka(options => options.BootstrapServers = kafka, name: "Kafka", tags: ["kafka"]);
 
         builder.Services
             .AddHealthChecksUI(options =>

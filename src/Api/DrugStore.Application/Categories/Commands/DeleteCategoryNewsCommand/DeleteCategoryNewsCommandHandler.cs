@@ -25,8 +25,7 @@ public sealed class DeleteCategoryNewsCommandHandler(
             await cloudinary.DeletePhotoAsync(news.Image);
         }
 
-        category.RemoveNews(news);
-
+        category.News?.Remove(news);
         await repository.UpdateAsync(category, cancellationToken);
 
         return Result.Success();
