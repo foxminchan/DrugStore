@@ -9,8 +9,8 @@ devDependencies:
     specifier: ^19.0.3
     version: 19.0.3(@types/node@20.11.20)(typescript@5.3.3)
   '@commitlint/config-conventional':
-    specifier: ^19.0.0
-    version: 19.0.0
+    specifier: ^19.0.3
+    version: 19.0.3
   husky:
     specifier: ^9.0.11
     version: 9.0.11
@@ -59,11 +59,11 @@ packages:
       - typescript
     dev: true
 
-  /@commitlint/config-conventional@19.0.0:
-    resolution: {integrity: sha512-d8lPm+slPUdA8Zof2Y36RqAm/MmAYx/QQIEd2gKbpfLThQK1oYLs+0C3sMPD+4LIq2kh4cnbV9WnPA0P5sN8Ig==}
+  /@commitlint/config-conventional@19.0.3:
+    resolution: {integrity: sha512-vh0L8XeLaEzTe8VCxSd0gAFvfTK0RFolrzw4o431bIuWJfi/yRCHJlsDwus7wW2eJaFFDR0VFXJyjGyDQhi4vA==}
     engines: {node: '>=v18'}
     dependencies:
-      '@commitlint/types': 19.0.0
+      '@commitlint/types': 19.0.3
       conventional-changelog-conventionalcommits: 7.0.2
     dev: true
 
