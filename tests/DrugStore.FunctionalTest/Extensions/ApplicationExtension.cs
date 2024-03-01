@@ -1,6 +1,5 @@
 ﻿using DrugStore.FunctionalTest.Fixtures;
 using DrugStore.Persistence;
-
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DrugStore.FunctionalTest.Extensions;

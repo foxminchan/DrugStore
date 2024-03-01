@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Web\DrugStore.BackOffice\DrugStore.BackOffice.csproj" />
+        <ProjectReference Include="..\..\src\DrugStore.BackOffice\DrugStore.BackOffice.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,5 +1,4 @@
 ﻿using DotNet.Testcontainers.Containers;
-
 using Polly;
 
 namespace DrugStore.FunctionalTest.Extensions;
@@ -11,9 +10,11 @@ public static class TestContainersExtension
         int retryCount = 3,
         int retryDelay = 3,
         CancellationToken cancellationToken = default)
-        => Policy
+    {
+        return Policy
             .Handle<AggregateException>()
             .Or<InvalidOperationException>()
             .WaitAndRetryAsync(retryCount, _ => TimeSpan.FromSeconds(retryCount * retryDelay))
             .ExecuteAsync(container.StartAsync, cancellationToken);
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using Bogus;
-
 using DrugStore.Domain.CategoryAggregate;
 
 namespace DrugStore.FunctionalTest.Fakers;

@@ -1,6 +1,7 @@
-﻿using FluentAssertions;
-
+﻿using DrugStore.Persistence;
+using FluentAssertions;
 using NetArchTest.Rules;
+using AssemblyReference = DrugStore.Domain.AssemblyReference;
 
 namespace DrugStore.ArchTest;
 
@@ -16,7 +17,7 @@ public class ArchTests
     public void InvokesDomainLayerDependencies()
     {
         // Arrange
-        var assembly = Domain.AssemblyReference.Assembly;
+        var assembly = AssemblyReference.Assembly;
         string[] layers =
         [
             DomainNamespace,
@@ -141,7 +142,7 @@ public class ArchTests
     public void RepositoryShouldBeInPersistenceLayer()
     {
         // Arrange
-        var assembly = typeof(Persistence.Repository<>).Assembly;
+        var assembly = typeof(Repository<>).Assembly;
 
         // Act
         var result = Types

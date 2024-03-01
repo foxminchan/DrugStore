@@ -44,6 +44,7 @@ services:
       - 6370:6379
     volumes:
       - ./vol/redis:/data
+    restart: unless-stopped
     networks:
       - bridge-network
 
@@ -66,6 +67,7 @@ services:
     ports:
       - 9092:9092
       - 29092:29092
+    restart: unless-stopped
     networks:
       - bridge-network
 
@@ -101,6 +103,7 @@ services:
       CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
     ports:
       - 8083:8083
+    restart: unless-stopped
     depends_on:
       - kafka
     networks:
@@ -120,6 +123,7 @@ services:
     depends_on:
       - kafka
       - kafka-connect
+    restart: unless-stopped
     networks:
       - bridge-network
 

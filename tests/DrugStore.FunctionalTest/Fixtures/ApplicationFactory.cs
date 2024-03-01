@@ -1,10 +1,7 @@
 ﻿using DotNet.Testcontainers.Containers;
-
 using DrugStore.FunctionalTest.Extensions;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-
 using Testcontainers.PostgreSql;
 using Testcontainers.Redis;
 
@@ -23,7 +20,7 @@ public sealed class ApplicationFactory<TProgram>
         return Task.CompletedTask;
     }
 
-    public new Task DisposeAsync()
+    public new Task DisposeAsync() 
         => Task
             .WhenAll(_containers.Select(container => container.DisposeAsync().AsTask()))
             .ContinueWith(async _ => await base.DisposeAsync());
@@ -54,33 +51,32 @@ public sealed class ApplicationFactory<TProgram>
 
     public async Task StartContainersAsync(CancellationToken cancellationToken = default)
     {
-        if (_containers.Count == 0)
-            return;
+        if (_containers.Count == 0) return;
 
         await Task.WhenAll(_containers.Select(container =>
             container.StartWithWaitAndRetryAsync(cancellationToken: cancellationToken)));
 
-        Instance = _containers.Aggregate(this as WebApplicationFactory<TProgram>, (current, container) => current.WithWebHostBuilder(builder =>
-        {
-            switch (container)
+        Instance = _containers.Aggregate(this as WebApplicationFactory<TProgram>, (current, container) =>
+            current.WithWebHostBuilder(builder =>
             {
-                case PostgreSqlContainer dbContainer:
-                    builder.UseSetting("ConnectionStrings:Postgres", dbContainer.GetConnectionString());
-                    break;
+                switch (container)
+                {
+                    case PostgreSqlContainer dbContainer:
+                        builder.UseSetting("ConnectionStrings:Postgres", dbContainer.GetConnectionString());
+                        break;
 
-                case RedisContainer cacheContainer:
-                    builder.UseSetting("ConnectionStrings:Redis", cacheContainer.GetConnectionString());
-                    break;
-            }
-        }));
+                    case RedisContainer cacheContainer:
+                        builder.UseSetting("ConnectionStrings:Redis", cacheContainer.GetConnectionString());
+                        break;
+                }
+            }));
     }
 
     public new HttpClient CreateClient() => Instance.CreateClient();
 
     public async Task StopContainersAsync()
     {
-        if (_containers.Count == 0)
-            return;
+        if (_containers.Count == 0) return;
 
         await Task.WhenAll(_containers.Select(container => container.DisposeAsync().AsTask()))
             .ContinueWith(async _ => await base.DisposeAsync())

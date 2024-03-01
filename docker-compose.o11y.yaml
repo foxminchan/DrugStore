@@ -47,6 +47,7 @@ services:
       interval: 5s
       retries: 10
       test: wget --no-verbose --tries=1 --spider http://localhost:9090/status || exit 1
+    restart: unless-stopped
     networks:
       - bridge-network
 
@@ -66,6 +67,7 @@ services:
       interval: 5s
       retries: 10
       test: wget --no-verbose --tries=1 --spider http://localhost:3000 || exit 1
+    restart: unless-stopped
     networks:
       - bridge-network
 
@@ -74,6 +76,7 @@ services:
     container_name: zipkin
     ports:
       - "9412:9411"
+    restart: unless-stopped
     networks:
       - bridge-network
 
