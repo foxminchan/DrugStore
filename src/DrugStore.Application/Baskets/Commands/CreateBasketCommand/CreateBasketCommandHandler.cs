@@ -2,13 +2,15 @@
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
+using Medallion.Threading;
 
 namespace DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 
-public sealed class CreateBasketCommandHandler(IRedisService redisService)
-    : IIdempotencyCommandHandler<CreateBasketCommand, Result<Guid>>
+public sealed class CreateBasketCommandHandler(
+    IRedisService redisService,
+    IDistributedLockProvider distributedLockProvider) : IIdempotencyCommandHandler<CreateBasketCommand, Result<Guid>>
 {
-    public Task<Result<Guid>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {
         BasketItem basketItem = new(
             request.BasketRequest.Item.Id,
@@ -22,9 +24,13 @@ public sealed class CreateBasketCommandHandler(IRedisService redisService)
                      new CustomerBasket { Id = request.BasketRequest.CustomerId };
 
         basket.Items.Add(basketItem);
-        redisService.HashGetOrSet(key, request.BasketRequest.CustomerId.ToString(), () => basket);
-        basket.AddItem(basketItem);
 
-        return Task.FromResult(Result<Guid>.Success(basket.Id));
+        await using (await distributedLockProvider.TryAcquireLockAsync(key, cancellationToken: cancellationToken))
+        {
+            redisService.HashGetOrSet(key, request.BasketRequest.CustomerId.ToString(), () => basket);
+            basket.AddItem(basketItem);
+        }
+
+        return Result<Guid>.Success(basket.Id);
     }
 }

@@ -3,13 +3,15 @@ using Ardalis.Result;
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
+using Medallion.Threading;
 
 namespace DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 
-public sealed class UpdateBasketCommandHandler(IRedisService redisService)
-    : ICommandHandler<UpdateBasketCommand, Result<CustomerBasket>>
+public sealed class UpdateBasketCommandHandler(
+    IRedisService redisService,
+    IDistributedLockProvider distributedLockProvider) : ICommandHandler<UpdateBasketCommand, Result<CustomerBasket>>
 {
-    public Task<Result<CustomerBasket>> Handle(UpdateBasketCommand request, CancellationToken cancellationToken)
+    public async Task<Result<CustomerBasket>> Handle(UpdateBasketCommand request, CancellationToken cancellationToken)
     {
         var key = $"user:{request.CustomerId}:cart";
         BasketItem basketItem = new(
@@ -35,8 +37,12 @@ public sealed class UpdateBasketCommandHandler(IRedisService redisService)
                 basketItem.Price
             );
 
-        redisService.HashGetOrSet(key, request.CustomerId.ToString(), () => basket);
-        basket.UpdateItem(basketItem);
-        return Task.FromResult(Result<CustomerBasket>.Success(basket));
+        await using (await distributedLockProvider.TryAcquireLockAsync(key, cancellationToken: cancellationToken))
+        {
+            redisService.HashGetOrSet(key, request.CustomerId.ToString(), () => basket);
+            basket.UpdateItem(basketItem);
+        }
+
+        return Result<CustomerBasket>.Success(basket);
     }
 }
