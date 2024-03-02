@@ -83,12 +83,14 @@ public class Callback(
             : Redirect(returnUrl);
     }
 
-    private async Task<ApplicationUser> AutoProvisionUserAsync(string provider, string providerUserId,
+    private async Task<ApplicationUser> AutoProvisionUserAsync(
+        string provider, 
+        string providerUserId,
         IEnumerable<Claim> claims)
     {
         var sub = Guid.NewGuid();
 
-        ApplicationUser user = new() { Id = sub, UserName = sub.ToString() };
+        ApplicationUser user = new() { Id = new(sub), UserName = sub.ToString() };
 
         // email
         IEnumerable<Claim> enumerable = claims as Claim[] ?? claims.ToArray();

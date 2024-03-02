@@ -2,10 +2,13 @@
 
 using System.Reflection;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 using NpgsqlTypes;
@@ -26,31 +29,40 @@ internal partial class CategoryEntityType
 
         var id = runtimeEntityType.AddProperty(
             "Id",
-            typeof(Guid),
-            propertyInfo: typeof(EntityBase).GetProperty("Id",
+            typeof(CategoryId),
+            propertyInfo: typeof(Category).GetProperty("Id",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(EntityBase).GetField("<Id>k__BackingField",
+            fieldInfo: typeof(Category).GetField("<Id>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             valueGenerated: ValueGenerated.OnAdd,
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         id.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<CategoryId>(
+                (CategoryId v1, CategoryId v2) => v1.Equals(v2),
+                (CategoryId v) => v.GetHashCode(),
+                (CategoryId v) => v),
+            keyComparer: new ValueComparer<CategoryId>(
+                (CategoryId v1, CategoryId v2) => v1.Equals(v2),
+                (CategoryId v) => v.GetHashCode(),
+                (CategoryId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<CategoryId, Guid>(
+                (CategoryId id) => id.Value,
+                (Guid value) => new CategoryId()),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CategoryId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<CategoryId, Guid>(
+                    (CategoryId id) => id.Value,
+                    (Guid value) => new CategoryId())));
+        id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         id.AddAnnotation("Relational:ColumnName", "id");
+        id.AddAnnotation("Relational:DefaultValueSql", "uuid_generate_v4()");
 
         var createdDate = runtimeEntityType.AddProperty(
             "CreatedDate",
@@ -77,7 +89,7 @@ internal partial class CategoryEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 5, 36, 52, 122, DateTimeKind.Utc).AddTicks(4817));
+            new DateTime(2024, 3, 2, 17, 0, 46, 73, DateTimeKind.Utc).AddTicks(7574));
 
         var link = runtimeEntityType.AddProperty(
             "Link",
@@ -164,7 +176,7 @@ internal partial class CategoryEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 5, 36, 52, 122, DateTimeKind.Utc).AddTicks(5403));
+            new DateTime(2024, 3, 2, 17, 0, 46, 73, DateTimeKind.Utc).AddTicks(7865));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

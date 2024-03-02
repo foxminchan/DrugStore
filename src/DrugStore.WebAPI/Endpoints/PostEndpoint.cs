@@ -5,6 +5,7 @@ using DrugStore.Application.Categories.Commands.UpdateCategoryPostCommand;
 using DrugStore.Application.Categories.Queries.GetPostByIdQuery;
 using DrugStore.Application.Categories.Queries.GetPostListQuery;
 using DrugStore.Application.Categories.ViewModels;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -31,19 +32,19 @@ public sealed class PostEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<PostVm>>> GetPosts(
         [FromServices] ISender sender,
-        [FromRoute] Guid categoryId,
+        [FromRoute] CategoryId categoryId,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetPostListQuery(categoryId, filter), cancellationToken);
 
     private static async Task<Result<PostVm>> GetPostById(
         [FromServices] ISender sender,
-        [FromRoute] Guid postId,
-        [FromRoute] Guid categoryId,
+        [FromRoute] PostId postId,
+        [FromRoute] CategoryId categoryId,
         CancellationToken cancellationToken)
         => await sender.Send(new GetPostByIdQuery(categoryId, postId), cancellationToken);
 
-    private static async Task<Result<Guid>> CreatePost(
+    private static async Task<Result<PostId>> CreatePost(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -63,8 +64,8 @@ public sealed class PostEndpoint : IEndpoint
 
     private static async Task<Result> DeletePost(
         [FromServices] ISender sender,
-        [FromRoute] Guid categoryId,
-        [FromRoute] Guid postId,
+        [FromRoute] CategoryId categoryId,
+        [FromRoute] PostId postId,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteCategoryPostCommand(categoryId, postId), cancellationToken);
 }

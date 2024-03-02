@@ -1,19 +1,19 @@
 ﻿#nullable disable
 
-using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.ValueObjects;
-using DrugStore.Domain.ProductAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DrugStore.Persistence.Migrations;
 
 /// <inheritdoc />
-public partial class InintalizeDatabase : Migration
+public partial class InitallizeDatabase : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
     {
+        migrationBuilder.AlterDatabase()
+            .Annotation("Npgsql:PostgresExtension:uuid-ossp", ",,");
+
         migrationBuilder.CreateTable(
             name: "AspNetRoles",
             columns: table => new
@@ -23,7 +23,7 @@ public partial class InintalizeDatabase : Migration
                 normalized_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                 concurrency_stamp = table.Column<string>(type: "text", nullable: true)
             },
-            constraints: table => table.PrimaryKey("pk_asp_net_roles", x => x.id));
+            constraints: table => { table.PrimaryKey("pk_asp_net_roles", x => x.id); });
 
         migrationBuilder.CreateTable(
             name: "AspNetUsers",
@@ -31,7 +31,6 @@ public partial class InintalizeDatabase : Migration
             {
                 id = table.Column<Guid>(type: "uuid", nullable: false),
                 full_name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                address = table.Column<Address>(type: "jsonb", nullable: true),
                 user_name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                 normalized_user_name =
                     table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -46,24 +45,25 @@ public partial class InintalizeDatabase : Migration
                 two_factor_enabled = table.Column<bool>(type: "boolean", nullable: false),
                 lockout_end = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
                 lockout_enabled = table.Column<bool>(type: "boolean", nullable: false),
-                access_failed_count = table.Column<int>(type: "integer", nullable: false)
+                access_failed_count = table.Column<int>(type: "integer", nullable: false),
+                address = table.Column<string>(type: "jsonb", nullable: true)
             },
-            constraints: table => table.PrimaryKey("pk_asp_net_users", x => x.id));
+            constraints: table => { table.PrimaryKey("pk_asp_net_users", x => x.id); });
 
         migrationBuilder.CreateTable(
             name: "categories",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                 link = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 399, DateTimeKind.Utc).AddTicks(9376)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 335, DateTimeKind.Utc).AddTicks(7394)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 399, DateTimeKind.Utc).AddTicks(9762)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 336, DateTimeKind.Utc).AddTicks(9966)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
-            constraints: table => table.PrimaryKey("pk_categories", x => x.id));
+            constraints: table => { table.PrimaryKey("pk_categories", x => x.id); });
 
         migrationBuilder.CreateTable(
             name: "AspNetRoleClaims",
@@ -177,22 +177,22 @@ public partial class InintalizeDatabase : Migration
             name: "orders",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
-                status = table.Column<int>(type: "integer", nullable: false),
-                payment_method = table.Column<int>(type: "integer", nullable: false),
+                status = table.Column<int>(type: "integer", nullable: true),
+                payment_method = table.Column<int>(type: "integer", nullable: true),
                 customer_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(5341)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 342, DateTimeKind.Utc).AddTicks(1955)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(5760)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 342, DateTimeKind.Utc).AddTicks(2405)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
             {
                 table.PrimaryKey("pk_orders", x => x.id);
                 table.ForeignKey(
-                    name: "fk_orders_users_customer_id",
+                    name: "fk_orders_asp_net_users_customer_id",
                     column: x => x.customer_id,
                     principalTable: "AspNetUsers",
                     principalColumn: "id",
@@ -203,15 +203,15 @@ public partial class InintalizeDatabase : Migration
             name: "news",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                 detail = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                 image = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 category_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(1506)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 339, DateTimeKind.Utc).AddTicks(3526)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(1835)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 339, DateTimeKind.Utc).AddTicks(4086)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
@@ -229,15 +229,15 @@ public partial class InintalizeDatabase : Migration
             name: "posts",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 title = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                 detail = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
                 image = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 category_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 401, DateTimeKind.Utc).AddTicks(3766)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 354, DateTimeKind.Utc).AddTicks(5795)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 401, DateTimeKind.Utc).AddTicks(4147)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 354, DateTimeKind.Utc).AddTicks(8379)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
@@ -255,19 +255,19 @@ public partial class InintalizeDatabase : Migration
             name: "products",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                 product_code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                 detail = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
-                status = table.Column<int>(type: "integer", nullable: false),
+                status = table.Column<int>(type: "integer", nullable: true),
                 quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                 category_id = table.Column<Guid>(type: "uuid", nullable: true),
-                price = table.Column<ProductPrice>(type: "jsonb", nullable: false),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 401, DateTimeKind.Utc).AddTicks(7609)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 359, DateTimeKind.Utc).AddTicks(48)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 401, DateTimeKind.Utc).AddTicks(8110)),
-                version = table.Column<Guid>(type: "uuid", nullable: false)
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 359, DateTimeKind.Utc).AddTicks(1107)),
+                version = table.Column<Guid>(type: "uuid", nullable: false),
+                price = table.Column<string>(type: "jsonb", nullable: true)
             },
             constraints: table =>
             {
@@ -284,25 +284,25 @@ public partial class InintalizeDatabase : Migration
             name: "order_details",
             columns: table => new
             {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
-                price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                quantity = table.Column<int>(type: "integer", nullable: false),
                 product_id = table.Column<Guid>(type: "uuid", nullable: false),
                 order_id = table.Column<Guid>(type: "uuid", nullable: false),
+                price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                quantity = table.Column<int>(type: "integer", nullable: false),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(9088)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 346, DateTimeKind.Utc).AddTicks(6038)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 2, 28, 10, 58, 48, 400, DateTimeKind.Utc).AddTicks(9682)),
+                    defaultValue: new DateTime(2024, 3, 2, 17, 2, 24, 346, DateTimeKind.Utc).AddTicks(6757)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk_order_details", x => x.id);
+                table.PrimaryKey("pk_order_details", x => new { x.order_id, x.product_id });
                 table.ForeignKey(
                     name: "fk_order_details_orders_order_id",
                     column: x => x.order_id,
                     principalTable: "orders",
-                    principalColumn: "id");
+                    principalColumn: "id",
+                    onDelete: ReferentialAction.Cascade);
                 table.ForeignKey(
                     name: "fk_order_details_products_product_id",
                     column: x => x.product_id,
@@ -311,10 +311,13 @@ public partial class InintalizeDatabase : Migration
             });
 
         migrationBuilder.CreateTable(
-            name: "product_images",
+            name: "product_image",
             columns: table => new
             {
                 product_id = table.Column<Guid>(type: "uuid", nullable: false),
+                id = table.Column<int>(type: "integer", nullable: false)
+                    .Annotation("Npgsql:ValueGenerationStrategy",
+                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                 image_url = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                 alt = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
@@ -322,9 +325,9 @@ public partial class InintalizeDatabase : Migration
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk_product_images", x => x.product_id);
+                table.PrimaryKey("pk_product_image", x => new { x.product_id, x.id });
                 table.ForeignKey(
-                    name: "fk_product_images_products_product_id",
+                    name: "fk_product_image_products_product_id",
                     column: x => x.product_id,
                     principalTable: "products",
                     principalColumn: "id",
@@ -372,11 +375,6 @@ public partial class InintalizeDatabase : Migration
             name: "ix_news_category_id",
             table: "news",
             column: "category_id");
-
-        migrationBuilder.CreateIndex(
-            name: "ix_order_details_order_id",
-            table: "order_details",
-            column: "order_id");
 
         migrationBuilder.CreateIndex(
             name: "ix_order_details_product_id",
@@ -427,7 +425,7 @@ public partial class InintalizeDatabase : Migration
             name: "posts");
 
         migrationBuilder.DropTable(
-            name: "product_images");
+            name: "product_image");
 
         migrationBuilder.DropTable(
             name: "AspNetRoles");

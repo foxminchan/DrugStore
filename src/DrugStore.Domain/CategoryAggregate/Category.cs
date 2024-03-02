@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
 
@@ -19,6 +20,7 @@ public sealed class Category : AuditableEntityBase, IAggregateRoot
         Link = link;
     }
 
+    public CategoryId Id { get; set; } = new(Guid.NewGuid());
     public string? Title { get; set; }
     public string? Link { get; set; }
     public ICollection<Product>? Products { get; set; } = [];

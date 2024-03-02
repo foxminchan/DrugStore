@@ -2,11 +2,14 @@
 
 using System.Reflection;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 using NpgsqlTypes;
@@ -27,58 +30,78 @@ internal partial class PostEntityType
 
         var id = runtimeEntityType.AddProperty(
             "Id",
-            typeof(Guid),
-            propertyInfo: typeof(EntityBase).GetProperty("Id",
+            typeof(PostId),
+            propertyInfo: typeof(Post).GetProperty("Id",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(EntityBase).GetField("<Id>k__BackingField",
+            fieldInfo: typeof(Post).GetField("<Id>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             valueGenerated: ValueGenerated.OnAdd,
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         id.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<PostId>(
+                (PostId v1, PostId v2) => v1.Equals(v2),
+                (PostId v) => v.GetHashCode(),
+                (PostId v) => v),
+            keyComparer: new ValueComparer<PostId>(
+                (PostId v1, PostId v2) => v1.Equals(v2),
+                (PostId v) => v.GetHashCode(),
+                (PostId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<PostId, Guid>(
+                (PostId id) => id.Value,
+                (Guid value) => new PostId()),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<PostId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<PostId, Guid>(
+                    (PostId id) => id.Value,
+                    (Guid value) => new PostId())));
+        id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         id.AddAnnotation("Relational:ColumnName", "id");
+        id.AddAnnotation("Relational:DefaultValueSql", "uuid_generate_v4()");
 
         var categoryId = runtimeEntityType.AddProperty(
             "CategoryId",
-            typeof(Guid?),
+            typeof(CategoryId?),
             propertyInfo: typeof(Post).GetProperty("CategoryId",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(Post).GetField("<CategoryId>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             nullable: true);
         categoryId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid?>(
-                (Nullable<Guid> v1, Nullable<Guid> v2) =>
-                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
-                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
-                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
-            keyComparer: new ValueComparer<Guid?>(
-                (Nullable<Guid> v1, Nullable<Guid> v2) =>
-                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
-                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
-                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
-            providerValueComparer: new ValueComparer<Guid?>(
-                (Nullable<Guid> v1, Nullable<Guid> v2) =>
-                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
-                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
-                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+            comparer: new ValueComparer<CategoryId?>(
+                (Nullable<CategoryId> v1, Nullable<CategoryId> v2) =>
+                    v1.HasValue && v2.HasValue && ((CategoryId)v1).Equals((CategoryId)v2) ||
+                    !v1.HasValue && !v2.HasValue,
+                (Nullable<CategoryId> v) => v.HasValue ? ((CategoryId)v).GetHashCode() : 0,
+                (Nullable<CategoryId> v) =>
+                    v.HasValue ? (Nullable<CategoryId>)(CategoryId)v : default(Nullable<CategoryId>)),
+            keyComparer: new ValueComparer<CategoryId?>(
+                (Nullable<CategoryId> v1, Nullable<CategoryId> v2) =>
+                    v1.HasValue && v2.HasValue && ((CategoryId)v1).Equals((CategoryId)v2) ||
+                    !v1.HasValue && !v2.HasValue,
+                (Nullable<CategoryId> v) => v.HasValue ? ((CategoryId)v).GetHashCode() : 0,
+                (Nullable<CategoryId> v) =>
+                    v.HasValue ? (Nullable<CategoryId>)(CategoryId)v : default(Nullable<CategoryId>)),
+            providerValueComparer: new ValueComparer<Guid>(
+                (Guid v1, Guid v2) => v1 == v2,
+                (Guid v) => v.GetHashCode(),
+                (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<CategoryId, Guid>(
+                (CategoryId id) => id.Value,
+                (Guid value) => new CategoryId()),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CategoryId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<CategoryId, Guid>(
+                    (CategoryId id) => id.Value,
+                    (Guid value) => new CategoryId())));
         categoryId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         categoryId.AddAnnotation("Relational:ColumnName", "category_id");
 
@@ -107,7 +130,7 @@ internal partial class PostEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(6593));
+            new DateTime(2024, 3, 2, 17, 0, 46, 78, DateTimeKind.Utc).AddTicks(4941));
 
         var detail = runtimeEntityType.AddProperty(
             "Detail",
@@ -222,7 +245,7 @@ internal partial class PostEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(6974));
+            new DateTime(2024, 3, 2, 17, 0, 46, 78, DateTimeKind.Utc).AddTicks(5231));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

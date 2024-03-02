@@ -1,7 +1,9 @@
-﻿namespace DrugStore.Application.Categories.ViewModels;
+﻿using DrugStore.Domain.CategoryAggregate.Primitives;
+
+namespace DrugStore.Application.Categories.ViewModels;
 
 public sealed record PostVm(
-    Guid Id,
+    PostId Id,
     string Title,
     string Detail,
     string? Image,

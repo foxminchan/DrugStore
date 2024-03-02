@@ -17,6 +17,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             .HasAnnotation("ProductVersion", "8.0.2")
             .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
+        NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
         NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
         modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.Category", b =>
@@ -24,12 +25,13 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("Id")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasDefaultValueSql("uuid_generate_v4()");
 
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 122, DateTimeKind.Utc).AddTicks(7982))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 335, DateTimeKind.Utc).AddTicks(7394))
                 .HasColumnName("created_date");
 
             b.Property<string>("Link")
@@ -46,7 +48,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 124, DateTimeKind.Utc).AddTicks(618))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 336, DateTimeKind.Utc).AddTicks(9966))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -65,7 +67,8 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("Id")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasDefaultValueSql("uuid_generate_v4()");
 
             b.Property<Guid?>("CategoryId")
                 .HasColumnType("uuid")
@@ -74,7 +77,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 125, DateTimeKind.Utc).AddTicks(2594))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 339, DateTimeKind.Utc).AddTicks(3526))
                 .HasColumnName("created_date");
 
             b.Property<string>("Detail")
@@ -97,7 +100,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 125, DateTimeKind.Utc).AddTicks(3331))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 339, DateTimeKind.Utc).AddTicks(4086))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -119,7 +122,8 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("Id")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasDefaultValueSql("uuid_generate_v4()");
 
             b.Property<Guid?>("CategoryId")
                 .HasColumnType("uuid")
@@ -128,7 +132,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 129, DateTimeKind.Utc).AddTicks(2383))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 354, DateTimeKind.Utc).AddTicks(5795))
                 .HasColumnName("created_date");
 
             b.Property<string>("Detail")
@@ -151,7 +155,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 129, DateTimeKind.Utc).AddTicks(2981))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 354, DateTimeKind.Utc).AddTicks(8379))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -171,7 +175,6 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
         modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationRole", b =>
         {
             b.Property<Guid>("Id")
-                .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
                 .HasColumnName("id");
 
@@ -203,7 +206,6 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
         modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationUser", b =>
         {
             b.Property<Guid>("Id")
-                .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
                 .HasColumnName("id");
 
@@ -293,7 +295,8 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("Id")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasDefaultValueSql("uuid_generate_v4()");
 
             b.Property<string>("Code")
                 .HasMaxLength(20)
@@ -303,25 +306,25 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 126, DateTimeKind.Utc).AddTicks(8787))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 342, DateTimeKind.Utc).AddTicks(1955))
                 .HasColumnName("created_date");
 
             b.Property<Guid?>("CustomerId")
                 .HasColumnType("uuid")
                 .HasColumnName("customer_id");
 
-            b.Property<int>("PaymentMethod")
+            b.Property<int?>("PaymentMethod")
                 .HasColumnType("integer")
                 .HasColumnName("payment_method");
 
-            b.Property<int>("Status")
+            b.Property<int?>("Status")
                 .HasColumnType("integer")
                 .HasColumnName("status");
 
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 126, DateTimeKind.Utc).AddTicks(9430))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 342, DateTimeKind.Utc).AddTicks(2405))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -340,28 +343,25 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 
         modelBuilder.Entity("DrugStore.Domain.OrderAggregate.OrderItem", b =>
         {
-            b.Property<Guid>("Id")
+            b.Property<Guid>("OrderId")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("order_id");
+
+            b.Property<Guid>("ProductId")
+                .ValueGeneratedOnAdd()
+                .HasColumnType("uuid")
+                .HasColumnName("product_id");
 
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 127, DateTimeKind.Utc).AddTicks(9191))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 346, DateTimeKind.Utc).AddTicks(6038))
                 .HasColumnName("created_date");
-
-            b.Property<Guid?>("OrderId")
-                .HasColumnType("uuid")
-                .HasColumnName("order_id");
 
             b.Property<decimal>("Price")
                 .HasColumnType("decimal(18,2)")
                 .HasColumnName("price");
-
-            b.Property<Guid?>("ProductId")
-                .HasColumnType("uuid")
-                .HasColumnName("product_id");
 
             b.Property<int>("Quantity")
                 .HasColumnType("integer")
@@ -370,7 +370,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 127, DateTimeKind.Utc).AddTicks(9907))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 346, DateTimeKind.Utc).AddTicks(6757))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -378,11 +378,8 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                 .HasColumnType("uuid")
                 .HasColumnName("version");
 
-            b.HasKey("Id")
+            b.HasKey("OrderId", "ProductId")
                 .HasName("pk_order_details");
-
-            b.HasIndex("OrderId")
-                .HasDatabaseName("ix_order_details_order_id");
 
             b.HasIndex("ProductId")
                 .HasDatabaseName("ix_order_details_product_id");
@@ -395,7 +392,8 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<Guid>("Id")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("uuid")
-                .HasColumnName("id");
+                .HasColumnName("id")
+                .HasDefaultValueSql("uuid_generate_v4()");
 
             b.Property<Guid?>("CategoryId")
                 .HasColumnType("uuid")
@@ -404,7 +402,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime>("CreatedDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 130, DateTimeKind.Utc).AddTicks(2181))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 359, DateTimeKind.Utc).AddTicks(48))
                 .HasColumnName("created_date");
 
             b.Property<string>("Detail")
@@ -425,7 +423,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                 .HasDefaultValue(0)
                 .HasColumnName("quantity");
 
-            b.Property<int>("Status")
+            b.Property<int?>("Status")
                 .HasColumnType("integer")
                 .HasColumnName("status");
 
@@ -438,7 +436,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Property<DateTime?>("UpdateDate")
                 .ValueGeneratedOnAdd()
                 .HasColumnType("timestamp with time zone")
-                .HasDefaultValue(new DateTime(2024, 3, 2, 7, 12, 48, 130, DateTimeKind.Utc).AddTicks(2774))
+                .HasDefaultValue(new DateTime(2024, 3, 2, 17, 2, 24, 359, DateTimeKind.Utc).AddTicks(1107))
                 .HasColumnName("update_date");
 
             b.Property<Guid>("Version")
@@ -455,135 +453,145 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.ToTable("products", (string)null);
         });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-        {
-            b.Property<int>("Id")
-                .ValueGeneratedOnAdd()
-                .HasColumnType("integer")
-                .HasColumnName("id");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasColumnName("id");
 
-            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-            b.Property<string>("ClaimType")
-                .HasColumnType("text")
-                .HasColumnName("claim_type");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("text")
+                    .HasColumnName("claim_type");
 
-            b.Property<string>("ClaimValue")
-                .HasColumnType("text")
-                .HasColumnName("claim_value");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("text")
+                    .HasColumnName("claim_value");
 
-            b.Property<Guid>("RoleId")
-                .HasColumnType("uuid")
-                .HasColumnName("role_id");
+                b.Property<Guid>("RoleId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("role_id");
 
-            b.HasKey("Id")
-                .HasName("pk_asp_net_role_claims");
+                b.HasKey("Id")
+                    .HasName("pk_asp_net_role_claims");
 
-            b.HasIndex("RoleId")
-                .HasDatabaseName("ix_asp_net_role_claims_role_id");
+                b.HasIndex("RoleId")
+                    .HasDatabaseName("ix_asp_net_role_claims_role_id");
 
-            b.ToTable("AspNetRoleClaims", (string)null);
-        });
+                b.ToTable("AspNetRoleClaims", (string)null);
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-        {
-            b.Property<int>("Id")
-                .ValueGeneratedOnAdd()
-                .HasColumnType("integer")
-                .HasColumnName("id");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.Property<int>("Id")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("integer")
+                    .HasColumnName("id");
 
-            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-            b.Property<string>("ClaimType")
-                .HasColumnType("text")
-                .HasColumnName("claim_type");
+                b.Property<string>("ClaimType")
+                    .HasColumnType("text")
+                    .HasColumnName("claim_type");
 
-            b.Property<string>("ClaimValue")
-                .HasColumnType("text")
-                .HasColumnName("claim_value");
+                b.Property<string>("ClaimValue")
+                    .HasColumnType("text")
+                    .HasColumnName("claim_value");
 
-            b.Property<Guid>("UserId")
-                .HasColumnType("uuid")
-                .HasColumnName("user_id");
+                b.Property<Guid>("UserId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("user_id");
 
-            b.HasKey("Id")
-                .HasName("pk_asp_net_user_claims");
+                b.HasKey("Id")
+                    .HasName("pk_asp_net_user_claims");
 
-            b.HasIndex("UserId")
-                .HasDatabaseName("ix_asp_net_user_claims_user_id");
+                b.HasIndex("UserId")
+                    .HasDatabaseName("ix_asp_net_user_claims_user_id");
 
-            b.ToTable("AspNetUserClaims", (string)null);
-        });
+                b.ToTable("AspNetUserClaims", (string)null);
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-        {
-            b.Property<string>("LoginProvider")
-                .HasColumnType("text")
-                .HasColumnName("login_provider");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("text")
+                    .HasColumnName("login_provider");
 
-            b.Property<string>("ProviderKey")
-                .HasColumnType("text")
-                .HasColumnName("provider_key");
+                b.Property<string>("ProviderKey")
+                    .HasColumnType("text")
+                    .HasColumnName("provider_key");
 
-            b.Property<string>("ProviderDisplayName")
-                .HasColumnType("text")
-                .HasColumnName("provider_display_name");
+                b.Property<string>("ProviderDisplayName")
+                    .HasColumnType("text")
+                    .HasColumnName("provider_display_name");
 
-            b.Property<Guid>("UserId")
-                .HasColumnType("uuid")
-                .HasColumnName("user_id");
+                b.Property<Guid>("UserId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("user_id");
 
-            b.HasKey("LoginProvider", "ProviderKey")
-                .HasName("pk_asp_net_user_logins");
+                b.HasKey("LoginProvider", "ProviderKey")
+                    .HasName("pk_asp_net_user_logins");
 
-            b.HasIndex("UserId")
-                .HasDatabaseName("ix_asp_net_user_logins_user_id");
+                b.HasIndex("UserId")
+                    .HasDatabaseName("ix_asp_net_user_logins_user_id");
 
-            b.ToTable("AspNetUserLogins", (string)null);
-        });
+                b.ToTable("AspNetUserLogins", (string)null);
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-        {
-            b.Property<Guid>("UserId")
-                .HasColumnType("uuid")
-                .HasColumnName("user_id");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.Property<Guid>("UserId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("user_id");
 
-            b.Property<Guid>("RoleId")
-                .HasColumnType("uuid")
-                .HasColumnName("role_id");
+                b.Property<Guid>("RoleId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("role_id");
 
-            b.HasKey("UserId", "RoleId")
-                .HasName("pk_asp_net_user_roles");
+                b.HasKey("UserId", "RoleId")
+                    .HasName("pk_asp_net_user_roles");
 
-            b.HasIndex("RoleId")
-                .HasDatabaseName("ix_asp_net_user_roles_role_id");
+                b.HasIndex("RoleId")
+                    .HasDatabaseName("ix_asp_net_user_roles_role_id");
 
-            b.ToTable("AspNetUserRoles", (string)null);
-        });
+                b.ToTable("AspNetUserRoles", (string)null);
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-        {
-            b.Property<Guid>("UserId")
-                .HasColumnType("uuid")
-                .HasColumnName("user_id");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.Property<Guid>("UserId")
+                    .HasColumnType("uuid")
+                    .HasColumnName("user_id");
 
-            b.Property<string>("LoginProvider")
-                .HasColumnType("text")
-                .HasColumnName("login_provider");
+                b.Property<string>("LoginProvider")
+                    .HasColumnType("text")
+                    .HasColumnName("login_provider");
 
-            b.Property<string>("Name")
-                .HasColumnType("text")
-                .HasColumnName("name");
+                b.Property<string>("Name")
+                    .HasColumnType("text")
+                    .HasColumnName("name");
 
-            b.Property<string>("Value")
-                .HasColumnType("text")
-                .HasColumnName("value");
+                b.Property<string>("Value")
+                    .HasColumnType("text")
+                    .HasColumnName("value");
 
-            b.HasKey("UserId", "LoginProvider", "Name")
-                .HasName("pk_asp_net_user_tokens");
+                b.HasKey("UserId", "LoginProvider", "Name")
+                    .HasName("pk_asp_net_user_tokens");
 
-            b.ToTable("AspNetUserTokens", (string)null);
-        });
+                b.ToTable("AspNetUserTokens", (string)null);
+            });
 
         modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.News", b =>
         {
@@ -609,7 +617,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 
         modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationUser", b =>
         {
-            b.OwnsOne("DrugStore.Domain.IdentityAggregate.Address", "Address", b1 =>
+            b.OwnsOne("DrugStore.Domain.IdentityAggregate.ValueObjects.Address", "Address", b1 =>
             {
                 b1.Property<Guid>("ApplicationUserId")
                     .HasColumnType("uuid");
@@ -646,7 +654,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                 .WithMany("Orders")
                 .HasForeignKey("CustomerId")
                 .OnDelete(DeleteBehavior.SetNull)
-                .HasConstraintName("fk_orders_users_customer_id");
+                .HasConstraintName("fk_orders_asp_net_users_customer_id");
 
             b.Navigation("Customer");
         });
@@ -657,12 +665,14 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                 .WithMany("OrderItems")
                 .HasForeignKey("OrderId")
                 .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired()
                 .HasConstraintName("fk_order_details_orders_order_id");
 
             b.HasOne("DrugStore.Domain.ProductAggregate.Product", "Product")
                 .WithMany("OrderItems")
                 .HasForeignKey("ProductId")
                 .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired()
                 .HasConstraintName("fk_order_details_products_product_id");
 
             b.Navigation("Order");
@@ -678,7 +688,7 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
                 .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("fk_products_categories_category_id");
 
-            b.OwnsMany("DrugStore.Domain.ProductAggregate.ProductImage", "Images", b1 =>
+            b.OwnsMany("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", "Images", b1 =>
             {
                 b1.Property<Guid>("ProductId")
                     .HasColumnType("uuid")
@@ -716,14 +726,12 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
 
                 b1.ToTable("product_image", (string)null);
 
-                b1.WithOwner("Product")
+                b1.WithOwner()
                     .HasForeignKey("ProductId")
                     .HasConstraintName("fk_product_image_products_product_id");
-
-                b1.Navigation("Product");
             });
 
-            b.OwnsOne("DrugStore.Domain.ProductAggregate.ProductPrice", "Price", b1 =>
+            b.OwnsOne("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice", "Price", b1 =>
             {
                 b1.Property<Guid>("ProductId")
                     .HasColumnType("uuid");
@@ -755,62 +763,72 @@ partial class ApplicationDbContextModelSnapshot : ModelSnapshot
             b.Navigation("Price");
         });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
-        {
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationRole", null)
-                .WithMany()
-                .HasForeignKey("RoleId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id");
-        });
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_role_claims_asp_net_roles_role_id");
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
-        {
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
-                .WithMany()
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id");
-        });
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_user_claims_asp_net_users_user_id");
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
-        {
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
-                .WithMany()
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id");
-        });
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_user_logins_asp_net_users_user_id");
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
-        {
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationRole", null)
-                .WithMany()
-                .HasForeignKey("RoleId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id");
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationRole", null)
+                    .WithMany()
+                    .HasForeignKey("RoleId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_user_roles_asp_net_roles_role_id");
 
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
-                .WithMany()
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id");
-        });
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_user_roles_asp_net_users_user_id");
+            });
 
-        modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
-        {
-            b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
-                .WithMany()
-                .HasForeignKey("UserId")
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired()
-                .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
-        });
+        modelBuilder.Entity(
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            b =>
+            {
+                b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", null)
+                    .WithMany()
+                    .HasForeignKey("UserId")
+                    .OnDelete(DeleteBehavior.Cascade)
+                    .IsRequired()
+                    .HasConstraintName("fk_asp_net_user_tokens_asp_net_users_user_id");
+            });
 
         modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.Category", b =>
         {

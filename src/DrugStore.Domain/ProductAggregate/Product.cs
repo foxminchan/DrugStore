@@ -1,8 +1,10 @@
 ﻿using System.Text.Json.Serialization;
 using Ardalis.GuardClauses;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.ProductAggregate.Enums;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
@@ -23,7 +25,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         string? detail,
         bool status,
         int quantity,
-        Guid? categoryId,
+        CategoryId? categoryId,
         ProductPrice productPrice)
     {
         Title = Guard.Against.NullOrEmpty(title);
@@ -35,12 +37,13 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         Price = productPrice;
     }
 
+    public ProductId Id { get; set; } = new(Guid.NewGuid());
     public string? Title { get; set; }
     public string? ProductCode { get; set; }
     public string? Detail { get; set; }
-    public ProductStatus Status { get; set; }
+    public ProductStatus? Status { get; set; }
     public int Quantity { get; set; }
-    public Guid? CategoryId { get; set; }
+    public CategoryId? CategoryId { get; set; }
     public ProductPrice? Price { get; set; }
     [JsonIgnore] public Category? Category { get; set; }
     public ICollection<ProductImage>? Images { get; set; } = [];
@@ -51,7 +54,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         string? detail,
         bool status,
         int quantity,
-        Guid? categoryId,
+        CategoryId? categoryId,
         ProductPrice productPrice)
     {
         Title = Guard.Against.NullOrEmpty(title);

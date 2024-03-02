@@ -17,9 +17,9 @@ public partial class ApplicationDbContextModel
         var category = CategoryEntityType.Create(this);
         var news = NewsEntityType.Create(this);
         var post = PostEntityType.Create(this);
-        var address = AddressEntityType.Create(this);
         var applicationRole = ApplicationRoleEntityType.Create(this);
         var applicationUser = ApplicationUserEntityType.Create(this);
+        var address = AddressEntityType.Create(this);
         var order = OrderEntityType.Create(this);
         var orderItem = OrderItemEntityType.Create(this);
         var product = ProductEntityType.Create(this);
@@ -50,9 +50,9 @@ public partial class ApplicationDbContextModel
         CategoryEntityType.CreateAnnotations(category);
         NewsEntityType.CreateAnnotations(news);
         PostEntityType.CreateAnnotations(post);
-        AddressEntityType.CreateAnnotations(address);
         ApplicationRoleEntityType.CreateAnnotations(applicationRole);
         ApplicationUserEntityType.CreateAnnotations(applicationUser);
+        AddressEntityType.CreateAnnotations(address);
         OrderEntityType.CreateAnnotations(order);
         OrderItemEntityType.CreateAnnotations(orderItem);
         ProductEntityType.CreateAnnotations(product);
@@ -406,133 +406,10 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(update_dateColumn1, post.FindProperty("UpdateDate")!, postsTableMapping);
         RelationalModel.CreateColumnMapping(versionColumn1, post.FindProperty("Version")!, postsTableMapping);
 
-        var address = FindEntityType("DrugStore.Domain.IdentityAggregate.Address")!;
-
-        var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
-        address.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
-        var drugStoreDomainIdentityAggregateAddressTableBase =
-            new TableBase("DrugStore.Domain.IdentityAggregate.Address", null, relationalModel);
-        var addressColumnBase = new JsonColumnBase("address", "jsonb", drugStoreDomainIdentityAggregateAddressTableBase)
-        {
-            IsNullable = true
-        };
-        drugStoreDomainIdentityAggregateAddressTableBase.Columns.Add("address", addressColumnBase);
-        relationalModel.DefaultTables.Add("DrugStore.Domain.IdentityAggregate.Address",
-            drugStoreDomainIdentityAggregateAddressTableBase);
-        var drugStoreDomainIdentityAggregateAddressMappingBase =
-            new TableMappingBase<ColumnMappingBase>(address, drugStoreDomainIdentityAggregateAddressTableBase, true);
-        drugStoreDomainIdentityAggregateAddressTableBase.AddTypeMapping(
-            drugStoreDomainIdentityAggregateAddressMappingBase, false);
-        defaultTableMappings2.Add(drugStoreDomainIdentityAggregateAddressMappingBase);
-
-        var tableMappings2 = new List<TableMapping>();
-        address.SetRuntimeAnnotation("Relational:TableMappings", tableMappings2);
-        var aspNetUsersTable = new Table("AspNetUsers", null, relationalModel);
-        var idColumn2 = new Column("id", "uuid", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("id", idColumn2);
-        var access_failed_countColumn = new Column("access_failed_count", "integer", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("access_failed_count", access_failed_countColumn);
-        var addressColumn = new JsonColumn("address", "jsonb", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("address", addressColumn);
-        var concurrency_stampColumn = new Column("concurrency_stamp", "text", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("concurrency_stamp", concurrency_stampColumn);
-        var emailColumn = new Column("email", "character varying(256)", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("email", emailColumn);
-        var email_confirmedColumn = new Column("email_confirmed", "boolean", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("email_confirmed", email_confirmedColumn);
-        var full_nameColumn = new Column("full_name", "character varying(50)", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("full_name", full_nameColumn);
-        var lockout_enabledColumn = new Column("lockout_enabled", "boolean", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("lockout_enabled", lockout_enabledColumn);
-        var lockout_endColumn = new Column("lockout_end", "timestamp with time zone", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("lockout_end", lockout_endColumn);
-        var normalized_emailColumn = new Column("normalized_email", "character varying(256)", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("normalized_email", normalized_emailColumn);
-        var normalized_user_nameColumn = new Column("normalized_user_name", "character varying(256)", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("normalized_user_name", normalized_user_nameColumn);
-        var password_hashColumn = new Column("password_hash", "text", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("password_hash", password_hashColumn);
-        var phone_numberColumn = new Column("phone_number", "character varying(10)", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("phone_number", phone_numberColumn);
-        var phone_number_confirmedColumn = new Column("phone_number_confirmed", "boolean", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("phone_number_confirmed", phone_number_confirmedColumn);
-        var security_stampColumn = new Column("security_stamp", "text", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("security_stamp", security_stampColumn);
-        var two_factor_enabledColumn = new Column("two_factor_enabled", "boolean", aspNetUsersTable);
-        aspNetUsersTable.Columns.Add("two_factor_enabled", two_factor_enabledColumn);
-        var user_nameColumn = new Column("user_name", "character varying(256)", aspNetUsersTable)
-        {
-            IsNullable = true
-        };
-        aspNetUsersTable.Columns.Add("user_name", user_nameColumn);
-        var pk_asp_net_users = new UniqueConstraint("pk_asp_net_users", aspNetUsersTable, new[] { idColumn2 });
-        aspNetUsersTable.PrimaryKey = pk_asp_net_users;
-        var pk_asp_net_usersUc = RelationalModel.GetKey(this,
-            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
-            new[] { "Id" });
-        pk_asp_net_users.MappedKeys.Add(pk_asp_net_usersUc);
-        RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_usersUc).Add(pk_asp_net_users);
-        aspNetUsersTable.UniqueConstraints.Add("pk_asp_net_users", pk_asp_net_users);
-        var emailIndex = new TableIndex(
-            "EmailIndex", aspNetUsersTable, new[] { normalized_emailColumn }, false);
-        var emailIndexIx = RelationalModel.GetIndex(this,
-            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
-            new[] { "NormalizedEmail" });
-        emailIndex.MappedIndexes.Add(emailIndexIx);
-        RelationalModel.GetOrCreateTableIndexes(emailIndexIx).Add(emailIndex);
-        aspNetUsersTable.Indexes.Add("EmailIndex", emailIndex);
-        var userNameIndex = new TableIndex(
-            "UserNameIndex", aspNetUsersTable, new[] { normalized_user_nameColumn }, true);
-        var userNameIndexIx = RelationalModel.GetIndex(this,
-            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
-            new[] { "NormalizedUserName" });
-        userNameIndex.MappedIndexes.Add(userNameIndexIx);
-        RelationalModel.GetOrCreateTableIndexes(userNameIndexIx).Add(userNameIndex);
-        aspNetUsersTable.Indexes.Add("UserNameIndex", userNameIndex);
-        relationalModel.Tables.Add(("AspNetUsers", null), aspNetUsersTable);
-        var aspNetUsersTableMapping = new TableMapping(address, aspNetUsersTable, true)
-        {
-            IsSharedTablePrincipal = false
-        };
-        aspNetUsersTable.AddTypeMapping(aspNetUsersTableMapping, true);
-        tableMappings2.Add(aspNetUsersTableMapping);
-        aspNetUsersTable.AddRowInternalForeignKey(address, RelationalModel.GetForeignKey(this,
-            "DrugStore.Domain.IdentityAggregate.Address",
-            new[] { "ApplicationUserId" },
-            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
-            new[] { "Id" }));
-
         var applicationRole = FindEntityType("DrugStore.Domain.IdentityAggregate.ApplicationRole")!;
 
-        var defaultTableMappings3 = new List<TableMappingBase<ColumnMappingBase>>();
-        applicationRole.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings3);
+        var defaultTableMappings2 = new List<TableMappingBase<ColumnMappingBase>>();
+        applicationRole.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings2);
         var drugStoreDomainIdentityAggregateApplicationRoleTableBase =
             new TableBase("DrugStore.Domain.IdentityAggregate.ApplicationRole", null, relationalModel);
         var concurrency_stampColumnBase = new ColumnBase<ColumnMappingBase>("concurrency_stamp", "text",
@@ -565,7 +442,7 @@ public partial class ApplicationDbContextModel
                 drugStoreDomainIdentityAggregateApplicationRoleTableBase, true);
         drugStoreDomainIdentityAggregateApplicationRoleTableBase.AddTypeMapping(
             drugStoreDomainIdentityAggregateApplicationRoleMappingBase, false);
-        defaultTableMappings3.Add(drugStoreDomainIdentityAggregateApplicationRoleMappingBase);
+        defaultTableMappings2.Add(drugStoreDomainIdentityAggregateApplicationRoleMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase2,
             applicationRole.FindProperty("Id")!, drugStoreDomainIdentityAggregateApplicationRoleMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)concurrency_stampColumnBase,
@@ -577,16 +454,16 @@ public partial class ApplicationDbContextModel
             applicationRole.FindProperty("NormalizedName")!,
             drugStoreDomainIdentityAggregateApplicationRoleMappingBase);
 
-        var tableMappings3 = new List<TableMapping>();
-        applicationRole.SetRuntimeAnnotation("Relational:TableMappings", tableMappings3);
+        var tableMappings2 = new List<TableMapping>();
+        applicationRole.SetRuntimeAnnotation("Relational:TableMappings", tableMappings2);
         var aspNetRolesTable = new Table("AspNetRoles", null, relationalModel);
-        var idColumn3 = new Column("id", "uuid", aspNetRolesTable);
-        aspNetRolesTable.Columns.Add("id", idColumn3);
-        var concurrency_stampColumn0 = new Column("concurrency_stamp", "text", aspNetRolesTable)
+        var idColumn2 = new Column("id", "uuid", aspNetRolesTable);
+        aspNetRolesTable.Columns.Add("id", idColumn2);
+        var concurrency_stampColumn = new Column("concurrency_stamp", "text", aspNetRolesTable)
         {
             IsNullable = true
         };
-        aspNetRolesTable.Columns.Add("concurrency_stamp", concurrency_stampColumn0);
+        aspNetRolesTable.Columns.Add("concurrency_stamp", concurrency_stampColumn);
         var nameColumn = new Column("name", "character varying(256)", aspNetRolesTable)
         {
             IsNullable = true
@@ -597,7 +474,7 @@ public partial class ApplicationDbContextModel
             IsNullable = true
         };
         aspNetRolesTable.Columns.Add("normalized_name", normalized_nameColumn);
-        var pk_asp_net_roles = new UniqueConstraint("pk_asp_net_roles", aspNetRolesTable, new[] { idColumn3 });
+        var pk_asp_net_roles = new UniqueConstraint("pk_asp_net_roles", aspNetRolesTable, new[] { idColumn2 });
         aspNetRolesTable.PrimaryKey = pk_asp_net_roles;
         var pk_asp_net_rolesUc = RelationalModel.GetKey(this,
             "DrugStore.Domain.IdentityAggregate.ApplicationRole",
@@ -616,9 +493,9 @@ public partial class ApplicationDbContextModel
         relationalModel.Tables.Add(("AspNetRoles", null), aspNetRolesTable);
         var aspNetRolesTableMapping = new TableMapping(applicationRole, aspNetRolesTable, true);
         aspNetRolesTable.AddTypeMapping(aspNetRolesTableMapping, false);
-        tableMappings3.Add(aspNetRolesTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn3, applicationRole.FindProperty("Id")!, aspNetRolesTableMapping);
-        RelationalModel.CreateColumnMapping(concurrency_stampColumn0, applicationRole.FindProperty("ConcurrencyStamp")!,
+        tableMappings2.Add(aspNetRolesTableMapping);
+        RelationalModel.CreateColumnMapping(idColumn2, applicationRole.FindProperty("Id")!, aspNetRolesTableMapping);
+        RelationalModel.CreateColumnMapping(concurrency_stampColumn, applicationRole.FindProperty("ConcurrencyStamp")!,
             aspNetRolesTableMapping);
         RelationalModel.CreateColumnMapping(nameColumn, applicationRole.FindProperty("Name")!, aspNetRolesTableMapping);
         RelationalModel.CreateColumnMapping(normalized_nameColumn, applicationRole.FindProperty("NormalizedName")!,
@@ -626,8 +503,8 @@ public partial class ApplicationDbContextModel
 
         var applicationUser = FindEntityType("DrugStore.Domain.IdentityAggregate.ApplicationUser")!;
 
-        var defaultTableMappings4 = new List<TableMappingBase<ColumnMappingBase>>();
-        applicationUser.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings4);
+        var defaultTableMappings3 = new List<TableMappingBase<ColumnMappingBase>>();
+        applicationUser.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings3);
         var drugStoreDomainIdentityAggregateApplicationUserTableBase =
             new TableBase("DrugStore.Domain.IdentityAggregate.ApplicationUser", null, relationalModel);
         var access_failed_countColumnBase = new ColumnBase<ColumnMappingBase>("access_failed_count", "integer",
@@ -721,7 +598,7 @@ public partial class ApplicationDbContextModel
                 drugStoreDomainIdentityAggregateApplicationUserTableBase, true);
         drugStoreDomainIdentityAggregateApplicationUserTableBase.AddTypeMapping(
             drugStoreDomainIdentityAggregateApplicationUserMappingBase, false);
-        defaultTableMappings4.Add(drugStoreDomainIdentityAggregateApplicationUserMappingBase);
+        defaultTableMappings3.Add(drugStoreDomainIdentityAggregateApplicationUserMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase3,
             applicationUser.FindProperty("Id")!, drugStoreDomainIdentityAggregateApplicationUserMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)access_failed_countColumnBase,
@@ -763,45 +640,170 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)user_nameColumnBase,
             applicationUser.FindProperty("UserName")!, drugStoreDomainIdentityAggregateApplicationUserMappingBase);
 
-        var tableMappings4 = new List<TableMapping>();
-        applicationUser.SetRuntimeAnnotation("Relational:TableMappings", tableMappings4);
-        var aspNetUsersTableMapping0 = new TableMapping(applicationUser, aspNetUsersTable, true)
+        var tableMappings3 = new List<TableMapping>();
+        applicationUser.SetRuntimeAnnotation("Relational:TableMappings", tableMappings3);
+        var aspNetUsersTable = new Table("AspNetUsers", null, relationalModel);
+        var idColumn3 = new Column("id", "uuid", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("id", idColumn3);
+        var access_failed_countColumn = new Column("access_failed_count", "integer", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("access_failed_count", access_failed_countColumn);
+        var addressColumn = new JsonColumn("address", "jsonb", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("address", addressColumn);
+        var concurrency_stampColumn0 = new Column("concurrency_stamp", "text", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("concurrency_stamp", concurrency_stampColumn0);
+        var emailColumn = new Column("email", "character varying(256)", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("email", emailColumn);
+        var email_confirmedColumn = new Column("email_confirmed", "boolean", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("email_confirmed", email_confirmedColumn);
+        var full_nameColumn = new Column("full_name", "character varying(50)", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("full_name", full_nameColumn);
+        var lockout_enabledColumn = new Column("lockout_enabled", "boolean", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("lockout_enabled", lockout_enabledColumn);
+        var lockout_endColumn = new Column("lockout_end", "timestamp with time zone", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("lockout_end", lockout_endColumn);
+        var normalized_emailColumn = new Column("normalized_email", "character varying(256)", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("normalized_email", normalized_emailColumn);
+        var normalized_user_nameColumn = new Column("normalized_user_name", "character varying(256)", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("normalized_user_name", normalized_user_nameColumn);
+        var password_hashColumn = new Column("password_hash", "text", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("password_hash", password_hashColumn);
+        var phone_numberColumn = new Column("phone_number", "character varying(10)", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("phone_number", phone_numberColumn);
+        var phone_number_confirmedColumn = new Column("phone_number_confirmed", "boolean", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("phone_number_confirmed", phone_number_confirmedColumn);
+        var security_stampColumn = new Column("security_stamp", "text", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("security_stamp", security_stampColumn);
+        var two_factor_enabledColumn = new Column("two_factor_enabled", "boolean", aspNetUsersTable);
+        aspNetUsersTable.Columns.Add("two_factor_enabled", two_factor_enabledColumn);
+        var user_nameColumn = new Column("user_name", "character varying(256)", aspNetUsersTable)
+        {
+            IsNullable = true
+        };
+        aspNetUsersTable.Columns.Add("user_name", user_nameColumn);
+        var pk_asp_net_users = new UniqueConstraint("pk_asp_net_users", aspNetUsersTable, new[] { idColumn3 });
+        aspNetUsersTable.PrimaryKey = pk_asp_net_users;
+        var pk_asp_net_usersUc = RelationalModel.GetKey(this,
+            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
+            new[] { "Id" });
+        pk_asp_net_users.MappedKeys.Add(pk_asp_net_usersUc);
+        RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_usersUc).Add(pk_asp_net_users);
+        aspNetUsersTable.UniqueConstraints.Add("pk_asp_net_users", pk_asp_net_users);
+        var emailIndex = new TableIndex(
+            "EmailIndex", aspNetUsersTable, new[] { normalized_emailColumn }, false);
+        var emailIndexIx = RelationalModel.GetIndex(this,
+            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
+            new[] { "NormalizedEmail" });
+        emailIndex.MappedIndexes.Add(emailIndexIx);
+        RelationalModel.GetOrCreateTableIndexes(emailIndexIx).Add(emailIndex);
+        aspNetUsersTable.Indexes.Add("EmailIndex", emailIndex);
+        var userNameIndex = new TableIndex(
+            "UserNameIndex", aspNetUsersTable, new[] { normalized_user_nameColumn }, true);
+        var userNameIndexIx = RelationalModel.GetIndex(this,
+            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
+            new[] { "NormalizedUserName" });
+        userNameIndex.MappedIndexes.Add(userNameIndexIx);
+        RelationalModel.GetOrCreateTableIndexes(userNameIndexIx).Add(userNameIndex);
+        aspNetUsersTable.Indexes.Add("UserNameIndex", userNameIndex);
+        relationalModel.Tables.Add(("AspNetUsers", null), aspNetUsersTable);
+        var aspNetUsersTableMapping = new TableMapping(applicationUser, aspNetUsersTable, true)
         {
             IsSharedTablePrincipal = true
         };
-        aspNetUsersTable.AddTypeMapping(aspNetUsersTableMapping0, false);
-        tableMappings4.Add(aspNetUsersTableMapping0);
-        RelationalModel.CreateColumnMapping(idColumn2, applicationUser.FindProperty("Id")!, aspNetUsersTableMapping0);
+        aspNetUsersTable.AddTypeMapping(aspNetUsersTableMapping, false);
+        tableMappings3.Add(aspNetUsersTableMapping);
+        RelationalModel.CreateColumnMapping(idColumn3, applicationUser.FindProperty("Id")!, aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(access_failed_countColumn,
-            applicationUser.FindProperty("AccessFailedCount")!, aspNetUsersTableMapping0);
-        RelationalModel.CreateColumnMapping(concurrency_stampColumn, applicationUser.FindProperty("ConcurrencyStamp")!,
-            aspNetUsersTableMapping0);
+            applicationUser.FindProperty("AccessFailedCount")!, aspNetUsersTableMapping);
+        RelationalModel.CreateColumnMapping(concurrency_stampColumn0, applicationUser.FindProperty("ConcurrencyStamp")!,
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(emailColumn, applicationUser.FindProperty("Email")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(email_confirmedColumn, applicationUser.FindProperty("EmailConfirmed")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(full_nameColumn, applicationUser.FindProperty("FullName")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(lockout_enabledColumn, applicationUser.FindProperty("LockoutEnabled")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(lockout_endColumn, applicationUser.FindProperty("LockoutEnd")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(normalized_emailColumn, applicationUser.FindProperty("NormalizedEmail")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(normalized_user_nameColumn,
-            applicationUser.FindProperty("NormalizedUserName")!, aspNetUsersTableMapping0);
+            applicationUser.FindProperty("NormalizedUserName")!, aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(password_hashColumn, applicationUser.FindProperty("PasswordHash")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(phone_numberColumn, applicationUser.FindProperty("PhoneNumber")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(phone_number_confirmedColumn,
-            applicationUser.FindProperty("PhoneNumberConfirmed")!, aspNetUsersTableMapping0);
+            applicationUser.FindProperty("PhoneNumberConfirmed")!, aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(security_stampColumn, applicationUser.FindProperty("SecurityStamp")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(two_factor_enabledColumn, applicationUser.FindProperty("TwoFactorEnabled")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
         RelationalModel.CreateColumnMapping(user_nameColumn, applicationUser.FindProperty("UserName")!,
-            aspNetUsersTableMapping0);
+            aspNetUsersTableMapping);
+
+        var address = FindEntityType("DrugStore.Domain.IdentityAggregate.ValueObjects.Address")!;
+
+        var defaultTableMappings4 = new List<TableMappingBase<ColumnMappingBase>>();
+        address.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings4);
+        var drugStoreDomainIdentityAggregateValueObjectsAddressTableBase =
+            new TableBase("DrugStore.Domain.IdentityAggregate.ValueObjects.Address", null, relationalModel);
+        var addressColumnBase =
+            new JsonColumnBase("address", "jsonb", drugStoreDomainIdentityAggregateValueObjectsAddressTableBase)
+            {
+                IsNullable = true
+            };
+        drugStoreDomainIdentityAggregateValueObjectsAddressTableBase.Columns.Add("address", addressColumnBase);
+        relationalModel.DefaultTables.Add("DrugStore.Domain.IdentityAggregate.ValueObjects.Address",
+            drugStoreDomainIdentityAggregateValueObjectsAddressTableBase);
+        var drugStoreDomainIdentityAggregateValueObjectsAddressMappingBase =
+            new TableMappingBase<ColumnMappingBase>(address,
+                drugStoreDomainIdentityAggregateValueObjectsAddressTableBase, true);
+        drugStoreDomainIdentityAggregateValueObjectsAddressTableBase.AddTypeMapping(
+            drugStoreDomainIdentityAggregateValueObjectsAddressMappingBase, false);
+        defaultTableMappings4.Add(drugStoreDomainIdentityAggregateValueObjectsAddressMappingBase);
+
+        var tableMappings4 = new List<TableMapping>();
+        address.SetRuntimeAnnotation("Relational:TableMappings", tableMappings4);
+        var aspNetUsersTableMapping0 = new TableMapping(address, aspNetUsersTable, true)
+        {
+            IsSharedTablePrincipal = false
+        };
+        aspNetUsersTable.AddTypeMapping(aspNetUsersTableMapping0, true);
+        tableMappings4.Add(aspNetUsersTableMapping0);
+        aspNetUsersTable.AddRowInternalForeignKey(address, RelationalModel.GetForeignKey(this,
+            "DrugStore.Domain.IdentityAggregate.ValueObjects.Address",
+            new[] { "ApplicationUserId" },
+            "DrugStore.Domain.IdentityAggregate.ApplicationUser",
+            new[] { "Id" }));
 
         var order = FindEntityType("DrugStore.Domain.OrderAggregate.Order")!;
 
@@ -828,10 +830,16 @@ public partial class ApplicationDbContextModel
             new ColumnBase<ColumnMappingBase>("id", "uuid", drugStoreDomainOrderAggregateOrderTableBase);
         drugStoreDomainOrderAggregateOrderTableBase.Columns.Add("id", idColumnBase4);
         var payment_methodColumnBase =
-            new ColumnBase<ColumnMappingBase>("payment_method", "integer", drugStoreDomainOrderAggregateOrderTableBase);
+            new ColumnBase<ColumnMappingBase>("payment_method", "integer", drugStoreDomainOrderAggregateOrderTableBase)
+            {
+                IsNullable = true
+            };
         drugStoreDomainOrderAggregateOrderTableBase.Columns.Add("payment_method", payment_methodColumnBase);
         var statusColumnBase =
-            new ColumnBase<ColumnMappingBase>("status", "integer", drugStoreDomainOrderAggregateOrderTableBase);
+            new ColumnBase<ColumnMappingBase>("status", "integer", drugStoreDomainOrderAggregateOrderTableBase)
+            {
+                IsNullable = true
+            };
         drugStoreDomainOrderAggregateOrderTableBase.Columns.Add("status", statusColumnBase);
         var update_dateColumnBase2 = new ColumnBase<ColumnMappingBase>("update_date", "timestamp with time zone",
             drugStoreDomainOrderAggregateOrderTableBase)
@@ -883,9 +891,15 @@ public partial class ApplicationDbContextModel
             IsNullable = true
         };
         ordersTable.Columns.Add("customer_id", customer_idColumn);
-        var payment_methodColumn = new Column("payment_method", "integer", ordersTable);
+        var payment_methodColumn = new Column("payment_method", "integer", ordersTable)
+        {
+            IsNullable = true
+        };
         ordersTable.Columns.Add("payment_method", payment_methodColumn);
-        var statusColumn = new Column("status", "integer", ordersTable);
+        var statusColumn = new Column("status", "integer", ordersTable)
+        {
+            IsNullable = true
+        };
         ordersTable.Columns.Add("status", statusColumn);
         var update_dateColumn2 = new Column("update_date", "timestamp with time zone", ordersTable)
         {
@@ -934,24 +948,15 @@ public partial class ApplicationDbContextModel
         var created_dateColumnBase3 = new ColumnBase<ColumnMappingBase>("created_date", "timestamp with time zone",
             drugStoreDomainOrderAggregateOrderItemTableBase);
         drugStoreDomainOrderAggregateOrderItemTableBase.Columns.Add("created_date", created_dateColumnBase3);
-        var idColumnBase5 =
-            new ColumnBase<ColumnMappingBase>("id", "uuid", drugStoreDomainOrderAggregateOrderItemTableBase);
-        drugStoreDomainOrderAggregateOrderItemTableBase.Columns.Add("id", idColumnBase5);
         var order_idColumnBase =
-            new ColumnBase<ColumnMappingBase>("order_id", "uuid", drugStoreDomainOrderAggregateOrderItemTableBase)
-            {
-                IsNullable = true
-            };
+            new ColumnBase<ColumnMappingBase>("order_id", "uuid", drugStoreDomainOrderAggregateOrderItemTableBase);
         drugStoreDomainOrderAggregateOrderItemTableBase.Columns.Add("order_id", order_idColumnBase);
         var priceColumnBase =
             new ColumnBase<ColumnMappingBase>("price", "numeric(18,2)",
                 drugStoreDomainOrderAggregateOrderItemTableBase);
         drugStoreDomainOrderAggregateOrderItemTableBase.Columns.Add("price", priceColumnBase);
         var product_idColumnBase =
-            new ColumnBase<ColumnMappingBase>("product_id", "uuid", drugStoreDomainOrderAggregateOrderItemTableBase)
-            {
-                IsNullable = true
-            };
+            new ColumnBase<ColumnMappingBase>("product_id", "uuid", drugStoreDomainOrderAggregateOrderItemTableBase);
         drugStoreDomainOrderAggregateOrderItemTableBase.Columns.Add("product_id", product_idColumnBase);
         var quantityColumnBase =
             new ColumnBase<ColumnMappingBase>("quantity", "integer", drugStoreDomainOrderAggregateOrderItemTableBase);
@@ -972,16 +977,14 @@ public partial class ApplicationDbContextModel
         drugStoreDomainOrderAggregateOrderItemTableBase.AddTypeMapping(
             drugStoreDomainOrderAggregateOrderItemMappingBase, false);
         defaultTableMappings6.Add(drugStoreDomainOrderAggregateOrderItemMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase5, orderItem.FindProperty("Id")!,
-            drugStoreDomainOrderAggregateOrderItemMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_dateColumnBase3,
-            orderItem.FindProperty("CreatedDate")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)order_idColumnBase,
             orderItem.FindProperty("OrderId")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)priceColumnBase,
-            orderItem.FindProperty("Price")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_idColumnBase,
             orderItem.FindProperty("ProductId")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)created_dateColumnBase3,
+            orderItem.FindProperty("CreatedDate")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)priceColumnBase,
+            orderItem.FindProperty("Price")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)quantityColumnBase,
             orderItem.FindProperty("Quantity")!, drugStoreDomainOrderAggregateOrderItemMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)update_dateColumnBase3,
@@ -992,22 +995,14 @@ public partial class ApplicationDbContextModel
         var tableMappings6 = new List<TableMapping>();
         orderItem.SetRuntimeAnnotation("Relational:TableMappings", tableMappings6);
         var order_detailsTable = new Table("order_details", null, relationalModel);
-        var idColumn5 = new Column("id", "uuid", order_detailsTable);
-        order_detailsTable.Columns.Add("id", idColumn5);
+        var order_idColumn = new Column("order_id", "uuid", order_detailsTable);
+        order_detailsTable.Columns.Add("order_id", order_idColumn);
+        var product_idColumn = new Column("product_id", "uuid", order_detailsTable);
+        order_detailsTable.Columns.Add("product_id", product_idColumn);
         var created_dateColumn3 = new Column("created_date", "timestamp with time zone", order_detailsTable);
         order_detailsTable.Columns.Add("created_date", created_dateColumn3);
-        var order_idColumn = new Column("order_id", "uuid", order_detailsTable)
-        {
-            IsNullable = true
-        };
-        order_detailsTable.Columns.Add("order_id", order_idColumn);
         var priceColumn = new Column("price", "numeric(18,2)", order_detailsTable);
         order_detailsTable.Columns.Add("price", priceColumn);
-        var product_idColumn = new Column("product_id", "uuid", order_detailsTable)
-        {
-            IsNullable = true
-        };
-        order_detailsTable.Columns.Add("product_id", product_idColumn);
         var quantityColumn = new Column("quantity", "integer", order_detailsTable);
         order_detailsTable.Columns.Add("quantity", quantityColumn);
         var update_dateColumn3 = new Column("update_date", "timestamp with time zone", order_detailsTable)
@@ -1017,22 +1012,15 @@ public partial class ApplicationDbContextModel
         order_detailsTable.Columns.Add("update_date", update_dateColumn3);
         var versionColumn3 = new Column("version", "uuid", order_detailsTable);
         order_detailsTable.Columns.Add("version", versionColumn3);
-        var pk_order_details = new UniqueConstraint("pk_order_details", order_detailsTable, new[] { idColumn5 });
+        var pk_order_details = new UniqueConstraint("pk_order_details", order_detailsTable,
+            new[] { order_idColumn, product_idColumn });
         order_detailsTable.PrimaryKey = pk_order_details;
         var pk_order_detailsUc = RelationalModel.GetKey(this,
             "DrugStore.Domain.OrderAggregate.OrderItem",
-            new[] { "Id" });
+            new[] { "OrderId", "ProductId" });
         pk_order_details.MappedKeys.Add(pk_order_detailsUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_order_detailsUc).Add(pk_order_details);
         order_detailsTable.UniqueConstraints.Add("pk_order_details", pk_order_details);
-        var ix_order_details_order_id = new TableIndex(
-            "ix_order_details_order_id", order_detailsTable, new[] { order_idColumn }, false);
-        var ix_order_details_order_idIx = RelationalModel.GetIndex(this,
-            "DrugStore.Domain.OrderAggregate.OrderItem",
-            new[] { "OrderId" });
-        ix_order_details_order_id.MappedIndexes.Add(ix_order_details_order_idIx);
-        RelationalModel.GetOrCreateTableIndexes(ix_order_details_order_idIx).Add(ix_order_details_order_id);
-        order_detailsTable.Indexes.Add("ix_order_details_order_id", ix_order_details_order_id);
         var ix_order_details_product_id = new TableIndex(
             "ix_order_details_product_id", order_detailsTable, new[] { product_idColumn }, false);
         var ix_order_details_product_idIx = RelationalModel.GetIndex(this,
@@ -1045,14 +1033,13 @@ public partial class ApplicationDbContextModel
         var order_detailsTableMapping = new TableMapping(orderItem, order_detailsTable, true);
         order_detailsTable.AddTypeMapping(order_detailsTableMapping, false);
         tableMappings6.Add(order_detailsTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn5, orderItem.FindProperty("Id")!, order_detailsTableMapping);
-        RelationalModel.CreateColumnMapping(created_dateColumn3, orderItem.FindProperty("CreatedDate")!,
-            order_detailsTableMapping);
         RelationalModel.CreateColumnMapping(order_idColumn, orderItem.FindProperty("OrderId")!,
             order_detailsTableMapping);
-        RelationalModel.CreateColumnMapping(priceColumn, orderItem.FindProperty("Price")!, order_detailsTableMapping);
         RelationalModel.CreateColumnMapping(product_idColumn, orderItem.FindProperty("ProductId")!,
             order_detailsTableMapping);
+        RelationalModel.CreateColumnMapping(created_dateColumn3, orderItem.FindProperty("CreatedDate")!,
+            order_detailsTableMapping);
+        RelationalModel.CreateColumnMapping(priceColumn, orderItem.FindProperty("Price")!, order_detailsTableMapping);
         RelationalModel.CreateColumnMapping(quantityColumn, orderItem.FindProperty("Quantity")!,
             order_detailsTableMapping);
         RelationalModel.CreateColumnMapping(update_dateColumn3, orderItem.FindProperty("UpdateDate")!,
@@ -1078,9 +1065,9 @@ public partial class ApplicationDbContextModel
         var detailColumnBase1 = new ColumnBase<ColumnMappingBase>("detail", "character varying(500)",
             drugStoreDomainProductAggregateProductTableBase);
         drugStoreDomainProductAggregateProductTableBase.Columns.Add("detail", detailColumnBase1);
-        var idColumnBase6 =
+        var idColumnBase5 =
             new ColumnBase<ColumnMappingBase>("id", "uuid", drugStoreDomainProductAggregateProductTableBase);
-        drugStoreDomainProductAggregateProductTableBase.Columns.Add("id", idColumnBase6);
+        drugStoreDomainProductAggregateProductTableBase.Columns.Add("id", idColumnBase5);
         var product_codeColumnBase = new ColumnBase<ColumnMappingBase>("product_code", "character varying(20)",
             drugStoreDomainProductAggregateProductTableBase);
         drugStoreDomainProductAggregateProductTableBase.Columns.Add("product_code", product_codeColumnBase);
@@ -1088,7 +1075,10 @@ public partial class ApplicationDbContextModel
             new ColumnBase<ColumnMappingBase>("quantity", "integer", drugStoreDomainProductAggregateProductTableBase);
         drugStoreDomainProductAggregateProductTableBase.Columns.Add("quantity", quantityColumnBase0);
         var statusColumnBase0 =
-            new ColumnBase<ColumnMappingBase>("status", "integer", drugStoreDomainProductAggregateProductTableBase);
+            new ColumnBase<ColumnMappingBase>("status", "integer", drugStoreDomainProductAggregateProductTableBase)
+            {
+                IsNullable = true
+            };
         drugStoreDomainProductAggregateProductTableBase.Columns.Add("status", statusColumnBase0);
         var titleColumnBase2 = new ColumnBase<ColumnMappingBase>("title", "character varying(100)",
             drugStoreDomainProductAggregateProductTableBase);
@@ -1109,7 +1099,7 @@ public partial class ApplicationDbContextModel
         drugStoreDomainProductAggregateProductTableBase.AddTypeMapping(
             drugStoreDomainProductAggregateProductMappingBase, false);
         defaultTableMappings7.Add(drugStoreDomainProductAggregateProductMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase6, product.FindProperty("Id")!,
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase5, product.FindProperty("Id")!,
             drugStoreDomainProductAggregateProductMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)category_idColumnBase1,
             product.FindProperty("CategoryId")!, drugStoreDomainProductAggregateProductMappingBase);
@@ -1133,8 +1123,8 @@ public partial class ApplicationDbContextModel
         var tableMappings7 = new List<TableMapping>();
         product.SetRuntimeAnnotation("Relational:TableMappings", tableMappings7);
         var productsTable = new Table("products", null, relationalModel);
-        var idColumn6 = new Column("id", "uuid", productsTable);
-        productsTable.Columns.Add("id", idColumn6);
+        var idColumn5 = new Column("id", "uuid", productsTable);
+        productsTable.Columns.Add("id", idColumn5);
         var category_idColumn1 = new Column("category_id", "uuid", productsTable)
         {
             IsNullable = true
@@ -1153,7 +1143,10 @@ public partial class ApplicationDbContextModel
         productsTable.Columns.Add("product_code", product_codeColumn);
         var quantityColumn0 = new Column("quantity", "integer", productsTable);
         productsTable.Columns.Add("quantity", quantityColumn0);
-        var statusColumn0 = new Column("status", "integer", productsTable);
+        var statusColumn0 = new Column("status", "integer", productsTable)
+        {
+            IsNullable = true
+        };
         productsTable.Columns.Add("status", statusColumn0);
         var titleColumn2 = new Column("title", "character varying(100)", productsTable);
         productsTable.Columns.Add("title", titleColumn2);
@@ -1164,7 +1157,7 @@ public partial class ApplicationDbContextModel
         productsTable.Columns.Add("update_date", update_dateColumn4);
         var versionColumn4 = new Column("version", "uuid", productsTable);
         productsTable.Columns.Add("version", versionColumn4);
-        var pk_products = new UniqueConstraint("pk_products", productsTable, new[] { idColumn6 });
+        var pk_products = new UniqueConstraint("pk_products", productsTable, new[] { idColumn5 });
         productsTable.PrimaryKey = pk_products;
         var pk_productsUc = RelationalModel.GetKey(this,
             "DrugStore.Domain.ProductAggregate.Product",
@@ -1187,7 +1180,7 @@ public partial class ApplicationDbContextModel
         };
         productsTable.AddTypeMapping(productsTableMapping, false);
         tableMappings7.Add(productsTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn6, product.FindProperty("Id")!, productsTableMapping);
+        RelationalModel.CreateColumnMapping(idColumn5, product.FindProperty("Id")!, productsTableMapping);
         RelationalModel.CreateColumnMapping(category_idColumn1, product.FindProperty("CategoryId")!,
             productsTableMapping);
         RelationalModel.CreateColumnMapping(created_dateColumn4, product.FindProperty("CreatedDate")!,
@@ -1202,65 +1195,67 @@ public partial class ApplicationDbContextModel
             productsTableMapping);
         RelationalModel.CreateColumnMapping(versionColumn4, product.FindProperty("Version")!, productsTableMapping);
 
-        var productImage = FindEntityType("DrugStore.Domain.ProductAggregate.ProductImage")!;
+        var productImage = FindEntityType("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage")!;
 
         var defaultTableMappings8 = new List<TableMappingBase<ColumnMappingBase>>();
         productImage.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings8);
-        var drugStoreDomainProductAggregateProductImageTableBase =
-            new TableBase("DrugStore.Domain.ProductAggregate.ProductImage", null, relationalModel);
+        var drugStoreDomainProductAggregateValueObjectsProductImageTableBase =
+            new TableBase("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", null, relationalModel);
         var altColumnBase = new ColumnBase<ColumnMappingBase>("alt", "character varying(100)",
-            drugStoreDomainProductAggregateProductImageTableBase)
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase)
         {
             IsNullable = true
         };
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("alt", altColumnBase);
-        var idColumnBase7 =
-            new ColumnBase<ColumnMappingBase>("id", "integer", drugStoreDomainProductAggregateProductImageTableBase);
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("id", idColumnBase7);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("alt", altColumnBase);
+        var idColumnBase6 = new ColumnBase<ColumnMappingBase>("id", "integer",
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("id", idColumnBase6);
         var image_urlColumnBase = new ColumnBase<ColumnMappingBase>("image_url", "character varying(100)",
-            drugStoreDomainProductAggregateProductImageTableBase);
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("image_url", image_urlColumnBase);
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("image_url", image_urlColumnBase);
         var is_mainColumnBase = new ColumnBase<ColumnMappingBase>("is_main", "boolean",
-            drugStoreDomainProductAggregateProductImageTableBase);
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("is_main", is_mainColumnBase);
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("is_main", is_mainColumnBase);
         var product_idColumnBase0 = new ColumnBase<ColumnMappingBase>("product_id", "uuid",
-            drugStoreDomainProductAggregateProductImageTableBase);
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("product_id", product_idColumnBase0);
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("product_id",
+            product_idColumnBase0);
         var titleColumnBase3 = new ColumnBase<ColumnMappingBase>("title", "character varying(100)",
-            drugStoreDomainProductAggregateProductImageTableBase)
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase)
         {
             IsNullable = true
         };
-        drugStoreDomainProductAggregateProductImageTableBase.Columns.Add("title", titleColumnBase3);
-        relationalModel.DefaultTables.Add("DrugStore.Domain.ProductAggregate.ProductImage",
-            drugStoreDomainProductAggregateProductImageTableBase);
-        var drugStoreDomainProductAggregateProductImageMappingBase =
-            new TableMappingBase<ColumnMappingBase>(productImage, drugStoreDomainProductAggregateProductImageTableBase,
-                true);
-        drugStoreDomainProductAggregateProductImageTableBase.AddTypeMapping(
-            drugStoreDomainProductAggregateProductImageMappingBase, false);
-        defaultTableMappings8.Add(drugStoreDomainProductAggregateProductImageMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase7,
-            productImage.FindProperty("Id")!, drugStoreDomainProductAggregateProductImageMappingBase);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("title", titleColumnBase3);
+        relationalModel.DefaultTables.Add("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
+            drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+        var drugStoreDomainProductAggregateValueObjectsProductImageMappingBase =
+            new TableMappingBase<ColumnMappingBase>(productImage,
+                drugStoreDomainProductAggregateValueObjectsProductImageTableBase, true);
+        drugStoreDomainProductAggregateValueObjectsProductImageTableBase.AddTypeMapping(
+            drugStoreDomainProductAggregateValueObjectsProductImageMappingBase, false);
+        defaultTableMappings8.Add(drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase6,
+            productImage.FindProperty("Id")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_idColumnBase0,
-            productImage.FindProperty("ProductId")!, drugStoreDomainProductAggregateProductImageMappingBase);
+            productImage.FindProperty("ProductId")!,
+            drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)altColumnBase,
-            productImage.FindProperty("Alt")!, drugStoreDomainProductAggregateProductImageMappingBase);
+            productImage.FindProperty("Alt")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)image_urlColumnBase,
-            productImage.FindProperty("ImageUrl")!, drugStoreDomainProductAggregateProductImageMappingBase);
+            productImage.FindProperty("ImageUrl")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)is_mainColumnBase,
-            productImage.FindProperty("IsMain")!, drugStoreDomainProductAggregateProductImageMappingBase);
+            productImage.FindProperty("IsMain")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)titleColumnBase3,
-            productImage.FindProperty("Title")!, drugStoreDomainProductAggregateProductImageMappingBase);
+            productImage.FindProperty("Title")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
 
         var tableMappings8 = new List<TableMapping>();
         productImage.SetRuntimeAnnotation("Relational:TableMappings", tableMappings8);
         var product_imageTable = new Table("product_image", null, relationalModel);
         var product_idColumn0 = new Column("product_id", "uuid", product_imageTable);
         product_imageTable.Columns.Add("product_id", product_idColumn0);
-        var idColumn7 = new Column("id", "integer", product_imageTable);
-        product_imageTable.Columns.Add("id", idColumn7);
-        idColumn7.AddAnnotation("Npgsql:ValueGenerationStrategy",
+        var idColumn6 = new Column("id", "integer", product_imageTable);
+        product_imageTable.Columns.Add("id", idColumn6);
+        idColumn6.AddAnnotation("Npgsql:ValueGenerationStrategy",
             NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
         var altColumn = new Column("alt", "character varying(100)", product_imageTable)
         {
@@ -1277,10 +1272,10 @@ public partial class ApplicationDbContextModel
         };
         product_imageTable.Columns.Add("title", titleColumn3);
         var pk_product_image =
-            new UniqueConstraint("pk_product_image", product_imageTable, new[] { product_idColumn0, idColumn7 });
+            new UniqueConstraint("pk_product_image", product_imageTable, new[] { product_idColumn0, idColumn6 });
         product_imageTable.PrimaryKey = pk_product_image;
         var pk_product_imageUc = RelationalModel.GetKey(this,
-            "DrugStore.Domain.ProductAggregate.ProductImage",
+            "DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
             new[] { "ProductId", "Id" });
         pk_product_image.MappedKeys.Add(pk_product_imageUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_product_imageUc).Add(pk_product_image);
@@ -1289,7 +1284,7 @@ public partial class ApplicationDbContextModel
         var product_imageTableMapping = new TableMapping(productImage, product_imageTable, true);
         product_imageTable.AddTypeMapping(product_imageTableMapping, false);
         tableMappings8.Add(product_imageTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn7, productImage.FindProperty("Id")!, product_imageTableMapping);
+        RelationalModel.CreateColumnMapping(idColumn6, productImage.FindProperty("Id")!, product_imageTableMapping);
         RelationalModel.CreateColumnMapping(product_idColumn0, productImage.FindProperty("ProductId")!,
             product_imageTableMapping);
         RelationalModel.CreateColumnMapping(altColumn, productImage.FindProperty("Alt")!, product_imageTableMapping);
@@ -1300,26 +1295,26 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(titleColumn3, productImage.FindProperty("Title")!,
             product_imageTableMapping);
 
-        var productPrice = FindEntityType("DrugStore.Domain.ProductAggregate.ProductPrice")!;
+        var productPrice = FindEntityType("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice")!;
 
         var defaultTableMappings9 = new List<TableMappingBase<ColumnMappingBase>>();
         productPrice.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings9);
-        var drugStoreDomainProductAggregateProductPriceTableBase =
-            new TableBase("DrugStore.Domain.ProductAggregate.ProductPrice", null, relationalModel);
-        var priceColumnBase0 =
-            new JsonColumnBase("price", "jsonb", drugStoreDomainProductAggregateProductPriceTableBase)
-            {
-                IsNullable = true
-            };
-        drugStoreDomainProductAggregateProductPriceTableBase.Columns.Add("price", priceColumnBase0);
-        relationalModel.DefaultTables.Add("DrugStore.Domain.ProductAggregate.ProductPrice",
-            drugStoreDomainProductAggregateProductPriceTableBase);
-        var drugStoreDomainProductAggregateProductPriceMappingBase =
-            new TableMappingBase<ColumnMappingBase>(productPrice, drugStoreDomainProductAggregateProductPriceTableBase,
-                true);
-        drugStoreDomainProductAggregateProductPriceTableBase.AddTypeMapping(
-            drugStoreDomainProductAggregateProductPriceMappingBase, false);
-        defaultTableMappings9.Add(drugStoreDomainProductAggregateProductPriceMappingBase);
+        var drugStoreDomainProductAggregateValueObjectsProductPriceTableBase =
+            new TableBase("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice", null, relationalModel);
+        var priceColumnBase0 = new JsonColumnBase("price", "jsonb",
+            drugStoreDomainProductAggregateValueObjectsProductPriceTableBase)
+        {
+            IsNullable = true
+        };
+        drugStoreDomainProductAggregateValueObjectsProductPriceTableBase.Columns.Add("price", priceColumnBase0);
+        relationalModel.DefaultTables.Add("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice",
+            drugStoreDomainProductAggregateValueObjectsProductPriceTableBase);
+        var drugStoreDomainProductAggregateValueObjectsProductPriceMappingBase =
+            new TableMappingBase<ColumnMappingBase>(productPrice,
+                drugStoreDomainProductAggregateValueObjectsProductPriceTableBase, true);
+        drugStoreDomainProductAggregateValueObjectsProductPriceTableBase.AddTypeMapping(
+            drugStoreDomainProductAggregateValueObjectsProductPriceMappingBase, false);
+        defaultTableMappings9.Add(drugStoreDomainProductAggregateValueObjectsProductPriceMappingBase);
 
         var tableMappings9 = new List<TableMapping>();
         productPrice.SetRuntimeAnnotation("Relational:TableMappings", tableMappings9);
@@ -1330,62 +1325,77 @@ public partial class ApplicationDbContextModel
         productsTable.AddTypeMapping(productsTableMapping0, true);
         tableMappings9.Add(productsTableMapping0);
         productsTable.AddRowInternalForeignKey(productPrice, RelationalModel.GetForeignKey(this,
-            "DrugStore.Domain.ProductAggregate.ProductPrice",
+            "DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice",
             new[] { "ProductId" },
             "DrugStore.Domain.ProductAggregate.Product",
             new[] { "Id" }));
 
-        var identityRoleClaim = FindEntityType("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>")!;
+        var identityRoleClaim =
+            FindEntityType(
+                "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>")
+            !;
 
         var defaultTableMappings10 = new List<TableMappingBase<ColumnMappingBase>>();
         identityRoleClaim.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings10);
-        var microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase =
-            new TableBase("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", null, relationalModel);
+        var microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase =
+            new TableBase(
+                "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+                null, relationalModel);
         var claim_typeColumnBase = new ColumnBase<ColumnMappingBase>("claim_type", "text",
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase.Columns.Add("claim_type", claim_typeColumnBase);
+        microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("claim_type", claim_typeColumnBase);
         var claim_valueColumnBase = new ColumnBase<ColumnMappingBase>("claim_value", "text",
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase.Columns.Add("claim_value",
-            claim_valueColumnBase);
-        var idColumnBase8 = new ColumnBase<ColumnMappingBase>("id", "integer",
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase.Columns.Add("id", idColumnBase8);
+        microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("claim_value", claim_valueColumnBase);
+        var idColumnBase7 = new ColumnBase<ColumnMappingBase>("id", "integer",
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("id", idColumnBase7);
         var role_idColumnBase = new ColumnBase<ColumnMappingBase>("role_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase.Columns.Add("role_id", role_idColumnBase);
-        relationalModel.DefaultTables.Add("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>",
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase);
-        var microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase =
-            new TableMappingBase<ColumnMappingBase>(identityRoleClaim,
-                microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase, true);
-        microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidTableBase.AddTypeMapping(
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase, false);
-        defaultTableMappings10.Add(microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase8,
-            identityRoleClaim.FindProperty("Id")!, microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("role_id", role_idColumnBase);
+        relationalModel.DefaultTables.Add(
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        var
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase =
+                new TableMappingBase<ColumnMappingBase>(identityRoleClaim,
+                    microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase,
+                    true);
+        microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .AddTypeMapping(
+                microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase,
+                false);
+        defaultTableMappings10.Add(
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase7,
+            identityRoleClaim.FindProperty("Id")!,
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)claim_typeColumnBase,
             identityRoleClaim.FindProperty("ClaimType")!,
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)claim_valueColumnBase,
             identityRoleClaim.FindProperty("ClaimValue")!,
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)role_idColumnBase,
             identityRoleClaim.FindProperty("RoleId")!,
-            microsoftAspNetCoreIdentityIdentityRoleClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityRoleClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
 
         var tableMappings10 = new List<TableMapping>();
         identityRoleClaim.SetRuntimeAnnotation("Relational:TableMappings", tableMappings10);
         var aspNetRoleClaimsTable = new Table("AspNetRoleClaims", null, relationalModel);
-        var idColumn8 = new Column("id", "integer", aspNetRoleClaimsTable);
-        aspNetRoleClaimsTable.Columns.Add("id", idColumn8);
-        idColumn8.AddAnnotation("Npgsql:ValueGenerationStrategy",
+        var idColumn7 = new Column("id", "integer", aspNetRoleClaimsTable);
+        aspNetRoleClaimsTable.Columns.Add("id", idColumn7);
+        idColumn7.AddAnnotation("Npgsql:ValueGenerationStrategy",
             NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
         var claim_typeColumn = new Column("claim_type", "text", aspNetRoleClaimsTable)
         {
@@ -1400,10 +1410,10 @@ public partial class ApplicationDbContextModel
         var role_idColumn = new Column("role_id", "uuid", aspNetRoleClaimsTable);
         aspNetRoleClaimsTable.Columns.Add("role_id", role_idColumn);
         var pk_asp_net_role_claims =
-            new UniqueConstraint("pk_asp_net_role_claims", aspNetRoleClaimsTable, new[] { idColumn8 });
+            new UniqueConstraint("pk_asp_net_role_claims", aspNetRoleClaimsTable, new[] { idColumn7 });
         aspNetRoleClaimsTable.PrimaryKey = pk_asp_net_role_claims;
         var pk_asp_net_role_claimsUc = RelationalModel.GetKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "Id" });
         pk_asp_net_role_claims.MappedKeys.Add(pk_asp_net_role_claimsUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_role_claimsUc).Add(pk_asp_net_role_claims);
@@ -1411,7 +1421,7 @@ public partial class ApplicationDbContextModel
         var ix_asp_net_role_claims_role_id = new TableIndex(
             "ix_asp_net_role_claims_role_id", aspNetRoleClaimsTable, new[] { role_idColumn }, false);
         var ix_asp_net_role_claims_role_idIx = RelationalModel.GetIndex(this,
-            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "RoleId" });
         ix_asp_net_role_claims_role_id.MappedIndexes.Add(ix_asp_net_role_claims_role_idIx);
         RelationalModel.GetOrCreateTableIndexes(ix_asp_net_role_claims_role_idIx).Add(ix_asp_net_role_claims_role_id);
@@ -1420,7 +1430,7 @@ public partial class ApplicationDbContextModel
         var aspNetRoleClaimsTableMapping = new TableMapping(identityRoleClaim, aspNetRoleClaimsTable, true);
         aspNetRoleClaimsTable.AddTypeMapping(aspNetRoleClaimsTableMapping, false);
         tableMappings10.Add(aspNetRoleClaimsTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn8, identityRoleClaim.FindProperty("Id")!,
+        RelationalModel.CreateColumnMapping(idColumn7, identityRoleClaim.FindProperty("Id")!,
             aspNetRoleClaimsTableMapping);
         RelationalModel.CreateColumnMapping(claim_typeColumn, identityRoleClaim.FindProperty("ClaimType")!,
             aspNetRoleClaimsTableMapping);
@@ -1429,58 +1439,72 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(role_idColumn, identityRoleClaim.FindProperty("RoleId")!,
             aspNetRoleClaimsTableMapping);
 
-        var identityUserClaim = FindEntityType("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>")!;
+        var identityUserClaim =
+            FindEntityType(
+                "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>")
+            !;
 
         var defaultTableMappings11 = new List<TableMappingBase<ColumnMappingBase>>();
         identityUserClaim.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings11);
-        var microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase =
-            new TableBase("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", null, relationalModel);
+        var microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase =
+            new TableBase(
+                "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+                null, relationalModel);
         var claim_typeColumnBase0 = new ColumnBase<ColumnMappingBase>("claim_type", "text",
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase.Columns.Add("claim_type",
-            claim_typeColumnBase0);
+        microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("claim_type", claim_typeColumnBase0);
         var claim_valueColumnBase0 = new ColumnBase<ColumnMappingBase>("claim_value", "text",
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase.Columns.Add("claim_value",
-            claim_valueColumnBase0);
-        var idColumnBase9 = new ColumnBase<ColumnMappingBase>("id", "integer",
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase.Columns.Add("id", idColumnBase9);
+        microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("claim_value", claim_valueColumnBase0);
+        var idColumnBase8 = new ColumnBase<ColumnMappingBase>("id", "integer",
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("id", idColumnBase8);
         var user_idColumnBase = new ColumnBase<ColumnMappingBase>("user_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase.Columns.Add("user_id", user_idColumnBase);
-        relationalModel.DefaultTables.Add("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>",
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase);
-        var microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase =
-            new TableMappingBase<ColumnMappingBase>(identityUserClaim,
-                microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase, true);
-        microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidTableBase.AddTypeMapping(
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase, false);
-        defaultTableMappings11.Add(microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase);
-        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase9,
-            identityUserClaim.FindProperty("Id")!, microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("user_id", user_idColumnBase);
+        relationalModel.DefaultTables.Add(
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        var
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase =
+                new TableMappingBase<ColumnMappingBase>(identityUserClaim,
+                    microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase,
+                    true);
+        microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .AddTypeMapping(
+                microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase,
+                false);
+        defaultTableMappings11.Add(
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
+        RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase8,
+            identityUserClaim.FindProperty("Id")!,
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)claim_typeColumnBase0,
             identityUserClaim.FindProperty("ClaimType")!,
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)claim_valueColumnBase0,
             identityUserClaim.FindProperty("ClaimValue")!,
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)user_idColumnBase,
             identityUserClaim.FindProperty("UserId")!,
-            microsoftAspNetCoreIdentityIdentityUserClaimSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserClaimDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
 
         var tableMappings11 = new List<TableMapping>();
         identityUserClaim.SetRuntimeAnnotation("Relational:TableMappings", tableMappings11);
         var aspNetUserClaimsTable = new Table("AspNetUserClaims", null, relationalModel);
-        var idColumn9 = new Column("id", "integer", aspNetUserClaimsTable);
-        aspNetUserClaimsTable.Columns.Add("id", idColumn9);
-        idColumn9.AddAnnotation("Npgsql:ValueGenerationStrategy",
+        var idColumn8 = new Column("id", "integer", aspNetUserClaimsTable);
+        aspNetUserClaimsTable.Columns.Add("id", idColumn8);
+        idColumn8.AddAnnotation("Npgsql:ValueGenerationStrategy",
             NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
         var claim_typeColumn0 = new Column("claim_type", "text", aspNetUserClaimsTable)
         {
@@ -1495,10 +1519,10 @@ public partial class ApplicationDbContextModel
         var user_idColumn = new Column("user_id", "uuid", aspNetUserClaimsTable);
         aspNetUserClaimsTable.Columns.Add("user_id", user_idColumn);
         var pk_asp_net_user_claims =
-            new UniqueConstraint("pk_asp_net_user_claims", aspNetUserClaimsTable, new[] { idColumn9 });
+            new UniqueConstraint("pk_asp_net_user_claims", aspNetUserClaimsTable, new[] { idColumn8 });
         aspNetUserClaimsTable.PrimaryKey = pk_asp_net_user_claims;
         var pk_asp_net_user_claimsUc = RelationalModel.GetKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "Id" });
         pk_asp_net_user_claims.MappedKeys.Add(pk_asp_net_user_claimsUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_user_claimsUc).Add(pk_asp_net_user_claims);
@@ -1506,7 +1530,7 @@ public partial class ApplicationDbContextModel
         var ix_asp_net_user_claims_user_id = new TableIndex(
             "ix_asp_net_user_claims_user_id", aspNetUserClaimsTable, new[] { user_idColumn }, false);
         var ix_asp_net_user_claims_user_idIx = RelationalModel.GetIndex(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" });
         ix_asp_net_user_claims_user_id.MappedIndexes.Add(ix_asp_net_user_claims_user_idIx);
         RelationalModel.GetOrCreateTableIndexes(ix_asp_net_user_claims_user_idIx).Add(ix_asp_net_user_claims_user_id);
@@ -1515,7 +1539,7 @@ public partial class ApplicationDbContextModel
         var aspNetUserClaimsTableMapping = new TableMapping(identityUserClaim, aspNetUserClaimsTable, true);
         aspNetUserClaimsTable.AddTypeMapping(aspNetUserClaimsTableMapping, false);
         tableMappings11.Add(aspNetUserClaimsTableMapping);
-        RelationalModel.CreateColumnMapping(idColumn9, identityUserClaim.FindProperty("Id")!,
+        RelationalModel.CreateColumnMapping(idColumn8, identityUserClaim.FindProperty("Id")!,
             aspNetUserClaimsTableMapping);
         RelationalModel.CreateColumnMapping(claim_typeColumn0, identityUserClaim.FindProperty("ClaimType")!,
             aspNetUserClaimsTableMapping);
@@ -1524,50 +1548,62 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(user_idColumn, identityUserClaim.FindProperty("UserId")!,
             aspNetUserClaimsTableMapping);
 
-        var identityUserLogin = FindEntityType("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>")!;
+        var identityUserLogin =
+            FindEntityType(
+                "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>")
+            !;
 
         var defaultTableMappings12 = new List<TableMappingBase<ColumnMappingBase>>();
         identityUserLogin.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings12);
-        var microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase =
-            new TableBase("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", null, relationalModel);
+        var microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase =
+            new TableBase(
+                "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+                null, relationalModel);
         var login_providerColumnBase = new ColumnBase<ColumnMappingBase>("login_provider", "text",
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase.Columns.Add("login_provider",
-            login_providerColumnBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("login_provider", login_providerColumnBase);
         var provider_display_nameColumnBase = new ColumnBase<ColumnMappingBase>("provider_display_name", "text",
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase.Columns.Add("provider_display_name",
-            provider_display_nameColumnBase);
+        microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("provider_display_name", provider_display_nameColumnBase);
         var provider_keyColumnBase = new ColumnBase<ColumnMappingBase>("provider_key", "text",
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase.Columns.Add("provider_key",
-            provider_keyColumnBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("provider_key", provider_keyColumnBase);
         var user_idColumnBase0 = new ColumnBase<ColumnMappingBase>("user_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase.Columns.Add("user_id", user_idColumnBase0);
-        relationalModel.DefaultTables.Add("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>",
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase);
-        var microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase =
-            new TableMappingBase<ColumnMappingBase>(identityUserLogin,
-                microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase, true);
-        microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidTableBase.AddTypeMapping(
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase, false);
-        defaultTableMappings12.Add(microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("user_id", user_idColumnBase0);
+        relationalModel.DefaultTables.Add(
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        var
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase =
+                new TableMappingBase<ColumnMappingBase>(identityUserLogin,
+                    microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase,
+                    true);
+        microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .AddTypeMapping(
+                microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase,
+                false);
+        defaultTableMappings12.Add(
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)login_providerColumnBase,
             identityUserLogin.FindProperty("LoginProvider")!,
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)provider_keyColumnBase,
             identityUserLogin.FindProperty("ProviderKey")!,
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)provider_display_nameColumnBase,
             identityUserLogin.FindProperty("ProviderDisplayName")!,
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)user_idColumnBase0,
             identityUserLogin.FindProperty("UserId")!,
-            microsoftAspNetCoreIdentityIdentityUserLoginSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserLoginDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
 
         var tableMappings12 = new List<TableMapping>();
         identityUserLogin.SetRuntimeAnnotation("Relational:TableMappings", tableMappings12);
@@ -1587,7 +1623,7 @@ public partial class ApplicationDbContextModel
             new[] { login_providerColumn, provider_keyColumn });
         aspNetUserLoginsTable.PrimaryKey = pk_asp_net_user_logins;
         var pk_asp_net_user_loginsUc = RelationalModel.GetKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "LoginProvider", "ProviderKey" });
         pk_asp_net_user_logins.MappedKeys.Add(pk_asp_net_user_loginsUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_user_loginsUc).Add(pk_asp_net_user_logins);
@@ -1595,7 +1631,7 @@ public partial class ApplicationDbContextModel
         var ix_asp_net_user_logins_user_id = new TableIndex(
             "ix_asp_net_user_logins_user_id", aspNetUserLoginsTable, new[] { user_idColumn0 }, false);
         var ix_asp_net_user_logins_user_idIx = RelationalModel.GetIndex(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" });
         ix_asp_net_user_logins_user_id.MappedIndexes.Add(ix_asp_net_user_logins_user_idIx);
         RelationalModel.GetOrCreateTableIndexes(ix_asp_net_user_logins_user_idIx).Add(ix_asp_net_user_logins_user_id);
@@ -1613,30 +1649,44 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(user_idColumn0, identityUserLogin.FindProperty("UserId")!,
             aspNetUserLoginsTableMapping);
 
-        var identityUserRole = FindEntityType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>")!;
+        var identityUserRole =
+            FindEntityType(
+                "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>")
+            !;
 
         var defaultTableMappings13 = new List<TableMappingBase<ColumnMappingBase>>();
         identityUserRole.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings13);
-        var microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase =
-            new TableBase("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", null, relationalModel);
+        var microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase =
+            new TableBase(
+                "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+                null, relationalModel);
         var role_idColumnBase0 = new ColumnBase<ColumnMappingBase>("role_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase.Columns.Add("role_id", role_idColumnBase0);
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase.Columns
+            .Add("role_id", role_idColumnBase0);
         var user_idColumnBase1 = new ColumnBase<ColumnMappingBase>("user_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase.Columns.Add("user_id", user_idColumnBase1);
-        relationalModel.DefaultTables.Add("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>",
-            microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase);
-        var microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidMappingBase =
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase.Columns
+            .Add("user_id", user_idColumnBase1);
+        relationalModel.DefaultTables.Add(
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        var microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase =
             new TableMappingBase<ColumnMappingBase>(identityUserRole,
-                microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase, true);
-        microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidTableBase.AddTypeMapping(
-            microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidMappingBase, false);
-        defaultTableMappings13.Add(microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidMappingBase);
+                microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase,
+                true);
+        microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .AddTypeMapping(
+                microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase,
+                false);
+        defaultTableMappings13.Add(
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)role_idColumnBase0,
-            identityUserRole.FindProperty("RoleId")!, microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidMappingBase);
+            identityUserRole.FindProperty("RoleId")!,
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)user_idColumnBase1,
-            identityUserRole.FindProperty("UserId")!, microsoftAspNetCoreIdentityIdentityUserRoleSystemGuidMappingBase);
+            identityUserRole.FindProperty("UserId")!,
+            microsoftAspNetCoreIdentityIdentityUserRoleDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
 
         var tableMappings13 = new List<TableMapping>();
         identityUserRole.SetRuntimeAnnotation("Relational:TableMappings", tableMappings13);
@@ -1649,7 +1699,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn1, role_idColumn0 });
         aspNetUserRolesTable.PrimaryKey = pk_asp_net_user_roles;
         var pk_asp_net_user_rolesUc = RelationalModel.GetKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId", "RoleId" });
         pk_asp_net_user_roles.MappedKeys.Add(pk_asp_net_user_rolesUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_user_rolesUc).Add(pk_asp_net_user_roles);
@@ -1657,7 +1707,7 @@ public partial class ApplicationDbContextModel
         var ix_asp_net_user_roles_role_id = new TableIndex(
             "ix_asp_net_user_roles_role_id", aspNetUserRolesTable, new[] { role_idColumn0 }, false);
         var ix_asp_net_user_roles_role_idIx = RelationalModel.GetIndex(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "RoleId" });
         ix_asp_net_user_roles_role_id.MappedIndexes.Add(ix_asp_net_user_roles_role_idIx);
         RelationalModel.GetOrCreateTableIndexes(ix_asp_net_user_roles_role_idIx).Add(ix_asp_net_user_roles_role_id);
@@ -1671,47 +1721,62 @@ public partial class ApplicationDbContextModel
         RelationalModel.CreateColumnMapping(user_idColumn1, identityUserRole.FindProperty("UserId")!,
             aspNetUserRolesTableMapping);
 
-        var identityUserToken = FindEntityType("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>")!;
+        var identityUserToken =
+            FindEntityType(
+                "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>")
+            !;
 
         var defaultTableMappings14 = new List<TableMappingBase<ColumnMappingBase>>();
         identityUserToken.SetRuntimeAnnotation("Relational:DefaultMappings", defaultTableMappings14);
-        var microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase =
-            new TableBase("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", null, relationalModel);
+        var microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase =
+            new TableBase(
+                "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+                null, relationalModel);
         var login_providerColumnBase0 = new ColumnBase<ColumnMappingBase>("login_provider", "text",
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase.Columns.Add("login_provider",
-            login_providerColumnBase0);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("login_provider", login_providerColumnBase0);
         var nameColumnBase0 = new ColumnBase<ColumnMappingBase>("name", "text",
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase.Columns.Add("name", nameColumnBase0);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("name", nameColumnBase0);
         var user_idColumnBase2 = new ColumnBase<ColumnMappingBase>("user_id", "uuid",
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase);
-        microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase.Columns.Add("user_id", user_idColumnBase2);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("user_id", user_idColumnBase2);
         var valueColumnBase = new ColumnBase<ColumnMappingBase>("value", "text",
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase)
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase)
         {
             IsNullable = true
         };
-        microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase.Columns.Add("value", valueColumnBase);
-        relationalModel.DefaultTables.Add("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>",
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase);
-        var microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase =
-            new TableMappingBase<ColumnMappingBase>(identityUserToken,
-                microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase, true);
-        microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidTableBase.AddTypeMapping(
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase, false);
-        defaultTableMappings14.Add(microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase);
+        microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .Columns.Add("value", valueColumnBase);
+        relationalModel.DefaultTables.Add(
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase);
+        var
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase =
+                new TableMappingBase<ColumnMappingBase>(identityUserToken,
+                    microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase,
+                    true);
+        microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdTableBase
+            .AddTypeMapping(
+                microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase,
+                false);
+        defaultTableMappings14.Add(
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)login_providerColumnBase0,
             identityUserToken.FindProperty("LoginProvider")!,
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)nameColumnBase0,
-            identityUserToken.FindProperty("Name")!, microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase);
+            identityUserToken.FindProperty("Name")!,
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)user_idColumnBase2,
             identityUserToken.FindProperty("UserId")!,
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
         RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)valueColumnBase,
             identityUserToken.FindProperty("Value")!,
-            microsoftAspNetCoreIdentityIdentityUserTokenSystemGuidMappingBase);
+            microsoftAspNetCoreIdentityIdentityUserTokenDrugStoreDomainIdentityAggregatePrimitivesIdentityIdMappingBase);
 
         var tableMappings14 = new List<TableMapping>();
         identityUserToken.SetRuntimeAnnotation("Relational:TableMappings", tableMappings14);
@@ -1731,7 +1796,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn2, login_providerColumn0, nameColumn0 });
         aspNetUserTokensTable.PrimaryKey = pk_asp_net_user_tokens;
         var pk_asp_net_user_tokensUc = RelationalModel.GetKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId", "LoginProvider", "Name" });
         pk_asp_net_user_tokens.MappedKeys.Add(pk_asp_net_user_tokensUc);
         RelationalModel.GetOrCreateUniqueConstraints(pk_asp_net_user_tokensUc).Add(pk_asp_net_user_tokens);
@@ -1753,7 +1818,7 @@ public partial class ApplicationDbContextModel
             new[] { role_idColumn },
             aspNetRolesTable.FindUniqueConstraint("pk_asp_net_roles")!, ReferentialAction.Cascade);
         var fk_asp_net_role_claims_asp_net_roles_role_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityRoleClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "RoleId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationRole",
             new[] { "Id" });
@@ -1768,7 +1833,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn },
             aspNetUsersTable.FindUniqueConstraint("pk_asp_net_users")!, ReferentialAction.Cascade);
         var fk_asp_net_user_claims_asp_net_users_user_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserClaim<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationUser",
             new[] { "Id" });
@@ -1783,7 +1848,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn0 },
             aspNetUsersTable.FindUniqueConstraint("pk_asp_net_users")!, ReferentialAction.Cascade);
         var fk_asp_net_user_logins_asp_net_users_user_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserLogin<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationUser",
             new[] { "Id" });
@@ -1798,7 +1863,7 @@ public partial class ApplicationDbContextModel
             new[] { role_idColumn0 },
             aspNetRolesTable.FindUniqueConstraint("pk_asp_net_roles")!, ReferentialAction.Cascade);
         var fk_asp_net_user_roles_asp_net_roles_role_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "RoleId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationRole",
             new[] { "Id" });
@@ -1813,7 +1878,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn1 },
             aspNetUsersTable.FindUniqueConstraint("pk_asp_net_users")!, ReferentialAction.Cascade);
         var fk_asp_net_user_roles_asp_net_users_user_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationUser",
             new[] { "Id" });
@@ -1828,7 +1893,7 @@ public partial class ApplicationDbContextModel
             new[] { user_idColumn2 },
             aspNetUsersTable.FindUniqueConstraint("pk_asp_net_users")!, ReferentialAction.Cascade);
         var fk_asp_net_user_tokens_asp_net_users_user_idFk = RelationalModel.GetForeignKey(this,
-            "Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>",
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
             new[] { "UserId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationUser",
             new[] { "Id" });
@@ -1880,20 +1945,20 @@ public partial class ApplicationDbContextModel
             .Add(fk_order_details_products_product_id);
         order_detailsTable.ForeignKeyConstraints.Add(fk_order_details_products_product_id);
         productsTable.ReferencingForeignKeyConstraints.Add(fk_order_details_products_product_id);
-        var fk_orders_users_customer_id = new ForeignKeyConstraint(
-            "fk_orders_users_customer_id", ordersTable, aspNetUsersTable,
+        var fk_orders_asp_net_users_customer_id = new ForeignKeyConstraint(
+            "fk_orders_asp_net_users_customer_id", ordersTable, aspNetUsersTable,
             new[] { customer_idColumn },
             aspNetUsersTable.FindUniqueConstraint("pk_asp_net_users")!, ReferentialAction.SetNull);
-        var fk_orders_users_customer_idFk = RelationalModel.GetForeignKey(this,
+        var fk_orders_asp_net_users_customer_idFk = RelationalModel.GetForeignKey(this,
             "DrugStore.Domain.OrderAggregate.Order",
             new[] { "CustomerId" },
             "DrugStore.Domain.IdentityAggregate.ApplicationUser",
             new[] { "Id" });
-        fk_orders_users_customer_id.MappedForeignKeys.Add(fk_orders_users_customer_idFk);
-        RelationalModel.GetOrCreateForeignKeyConstraints(fk_orders_users_customer_idFk)
-            .Add(fk_orders_users_customer_id);
-        ordersTable.ForeignKeyConstraints.Add(fk_orders_users_customer_id);
-        aspNetUsersTable.ReferencingForeignKeyConstraints.Add(fk_orders_users_customer_id);
+        fk_orders_asp_net_users_customer_id.MappedForeignKeys.Add(fk_orders_asp_net_users_customer_idFk);
+        RelationalModel.GetOrCreateForeignKeyConstraints(fk_orders_asp_net_users_customer_idFk)
+            .Add(fk_orders_asp_net_users_customer_id);
+        ordersTable.ForeignKeyConstraints.Add(fk_orders_asp_net_users_customer_id);
+        aspNetUsersTable.ReferencingForeignKeyConstraints.Add(fk_orders_asp_net_users_customer_id);
         var fk_posts_categories_category_id = new ForeignKeyConstraint(
             "fk_posts_categories_category_id", postsTable, categoriesTable,
             new[] { category_idColumn0 },
@@ -1913,7 +1978,7 @@ public partial class ApplicationDbContextModel
             new[] { product_idColumn0 },
             productsTable.FindUniqueConstraint("pk_products")!, ReferentialAction.Cascade);
         var fk_product_image_products_product_idFk = RelationalModel.GetForeignKey(this,
-            "DrugStore.Domain.ProductAggregate.ProductImage",
+            "DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
             new[] { "ProductId" },
             "DrugStore.Domain.ProductAggregate.Product",
             new[] { "Id" });

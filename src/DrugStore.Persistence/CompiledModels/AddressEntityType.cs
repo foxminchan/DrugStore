@@ -3,11 +3,14 @@
 using System.Data;
 using System.Reflection;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable 219, 612, 618
@@ -20,30 +23,38 @@ internal partial class AddressEntityType
     public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
     {
         var runtimeEntityType = model.AddEntityType(
-            "DrugStore.Domain.IdentityAggregate.Address",
+            "DrugStore.Domain.IdentityAggregate.ValueObjects.Address",
             typeof(Address),
             baseEntityType);
 
         var applicationUserId = runtimeEntityType.AddProperty(
             "ApplicationUserId",
-            typeof(Guid),
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            typeof(IdentityId),
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         applicationUserId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
+            keyComparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<IdentityId, Guid>(
+                (IdentityId c) => c.Value,
+                (Guid c) => new IdentityId(c)),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<IdentityId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<IdentityId, Guid>(
+                    (IdentityId c) => c.Value,
+                    (Guid c) => new IdentityId(c))));
+        applicationUserId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         applicationUserId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
 
         var city = runtimeEntityType.AddProperty(

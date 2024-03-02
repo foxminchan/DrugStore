@@ -2,11 +2,14 @@
 
 using System.Reflection;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 using NpgsqlTypes;
@@ -21,30 +24,38 @@ internal partial class ProductImageEntityType
     public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
     {
         var runtimeEntityType = model.AddEntityType(
-            "DrugStore.Domain.ProductAggregate.ProductImage",
+            "DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
             typeof(ProductImage),
             baseEntityType);
 
         var productId = runtimeEntityType.AddProperty(
             "ProductId",
-            typeof(Guid),
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            typeof(ProductId),
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         productId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<ProductId>(
+                (ProductId v1, ProductId v2) => v1.Equals(v2),
+                (ProductId v) => v.GetHashCode(),
+                (ProductId v) => v),
+            keyComparer: new ValueComparer<ProductId>(
+                (ProductId v1, ProductId v2) => v1.Equals(v2),
+                (ProductId v) => v.GetHashCode(),
+                (ProductId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<ProductId, Guid>(
+                (ProductId id) => id.Value,
+                (Guid value) => new ProductId()),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<ProductId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<ProductId, Guid>(
+                    (ProductId id) => id.Value,
+                    (Guid value) => new ProductId())));
+        productId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         productId.AddAnnotation("Relational:ColumnName", "product_id");
 
@@ -201,15 +212,6 @@ internal partial class ProductImageEntityType
             deleteBehavior: DeleteBehavior.Cascade,
             required: true,
             ownership: true);
-
-        var product = declaringEntityType.AddNavigation("Product",
-            runtimeForeignKey,
-            onDependent: true,
-            typeof(Product),
-            propertyInfo: typeof(ProductImage).GetProperty("Product",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(ProductImage).GetField("<Product>k__BackingField",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
 
         var images = principalEntityType.AddNavigation("Images",
             runtimeForeignKey,

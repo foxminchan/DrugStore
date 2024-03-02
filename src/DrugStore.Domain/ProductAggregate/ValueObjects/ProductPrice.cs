@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DrugStore.Domain.ProductAggregate.ValueObjects;
 
 [Owned]
-public class ProductPrice(
+public sealed class ProductPrice(
     decimal originalPrice,
     decimal price,
     decimal? priceSale) : ValueObject

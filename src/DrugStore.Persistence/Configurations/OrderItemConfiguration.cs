@@ -4,11 +4,27 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DrugStore.Persistence.Configurations;
 
-public class OrderItemConfiguration : BaseConfiguration<OrderItem>
+public sealed class OrderItemConfiguration : BaseConfiguration<OrderItem>
 {
     public override void Configure(EntityTypeBuilder<OrderItem> builder)
     {
         base.Configure(builder);
+
+        builder.HasKey(e => new { e.OrderId, e.ProductId });
+
+        builder.Property(e => e.OrderId)
+            .HasConversion(
+                id => id.Value,
+                value => new()
+            )
+            .ValueGeneratedOnAdd();
+
+        builder.Property(e => e.ProductId)
+            .HasConversion(
+                id => id.Value,
+                value => new()
+            )
+            .ValueGeneratedOnAdd();
 
         builder.Property(oi => oi.Price)
             .HasColumnType("decimal(18,2)")

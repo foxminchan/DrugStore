@@ -1,16 +1,20 @@
 ﻿using System.Collections.Immutable;
+using System.Reflection;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using SmartEnum.EFCore;
 
 namespace DrugStore.Persistence;
 
 public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>(options), IDatabaseFacade, IDomainEventContext
+    : IdentityDbContext<ApplicationUser, ApplicationRole, IdentityId>(options), IDatabaseFacade, IDomainEventContext
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Category> Categories => Set<Category>();
@@ -37,7 +41,20 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        foreach (var entityType in builder.Model.GetEntityTypes())
+        {
+            var properties = entityType.ClrType.GetProperties(
+                BindingFlags.Public | BindingFlags.Instance
+            ).Where(prop => prop.PropertyType == typeof(IdentityId));
+
+            foreach (var prop in properties)
+                builder.Entity(entityType.Name).Property(prop.Name)
+                    .HasConversion(new ValueConverter<IdentityId, Guid>(c => c.Value, c => new(c)));
+        }
+
         base.OnModelCreating(builder);
+        builder.ConfigureSmartEnum();
+        builder.HasPostgresExtension(UniqueHelper.UuidExtension);
         builder.ApplyConfigurationsFromAssembly(AssemblyReference.DomainAssembly);
     }
 }

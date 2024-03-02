@@ -6,6 +6,8 @@ using DrugStore.Application.Products.Queries.GetByIdQuery;
 using DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 using DrugStore.Application.Products.Queries.GetListQuery;
 using DrugStore.Application.Products.ViewModels;
+using DrugStore.Domain.CategoryAggregate.Primitives;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
@@ -32,7 +34,7 @@ public sealed class ProductEndpoint : IEndpoint
 
     private static async Task<Result<ProductVm>> GetProductById(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] ProductId id,
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
@@ -44,12 +46,12 @@ public sealed class ProductEndpoint : IEndpoint
 
     private static async Task<Result<List<ProductVm>>> GetProductsByCategoryId(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] CategoryId id,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListByCategoryIdQuery(id, filter), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateProduct(
+    private static async Task<Result<ProductId>> CreateProduct(
         [FromServices] ISender sender,
         [FromBody] CreateProductCommand command,
         CancellationToken cancellationToken)
@@ -63,7 +65,7 @@ public sealed class ProductEndpoint : IEndpoint
 
     private static async Task<Result> DeleteProduct(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] ProductId id,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteProductCommand(id), cancellationToken);
 }

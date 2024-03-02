@@ -1,14 +1,15 @@
 ﻿using Ardalis.Result;
 using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Commands.CreateOrderCommand;
 
 public sealed class CreateOrderCommandHandler(Repository<Order> repository)
-    : IIdempotencyCommandHandler<CreateOrderCommand, Result<Guid>>
+    : IIdempotencyCommandHandler<CreateOrderCommand, Result<OrderId>>
 {
-    public async Task<Result<Guid>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
+    public async Task<Result<OrderId>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
         Order order = new(
             request.Request.Code,
@@ -22,6 +23,6 @@ public sealed class CreateOrderCommandHandler(Repository<Order> repository)
         );
         await repository.UpdateAsync(order, cancellationToken);
         order.AddOrder($"user:{request.Request.CustomerId}:cart");
-        return Result<Guid>.Success(order.Id);
+        return Result<OrderId>.Success(order.Id);
     }
 }

@@ -45,6 +45,8 @@ public sealed class ApplicationDbContextInitializer(
     {
         ApplicationRole admin = new(Roles.Admin);
 
+        logger.LogInformation("Admin role: {admin}", admin.Name);
+
         if (!await roleManager.RoleExistsAsync(Roles.Admin))
         {
             await roleManager.CreateAsync(admin);
@@ -63,14 +65,12 @@ public sealed class ApplicationDbContextInitializer(
 
         const string password = "P@ssw0rd";
 
-        ApplicationUser administrator = new()
-        {
-            UserName = "nguyenxuannhan@gmail.com",
-            Email = "nguyenxuannhan@gmail.com",
-            FullName = "Nguyen Xuan Nhan",
-            PhoneNumber = "0123456789",
-            Address = new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh")
-        };
+        ApplicationUser administrator = new(
+            "nguyenxuannhan@gmail.com",
+            "Nguyen Xuan Nhan",
+            "0123456789",
+            new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh")
+        );
 
         if (userManager.Users.All(u => u.UserName != administrator.UserName))
         {
@@ -78,14 +78,12 @@ public sealed class ApplicationDbContextInitializer(
             await userManager.AddToRoleAsync(administrator, admin.Name!);
         }
 
-        ApplicationUser user = new()
-        {
-            UserName = "lelavy@gmail.com",
-            Email = "lelavy@gmail.com",
-            FullName = "Le La Vy",
-            PhoneNumber = "0123456789",
-            Address = new("Xa Lo Ha Noi", "Thu Duc", "Ho Chi Minh")
-        };
+        ApplicationUser user = new(
+            "lelavy@gmail.com",
+            "Le La Vy",
+            "0123456789",
+            new("Xa Lo Ha Noi", "Thu Duc", "Ho Chi Minh")
+        );
 
         if (userManager.Users.All(u => u.UserName != user.UserName))
         {

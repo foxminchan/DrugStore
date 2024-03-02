@@ -1,9 +1,10 @@
-﻿using DrugStore.Domain.IdentityAggregate.ValueObjects;
+﻿using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.Domain.IdentityAggregate.ValueObjects;
 
 namespace DrugStore.Application.Users.ViewModels;
 
 public sealed record UserVm(
-    Guid Id,
+    IdentityId Id,
     string? Email,
     string? FullName,
     string? Phone,

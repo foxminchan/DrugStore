@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -8,9 +9,9 @@ using Microsoft.AspNetCore.Identity;
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
 
 public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userManager)
-    : IIdempotencyCommandHandler<CreateUserCommand, Result<Guid>>
+    : IIdempotencyCommandHandler<CreateUserCommand, Result<IdentityId>>
 {
-    public async Task<Result<Guid>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<IdentityId>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         if (userManager.Users.Any(u => u.UserName == request.UserRequest.Email))
             return Result.Invalid(new ValidationError(
@@ -20,14 +21,12 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
                 ValidationSeverity.Error
             ));
 
-        ApplicationUser user = new()
-        {
-            UserName = request.UserRequest.Email,
-            Email = request.UserRequest.Email,
-            FullName = request.UserRequest.FullName,
-            PhoneNumber = request.UserRequest.Phone,
-            Address = request.UserRequest.Address
-        };
+        ApplicationUser user = new(
+            request.UserRequest.Email,
+            request.UserRequest.FullName,
+            request.UserRequest.Phone,
+            request.UserRequest.Address
+        );
 
         var result = await userManager.CreateAsync(user, request.UserRequest.ConfirmPassword);
 
@@ -38,6 +37,6 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
 
         await userManager.AddToRoleAsync(user, Roles.Customer);
 
-        return Result<Guid>.Success(user.Id);
+        return Result<IdentityId>.Success(user.Id);
     }
 }

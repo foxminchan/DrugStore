@@ -1,13 +1,12 @@
-﻿using DrugStore.Domain.SharedKernel;
+﻿using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Domain.IdentityAggregate;
 
-public class ApplicationRole : IdentityRole<Guid>, IAggregateRoot
+public sealed class ApplicationRole : IdentityRole<IdentityId>, IAggregateRoot
 {
-    public ApplicationRole(string name) : base(name)
-    {
-    }
+    public ApplicationRole(string name) : base(name) => Id = new(Guid.NewGuid());
 
     /// <summary>
     ///     EF mapping constructor

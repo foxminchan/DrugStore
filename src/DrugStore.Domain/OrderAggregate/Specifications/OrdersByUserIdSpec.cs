@@ -1,12 +1,13 @@
 ﻿using System.Linq.Expressions;
 using Ardalis.Specification;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 
 namespace DrugStore.Domain.OrderAggregate.Specifications;
 
 public sealed class OrdersByUserIdSpec : Specification<Order>
 {
     public OrdersByUserIdSpec(
-        Guid userId,
+        IdentityId userId,
         int pageNumber,
         int pageSize,
         bool isAscending,

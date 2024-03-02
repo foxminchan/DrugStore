@@ -3,10 +3,13 @@
 using System.Data;
 using System.Reflection;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.Mapping;
 using NpgsqlTypes;
@@ -27,38 +30,45 @@ internal partial class ApplicationRoleEntityType
 
         var id = runtimeEntityType.AddProperty(
             "Id",
-            typeof(Guid),
-            propertyInfo: typeof(IdentityRole<Guid>).GetProperty("Id",
+            typeof(IdentityId),
+            propertyInfo: typeof(IdentityRole<IdentityId>).GetProperty("Id",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityRole<Guid>).GetField("<Id>k__BackingField",
+            fieldInfo: typeof(IdentityRole<IdentityId>).GetField("<Id>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            valueGenerated: ValueGenerated.OnAdd,
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         id.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
+            keyComparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<IdentityId, Guid>(
+                (IdentityId c) => c.Value,
+                (Guid c) => new IdentityId(c)),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<IdentityId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<IdentityId, Guid>(
+                    (IdentityId c) => c.Value,
+                    (Guid c) => new IdentityId(c))));
+        id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         id.AddAnnotation("Relational:ColumnName", "id");
 
         var concurrencyStamp = runtimeEntityType.AddProperty(
             "ConcurrencyStamp",
             typeof(string),
-            propertyInfo: typeof(IdentityRole<Guid>).GetProperty("ConcurrencyStamp",
+            propertyInfo: typeof(IdentityRole<IdentityId>).GetProperty("ConcurrencyStamp",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityRole<Guid>).GetField("<ConcurrencyStamp>k__BackingField",
+            fieldInfo: typeof(IdentityRole<IdentityId>).GetField("<ConcurrencyStamp>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             nullable: true,
             concurrencyToken: true);
@@ -83,9 +93,9 @@ internal partial class ApplicationRoleEntityType
         var name = runtimeEntityType.AddProperty(
             "Name",
             typeof(string),
-            propertyInfo: typeof(IdentityRole<Guid>).GetProperty("Name",
+            propertyInfo: typeof(IdentityRole<IdentityId>).GetProperty("Name",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityRole<Guid>).GetField("<Name>k__BackingField",
+            fieldInfo: typeof(IdentityRole<IdentityId>).GetField("<Name>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             nullable: true,
             maxLength: 256);
@@ -112,9 +122,9 @@ internal partial class ApplicationRoleEntityType
         var normalizedName = runtimeEntityType.AddProperty(
             "NormalizedName",
             typeof(string),
-            propertyInfo: typeof(IdentityRole<Guid>).GetProperty("NormalizedName",
+            propertyInfo: typeof(IdentityRole<IdentityId>).GetProperty("NormalizedName",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityRole<Guid>).GetField("<NormalizedName>k__BackingField",
+            fieldInfo: typeof(IdentityRole<IdentityId>).GetField("<NormalizedName>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             nullable: true,
             maxLength: 256);

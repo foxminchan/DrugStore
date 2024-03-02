@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.Domain.BasketAggregate;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using Medallion.Threading;
@@ -8,9 +9,9 @@ namespace DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 
 public sealed class CreateBasketCommandHandler(
     IRedisService redisService,
-    IDistributedLockProvider distributedLockProvider) : IIdempotencyCommandHandler<CreateBasketCommand, Result<Guid>>
+    IDistributedLockProvider distributedLockProvider) : IIdempotencyCommandHandler<CreateBasketCommand, Result<IdentityId>>
 {
-    public async Task<Result<Guid>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
+    public async Task<Result<IdentityId>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {
         BasketItem basketItem = new(
             request.BasketRequest.Item.Id,
@@ -31,6 +32,6 @@ public sealed class CreateBasketCommandHandler(
             basket.AddItem(basketItem);
         }
 
-        return Result<Guid>.Success(basket.Id);
+        return Result<IdentityId>.Success(basket.Id);
     }
 }

@@ -12,12 +12,10 @@ namespace DrugStore.Infrastructure.Swagger;
 public static class Extension
 {
     public static IServiceCollection AddOpenApi(this IServiceCollection services)
-    {
-        return services
+        => services
             .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()
             .AddFluentValidationRulesToSwagger()
-            .AddSwaggerGen(options => options.SchemaFilter<EnumSchemaFilter>());
-    }
+            .AddSwaggerGen(c => c.SchemaFilter<StronglyTypedIdFilter>());
 
     public static IApplicationBuilder UseOpenApi(this WebApplication app)
     {
@@ -39,8 +37,8 @@ public static class Extension
 
         app.UseSwaggerUI(c =>
         {
-            foreach (var (url, name) in from ApiVersionDescription desc 
-                                            in app.DescribeApiVersions() 
+            foreach (var (url, name) in from ApiVersionDescription desc
+                                            in app.DescribeApiVersions()
                                         let url = $"/swagger/{desc.GroupName}/swagger.json"
                                         let name = desc.GroupName.ToUpperInvariant()
                                         select (url, name))

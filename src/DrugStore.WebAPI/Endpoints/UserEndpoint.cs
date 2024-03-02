@@ -5,6 +5,7 @@ using DrugStore.Application.Users.Commands.UpdateUserCommand;
 using DrugStore.Application.Users.Queries.GetByIdQuery;
 using DrugStore.Application.Users.Queries.GetListQuery;
 using DrugStore.Application.Users.ViewModels;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -31,7 +32,7 @@ public sealed class UserEndpoint : IEndpoint
 
     private static async Task<Result<UserVm>> GetUserById(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] IdentityId id,
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
@@ -41,7 +42,7 @@ public sealed class UserEndpoint : IEndpoint
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateUser(
+    private static async Task<Result<IdentityId>> CreateUser(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -59,7 +60,7 @@ public sealed class UserEndpoint : IEndpoint
 
     private static async Task<Result> DeleteUser(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] IdentityId id,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteUserCommand(id), cancellationToken);
 }

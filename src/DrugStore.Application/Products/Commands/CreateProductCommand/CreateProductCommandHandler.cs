@@ -1,14 +1,15 @@
 ﻿using Ardalis.Result;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 
 public sealed class CreateProductCommandHandler(Repository<Product> repository)
-    : ICommandHandler<CreateProductCommand, Result<Guid>>
+    : ICommandHandler<CreateProductCommand, Result<ProductId>>
 {
-    public async Task<Result<Guid>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ProductId>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         Product product = new(
             request.Title,
@@ -22,6 +23,6 @@ public sealed class CreateProductCommandHandler(Repository<Product> repository)
 
         await repository.AddAsync(product, cancellationToken);
 
-        return Result<Guid>.Success(product.Id);
+        return Result<ProductId>.Success(product.Id);
     }
 }

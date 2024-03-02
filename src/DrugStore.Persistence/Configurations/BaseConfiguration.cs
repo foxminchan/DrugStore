@@ -9,8 +9,6 @@ public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEnt
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {
-        builder.HasKey(e => e.Id);
-
         builder.Property(e => e.CreatedDate)
             .HasDefaultValue(DateTime.UtcNow);
 

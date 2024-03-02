@@ -1,4 +1,6 @@
 ﻿using Ardalis.Result;
+using DrugStore.Domain.CategoryAggregate.Primitives;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
@@ -10,5 +12,5 @@ public sealed record CreateProductCommand(
     string? Detail,
     bool Status,
     int Quantity,
-    Guid? CategoryId,
-    ProductPrice ProductPrice) : ICommand<Result<Guid>>;
+    CategoryId? CategoryId,
+    ProductPrice ProductPrice) : ICommand<Result<ProductId>>;

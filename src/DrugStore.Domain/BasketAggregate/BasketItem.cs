@@ -1,16 +1,17 @@
 ﻿using Ardalis.GuardClauses;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.BasketAggregate;
 
-public sealed class BasketItem(Guid productId, string? productName, int quantity, decimal price) : AuditableEntityBase
+public sealed class BasketItem(ProductId productId, string? productName, int quantity, decimal price) : AuditableEntityBase
 {
-    public new Guid Id { get; private set; } = productId;
+    public ProductId Id { get; private set; } = productId;
     public string? ProductName { get; set; } = productName;
     public int Quantity { get; set; } = Guard.Against.NegativeOrZero(quantity);
     public decimal Price { get; set; } = Guard.Against.NegativeOrZero(price);
 
-    public void Update(Guid productId, string? productName, int quantity, decimal price)
+    public void Update(ProductId productId, string? productName, int quantity, decimal price)
     {
         Id = productId;
         ProductName = productName;

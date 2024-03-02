@@ -2,11 +2,14 @@
 
 using System.Data;
 using System.Reflection;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable 219, 612, 618
@@ -19,43 +22,51 @@ internal partial class IdentityUserTokenEntityType
     public static RuntimeEntityType Create(RuntimeModel model, RuntimeEntityType baseEntityType = null)
     {
         var runtimeEntityType = model.AddEntityType(
-            "Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>",
-            typeof(IdentityUserToken<Guid>),
+            "Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>",
+            typeof(IdentityUserToken<IdentityId>),
             baseEntityType);
 
         var userId = runtimeEntityType.AddProperty(
             "UserId",
-            typeof(Guid),
-            propertyInfo: typeof(IdentityUserToken<Guid>).GetProperty("UserId",
+            typeof(IdentityId),
+            propertyInfo: typeof(IdentityUserToken<IdentityId>).GetProperty("UserId",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityUserToken<Guid>).GetField("<UserId>k__BackingField",
+            fieldInfo: typeof(IdentityUserToken<IdentityId>).GetField("<UserId>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            afterSaveBehavior: PropertySaveBehavior.Throw,
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            afterSaveBehavior: PropertySaveBehavior.Throw);
         userId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
+            keyComparer: new ValueComparer<IdentityId>(
+                (IdentityId v1, IdentityId v2) => v1.Equals(v2),
+                (IdentityId v) => v.GetHashCode(),
+                (IdentityId v) => v),
             providerValueComparer: new ValueComparer<Guid>(
                 (Guid v1, Guid v2) => v1 == v2,
                 (Guid v) => v.GetHashCode(),
                 (Guid v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "uuid"));
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<IdentityId, Guid>(
+                (IdentityId c) => c.Value,
+                (Guid c) => new IdentityId(c)),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<IdentityId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<IdentityId, Guid>(
+                    (IdentityId c) => c.Value,
+                    (Guid c) => new IdentityId(c))));
+        userId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
         userId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         userId.AddAnnotation("Relational:ColumnName", "user_id");
 
         var loginProvider = runtimeEntityType.AddProperty(
             "LoginProvider",
             typeof(string),
-            propertyInfo: typeof(IdentityUserToken<Guid>).GetProperty("LoginProvider",
+            propertyInfo: typeof(IdentityUserToken<IdentityId>).GetProperty("LoginProvider",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityUserToken<Guid>).GetField("<LoginProvider>k__BackingField",
+            fieldInfo: typeof(IdentityUserToken<IdentityId>).GetField("<LoginProvider>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             afterSaveBehavior: PropertySaveBehavior.Throw);
         loginProvider.TypeMapping = StringTypeMapping.Default.Clone(
@@ -79,9 +90,9 @@ internal partial class IdentityUserTokenEntityType
         var name = runtimeEntityType.AddProperty(
             "Name",
             typeof(string),
-            propertyInfo: typeof(IdentityUserToken<Guid>).GetProperty("Name",
+            propertyInfo: typeof(IdentityUserToken<IdentityId>).GetProperty("Name",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityUserToken<Guid>).GetField("<Name>k__BackingField",
+            fieldInfo: typeof(IdentityUserToken<IdentityId>).GetField("<Name>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             afterSaveBehavior: PropertySaveBehavior.Throw);
         name.TypeMapping = StringTypeMapping.Default.Clone(
@@ -105,9 +116,9 @@ internal partial class IdentityUserTokenEntityType
         var value = runtimeEntityType.AddProperty(
             "Value",
             typeof(string),
-            propertyInfo: typeof(IdentityUserToken<Guid>).GetProperty("Value",
+            propertyInfo: typeof(IdentityUserToken<IdentityId>).GetProperty("Value",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(IdentityUserToken<Guid>).GetField("<Value>k__BackingField",
+            fieldInfo: typeof(IdentityUserToken<IdentityId>).GetField("<Value>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             nullable: true);
         value.TypeMapping = StringTypeMapping.Default.Clone(

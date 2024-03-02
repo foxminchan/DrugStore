@@ -1,16 +1,18 @@
-﻿using DrugStore.Domain.ProductAggregate.Enums;
+﻿using DrugStore.Domain.CategoryAggregate.Primitives;
+using DrugStore.Domain.ProductAggregate.Enums;
+using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 
 namespace DrugStore.Application.Products.ViewModels;
 
 public sealed record ProductVm(
-    Guid Id,
+    ProductId Id,
     string Title,
     string? ProductCode,
     string? Detail,
     ProductStatus Status,
     int Quantity,
-    Guid? CategoryId,
+    CategoryId? CategoryId,
     ProductPrice Price,
     DateTime CreatedDate,
     DateTime? UpdateDate,

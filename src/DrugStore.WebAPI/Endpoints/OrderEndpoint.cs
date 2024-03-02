@@ -6,6 +6,8 @@ using DrugStore.Application.Orders.Queries.GetByIdQuery;
 using DrugStore.Application.Orders.Queries.GetListByUserIdQuery;
 using DrugStore.Application.Orders.Queries.GetListQuery;
 using DrugStore.Application.Orders.ViewModels;
+using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -34,7 +36,7 @@ public sealed class OrderEndpoint : IEndpoint
 
     private static async Task<Result<OrderVm>> GetOrder(
         [FromServices] ISender sender,
-        [FromRoute] Guid orderId,
+        [FromRoute] OrderId orderId,
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(orderId), cancellationToken);
 
@@ -46,12 +48,12 @@ public sealed class OrderEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<OrderVm>>> GetOrdersByCustomer(
         [FromServices] ISender sender,
-        [FromRoute] Guid customerId,
+        [FromRoute] IdentityId customerId,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListByUserIdQuery(customerId, filter), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateOrder(
+    private static async Task<Result<OrderId>> CreateOrder(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -69,7 +71,7 @@ public sealed class OrderEndpoint : IEndpoint
 
     private static async Task<Result<Guid>> DeleteOrder(
         [FromServices] ISender sender,
-        [FromRoute] Guid orderId,
+        [FromRoute] OrderId orderId,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteOrderCommand(orderId), cancellationToken);
 }

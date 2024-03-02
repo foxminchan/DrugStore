@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Cloudinary;
 using DrugStore.Persistence;
@@ -9,9 +10,9 @@ namespace DrugStore.Application.Categories.Commands.CreateCategoryPostCommand;
 
 public sealed class CreateCategoryPostCommandHandler(
     Repository<Category> repository,
-    ICloudinaryService cloudinary) : IIdempotencyCommandHandler<CreateCategoryPostCommand, Result<Guid>>
+    ICloudinaryService cloudinary) : IIdempotencyCommandHandler<CreateCategoryPostCommand, Result<PostId>>
 {
-    public async Task<Result<Guid>> Handle(CreateCategoryPostCommand request, CancellationToken cancellationToken)
+    public async Task<Result<PostId>> Handle(CreateCategoryPostCommand request, CancellationToken cancellationToken)
     {
         var category = await repository.GetByIdAsync(request.PostRequest.CategoryId, cancellationToken);
         Guard.Against.NotFound(request.PostRequest.CategoryId, category);
@@ -32,6 +33,6 @@ public sealed class CreateCategoryPostCommandHandler(
         category.Posts?.Add(post);
         await repository.UpdateAsync(category, cancellationToken);
 
-        return Result<Guid>.Success(post.Id);
+        return Result<PostId>.Success(post.Id);
     }
 }

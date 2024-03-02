@@ -5,6 +5,7 @@ using DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
 using DrugStore.Application.Categories.Queries.GetByIdQuery;
 using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Application.Categories.ViewModels;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -31,7 +32,7 @@ public sealed class CategoryEndpoint : IEndpoint
 
     private static async Task<Result<CategoryVm>> GetCategoryById(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] CategoryId id,
         CancellationToken cancellationToken)
         => await sender.Send(new GetByIdQuery(id), cancellationToken);
 
@@ -40,7 +41,7 @@ public sealed class CategoryEndpoint : IEndpoint
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateCategory(
+    private static async Task<Result<CategoryId>> CreateCategory(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -58,7 +59,7 @@ public sealed class CategoryEndpoint : IEndpoint
 
     private static async Task<Result> DeleteCategory(
         [FromServices] ISender sender,
-        [FromRoute] Guid id,
+        [FromRoute] CategoryId id,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteCategoryCommand(id), cancellationToken);
 }

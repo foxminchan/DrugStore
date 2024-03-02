@@ -5,6 +5,7 @@ using DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 using DrugStore.Application.Baskets.Queries.GetByUserId;
 using DrugStore.Application.Baskets.ViewModels;
 using DrugStore.Domain.BasketAggregate;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -30,12 +31,12 @@ public sealed class BasketEndpoint : IEndpoint
 
     private static async Task<Result<BasketVm>> GetBasketByCustomerId(
         [FromServices] ISender sender,
-        [FromRoute] Guid customerId,
+        [FromRoute] IdentityId customerId,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetByUserId(customerId, filter), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateBasket(
+    private static async Task<Result<IdentityId>> CreateBasket(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -53,7 +54,7 @@ public sealed class BasketEndpoint : IEndpoint
 
     private static async Task<Result> DeleteBasket(
         [FromServices] ISender sender,
-        [FromRoute] Guid customerId,
+        [FromRoute] IdentityId customerId,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteBasketCommand(customerId), cancellationToken);
 }

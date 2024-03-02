@@ -5,6 +5,7 @@ using DrugStore.Application.Categories.Commands.UpdateCategoryNewsCommand;
 using DrugStore.Application.Categories.Queries.GetNewsByIdQuery;
 using DrugStore.Application.Categories.Queries.GetNewsListQuery;
 using DrugStore.Application.Categories.ViewModels;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
@@ -31,19 +32,19 @@ public sealed class NewsEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<NewsVm>>> GetNews(
         [FromServices] ISender sender,
-        [FromRoute] Guid categoryId,
+        [FromRoute] CategoryId categoryId,
         [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetNewsListQuery(categoryId, filter), cancellationToken);
 
     private static async Task<Result<NewsVm>> GetNewsById(
         [FromServices] ISender sender,
-        [FromRoute] Guid newsId,
-        [FromRoute] Guid categoryId,
+        [FromRoute] NewsId newsId,
+        [FromRoute] CategoryId categoryId,
         CancellationToken cancellationToken)
         => await sender.Send(new GetNewsByIdQuery(categoryId, newsId), cancellationToken);
 
-    private static async Task<Result<Guid>> CreateNews(
+    private static async Task<Result<NewsId>> CreateNews(
         [FromServices] ISender sender,
         [FromHeader(Name = "X-Idempotency-Key")]
         string idempotencyKey,
@@ -63,8 +64,8 @@ public sealed class NewsEndpoint : IEndpoint
 
     private static async Task<Result> DeleteNews(
         [FromServices] ISender sender,
-        [FromRoute] Guid categoryId,
-        [FromRoute] Guid newsId,
+        [FromRoute] CategoryId categoryId,
+        [FromRoute] NewsId newsId,
         CancellationToken cancellationToken)
         => await sender.Send(new DeleteCategoryNewsCommand(categoryId, newsId), cancellationToken);
 }

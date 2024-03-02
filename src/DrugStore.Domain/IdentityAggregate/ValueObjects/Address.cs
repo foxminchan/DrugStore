@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DrugStore.Domain.IdentityAggregate.ValueObjects;
 
 [Owned]
-public class Address(string street, string city, string province) : ValueObject
+public sealed class Address(string street, string city, string province) : ValueObject
 {
     public string Street { get; set; } = street;
     public string City { get; set; } = city;

@@ -1,7 +1,13 @@
-﻿namespace DrugStore.Domain.OrderAggregate.Enums;
+﻿using Ardalis.SmartEnum;
 
-public enum OrderStatus
+namespace DrugStore.Domain.OrderAggregate.Enums;
+
+public sealed class OrderStatus : SmartEnum<OrderStatus>
 {
-    Pending,
-    Completed
+    public static readonly OrderStatus Pending = new(1, nameof(Pending));
+    public static readonly OrderStatus Completed = new(2, nameof(Completed));
+
+    private OrderStatus(int id, string name) : base(name, id)
+    {
+    }
 }

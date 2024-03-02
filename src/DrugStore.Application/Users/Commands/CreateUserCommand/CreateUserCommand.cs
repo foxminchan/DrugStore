@@ -1,4 +1,5 @@
 ﻿using Ardalis.Result;
+using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
@@ -13,4 +14,4 @@ public sealed record UserCreateRequest(
     Address? Address);
 
 public sealed record CreateUserCommand(Guid RequestId, UserCreateRequest UserRequest)
-    : IdempotencyCommand<Result<Guid>>(RequestId);
+    : IdempotencyCommand<Result<IdentityId>>(RequestId);

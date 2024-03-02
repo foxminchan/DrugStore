@@ -1,7 +1,9 @@
-﻿namespace DrugStore.Application.Categories.ViewModels;
+﻿using DrugStore.Domain.CategoryAggregate.Primitives;
+
+namespace DrugStore.Application.Categories.ViewModels;
 
 public sealed record CategoryVm(
-    Guid Id,
+    CategoryId Id,
     string Title,
     string? Link,
     DateTime CreatedDate,
