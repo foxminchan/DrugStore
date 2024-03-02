@@ -10,20 +10,20 @@ public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderC
         UserByIdValidator userByIdValidator,
         IValidator<OrderItemCreateRequest> orderItemValidator)
     {
-        RuleFor(x => x.Code)
+        RuleFor(x => x.Order.Code)
             .MaximumLength(20);
 
-        RuleFor(x => x.Status)
+        RuleFor(x => x.Order.Status)
             .IsInEnum();
 
-        RuleFor(x => x.PaymentMethod)
+        RuleFor(x => x.Order.PaymentMethod)
             .IsInEnum();
 
         RuleFor(x => x.Items)
             .NotEmpty()
             .ForEach(x => x.SetValidator(orderItemValidator));
 
-        RuleFor(x => x.CustomerId)
+        RuleFor(x => x.Order.CustomerId)
             .NotEmpty()
             .SetValidator(userByIdValidator);
     }

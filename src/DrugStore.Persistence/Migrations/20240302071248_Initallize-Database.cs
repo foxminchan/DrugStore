@@ -189,7 +189,7 @@ public partial class InitallizeDatabase : Migration
         migrationBuilder.AddPrimaryKey(
             name: "pk_product_image",
             table: "product_image",
-            columns: new[] { "product_id", "id" });
+            columns: ["product_id", "id"]);
 
         migrationBuilder.AddForeignKey(
             name: "fk_order_details_orders_order_id",
@@ -319,7 +319,7 @@ public partial class InitallizeDatabase : Migration
             table: "order_details",
             type: "uuid",
             nullable: false,
-            defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+            defaultValue: Guid.Empty,
             oldClrType: typeof(Guid),
             oldType: "uuid",
             oldNullable: true);
@@ -329,7 +329,7 @@ public partial class InitallizeDatabase : Migration
             table: "order_details",
             type: "uuid",
             nullable: false,
-            defaultValue: new Guid("00000000-0000-0000-0000-000000000000"),
+            defaultValue: Guid.Empty,
             oldClrType: typeof(Guid),
             oldType: "uuid",
             oldNullable: true);

@@ -31,4 +31,12 @@ public sealed class Order : AuditableEntityBase, IAggregateRoot
     public ICollection<OrderItem> OrderItems { get; set; } = [];
 
     public void AddOrder(string key) => RegisterDomainEvent(new OrderCreatedEvent(key));
+
+    public void UpdateOrder(string? code, OrderStatus status, PaymentMethod paymentMethod, Guid? customerId)
+    {
+        Code = code;
+        Status = status;
+        PaymentMethod = Guard.Against.Null(paymentMethod);
+        CustomerId = customerId;
+    }
 }

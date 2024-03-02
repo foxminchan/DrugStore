@@ -33,7 +33,8 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
 
         if (!result.Succeeded)
             return Result.Invalid(new List<ValidationError>(
-                result.Errors.Select(e => new ValidationError(e.Description))));
+                result.Errors.Select(e => new ValidationError(e.Description))
+            ));
 
         await userManager.AddToRoleAsync(user, Roles.Customer);
 

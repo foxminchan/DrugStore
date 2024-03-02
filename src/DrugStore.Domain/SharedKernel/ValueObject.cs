@@ -1,29 +1,30 @@
 ﻿namespace DrugStore.Domain.SharedKernel;
 
 [Serializable]
-public abstract class ValueObject
+public abstract class ValueObject : IEquatable<ValueObject>
 {
-    protected static bool EqualOperator(ValueObject? left, ValueObject? right) 
-        => !(left is null ^ right is null) && left?.Equals(right!) != false;
+    public static bool operator ==(ValueObject? a, ValueObject? b)
+    {
+        if (a is null && b is null) return true;
 
-    protected static bool NotEqualOperator(ValueObject left, ValueObject right) => !EqualOperator(left, right);
+        if (a is null || b is null) return false;
+
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(ValueObject? a, ValueObject? b) => !(a == b);
 
     protected abstract IEnumerable<object> GetEqualityComponents();
 
-    public override bool Equals(object? obj)
-    {
-        if (obj == null || obj.GetType() != GetType()) return false;
+    public virtual bool Equals(ValueObject? other) => other is { } && ValuesAreEqual(other);
 
-        var other = (ValueObject)obj;
-        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
-    }
+    public override bool Equals(object? obj) => obj is ValueObject valueObject && ValuesAreEqual(valueObject);
 
     public override int GetHashCode()
-    {
-        HashCode hash = new();
+        => GetEqualityComponents().Aggregate(
+            default(int), (hashcode, value) => HashCode.Combine(hashcode, value.GetHashCode())
+        );
 
-        foreach (var component in GetEqualityComponents()) hash.Add(component);
-
-        return hash.ToHashCode();
-    }
+    private bool ValuesAreEqual(ValueObject valueObject)
+        => GetEqualityComponents().SequenceEqual(valueObject.GetEqualityComponents());
 }

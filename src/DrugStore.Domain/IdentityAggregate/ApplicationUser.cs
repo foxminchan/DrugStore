@@ -13,12 +13,12 @@ public class ApplicationUser : IdentityUser<Guid>, IAggregateRoot
 
     public ICollection<Order> Orders { get; set; } = [];
 
-    public void Update(string requestEmail, string? requestFullName, string? requestPhone, Address? requestAddress)
+    public void Update(string? email, string? fullName, string? phone, Address? address)
     {
-        Email = Guard.Against.NullOrEmpty(requestEmail);
-        UserName = Guard.Against.NullOrEmpty(requestEmail);
-        FullName = Guard.Against.NullOrEmpty(requestFullName);
-        PhoneNumber = Guard.Against.NullOrEmpty(requestPhone);
-        Address = requestAddress;
+        Email = Guard.Against.NullOrEmpty(email);
+        UserName = Guard.Against.NullOrEmpty(email);
+        FullName = Guard.Against.NullOrEmpty(fullName);
+        PhoneNumber = Guard.Against.NullOrEmpty(phone);
+        Address = address;
     }
 }

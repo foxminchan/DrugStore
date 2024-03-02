@@ -3,6 +3,7 @@ using Ardalis.Result;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Commands.UpdateUserCommand;
@@ -16,7 +17,12 @@ public sealed class UpdateUserCommandHandler(UserManager<ApplicationUser> userMa
         Guard.Against.NotFound(request.Id, user);
 
         if (userManager.Users.Any(u => u.Email == request.Email))
-            return Result.Invalid(new ValidationError("Email already exists"));
+            return Result.Invalid(new ValidationError(
+                nameof(request.Email),
+                "Email already exists",
+                StatusCodes.Status400BadRequest.ToString(),
+                ValidationSeverity.Error
+            ));
 
         user.Update(request.Email, request.FullName, request.Phone, request.Address);
 

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using DrugStore.Infrastructure.Cache;
 using DrugStore.Infrastructure.Idempotency.Behaviors;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.Validator;
@@ -25,6 +26,7 @@ public static class Extension
                     ServiceLifetime.Scoped);
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(TxBehavior<,>),
                     ServiceLifetime.Scoped);
+                cfg.AddOpenBehavior(typeof(QueryCachingBehavior<,>));
                 cfg.AddOpenBehavior(typeof(IdempotentCommandBehavior<,>));
             });
     }
