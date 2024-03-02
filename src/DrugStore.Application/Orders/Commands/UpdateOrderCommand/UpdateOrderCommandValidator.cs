@@ -8,31 +8,31 @@ public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderC
 {
     public UpdateOrderCommandValidator(
         UserByIdValidator userByIdValidator,
-        IValidator<OrderItemCreateRequest> orderItemValidator)
+        IValidator<OrderItemUpdateRequest> orderItemValidator)
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.Request.Id)
             .NotEmpty();
 
-        RuleFor(x => x.Code)
+        RuleFor(x => x.Request.Code)
             .MaximumLength(20);
 
-        RuleFor(x => x.Status)
+        RuleFor(x => x.Request.Status)
             .IsInEnum();
 
-        RuleFor(x => x.PaymentMethod)
+        RuleFor(x => x.Request.PaymentMethod)
             .IsInEnum();
 
-        RuleFor(x => x.Items)
+        RuleFor(x => x.Request.Items)
             .NotEmpty()
             .ForEach(x => x.SetValidator(orderItemValidator));
 
-        RuleFor(x => x.CustomerId)
+        RuleFor(x => x.Request.CustomerId)
             .NotEmpty()
             .SetValidator(userByIdValidator);
     }
 }
 
-public sealed class OrderItemCreateRequestValidator : AbstractValidator<OrderItemCreateRequest>
+public sealed class OrderItemCreateRequestValidator : AbstractValidator<OrderItemUpdateRequest>
 {
     public OrderItemCreateRequestValidator(ProductIdValidator productIdValidator)
     {

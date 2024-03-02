@@ -5,12 +5,14 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 
-public sealed record OrderItemCreateRequest(Guid? Id, int Quantity, decimal Price);
-
-public sealed record UpdateOrderCommand(
+public sealed record OrderUpdateRequest(
     Guid Id,
     string? Code,
     OrderStatus Status,
     PaymentMethod PaymentMethod,
     Guid? CustomerId,
-    List<OrderItemCreateRequest> Items) : ICommand<Result<OrderVm>>;
+    List<OrderItemUpdateRequest> Items);
+
+public sealed record OrderItemUpdateRequest(Guid? Id, int Quantity, decimal Price);
+
+public sealed record UpdateOrderCommand(OrderUpdateRequest Request) : ICommand<Result<OrderVm>>;

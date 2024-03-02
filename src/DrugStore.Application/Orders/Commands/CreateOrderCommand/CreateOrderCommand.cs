@@ -10,9 +10,8 @@ public sealed record OrderCreateRequest(
     string? Code,
     OrderStatus Status,
     PaymentMethod PaymentMethod,
-    Guid? CustomerId);
+    Guid? CustomerId,
+    List<OrderItemCreateRequest> Items);
 
-public sealed record CreateOrderCommand(
-    Guid RequestId,
-    OrderCreateRequest Order,
-    List<OrderItemCreateRequest> Items) : IdempotencyCommand<Result<Guid>>(RequestId);
+public sealed record CreateOrderCommand(Guid RequestId, OrderCreateRequest Request) 
+    : IdempotencyCommand<Result<Guid>>(RequestId);

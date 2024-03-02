@@ -16,7 +16,7 @@ public sealed class OrdersByUserIdSpec : Specification<Order>
         Query.Where(p => p.CustomerId == userId)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Include(o => o.OrderItems.Select(i => i.Order));
+            .Include(o => o.OrderItems);
 
         if (!string.IsNullOrWhiteSpace(code)) Query.Where(o => o.Code!.Contains(code));
 

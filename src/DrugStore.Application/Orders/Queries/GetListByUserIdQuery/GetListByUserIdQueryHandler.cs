@@ -4,7 +4,6 @@ using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
-using Mapster;
 
 namespace DrugStore.Application.Orders.Queries.GetListByUserIdQuery;
 
@@ -27,6 +26,32 @@ public sealed class GetListByUserIdQueryHandler(Repository<Order> repository)
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         PagedInfo pageInfo = new(request.Filter.PageNumber, request.Filter.PageSize, totalPages, totalRecords);
-        return new(pageInfo, entities.Adapt<List<OrderVm>>());
+
+        var orderVms = entities
+            .Select(
+                order => new OrderVm(
+                    order.Id,
+                    order.Code,
+                    order.Status,
+                    order.PaymentMethod,
+                    order.CustomerId,
+                    order.CreatedDate,
+                    order.UpdateDate,
+                    order.Version,
+                    order.OrderItems.Select(
+                        item => new OrderItemVm(
+                            item.ProductId,
+                            item.OrderId,
+                            item.Quantity,
+                            item.Price,
+                            item.CreatedDate,
+                            item.UpdateDate,
+                            item.Version
+                        )
+                    ).ToList()
+                )
+            ).ToList();
+
+        return new(pageInfo, orderVms);
     }
 }
