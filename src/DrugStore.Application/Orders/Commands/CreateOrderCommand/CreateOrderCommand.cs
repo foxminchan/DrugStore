@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result;
-using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.OrderAggregate.Enums;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Orders.Commands.CreateOrderCommand;

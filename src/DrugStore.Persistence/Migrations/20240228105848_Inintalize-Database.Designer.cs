@@ -3,7 +3,8 @@
 #nullable disable
 
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.IdentityAggregate.ValueObjects;
+using DrugStore.Domain.ProductAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;

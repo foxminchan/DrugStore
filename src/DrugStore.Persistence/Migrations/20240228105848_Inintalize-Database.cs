@@ -1,7 +1,8 @@
 ﻿#nullable disable
 
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.IdentityAggregate.ValueObjects;
+using DrugStore.Domain.ProductAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Orders.ViewModels;
-using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.OrderAggregate.Enums;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;

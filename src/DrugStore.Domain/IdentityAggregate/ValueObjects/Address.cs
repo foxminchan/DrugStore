@@ -1,7 +1,7 @@
 ﻿using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
-namespace DrugStore.Domain.IdentityAggregate;
+namespace DrugStore.Domain.IdentityAggregate.ValueObjects;
 
 [Owned]
 public class Address(string street, string city, string province) : ValueObject

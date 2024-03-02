@@ -2,6 +2,8 @@
 using Ardalis.GuardClauses;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.ProductAggregate.Enums;
+using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.ProductAggregate;

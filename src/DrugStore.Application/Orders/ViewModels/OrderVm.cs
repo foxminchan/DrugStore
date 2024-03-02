@@ -1,4 +1,4 @@
-﻿using DrugStore.Domain.OrderAggregate;
+﻿using DrugStore.Domain.OrderAggregate.Enums;
 
 namespace DrugStore.Application.Orders.ViewModels;
 

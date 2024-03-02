@@ -1,4 +1,4 @@
-﻿using DrugStore.Domain.IdentityAggregate;
+﻿using DrugStore.Domain.IdentityAggregate.ValueObjects;
 
 namespace DrugStore.Application.Users.ViewModels;
 

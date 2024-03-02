@@ -1,4 +1,4 @@
-﻿namespace DrugStore.Domain.ProductAggregate;
+﻿namespace DrugStore.Domain.ProductAggregate.Enums;
 
 public enum ProductStatus
 {

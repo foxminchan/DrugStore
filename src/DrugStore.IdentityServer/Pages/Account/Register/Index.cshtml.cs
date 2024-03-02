@@ -14,11 +14,7 @@ public class IndexModel(UserManager<ApplicationUser> userManager) : PageModel
 {
     [BindProperty] public RegisterViewModel Input { get; set; }
 
-
-    public void OnGet(string returnUrl)
-    {
-        Input = new() { ReturnUrl = returnUrl };
-    }
+    public void OnGet(string returnUrl) => Input = new() { ReturnUrl = returnUrl };
 
     public async Task<IActionResult> OnPost()
     {

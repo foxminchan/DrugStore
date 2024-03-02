@@ -1,4 +1,5 @@
-﻿using DrugStore.Domain.ProductAggregate;
+﻿using DrugStore.Domain.ProductAggregate.Enums;
+using DrugStore.Domain.ProductAggregate.ValueObjects;
 
 namespace DrugStore.Application.Products.ViewModels;
 

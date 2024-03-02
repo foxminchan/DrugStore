@@ -19,7 +19,9 @@ public static class Extension
 
         Guard.Against.Null(connectionString, message: "Connection string 'Postgres' not found.");
 
-        services.AddDbContextPool<ApplicationDbContext>(options =>
+        services.AddSingleton<AuditableEntityInterceptor>();
+
+        services.AddDbContextPool<ApplicationDbContext>((sp, options )=>
         {
             options.UseNpgsql(connectionString, sqlOptions =>
                 {
@@ -33,7 +35,7 @@ public static class Extension
                 .UseModel(ApplicationDbContextModel.Instance)
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-            options.AddInterceptors(new AuditableEntityInterceptor());
+            options.AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
 
             if (string.Equals(
                     Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),

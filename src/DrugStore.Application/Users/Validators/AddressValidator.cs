@@ -1,4 +1,4 @@
-﻿using DrugStore.Domain.IdentityAggregate;
+﻿using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Validators;

@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using DrugStore.Domain.SharedKernel;
 
-namespace DrugStore.Domain.ProductAggregate;
+namespace DrugStore.Domain.ProductAggregate.ValueObjects;
 
 public class ProductImage(string imageUrl, string? alt, string? title, bool isMain) : ValueObject
 {

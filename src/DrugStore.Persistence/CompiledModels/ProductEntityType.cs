@@ -3,6 +3,7 @@
 using System.Reflection;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

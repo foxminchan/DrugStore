@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result;
-using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;

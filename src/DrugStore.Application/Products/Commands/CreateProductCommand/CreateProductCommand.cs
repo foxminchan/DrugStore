@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result;
-using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;

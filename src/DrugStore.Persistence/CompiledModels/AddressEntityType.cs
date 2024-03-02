@@ -3,6 +3,7 @@
 using System.Data;
 using System.Reflection;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata;

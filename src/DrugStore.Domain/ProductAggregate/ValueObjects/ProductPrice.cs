@@ -1,7 +1,7 @@
 ﻿using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
-namespace DrugStore.Domain.ProductAggregate;
+namespace DrugStore.Domain.ProductAggregate.ValueObjects;
 
 [Owned]
 public class ProductPrice(
