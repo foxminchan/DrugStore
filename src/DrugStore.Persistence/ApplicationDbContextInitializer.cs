@@ -68,7 +68,8 @@ public sealed class ApplicationDbContextInitializer(
             UserName = "nguyenxuannhan@gmail.com",
             Email = "nguyenxuannhan@gmail.com",
             FullName = "Nguyen Xuan Nhan",
-            PhoneNumber = "0123456789"
+            PhoneNumber = "0123456789",
+            Address = new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh")
         };
 
         if (userManager.Users.All(u => u.UserName != administrator.UserName))
@@ -82,7 +83,8 @@ public sealed class ApplicationDbContextInitializer(
             UserName = "lelavy@gmail.com",
             Email = "lelavy@gmail.com",
             FullName = "Le La Vy",
-            PhoneNumber = "0123456789"
+            PhoneNumber = "0123456789",
+            Address = new("Xa Lo Ha Noi", "Thu Duc", "Ho Chi Minh")
         };
 
         if (userManager.Users.All(u => u.UserName != user.UserName))

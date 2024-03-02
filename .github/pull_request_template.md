@@ -6,8 +6,9 @@ Fixes # (issue) [Remove if not relevant]
 
 ## Project
 
-- [ ] Website
-- [ ] API
+- [ ] Frontend
+- [ ] Backend
+- [ ] Core (shared code)
 - [ ] Tests
 - [ ] Other... (please describe)
 

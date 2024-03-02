@@ -110,7 +110,7 @@ internal partial class ProductEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 122, DateTimeKind.Utc).AddTicks(3999));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(9636));
 
         var detail = runtimeEntityType.AddProperty(
             "Detail",
@@ -139,34 +139,6 @@ internal partial class ProductEntityType
         detail.TypeMapping = ((NpgsqlStringTypeMapping)detail.TypeMapping).Clone(npgsqlDbType: NpgsqlDbType.Varchar);
         detail.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         detail.AddAnnotation("Relational:ColumnName", "detail");
-
-        var price = runtimeEntityType.AddProperty(
-            "Price",
-            typeof(ProductPrice),
-            propertyInfo: typeof(Product).GetProperty("Price",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Product).GetField("<Price>k__BackingField",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            unicode: true);
-        price.TypeMapping = NpgsqlJsonTypeMapping.Default.Clone(
-            comparer: new ValueComparer<ProductPrice>(
-                (ProductPrice v1, ProductPrice v2) => Equals(v1, v2),
-                (ProductPrice v) => v.GetHashCode(),
-                (ProductPrice v) => v),
-            keyComparer: new ValueComparer<ProductPrice>(
-                (ProductPrice v1, ProductPrice v2) => Equals(v1, v2),
-                (ProductPrice v) => v.GetHashCode(),
-                (ProductPrice v) => v),
-            providerValueComparer: new ValueComparer<ProductPrice>(
-                (ProductPrice v1, ProductPrice v2) => Equals(v1, v2),
-                (ProductPrice v) => v.GetHashCode(),
-                (ProductPrice v) => v),
-            mappingInfo: new RelationalTypeMappingInfo(
-                unicode: true),
-            clrType: typeof(ProductPrice));
-        price.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-        price.AddAnnotation("Relational:ColumnName", "price");
-        price.AddAnnotation("Relational:ColumnType", "jsonb");
 
         var productCode = runtimeEntityType.AddProperty(
             "ProductCode",
@@ -315,7 +287,7 @@ internal partial class ProductEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 122, DateTimeKind.Utc).AddTicks(4426));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(9909));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

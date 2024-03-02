@@ -110,7 +110,7 @@ internal partial class OrderEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 120, DateTimeKind.Utc).AddTicks(7401));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(215));
 
         var customerId = runtimeEntityType.AddProperty(
             "CustomerId",
@@ -237,7 +237,7 @@ internal partial class OrderEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 120, DateTimeKind.Utc).AddTicks(8409));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(568));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

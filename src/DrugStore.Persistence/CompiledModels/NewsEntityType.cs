@@ -107,7 +107,7 @@ internal partial class NewsEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 120, DateTimeKind.Utc).AddTicks(2944));
+            new DateTime(2024, 3, 2, 5, 36, 52, 122, DateTimeKind.Utc).AddTicks(7173));
 
         var detail = runtimeEntityType.AddProperty(
             "Detail",
@@ -222,7 +222,7 @@ internal partial class NewsEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 120, DateTimeKind.Utc).AddTicks(3601));
+            new DateTime(2024, 3, 2, 5, 36, 52, 122, DateTimeKind.Utc).AddTicks(7493));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

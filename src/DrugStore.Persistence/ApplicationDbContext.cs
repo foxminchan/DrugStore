@@ -18,7 +18,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<OrderItem> OrderDetails => Set<OrderItem>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<News> News => Set<News>();
-    public DbSet<ProductImage> ProductImages => Set<ProductImage>();
 
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {

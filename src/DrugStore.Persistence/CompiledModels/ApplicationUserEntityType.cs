@@ -79,35 +79,6 @@ internal partial class ApplicationUserEntityType
         accessFailedCount.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         accessFailedCount.AddAnnotation("Relational:ColumnName", "access_failed_count");
 
-        var address = runtimeEntityType.AddProperty(
-            "Address",
-            typeof(Address),
-            propertyInfo: typeof(ApplicationUser).GetProperty("Address",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(ApplicationUser).GetField("<Address>k__BackingField",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            nullable: true,
-            unicode: true);
-        address.TypeMapping = NpgsqlJsonTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Address>(
-                (Address v1, Address v2) => Equals(v1, v2),
-                (Address v) => v.GetHashCode(),
-                (Address v) => v),
-            keyComparer: new ValueComparer<Address>(
-                (Address v1, Address v2) => Equals(v1, v2),
-                (Address v) => v.GetHashCode(),
-                (Address v) => v),
-            providerValueComparer: new ValueComparer<Address>(
-                (Address v1, Address v2) => Equals(v1, v2),
-                (Address v) => v.GetHashCode(),
-                (Address v) => v),
-            mappingInfo: new RelationalTypeMappingInfo(
-                unicode: true),
-            clrType: typeof(Address));
-        address.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-        address.AddAnnotation("Relational:ColumnName", "address");
-        address.AddAnnotation("Relational:ColumnType", "jsonb");
-
         var concurrencyStamp = runtimeEntityType.AddProperty(
             "ConcurrencyStamp",
             typeof(string),

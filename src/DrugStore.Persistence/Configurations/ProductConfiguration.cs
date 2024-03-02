@@ -14,10 +14,25 @@ public class ProductConfiguration : BaseConfiguration<Product>
             .HasMaxLength(100)
             .IsRequired();
 
-        builder.Property(p => p.Price)
-            .IsUnicode()
-            .HasColumnType("jsonb")
-            .IsRequired();
+        builder.OwnsOne(
+            p => p.Price,
+            e => e.ToJson()
+        );
+
+        builder.OwnsMany(
+            p => p.Images,
+            e =>
+            {
+                e.Property(i => i.ImageUrl)
+                    .HasMaxLength(100)
+                    .IsRequired();
+
+                e.Property(i => i.Alt)
+                    .HasMaxLength(100);
+
+                e.Property(i => i.Title)
+                    .HasMaxLength(100);
+            });
 
         builder.Property(p => p.Quantity)
             .HasDefaultValue(0)

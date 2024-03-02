@@ -1,0 +1,13 @@
+{
+  "configurations": [
+    {
+      "name": "Docker .NET Core Attach",
+      "type": "docker",
+      "request": "attach",
+      "platform": "netCore",
+      "sourceFileMap": {
+        "/src": "${workspaceFolder}"
+      }
+    }
+  ]
+}

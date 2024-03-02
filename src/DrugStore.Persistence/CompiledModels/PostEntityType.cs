@@ -107,7 +107,7 @@ internal partial class PostEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 121, DateTimeKind.Utc).AddTicks(8221));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(6593));
 
         var detail = runtimeEntityType.AddProperty(
             "Detail",
@@ -222,7 +222,7 @@ internal partial class PostEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 121, DateTimeKind.Utc).AddTicks(9375));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(6974));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

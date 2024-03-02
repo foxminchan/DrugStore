@@ -27,10 +27,6 @@ internal partial class ProductImageEntityType
         var productId = runtimeEntityType.AddProperty(
             "ProductId",
             typeof(Guid),
-            propertyInfo: typeof(ProductImage).GetProperty("ProductId",
-                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(ProductImage).GetField("<ProductId>k__BackingField",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             afterSaveBehavior: PropertySaveBehavior.Throw,
             sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
         productId.TypeMapping = GuidTypeMapping.Default.Clone(
@@ -50,6 +46,30 @@ internal partial class ProductImageEntityType
                 storeTypeName: "uuid"));
         productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         productId.AddAnnotation("Relational:ColumnName", "product_id");
+
+        var id = runtimeEntityType.AddProperty(
+            "Id",
+            typeof(int),
+            valueGenerated: ValueGenerated.OnAdd,
+            afterSaveBehavior: PropertySaveBehavior.Throw,
+            sentinel: 0);
+        id.TypeMapping = IntTypeMapping.Default.Clone(
+            comparer: new ValueComparer<int>(
+                (int v1, int v2) => v1 == v2,
+                (int v) => v,
+                (int v) => v),
+            keyComparer: new ValueComparer<int>(
+                (int v1, int v2) => v1 == v2,
+                (int v) => v,
+                (int v) => v),
+            providerValueComparer: new ValueComparer<int>(
+                (int v1, int v2) => v1 == v2,
+                (int v) => v,
+                (int v) => v),
+            mappingInfo: new RelationalTypeMappingInfo(
+                storeTypeName: "integer"));
+        id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+        id.AddAnnotation("Relational:ColumnName", "id");
 
         var alt = runtimeEntityType.AddProperty(
             "Alt",
@@ -163,9 +183,9 @@ internal partial class ProductImageEntityType
         title.AddAnnotation("Relational:ColumnName", "title");
 
         var key = runtimeEntityType.AddKey(
-            new[] { productId });
+            new[] { productId, id });
         runtimeEntityType.SetPrimaryKey(key);
-        key.AddAnnotation("Relational:Name", "pk_product_images");
+        key.AddAnnotation("Relational:Name", "pk_product_image");
 
         return runtimeEntityType;
     }
@@ -178,7 +198,8 @@ internal partial class ProductImageEntityType
             principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
             principalEntityType,
             deleteBehavior: DeleteBehavior.Cascade,
-            required: true);
+            required: true,
+            ownership: true);
 
         var product = declaringEntityType.AddNavigation("Product",
             runtimeForeignKey,
@@ -196,9 +217,10 @@ internal partial class ProductImageEntityType
             propertyInfo: typeof(Product).GetProperty("Images",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(Product).GetField("<Images>k__BackingField",
-                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            eagerLoaded: true);
 
-        runtimeForeignKey.AddAnnotation("Relational:Name", "fk_product_images_products_product_id");
+        runtimeForeignKey.AddAnnotation("Relational:Name", "fk_product_image_products_product_id");
         return runtimeForeignKey;
     }
 
@@ -207,7 +229,7 @@ internal partial class ProductImageEntityType
         runtimeEntityType.AddAnnotation("Relational:FunctionName", null);
         runtimeEntityType.AddAnnotation("Relational:Schema", null);
         runtimeEntityType.AddAnnotation("Relational:SqlQuery", null);
-        runtimeEntityType.AddAnnotation("Relational:TableName", "product_images");
+        runtimeEntityType.AddAnnotation("Relational:TableName", "product_image");
         runtimeEntityType.AddAnnotation("Relational:ViewName", null);
         runtimeEntityType.AddAnnotation("Relational:ViewSchema", null);
 

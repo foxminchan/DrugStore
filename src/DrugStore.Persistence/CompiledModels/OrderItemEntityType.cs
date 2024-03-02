@@ -78,29 +78,32 @@ internal partial class OrderItemEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 121, DateTimeKind.Utc).AddTicks(2296));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(2932));
 
         var orderId = runtimeEntityType.AddProperty(
             "OrderId",
-            typeof(Guid),
+            typeof(Guid?),
             propertyInfo: typeof(OrderItem).GetProperty("OrderId",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(OrderItem).GetField("<OrderId>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            nullable: true);
         orderId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            providerValueComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+            keyComparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+            providerValueComparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
             mappingInfo: new RelationalTypeMappingInfo(
                 storeTypeName: "uuid"));
         orderId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
@@ -137,25 +140,28 @@ internal partial class OrderItemEntityType
 
         var productId = runtimeEntityType.AddProperty(
             "ProductId",
-            typeof(Guid),
+            typeof(Guid?),
             propertyInfo: typeof(OrderItem).GetProperty("ProductId",
                 BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(OrderItem).GetField("<ProductId>k__BackingField",
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
+            nullable: true);
         productId.TypeMapping = GuidTypeMapping.Default.Clone(
-            comparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            keyComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
-            providerValueComparer: new ValueComparer<Guid>(
-                (Guid v1, Guid v2) => v1 == v2,
-                (Guid v) => v.GetHashCode(),
-                (Guid v) => v),
+            comparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+            keyComparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
+            providerValueComparer: new ValueComparer<Guid?>(
+                (Nullable<Guid> v1, Nullable<Guid> v2) =>
+                    v1.HasValue && v2.HasValue && (Guid)v1 == (Guid)v2 || !v1.HasValue && !v2.HasValue,
+                (Nullable<Guid> v) => v.HasValue ? ((Guid)v).GetHashCode() : 0,
+                (Nullable<Guid> v) => v.HasValue ? (Nullable<Guid>)(Guid)v : default(Nullable<Guid>)),
             mappingInfo: new RelationalTypeMappingInfo(
                 storeTypeName: "uuid"));
         productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
@@ -215,7 +221,7 @@ internal partial class OrderItemEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 2, 28, 10, 58, 58, 121, DateTimeKind.Utc).AddTicks(3093));
+            new DateTime(2024, 3, 2, 5, 36, 52, 123, DateTimeKind.Utc).AddTicks(3269));
 
         var version = runtimeEntityType.AddProperty(
             "Version",
@@ -266,8 +272,7 @@ internal partial class OrderItemEntityType
         var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("OrderId") },
             principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
             principalEntityType,
-            deleteBehavior: DeleteBehavior.NoAction,
-            required: true);
+            deleteBehavior: DeleteBehavior.Cascade);
 
         var order = declaringEntityType.AddNavigation("Order",
             runtimeForeignKey,
@@ -298,8 +303,7 @@ internal partial class OrderItemEntityType
             new[] { declaringEntityType.FindProperty("ProductId") },
             principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
             principalEntityType,
-            deleteBehavior: DeleteBehavior.NoAction,
-            required: true);
+            deleteBehavior: DeleteBehavior.NoAction);
 
         var product = declaringEntityType.AddNavigation("Product",
             runtimeForeignKey,

@@ -15,8 +15,9 @@ public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Appl
         builder.Property(u => u.PhoneNumber)
             .HasMaxLength(10);
 
-        builder.Property(u => u.Address)
-            .IsUnicode()
-            .HasColumnType("jsonb");
+        builder.OwnsOne(
+            u => u.Address,
+            a => a.ToJson()
+        );
     }
 }

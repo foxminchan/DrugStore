@@ -6,7 +6,7 @@
 ## Description
 
 <p align="justify">
-An application that allows users to search for drugs and get information about them. The application also allows users to search for drugs based on their location and get a list of drug stores that have the drugs in stock.
+A sample e-commerce application that enables users to buy and oversee pharmaceuticals and other health-related items. The application will be constructed with a clean architecture and domain-driven design, utilizing .NET 8.0, and runs on Azure AKS 🛞.
 </p>
 
 <img src="./assets/DrugStore.png" alt="Drug Store" width="100%">
@@ -24,7 +24,7 @@ An application that allows users to search for drugs and get information about t
 
 ## Installation
 
-### Local Development
+### Local setup
 
 1. Clone the repository
 
@@ -47,7 +47,7 @@ pnpm install
 docker-compose -f ./docker-compose.yml -f ./docker-compose.o11y.yaml up -d
 ```
 
-### Cloudinary Configuration
+### Cloudinary configuration
 
 <p align="justify">
 Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> website and create an account. After creating an account, navigate to the dashboard and copy the cloud name, API key, and API secret. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
@@ -76,7 +76,7 @@ tye run
 > [!WARNING]
 > Ensure that the Docker Desktop is running.
 
-### Running the tests
+### Testing the application
 
 For load testing, run the following command:
 
@@ -96,9 +96,9 @@ For test the tests, run the following command:
 dotnet stryker
 ```
 
-## Azure Deployment
+## Deployment
 
-To deploy the application to Azure, follow the steps below:
+To deploy the application to **Azure**, follow the steps below:
 
 1. Login and select the subscription
 

@@ -1,30 +1,20 @@
-﻿using System.Text.Json.Serialization;
-using Ardalis.GuardClauses;
+﻿using Ardalis.GuardClauses;
+using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.ProductAggregate;
 
-public class ProductImage
+public class ProductImage(string imageUrl, string? alt, string? title, bool isMain) : ValueObject
 {
-    /// <summary>
-    ///     EF mapping constructor
-    /// </summary>
-    public ProductImage()
-    {
-    }
+    public string? ImageUrl { get; set; } = Guard.Against.NullOrEmpty(imageUrl);
+    public string? Alt { get; set; } = alt;
+    public string? Title { get; set; } = title;
+    public bool IsMain { get; set; } = isMain;
 
-    public ProductImage(Guid productId, string imageUrl, string? alt, string? title, bool isMain)
+    protected override IEnumerable<object> GetEqualityComponents()
     {
-        ProductId = Guard.Against.Default(productId);
-        ImageUrl = Guard.Against.NullOrEmpty(imageUrl);
-        Alt = alt;
-        Title = title;
-        IsMain = isMain;
+        yield return ImageUrl ?? string.Empty;
+        yield return Alt ?? string.Empty;
+        yield return Title ?? string.Empty;
+        yield return IsMain;
     }
-
-    public Guid ProductId { get; set; }
-    public string? ImageUrl { get; set; }
-    public string? Alt { get; set; }
-    public string? Title { get; set; }
-    public bool IsMain { get; set; }
-    [JsonIgnore] public Product? Product { get; set; }
 }
