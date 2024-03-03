@@ -21,6 +21,7 @@ public class StronglyTypedIdFilter : ISchemaFilter
         if (!converter.CanConvertTo(typeof(Guid)) && !converter.CanConvertTo(typeof(string))) return;
 
         schema.Type = "string";
+        schema.Format = "uuid";
         schema.Example = new OpenApiString(Guid.NewGuid().ToString());
     }
 }

@@ -89,7 +89,7 @@ internal partial class CategoryEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 73, DateTimeKind.Utc).AddTicks(7574));
+            new DateTime(2024, 3, 3, 5, 45, 27, 801, DateTimeKind.Utc).AddTicks(8664));
 
         var link = runtimeEntityType.AddProperty(
             "Link",
@@ -176,7 +176,7 @@ internal partial class CategoryEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 73, DateTimeKind.Utc).AddTicks(7865));
+            new DateTime(2024, 3, 3, 5, 45, 27, 802, DateTimeKind.Utc).AddTicks(3469));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

@@ -69,6 +69,42 @@ internal partial class OrderEntityType
         id.AddAnnotation("Relational:ColumnName", "id");
         id.AddAnnotation("Relational:DefaultValueSql", "uuid_generate_v4()");
 
+        var cardId = runtimeEntityType.AddProperty(
+            "CardId",
+            typeof(CardId?),
+            propertyInfo: typeof(Order).GetProperty("CardId",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            fieldInfo: typeof(Order).GetField("<CardId>k__BackingField",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            nullable: true);
+        cardId.TypeMapping = GuidTypeMapping.Default.Clone(
+            comparer: new ValueComparer<CardId?>(
+                (Nullable<CardId> v1, Nullable<CardId> v2) =>
+                    v1.HasValue && v2.HasValue && ((CardId)v1).Equals((CardId)v2) || !v1.HasValue && !v2.HasValue,
+                (Nullable<CardId> v) => v.HasValue ? ((CardId)v).GetHashCode() : 0,
+                (Nullable<CardId> v) => v.HasValue ? (Nullable<CardId>)(CardId)v : default(Nullable<CardId>)),
+            keyComparer: new ValueComparer<CardId?>(
+                (Nullable<CardId> v1, Nullable<CardId> v2) =>
+                    v1.HasValue && v2.HasValue && ((CardId)v1).Equals((CardId)v2) || !v1.HasValue && !v2.HasValue,
+                (Nullable<CardId> v) => v.HasValue ? ((CardId)v).GetHashCode() : 0,
+                (Nullable<CardId> v) => v.HasValue ? (Nullable<CardId>)(CardId)v : default(Nullable<CardId>)),
+            providerValueComparer: new ValueComparer<Guid>(
+                (Guid v1, Guid v2) => v1 == v2,
+                (Guid v) => v.GetHashCode(),
+                (Guid v) => v),
+            mappingInfo: new RelationalTypeMappingInfo(
+                storeTypeName: "uuid"),
+            converter: new ValueConverter<CardId, Guid>(
+                (CardId id) => id.Value,
+                (Guid value) => new CardId()),
+            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CardId, Guid>(
+                JsonGuidReaderWriter.Instance,
+                new ValueConverter<CardId, Guid>(
+                    (CardId id) => id.Value,
+                    (Guid value) => new CardId())));
+        cardId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+        cardId.AddAnnotation("Relational:ColumnName", "card_id");
+
         var code = runtimeEntityType.AddProperty(
             "Code",
             typeof(string),
@@ -123,7 +159,7 @@ internal partial class OrderEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 75, DateTimeKind.Utc).AddTicks(7207));
+            new DateTime(2024, 3, 3, 5, 45, 27, 812, DateTimeKind.Utc).AddTicks(2402));
 
         var customerId = runtimeEntityType.AddProperty(
             "CustomerId",
@@ -261,7 +297,7 @@ internal partial class OrderEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 75, DateTimeKind.Utc).AddTicks(7535));
+            new DateTime(2024, 3, 3, 5, 45, 27, 812, DateTimeKind.Utc).AddTicks(3404));
 
         var version = runtimeEntityType.AddProperty(
             "Version",
@@ -296,13 +332,47 @@ internal partial class OrderEntityType
         key.AddAnnotation("Relational:Name", "pk_orders");
 
         var index = runtimeEntityType.AddIndex(
+            new[] { cardId });
+        index.AddAnnotation("Relational:Name", "ix_orders_card_id");
+
+        var index0 = runtimeEntityType.AddIndex(
             new[] { customerId });
-        index.AddAnnotation("Relational:Name", "ix_orders_customer_id");
+        index0.AddAnnotation("Relational:Name", "ix_orders_customer_id");
 
         return runtimeEntityType;
     }
 
     public static RuntimeForeignKey CreateForeignKey1(RuntimeEntityType declaringEntityType,
+        RuntimeEntityType principalEntityType)
+    {
+        var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("CardId") },
+            principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
+            principalEntityType,
+            deleteBehavior: DeleteBehavior.SetNull);
+
+        var card = declaringEntityType.AddNavigation("Card",
+            runtimeForeignKey,
+            onDependent: true,
+            typeof(Card),
+            propertyInfo: typeof(Order).GetProperty("Card",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            fieldInfo: typeof(Order).GetField("<Card>k__BackingField",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+
+        var orders = principalEntityType.AddNavigation("Orders",
+            runtimeForeignKey,
+            onDependent: false,
+            typeof(ICollection<Order>),
+            propertyInfo: typeof(Card).GetProperty("Orders",
+                BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+            fieldInfo: typeof(Card).GetField("<Orders>k__BackingField",
+                BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
+
+        runtimeForeignKey.AddAnnotation("Relational:Name", "fk_orders_cards_card_id");
+        return runtimeForeignKey;
+    }
+
+    public static RuntimeForeignKey CreateForeignKey2(RuntimeEntityType declaringEntityType,
         RuntimeEntityType principalEntityType)
     {
         var runtimeForeignKey = declaringEntityType.AddForeignKey(

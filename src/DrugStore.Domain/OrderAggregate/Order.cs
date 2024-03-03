@@ -33,6 +33,8 @@ public sealed class Order : AuditableEntityBase, IAggregateRoot
     public IdentityId? CustomerId { get; set; }
     [JsonIgnore] public ApplicationUser? Customer { get; set; }
     public ICollection<OrderItem> OrderItems { get; set; } = [];
+    public CardId? CardId { get; set; }
+    [JsonIgnore] public Card? Card { get; set; }
 
     public void AddOrder(string key) => RegisterDomainEvent(new OrderCreatedEvent(key));
 

@@ -2,7 +2,7 @@
 
 namespace DrugStore.Infrastructure.Storage.Cloudinary;
 
-public sealed class CloudinaryValidator : AbstractValidator<CloudinarySetting>
+public sealed class CloudinaryValidator : AbstractValidator<CloudinarySettings>
 {
     public CloudinaryValidator()
     {

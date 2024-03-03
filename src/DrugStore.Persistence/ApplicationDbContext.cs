@@ -22,6 +22,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<OrderItem> OrderDetails => Set<OrderItem>();
     public DbSet<Post> Posts => Set<Post>();
     public DbSet<News> News => Set<News>();
+    public DbSet<Card> Cards => Set<Card>();
 
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {
@@ -49,7 +50,10 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
 
             foreach (var prop in properties)
                 builder.Entity(entityType.Name).Property(prop.Name)
-                    .HasConversion(new ValueConverter<IdentityId, Guid>(c => c.Value, c => new(c)));
+                    .HasConversion(new ValueConverter<IdentityId, Guid>(
+                        c => c.Value,
+                        c => new(c)
+                    ));
         }
 
         base.OnModelCreating(builder);

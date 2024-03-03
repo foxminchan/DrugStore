@@ -27,5 +27,10 @@ public sealed class OrderConfiguration : BaseConfiguration<Order>
             .WithMany(c => c.Orders)
             .HasForeignKey(o => o.CustomerId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.HasOne(o => o.Card)
+            .WithMany(c => c.Orders)
+            .HasForeignKey(o => o.CardId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

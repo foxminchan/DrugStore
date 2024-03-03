@@ -12,14 +12,14 @@ public static class Extension
 {
     public static IServiceCollection AddCloudinary(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddOptions<CloudinarySetting>()
-            .Bind(configuration.GetSection(nameof(CloudinarySetting)))
+        services.AddOptions<CloudinarySettings>()
+            .Bind(configuration.GetSection(nameof(CloudinarySettings)))
             .ValidateFluentValidation()
             .ValidateOnStart();
 
         services.AddScoped<ICloudinaryUploadApi, CloudinaryDotNet.Cloudinary>(provider =>
         {
-            var cloudinary = provider.GetRequiredService<IOptions<CloudinarySetting>>().Value;
+            var cloudinary = provider.GetRequiredService<IOptions<CloudinarySettings>>().Value;
             return new(new Account(cloudinary.CloudName, cloudinary.ApiKey, cloudinary.ApiSecret));
         });
 

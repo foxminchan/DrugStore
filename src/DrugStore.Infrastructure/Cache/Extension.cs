@@ -11,20 +11,20 @@ public static class Extension
     public static IServiceCollection AddRedisCache(
         this IServiceCollection services,
         IConfiguration config,
-        Action<RedisOptions>? setupAction = null)
+        Action<RedisSettings>? setupAction = null)
     {
         if (services.Contains(ServiceDescriptor.Singleton<IRedisService, RedisService>())) return services;
 
-        RedisOptions redisOptions = new();
-        var redisCacheSection = config.GetSection(nameof(RedisOptions));
-        redisCacheSection.Bind(redisOptions);
-        services.Configure<RedisOptions>(redisCacheSection);
-        setupAction?.Invoke(redisOptions);
+        RedisSettings redisSettings = new();
+        var redisCacheSection = config.GetSection(nameof(RedisSettings));
+        redisCacheSection.Bind(redisSettings);
+        services.Configure<RedisSettings>(redisCacheSection);
+        setupAction?.Invoke(redisSettings);
 
         services.AddStackExchangeRedisCache(options =>
         {
-            options.InstanceName = config[redisOptions.Prefix];
-            options.ConfigurationOptions = GetRedisConfigurationOptions(redisOptions, config);
+            options.InstanceName = config[redisSettings.Prefix];
+            options.ConfigurationOptions = GetRedisConfigurationOptions(redisSettings, config);
         });
 
         services.AddSingleton<IRedisService, RedisService>();
@@ -32,24 +32,24 @@ public static class Extension
         return services;
     }
 
-    private static ConfigurationOptions GetRedisConfigurationOptions(RedisOptions redisOptions, IConfiguration config)
+    private static ConfigurationOptions GetRedisConfigurationOptions(RedisSettings redisSettings, IConfiguration config)
     {
         ConfigurationOptions configurationOptions = new()
         {
-            ConnectTimeout = redisOptions.ConnectTimeout,
-            SyncTimeout = redisOptions.SyncTimeout,
-            ConnectRetry = redisOptions.ConnectRetry,
-            AbortOnConnectFail = redisOptions.AbortOnConnectFail,
-            ReconnectRetryPolicy = new ExponentialRetry(redisOptions.DeltaBackOff),
+            ConnectTimeout = redisSettings.ConnectTimeout,
+            SyncTimeout = redisSettings.SyncTimeout,
+            ConnectRetry = redisSettings.ConnectRetry,
+            AbortOnConnectFail = redisSettings.AbortOnConnectFail,
+            ReconnectRetryPolicy = new ExponentialRetry(redisSettings.DeltaBackOff),
             KeepAlive = 5,
-            Ssl = redisOptions.Ssl
+            Ssl = redisSettings.Ssl
         };
 
-        if (!string.IsNullOrWhiteSpace(redisOptions.Password)) configurationOptions.Password = redisOptions.Password;
+        if (!string.IsNullOrWhiteSpace(redisSettings.Password)) configurationOptions.Password = redisSettings.Password;
 
-        redisOptions.Url = config.GetConnectionString("Redis") ?? throw new InvalidOperationException();
+        redisSettings.Url = config.GetConnectionString("Redis") ?? throw new InvalidOperationException();
 
-        foreach (var endpoint in redisOptions.Url.Split(',')) configurationOptions.EndPoints.Add(endpoint);
+        foreach (var endpoint in redisSettings.Url.Split(',')) configurationOptions.EndPoints.Add(endpoint);
 
         return configurationOptions;
     }

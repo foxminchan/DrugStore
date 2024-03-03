@@ -6,7 +6,7 @@ using StackExchange.Redis;
 
 namespace DrugStore.Infrastructure.Cache.Redis.Internal;
 
-public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
+public sealed class RedisService(IOptions<RedisSettings> options) : IRedisService
 {
     private const string GetKeysLuaScript = """
                                                 local pattern = ARGV[1]
@@ -27,7 +27,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
         () => ConnectionMultiplexer.Connect(options.Value.GetConnectionString())
     );
 
-    private readonly RedisOptions _redisCacheOption = options.Value;
+    private readonly RedisSettings _redisCacheSetting = options.Value;
 
     private ConnectionMultiplexer ConnectionMultiplexer => _connectionMultiplexer.Value;
 
@@ -49,12 +49,12 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
     }
 
     public T GetOrSet<T>(string key, Func<T> valueFactory)
-        => GetOrSet($"{_redisCacheOption.Prefix}:{key}", valueFactory,
-            TimeSpan.FromSeconds(_redisCacheOption.RedisDefaultSlidingExpirationInSecond));
+        => GetOrSet($"{_redisCacheSetting.Prefix}:{key}", valueFactory,
+            TimeSpan.FromSeconds(_redisCacheSetting.RedisDefaultSlidingExpirationInSecond));
 
     public T GetOrSet<T>(string key, Func<T> valueFactory, TimeSpan expiration)
     {
-        var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
+        var keyWithPrefix = $"{_redisCacheSetting.Prefix}:{key}";
 
         Guard.Against.NullOrEmpty(key);
 
@@ -69,9 +69,9 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
 
     public T? Get<T>(string key)
     {
-        var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
+        var keyWithPrefix = $"{_redisCacheSetting.Prefix}:{key}";
 
-        Guard.Against.NullOrEmpty(_redisCacheOption.Prefix);
+        Guard.Against.NullOrEmpty(_redisCacheSetting.Prefix);
 
         var cachedValue = Database.StringGet(keyWithPrefix);
         return !string.IsNullOrEmpty(cachedValue)
@@ -84,7 +84,7 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
         Guard.Against.NullOrEmpty(key);
         Guard.Against.NullOrEmpty(hashKey);
 
-        var keyWithPrefix = $"{_redisCacheOption.Prefix}:{key}";
+        var keyWithPrefix = $"{_redisCacheSetting.Prefix}:{key}";
         var value = Database.HashGet(keyWithPrefix, hashKey.ToLower());
 
         if (!string.IsNullOrEmpty(value)) return GetByteToObject<T>(value);
@@ -98,29 +98,29 @@ public sealed class RedisService(IOptions<RedisOptions> options) : IRedisService
 
     public IEnumerable<string> GetKeys(string pattern)
         => ((RedisResult[])Database.ScriptEvaluate(GetKeysLuaScript, values: [pattern])!)
-            .Where(x => x.ToString().StartsWith(_redisCacheOption.Prefix))
+            .Where(x => x.ToString().StartsWith(_redisCacheSetting.Prefix))
             .Select(x => x.ToString())
             .ToArray();
 
     public IEnumerable<T> GetValues<T>(string key)
-        => Database.HashGetAll($"{_redisCacheOption.Prefix}:{key}").Select(x => GetByteToObject<T>(x.Value));
+        => Database.HashGetAll($"{_redisCacheSetting.Prefix}:{key}").Select(x => GetByteToObject<T>(x.Value));
 
     public bool RemoveAllKeys(string pattern = "*")
     {
         var succeed = true;
 
-        var keys = GetKeys($"{_redisCacheOption.Prefix}:{pattern}");
+        var keys = GetKeys($"{_redisCacheSetting.Prefix}:{pattern}");
         foreach (var key in keys) succeed = Database.KeyDelete(key);
 
         return succeed;
     }
 
-    public void Remove(string key) => Database.KeyDelete($"{_redisCacheOption.Prefix}:{key}");
+    public void Remove(string key) => Database.KeyDelete($"{_redisCacheSetting.Prefix}:{key}");
 
     public void Reset()
         => Database.ScriptEvaluate(
             ClearCacheLuaScript,
-            values: [_redisCacheOption.Prefix + "*"],
+            values: [_redisCacheSetting.Prefix + "*"],
             flags: CommandFlags.FireAndForget);
 
     private static T GetByteToObject<T>(RedisValue value)

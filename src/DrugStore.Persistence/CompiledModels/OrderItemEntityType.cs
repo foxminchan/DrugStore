@@ -126,7 +126,7 @@ internal partial class OrderItemEntityType
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
         createdDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 76, DateTimeKind.Utc).AddTicks(9394));
+            new DateTime(2024, 3, 3, 5, 45, 27, 816, DateTimeKind.Utc).AddTicks(9329));
 
         var price = runtimeEntityType.AddProperty(
             "Price",
@@ -211,7 +211,7 @@ internal partial class OrderItemEntityType
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
         updateDate.AddAnnotation("Relational:DefaultValue",
-            new DateTime(2024, 3, 2, 17, 0, 46, 76, DateTimeKind.Utc).AddTicks(9652));
+            new DateTime(2024, 3, 3, 5, 45, 27, 817, DateTimeKind.Utc).AddTicks(19));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

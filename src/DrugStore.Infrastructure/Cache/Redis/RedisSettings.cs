@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.Infrastructure.Cache.Redis;
 
-public sealed class RedisOptions
+public sealed class RedisSettings
 {
     public bool AbortOnConnectFail { get; set; }
     public bool Ssl { get; set; } = true;
