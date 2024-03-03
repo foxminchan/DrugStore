@@ -1,6 +1,37 @@
-﻿<Router AppAssembly="typeof(Program).Assembly">
+﻿@using DrugStore.BackOffice.Components.Layout
+
+<Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(Layout.MainLayout)" />
-        <FocusOnNavigate RouteData="routeData" Selector="h1" />
+        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
     </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView>
+            <div class="jumbotron jumbotron-fluid mb-5">
+                <div class="container text-center py-5">
+                    <h1 class="text-white display-3">Error</h1>
+                    <div class="d-inline-flex align-items-center text-white">
+                        <p class="m-0">
+                            <a class="text-white" href="/">Home</a>
+                        </p>
+                        <i class="fa fa-circle px-3"></i>
+                        <p class="m-0">Not Found</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+                <div class="container text-center py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-6">
+                            <i class="bi bi-exclamation-triangle display-1 text-danger"></i>
+                            <h1 class="display-1">404</h1>
+                            <h1 class="mb-4">Page Not Found</h1>
+                            <p class="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
+                            <a class="btn btn-primary rounded-pill py-3 px-5" href="/">Go Back To Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </LayoutView>
+    </NotFound>
 </Router>

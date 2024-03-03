@@ -1,23 +1,46 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<RadzenComponents/>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<RadzenLayout Style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body'">
+    <RadzenHeader>
+        <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
+            <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)"/>
+            <RadzenLabel Text="Drug Store Admin"/>
+        </RadzenStack>
+    </RadzenHeader>
+    <RadzenSidebar @bind-Expanded="@_sidebarExpanded">
+        <div class="logo-container">
+            <img src="logo.svg" alt="Drug Store Admin" />
         </div>
-
-        <article class="content px-4">
+        <RadzenPanelMenu>
+            <ChildContent>
+                <RadzenPanelMenuItem Text="Catalog" Icon="inventory">
+                    <RadzenPanelMenuItem Text="Categories" Path="category"/>
+                    <RadzenPanelMenuItem Text="Products" Path="production"/>
+                    <RadzenPanelMenuItem Text="News" Path="news"/>
+                    <RadzenPanelMenuItem Text="Posts" Path="post"/>
+                </RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Text="Customers" Icon="people">
+                    <RadzenPanelMenuItem Text="Customers" Path="customer" />
+                    <RadzenPanelMenuItem Text="Order" Path="order"/>
+                    <RazdenPanelMenuItem Text="Basket" Path="basket"/>
+                </RadzenPanelMenuItem>
+                <RadzenPanelMenuItem Text="Settings" Icon="settings">
+                    <RadzenPanelMenuItem Text="Roles" Path="role"/>
+                    <RadzenPanelMenuItem Text="Permissions" Path="permission"/>
+                    <RadzenPanelMenuItem Text="Users" Path="user"/>
+                </RadzenPanelMenuItem>
+            </ChildContent>
+        </RadzenPanelMenu>
+    </RadzenSidebar>
+    <RadzenBody>
+        <div class="rz-p-4">
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+    </RadzenBody>
+</RadzenLayout>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+@code {
+    bool _sidebarExpanded = true;
+}
