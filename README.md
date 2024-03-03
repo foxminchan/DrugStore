@@ -79,6 +79,21 @@ Navigate to the <a href="https://dashboard.stripe.com/test/apikeys">Stripe Dashb
 }
 ```
 
+#### SendGrid
+
+<p align="justify">
+Navigate to the <a href="https://app.sendgrid.com/settings/api_keys">SendGrid Dashboard</a> website and create an account. After creating an account, navigate to the API keys and create a new API key. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
+</p>
+
+```json
+{
+  "SendGridSettings": {
+    "ApiKey": "send_grid_api_key",
+    "DefaultFromEmail": "email_address"
+  }
+}
+```
+
 ## Usage
 
 ### Running the application

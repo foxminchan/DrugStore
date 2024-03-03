@@ -38,6 +38,8 @@
     <ItemGroup>
         <PackageReference Include="FluentValidation" Version="11.9.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+        <PackageReference Include="FluentEmail.SendGrid" Version="3.0.2" />
+        <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -65,11 +67,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Merchant\Abstractions\" />
-      <Folder Include="Merchant\Stripe\Internal\" />
     </ItemGroup>
 
 </Project>
