@@ -19,8 +19,8 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
         if (!request.Filter.IsAscending) query = query.OrderDescending();
 
         var users = await query
-            .Skip((request.Filter.PageNumber - 1) * request.Filter.PageSize)
-            .Take(request.Filter.PageSize)
+            .Skip((request.Filter.Paging.PageNumber - 1) * request.Filter.Paging.PageSize)
+            .Take(request.Filter.Paging.PageSize)
             .Select(x => new UserVm(x.Id, x.Email, x.FullName, x.PhoneNumber, x.Address))
             .ToListAsync(cancellationToken);
 
@@ -33,8 +33,13 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
             ).ToList();
 
         var totalRecords = await userManager.Users.CountAsync(cancellationToken);
-        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
-        PagedInfo pagedInfo = new(request.Filter.PageNumber, request.Filter.PageSize, totalPages, totalRecords);
+        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.Paging.PageSize);
+        PagedInfo pagedInfo = new(
+            request.Filter.Paging.PageNumber,
+            request.Filter.Paging.PageSize,
+            totalPages,
+            totalRecords
+        );
         return new(pagedInfo, users);
     }
 }

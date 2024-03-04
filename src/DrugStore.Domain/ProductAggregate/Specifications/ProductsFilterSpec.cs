@@ -16,7 +16,7 @@ public sealed class ProductsFilterSpec : Specification<Product>
             .Take(pageSize)
             .Include(p => p.Category);
 
-        if (!string.IsNullOrWhiteSpace(productName)) Query.Where(p => p.Title!.Contains(productName));
+        if (!string.IsNullOrWhiteSpace(productName)) Query.Where(p => p.Name!.Contains(productName));
 
         var parameter = Expression.Parameter(typeof(Product));
         var lambda = Expression.Lambda<Func<Product, object>>(

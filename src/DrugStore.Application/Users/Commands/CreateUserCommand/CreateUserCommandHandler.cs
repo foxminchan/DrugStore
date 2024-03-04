@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +35,7 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
                 result.Errors.Select(e => new ValidationError(e.Description))
             ));
 
-        await userManager.AddToRoleAsync(user, Roles.Customer);
+        await userManager.AddToRoleAsync(user, RoleHelper.Customer);
 
         return Result<IdentityId>.Success(user.Id);
     }

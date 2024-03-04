@@ -14,15 +14,7 @@ public sealed class GetListByCategoryIdQueryHandler(Repository<Product> reposito
     public async Task<PagedResult<List<ProductVm>>> Handle(GetListByCategoryIdQuery request,
         CancellationToken cancellationToken)
     {
-        ProductsByCategoryIdSpec spec = new(
-            request.CategoryId,
-            request.Filter.PageNumber,
-            request.Filter.PageSize,
-            request.Filter.IsAscending,
-            request.Filter.OrderBy,
-            request.Filter.Search
-        );
-
+        ProductsByCategoryIdSpec spec = new(request.CategoryId, request.Filter.PageNumber, request.Filter.PageSize);
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);

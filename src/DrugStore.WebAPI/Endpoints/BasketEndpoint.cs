@@ -2,8 +2,7 @@
 using DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 using DrugStore.Application.Baskets.Commands.DeleteBasketCommand;
 using DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
-using DrugStore.Application.Baskets.Queries.GetByUserId;
-using DrugStore.Application.Baskets.ViewModels;
+using DrugStore.Application.Baskets.Queries.GetByUserIdQuery;
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
@@ -29,12 +28,11 @@ public sealed class BasketEndpoint : IEndpoint
         group.MapDelete("{customerId:guid}", DeleteBasket).WithName(nameof(DeleteBasket));
     }
 
-    private static async Task<Result<BasketVm>> GetBasketByCustomerId(
+    private static async Task<Result<CustomerBasket>> GetBasketByCustomerId(
         [FromServices] ISender sender,
         [FromRoute] IdentityId customerId,
-        [AsParameters] BaseFilter filter,
         CancellationToken cancellationToken)
-        => await sender.Send(new GetByUserId(customerId, filter), cancellationToken);
+        => await sender.Send(new GetByUserIdQuery(customerId), cancellationToken);
 
     private static async Task<Result<IdentityId>> CreateBasket(
         [FromServices] ISender sender,

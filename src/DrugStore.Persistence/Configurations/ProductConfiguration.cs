@@ -1,4 +1,5 @@
 ﻿using DrugStore.Domain.ProductAggregate;
+using DrugStore.Persistence.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,7 +21,7 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             .HasDefaultValueSql(UniqueHelper.UuidAlgorithm)
             .ValueGeneratedOnAdd();
 
-        builder.Property(p => p.Title)
+        builder.Property(p => p.Name)
             .HasMaxLength(100)
             .IsRequired();
 

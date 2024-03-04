@@ -29,7 +29,7 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory)
         // Act
         await _factory.EnsureCreatedAndPopulateDataAsync(category);
         var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = "New Title", Link = "https://newlink.com" });
+            new { Title = "New Name", Link = "https://newlink.com" });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -60,7 +60,7 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory)
 
         // Act
         var response = await client.PutAsJsonAsync($"/api/v1/categories/{Guid.NewGuid()}",
-            new { Title = "New Title", Link = "https://newlink.com" });
+            new { Title = "New Name", Link = "https://newlink.com" });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

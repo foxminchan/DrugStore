@@ -27,7 +27,7 @@ public sealed class AuditableEntityInterceptor : SaveChangesInterceptor
     {
         if (context is null) return;
 
-        foreach (var entry in context.ChangeTracker.Entries<AuditableEntityBase>())
+        foreach (var entry in context.ChangeTracker.Entries<EntityBase>())
         {
             if (entry.State is not (EntityState.Added or EntityState.Modified) &&
                 !entry.References.Any(r =>

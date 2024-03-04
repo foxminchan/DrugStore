@@ -6,6 +6,7 @@ using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Helpers;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -20,14 +21,12 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderDetails => Set<OrderItem>();
-    public DbSet<Post> Posts => Set<Post>();
-    public DbSet<News> News => Set<News>();
     public DbSet<Card> Cards => Set<Card>();
 
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {
         var domainEntities = ChangeTracker
-            .Entries<AuditableEntityBase>()
+            .Entries<EntityBase>()
             .Where(x => x.Entity.DomainEvents.Count != 0)
             .ToImmutableList();
 
@@ -53,7 +52,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                     .HasConversion(new ValueConverter<IdentityId, Guid>(
                         c => c.Value,
                         c => new(c)
-                    ));
+                    ))
+                    .HasDefaultValueSql(UniqueHelper.UuidAlgorithm);
         }
 
         base.OnModelCreating(builder);

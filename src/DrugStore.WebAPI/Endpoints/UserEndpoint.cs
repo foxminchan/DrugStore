@@ -8,6 +8,7 @@ using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +39,7 @@ public sealed class UserEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<UserVm>>> GetUsers(
         [FromServices] ISender sender,
-        [AsParameters] BaseFilter filter,
+        [AsParameters] FilterHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
 

@@ -3,7 +3,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.OrderAggregate;
 
-public sealed class Card : AuditableEntityBase
+public sealed class Card : EntityBase
 {
     /// <summary>
     ///     EF mapping constructor

@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,24 +43,24 @@ public sealed class ApplicationDbContextInitializer(
 
     private async Task TrySeedAsync()
     {
-        ApplicationRole admin = new(Roles.Admin);
+        ApplicationRole admin = new(RoleHelper.Admin);
 
         logger.LogInformation("Admin role: {admin}", admin.Name);
 
-        if (!await roleManager.RoleExistsAsync(Roles.Admin))
+        if (!await roleManager.RoleExistsAsync(RoleHelper.Admin))
         {
             await roleManager.CreateAsync(admin);
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Manage));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Read));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Manage));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Read));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Write));
         }
 
-        ApplicationRole customer = new(Roles.Customer);
-        if (!await roleManager.RoleExistsAsync(Roles.Customer))
+        ApplicationRole customer = new(RoleHelper.Customer);
+        if (!await roleManager.RoleExistsAsync(RoleHelper.Customer))
         {
             await roleManager.CreateAsync(customer);
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Read));
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Write));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, ClaimHelper.Read));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, ClaimHelper.Write));
         }
 
         const string password = "P@ssw0rd";

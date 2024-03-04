@@ -1,15 +1,11 @@
-﻿using FluentValidation;
+﻿using DrugStore.Application.Shared;
+using FluentValidation;
 
 namespace DrugStore.Application.Users.Queries.GetListQuery;
 
 public sealed class GetListQueryValidator : AbstractValidator<GetListQuery>
 {
-    public GetListQueryValidator()
-    {
-        RuleFor(x => x.Filter.PageNumber)
-            .GreaterThan(0);
-
-        RuleFor(x => x.Filter.PageSize)
-            .GreaterThan(0);
-    }
+    public GetListQueryValidator(FilterHelperValidator filterHelperValidator)
+        => RuleFor(x => x.Filter)
+            .SetValidator(filterHelperValidator);
 }

@@ -9,6 +9,7 @@ using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -40,14 +41,14 @@ public sealed class ProductEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<ProductVm>>> GetProducts(
         [FromServices] ISender sender,
-        [AsParameters] BaseFilter filter,
+        [AsParameters] FilterHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
 
     private static async Task<Result<List<ProductVm>>> GetProductsByCategoryId(
         [FromServices] ISender sender,
         [FromRoute] CategoryId id,
-        [AsParameters] BaseFilter filter,
+        [AsParameters] PagingHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListByCategoryIdQuery(id, filter), cancellationToken);
 

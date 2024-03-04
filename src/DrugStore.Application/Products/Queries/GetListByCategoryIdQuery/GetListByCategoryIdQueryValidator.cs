@@ -1,18 +1,16 @@
-﻿using FluentValidation;
+﻿using DrugStore.Application.Shared;
+using FluentValidation;
 
 namespace DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 
 public sealed class GetListByCategoryIdQueryValidator : AbstractValidator<GetListByCategoryIdQuery>
 {
-    public GetListByCategoryIdQueryValidator()
+    public GetListByCategoryIdQueryValidator(PagingFilterHelperValidator pagingFilterHelperValidator)
     {
         RuleFor(x => x.CategoryId)
             .NotEmpty();
 
-        RuleFor(x => x.Filter.PageNumber)
-            .GreaterThan(0);
-
-        RuleFor(x => x.Filter.PageSize)
-            .GreaterThan(0);
+        RuleFor(x => x.Filter)
+            .SetValidator(pagingFilterHelperValidator);
     }
 }

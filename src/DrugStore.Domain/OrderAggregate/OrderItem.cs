@@ -6,7 +6,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.OrderAggregate;
 
-public sealed class OrderItem : AuditableEntityBase
+public sealed class OrderItem : EntityBase
 {
     /// <summary>
     ///     EF mapping constructor

@@ -10,7 +10,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.ProductAggregate;
 
-public sealed class Product : AuditableEntityBase, IAggregateRoot
+public sealed class Product : EntityBase, IAggregateRoot
 {
     /// <summary>
     ///     EF mapping constructor
@@ -20,7 +20,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
     }
 
     public Product(
-        string title,
+        string name,
         string? productCode,
         string? detail,
         bool status,
@@ -28,7 +28,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
         CategoryId? categoryId,
         ProductPrice productPrice)
     {
-        Title = Guard.Against.NullOrEmpty(title);
+        Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
         Detail = detail;
         Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
@@ -38,7 +38,7 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
     }
 
     public ProductId Id { get; set; } = new(Guid.NewGuid());
-    public string? Title { get; set; }
+    public string? Name { get; set; }
     public string? ProductCode { get; set; }
     public string? Detail { get; set; }
     public ProductStatus? Status { get; set; }
@@ -52,15 +52,15 @@ public sealed class Product : AuditableEntityBase, IAggregateRoot
     public void Update(string title,
         string? productCode,
         string? detail,
-        bool status,
+        ProductStatus status,
         int quantity,
         CategoryId? categoryId,
         ProductPrice productPrice)
     {
-        Title = Guard.Against.NullOrEmpty(title);
+        Name = Guard.Against.NullOrEmpty(title);
         ProductCode = productCode;
         Detail = detail;
-        Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
+        Status = status;
         Quantity = Guard.Against.NegativeOrZero(quantity);
         CategoryId = categoryId;
         Price = productPrice;

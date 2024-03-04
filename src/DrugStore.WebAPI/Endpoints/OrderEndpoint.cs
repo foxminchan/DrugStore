@@ -10,6 +10,7 @@ using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -42,14 +43,14 @@ public sealed class OrderEndpoint : IEndpoint
 
     private static async Task<PagedResult<List<OrderVm>>> GetOrders(
         [FromServices] ISender sender,
-        [AsParameters] BaseFilter filter,
+        [AsParameters] FilterHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
 
     private static async Task<PagedResult<List<OrderVm>>> GetOrdersByCustomer(
         [FromServices] ISender sender,
         [FromRoute] IdentityId customerId,
-        [AsParameters] BaseFilter filter,
+        [AsParameters] PagingHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListByUserIdQuery(customerId, filter), cancellationToken);
 

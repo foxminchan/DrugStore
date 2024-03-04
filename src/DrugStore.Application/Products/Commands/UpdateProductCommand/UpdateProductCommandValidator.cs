@@ -23,10 +23,6 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
             .NotEmpty()
             .GreaterThanOrEqualTo(0);
 
-        RuleFor(x => x.ProductPrice.OriginalPrice)
-            .NotEmpty()
-            .GreaterThanOrEqualTo(0);
-
         RuleFor(x => x.ProductPrice.Price)
             .NotEmpty()
             .GreaterThanOrEqualTo(0);

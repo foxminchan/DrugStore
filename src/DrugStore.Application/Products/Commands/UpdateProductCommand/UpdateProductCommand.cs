@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.CategoryAggregate.Primitives;
+using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
@@ -12,7 +13,7 @@ public sealed record UpdateProductCommand(
     string Title,
     string? ProductCode,
     string? Detail,
-    bool Status,
+    ProductStatus Status,
     int Quantity,
     CategoryId? CategoryId,
     ProductPrice ProductPrice) : ICommand<Result<ProductVm>>;

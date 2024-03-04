@@ -5,7 +5,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.CategoryAggregate;
 
-public sealed class Category : AuditableEntityBase, IAggregateRoot
+public sealed class Category : EntityBase, IAggregateRoot
 {
     /// <summary>
     ///     EF mapping constructor
@@ -14,22 +14,20 @@ public sealed class Category : AuditableEntityBase, IAggregateRoot
     {
     }
 
-    public Category(string title, string? link)
+    public Category(string title, string? description)
     {
-        Title = Guard.Against.NullOrEmpty(title);
-        Link = link;
+        Name = Guard.Against.NullOrEmpty(title);
+        Description = description;
     }
 
     public CategoryId Id { get; set; } = new(Guid.NewGuid());
-    public string? Title { get; set; }
-    public string? Link { get; set; }
+    public string? Name { get; set; }
+    public string? Description { get; set; }
     public ICollection<Product>? Products { get; set; } = [];
-    public ICollection<Post>? Posts { get; set; } = [];
-    public ICollection<News>? News { get; set; } = [];
 
-    public void Update(string title, string? link)
+    public void Update(string title, string? description)
     {
-        Title = Guard.Against.NullOrEmpty(title);
-        Link = link;
+        Name = Guard.Against.NullOrEmpty(title);
+        Description = description;
     }
 }

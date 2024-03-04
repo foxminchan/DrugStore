@@ -13,19 +13,17 @@ public sealed class GetListByUserIdQueryHandler(Repository<Order> repository)
     public async Task<PagedResult<List<OrderVm>>> Handle(GetListByUserIdQuery request,
         CancellationToken cancellationToken)
     {
-        OrdersByUserIdSpec spec = new(
-            request.UserId,
-            request.Filter.PageNumber,
-            request.Filter.PageSize,
-            request.Filter.IsAscending,
-            request.Filter.OrderBy,
-            request.Filter.Search
-        );
+        OrdersByUserIdSpec spec = new(request.UserId, request.Filter.PageNumber, request.Filter.PageSize);
 
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
-        PagedInfo pageInfo = new(request.Filter.PageNumber, request.Filter.PageSize, totalPages, totalRecords);
+        PagedInfo pageInfo = new(
+            request.Filter.PageNumber,
+            request.Filter.PageSize,
+            totalPages,
+            totalRecords
+        );
 
         var orderVms = entities
             .Select(

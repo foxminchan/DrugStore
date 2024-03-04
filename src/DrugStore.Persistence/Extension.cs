@@ -21,7 +21,7 @@ public static class Extension
 
         services.AddSingleton<AuditableEntityInterceptor>();
 
-        services.AddDbContextPool<ApplicationDbContext>((sp, options )=>
+        services.AddDbContextPool<ApplicationDbContext>((sp, options) =>
         {
             options.UseNpgsql(connectionString, sqlOptions =>
                 {

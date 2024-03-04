@@ -7,7 +7,7 @@ namespace DrugStore.Application.Products.ViewModels;
 
 public sealed record ProductVm(
     ProductId Id,
-    string Title,
+    string Name,
     string? ProductCode,
     string? Detail,
     ProductStatus Status,
@@ -16,4 +16,5 @@ public sealed record ProductVm(
     ProductPrice Price,
     DateTime CreatedDate,
     DateTime? UpdateDate,
-    Guid Version);
+    Guid Version
+);

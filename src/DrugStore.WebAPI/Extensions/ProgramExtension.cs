@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
@@ -16,19 +16,19 @@ public static class ProgramExtension
 {
     public static void AddIdentity(this IServiceCollection services)
     {
-        services.AddAuthentication()
+        services.AddAuthentication(IdentityConstants.BearerScheme)
             .AddBearerToken(IdentityConstants.BearerScheme)
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
         services.AddAuthorizationBuilder()
-            .AddPolicy(Policies.Admin,
+            .AddPolicy(PolicieHelper.Admin,
                 policy => policy
-                    .RequireRole(Roles.Admin)
-                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write, Claims.Manage))
-            .AddPolicy(Policies.Customer,
+                    .RequireRole(RoleHelper.Admin)
+                    .RequireClaim(ClaimTypes.Role, ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage))
+            .AddPolicy(PolicieHelper.Customer,
                 policy => policy
-                    .RequireRole(Roles.Customer)
-                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write));
+                    .RequireRole(RoleHelper.Customer)
+                    .RequireClaim(ClaimTypes.Role, ClaimHelper.Read, ClaimHelper.Write));
 
         services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()

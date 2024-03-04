@@ -34,24 +34,24 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 746, DateTimeKind.Utc).AddTicks(9175))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(7664))
                         .HasColumnName("created_date");
 
-                    b.Property<string>("Link")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("link");
+                    b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
+                        .HasColumnName("description");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)")
-                        .HasColumnName("title");
+                        .HasColumnName("name");
 
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 746, DateTimeKind.Utc).AddTicks(9680))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(8151))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -65,121 +65,13 @@ namespace DrugStore.Persistence.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
-            modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.News", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 749, DateTimeKind.Utc).AddTicks(1310))
-                        .HasColumnName("created_date");
-
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("detail");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("image");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("title");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 749, DateTimeKind.Utc).AddTicks(1844))
-                        .HasColumnName("update_date");
-
-                    b.Property<Guid>("Version")
-                        .IsConcurrencyToken()
-                        .HasColumnType("uuid")
-                        .HasColumnName("version");
-
-                    b.HasKey("Id")
-                        .HasName("pk_news");
-
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_news_category_id");
-
-                    b.ToTable("news", (string)null);
-                });
-
-            modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.Post", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<Guid?>("CategoryId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("category_id");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 757, DateTimeKind.Utc).AddTicks(8689))
-                        .HasColumnName("created_date");
-
-                    b.Property<string>("Detail")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
-                        .HasColumnName("detail");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("image");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("title");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 757, DateTimeKind.Utc).AddTicks(9257))
-                        .HasColumnName("update_date");
-
-                    b.Property<Guid>("Version")
-                        .IsConcurrencyToken()
-                        .HasColumnType("uuid")
-                        .HasColumnName("version");
-
-                    b.HasKey("Id")
-                        .HasName("pk_posts");
-
-                    b.HasIndex("CategoryId")
-                        .HasDatabaseName("ix_posts_category_id");
-
-                    b.ToTable("posts", (string)null);
-                });
-
             modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationRole", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -209,8 +101,10 @@ namespace DrugStore.Persistence.Migrations
             modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationUser", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id");
+                        .HasColumnName("id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer")
@@ -304,7 +198,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 743, DateTimeKind.Utc).AddTicks(8278))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 715, DateTimeKind.Utc).AddTicks(6779))
                         .HasColumnName("created_date");
 
                     b.Property<int>("Cvc")
@@ -335,7 +229,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 744, DateTimeKind.Utc).AddTicks(8877))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 716, DateTimeKind.Utc).AddTicks(5319))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -369,7 +263,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 751, DateTimeKind.Utc).AddTicks(7089))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(3530))
                         .HasColumnName("created_date");
 
                     b.Property<Guid?>("CustomerId")
@@ -387,7 +281,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 751, DateTimeKind.Utc).AddTicks(7649))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(4151))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -422,7 +316,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 754, DateTimeKind.Utc).AddTicks(4776))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1307))
                         .HasColumnName("created_date");
 
                     b.Property<decimal>("Price")
@@ -436,7 +330,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 754, DateTimeKind.Utc).AddTicks(5291))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1843))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -468,7 +362,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 759, DateTimeKind.Utc).AddTicks(9454))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1149))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Detail")
@@ -476,6 +370,12 @@ namespace DrugStore.Persistence.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("detail");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("name");
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
@@ -493,16 +393,10 @@ namespace DrugStore.Persistence.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("status");
 
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)")
-                        .HasColumnName("title");
-
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 3, 5, 45, 10, 760, DateTimeKind.Utc).AddTicks(24))
+                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1641))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -537,8 +431,10 @@ namespace DrugStore.Persistence.Migrations
                         .HasColumnName("claim_value");
 
                     b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("role_id");
+                        .HasColumnName("role_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.HasKey("Id")
                         .HasName("pk_asp_net_role_claims");
@@ -567,8 +463,10 @@ namespace DrugStore.Persistence.Migrations
                         .HasColumnName("claim_value");
 
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("user_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.HasKey("Id")
                         .HasName("pk_asp_net_user_claims");
@@ -594,8 +492,10 @@ namespace DrugStore.Persistence.Migrations
                         .HasColumnName("provider_display_name");
 
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("user_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.HasKey("LoginProvider", "ProviderKey")
                         .HasName("pk_asp_net_user_logins");
@@ -609,12 +509,16 @@ namespace DrugStore.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>", b =>
                 {
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("user_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<Guid>("RoleId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("role_id");
+                        .HasColumnName("role_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.HasKey("UserId", "RoleId")
                         .HasName("pk_asp_net_user_roles");
@@ -628,8 +532,10 @@ namespace DrugStore.Persistence.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<DrugStore.Domain.IdentityAggregate.Primitives.IdentityId>", b =>
                 {
                     b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("user_id")
+                        .HasDefaultValueSql("uuid_generate_v4()");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text")
@@ -647,28 +553,6 @@ namespace DrugStore.Persistence.Migrations
                         .HasName("pk_asp_net_user_tokens");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.News", b =>
-                {
-                    b.HasOne("DrugStore.Domain.CategoryAggregate.Category", "Category")
-                        .WithMany("News")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("fk_news_categories_category_id");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.Post", b =>
-                {
-                    b.HasOne("DrugStore.Domain.CategoryAggregate.Category", "Category")
-                        .WithMany("Posts")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("fk_posts_categories_category_id");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationUser", b =>
@@ -800,9 +684,6 @@ namespace DrugStore.Persistence.Migrations
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<decimal>("OriginalPrice")
-                                .HasColumnType("numeric");
-
                             b1.Property<decimal>("Price")
                                 .HasColumnType("numeric");
 
@@ -886,10 +767,6 @@ namespace DrugStore.Persistence.Migrations
 
             modelBuilder.Entity("DrugStore.Domain.CategoryAggregate.Category", b =>
                 {
-                    b.Navigation("News");
-
-                    b.Navigation("Posts");
-
                     b.Navigation("Products");
                 });
 

@@ -1,6 +1,6 @@
 using System.Transactions;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +39,7 @@ public class IndexModel(UserManager<ApplicationUser> userManager) : PageModel
 
             if (result.Succeeded)
             {
-                await userManager.AddToRoleAsync(user, Roles.Customer);
+                await userManager.AddToRoleAsync(user, RoleHelper.Customer);
                 scope.Complete();
                 return Redirect("~/Account/Login?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl));
             }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace DrugStore.Persistence.Configurations;
 
 public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEntity>
-    where TEntity : AuditableEntityBase
+    where TEntity : EntityBase
 {
     public virtual void Configure(EntityTypeBuilder<TEntity> builder)
     {

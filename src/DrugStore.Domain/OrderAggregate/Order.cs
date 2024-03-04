@@ -9,7 +9,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.OrderAggregate;
 
-public sealed class Order : AuditableEntityBase, IAggregateRoot
+public sealed class Order : EntityBase, IAggregateRoot
 {
     /// <summary>
     ///     EF mapping constructor
@@ -32,9 +32,9 @@ public sealed class Order : AuditableEntityBase, IAggregateRoot
     public PaymentMethod? PaymentMethod { get; set; }
     public IdentityId? CustomerId { get; set; }
     [JsonIgnore] public ApplicationUser? Customer { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } = [];
     public CardId? CardId { get; set; }
     [JsonIgnore] public Card? Card { get; set; }
+    public ICollection<OrderItem> OrderItems { get; set; } = [];
 
     public void AddOrder(string key) => RegisterDomainEvent(new OrderCreatedEvent(key));
 

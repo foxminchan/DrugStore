@@ -4,8 +4,9 @@ namespace DrugStore.Application.Categories.ViewModels;
 
 public sealed record CategoryVm(
     CategoryId Id,
-    string Title,
-    string? Link,
+    string Name,
+    string? Description,
     DateTime CreatedDate,
     DateTime? UpdateDate,
-    Guid Version);
+    Guid Version
+);

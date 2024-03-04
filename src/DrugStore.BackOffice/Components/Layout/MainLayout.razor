@@ -7,29 +7,33 @@
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
             <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)"/>
             <RadzenLabel Text="Drug Store Admin"/>
+            <RadzenProfileMenu Style="margin-left: auto;">
+                <Template>
+                    <RadzenGravatar Email="user@example.com"></RadzenGravatar>
+                </Template>
+                <ChildContent>
+                    <RadzenProfileMenuItem Text="Profile" Path="profile" Icon="account_circle"/>
+                    <RadzenProfileMenuItem Text="Logout" Icon="exit_to_app" OnClick="@(() => { })"/>
+                </ChildContent>
+            </RadzenProfileMenu>
         </RadzenStack>
     </RadzenHeader>
-    <RadzenSidebar @bind-Expanded="@_sidebarExpanded">
-        <div class="logo-container">
-            <img src="logo.svg" alt="Drug Store Admin" />
-        </div>
+    <RadzenSidebar Responsive="true" @bind-Expanded="@_sidebarExpanded">
+        <RadzenImage Path="logo.svg" AlternateText="Drug Store Admin"/>
         <RadzenPanelMenu>
             <ChildContent>
                 <RadzenPanelMenuItem Text="Catalog" Icon="inventory">
-                    <RadzenPanelMenuItem Text="Categories" Path="category"/>
                     <RadzenPanelMenuItem Text="Products" Path="production"/>
-                    <RadzenPanelMenuItem Text="News" Path="news"/>
-                    <RadzenPanelMenuItem Text="Posts" Path="post"/>
+                    <RadzenPanelMenuItem Text="Categories" Path="category"/>
                 </RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Customers" Icon="people">
-                    <RadzenPanelMenuItem Text="Customers" Path="customer" />
                     <RadzenPanelMenuItem Text="Order" Path="order"/>
-                    <RazdenPanelMenuItem Text="Basket" Path="basket"/>
+                    <RadzenPanelMenuItem Text="Customers" Path="customer"/>
                 </RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Settings" Icon="settings">
+                    <RadzenPanelMenuItem Text="Users" Path="user"/>
                     <RadzenPanelMenuItem Text="Roles" Path="role"/>
                     <RadzenPanelMenuItem Text="Permissions" Path="permission"/>
-                    <RadzenPanelMenuItem Text="Users" Path="user"/>
                 </RadzenPanelMenuItem>
             </ChildContent>
         </RadzenPanelMenu>
