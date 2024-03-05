@@ -1,6 +1,7 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Products.Commands.CreateProductCommand;
 using DrugStore.Application.Products.Commands.DeleteProductCommand;
+using DrugStore.Application.Products.Commands.UpdateMainImageCommand;
 using DrugStore.Application.Products.Commands.UpdateProductCommand;
 using DrugStore.Application.Products.Queries.GetByIdQuery;
 using DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
@@ -9,6 +10,7 @@ using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Infrastructure.Exception;
 using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
@@ -30,6 +32,7 @@ public sealed class ProductEndpoint : IEndpoint
         group.MapGet("/category/{id:guid}", GetProductsByCategoryId).WithName(nameof(GetProductsByCategoryId));
         group.MapPost("", CreateProduct).WithName(nameof(CreateProduct));
         group.MapPut("", UpdateProduct).WithName(nameof(UpdateProduct));
+        group.MapPut("images", UpdateMainImage).WithName(nameof(UpdateMainImage));
         group.MapDelete("{id:guid}", DeleteProduct).WithName(nameof(DeleteProduct));
     }
 
@@ -54,15 +57,28 @@ public sealed class ProductEndpoint : IEndpoint
 
     private static async Task<Result<ProductId>> CreateProduct(
         [FromServices] ISender sender,
-        [FromBody] CreateProductCommand command,
+        [FromHeader(Name = "X-Idempotency-Key")]
+        string idempotencyKey,
+        [FromForm] ProductCreateRequest command,
+        [FromForm] List<IFormFile>? images,
         CancellationToken cancellationToken)
-        => await sender.Send(command, cancellationToken);
+        => !Guid.TryParse(idempotencyKey, out var requestId)
+            ? throw new InvalidIdempotencyException()
+            : await sender.Send(new CreateProductCommand(requestId, command, images), cancellationToken);
 
     private static async Task<Result<ProductVm>> UpdateProduct(
         [FromServices] ISender sender,
-        [FromBody] UpdateProductCommand command,
+        [FromForm] ProductUpdateRequest command,
+        [FromForm] List<IFormFile>? images,
+        CancellationToken cancellationToken)
+        => await sender.Send(new UpdateProductCommand(command, images), cancellationToken);
+
+    private static async Task<Result<ProductId>> UpdateMainImage(
+        [FromServices] ISender sender,
+        [AsParameters] UpdateMainImageCommand command,
         CancellationToken cancellationToken)
         => await sender.Send(command, cancellationToken);
+
 
     private static async Task<Result> DeleteProduct(
         [FromServices] ISender sender,

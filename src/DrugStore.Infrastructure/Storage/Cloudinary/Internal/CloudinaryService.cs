@@ -34,7 +34,7 @@ public sealed class CloudinaryService(ICloudinaryUploadApi cloudinary) : ICloudi
             : Result<CloudinaryResult>.Success(new(uploadResult.PublicId, uploadResult.SecureUrl.AbsoluteUri));
     }
 
-    public async Task<Result<string>> DeletePhotoAsync(string publicId)
+    public async Task<Result<string>> DeletePhotoAsync(string? publicId)
     {
         var result = await _retryPolicy
             .ExecuteAsync(async () => await cloudinary.DestroyAsync(new(publicId)));
