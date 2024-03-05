@@ -2,6 +2,7 @@
 using Ardalis.Result;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
 using Mapster;
@@ -24,7 +25,12 @@ public sealed class UpdateProductCommandHandler(Repository<Product> repository)
             request.CategoryId,
             request.ProductPrice
         );
+
         await repository.UpdateAsync(product, cancellationToken);
+
+        if (product.Status == ProductStatus.OutOfStock || product.Status == ProductStatus.Discontinued)
+            product.DisableProduct(product.Id);
+
         return Result<ProductVm>.Success(product.Adapt<ProductVm>());
     }
 }

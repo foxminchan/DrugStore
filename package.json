@@ -4,7 +4,6 @@
   "author": "Nguyen Xuan Nhan",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
     "lint": "markdownlint --ignore node_modules ."
   },
   "devDependencies": {

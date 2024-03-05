@@ -13,6 +13,7 @@ public sealed class DeleteProductCommandHandler(Repository<Product> repository)
     {
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
+        product.DisableProduct(product.Id);
         await repository.DeleteAsync(product, cancellationToken);
         return Result.Success();
     }

@@ -3,6 +3,7 @@ using Ardalis.GuardClauses;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.ProductAggregate.DomainEvents;
 using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
@@ -80,4 +81,6 @@ public sealed class Product : EntityBase, IAggregateRoot
 
         if (Status == ProductStatus.OutOfStock && Quantity > 0) Status = ProductStatus.InStock;
     }
+
+    public void DisableProduct(ProductId productId) => RegisterDomainEvent(new ProductDisabledEvent(productId));
 }
