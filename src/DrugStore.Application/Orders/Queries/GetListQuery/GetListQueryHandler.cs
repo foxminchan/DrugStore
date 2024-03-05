@@ -38,18 +38,12 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
                     order.Status,
                     order.PaymentMethod,
                     order.CustomerId,
-                    order.CreatedDate,
-                    order.UpdateDate,
-                    order.Version,
                     order.OrderItems.Select(
                         item => new OrderItemVm(
                             item.ProductId,
                             item.OrderId,
                             item.Quantity,
-                            item.Price,
-                            item.CreatedDate,
-                            item.UpdateDate,
-                            item.Version
+                            item.Price
                         )
                     ).ToList()
                 )

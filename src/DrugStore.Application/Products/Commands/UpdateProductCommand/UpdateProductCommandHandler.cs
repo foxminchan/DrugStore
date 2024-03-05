@@ -16,7 +16,7 @@ public sealed class UpdateProductCommandHandler(Repository<Product> repository)
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
         product.Update(
-            request.Title,
+            request.Name,
             request.ProductCode,
             request.Detail,
             request.Status,

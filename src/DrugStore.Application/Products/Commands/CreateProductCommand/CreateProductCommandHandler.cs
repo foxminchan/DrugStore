@@ -12,7 +12,7 @@ public sealed class CreateProductCommandHandler(Repository<Product> repository)
     public async Task<Result<ProductId>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         Product product = new(
-            request.Title,
+            request.Name,
             request.ProductCode,
             request.Detail,
             request.Status,

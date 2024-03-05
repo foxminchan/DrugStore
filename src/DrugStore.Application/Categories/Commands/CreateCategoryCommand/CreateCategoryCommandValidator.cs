@@ -13,7 +13,7 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(x => x.CategoryRequest.Link)
+        RuleFor(x => x.CategoryRequest.Description)
             .MaximumLength(100);
     }
 }

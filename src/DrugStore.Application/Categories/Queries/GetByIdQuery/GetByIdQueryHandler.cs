@@ -5,7 +5,6 @@ using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Persistence;
-using Mapster;
 
 namespace DrugStore.Application.Categories.Queries.GetByIdQuery;
 
@@ -25,6 +24,6 @@ public sealed class GetByIdQueryHandler(Repository<Category> repository, IRedisS
 
         var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
-        return Result<CategoryVm>.Success(entity.Adapt<CategoryVm>());
+        return Result<CategoryVm>.Success(new(entity.Id, entity.Name, entity.Description));
     }
 }

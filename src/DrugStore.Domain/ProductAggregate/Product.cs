@@ -49,7 +49,8 @@ public sealed class Product : EntityBase, IAggregateRoot
     public ICollection<ProductImage>? Images { get; set; } = [];
     public ICollection<OrderItem>? OrderItems { get; set; } = [];
 
-    public void Update(string title,
+    public void Update(
+        string name,
         string? productCode,
         string? detail,
         ProductStatus status,
@@ -57,7 +58,7 @@ public sealed class Product : EntityBase, IAggregateRoot
         CategoryId? categoryId,
         ProductPrice productPrice)
     {
-        Name = Guard.Against.NullOrEmpty(title);
+        Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
         Detail = detail;
         Status = status;

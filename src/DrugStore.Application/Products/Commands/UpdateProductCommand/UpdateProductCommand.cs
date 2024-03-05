@@ -10,7 +10,7 @@ namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed record UpdateProductCommand(
     ProductId Id,
-    string Title,
+    string Name,
     string? ProductCode,
     string? Detail,
     ProductStatus Status,

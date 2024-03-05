@@ -8,4 +8,5 @@ public sealed record UserVm(
     string? Email,
     string? FullName,
     string? Phone,
-    Address? Address);
+    Address? Address
+);

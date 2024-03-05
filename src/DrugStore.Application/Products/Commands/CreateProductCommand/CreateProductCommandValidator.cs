@@ -7,7 +7,7 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
 {
     public CreateProductCommandValidator(CategoryIdValidator categoryIdValidator)
     {
-        RuleFor(x => x.Title)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(50);
 

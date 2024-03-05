@@ -7,7 +7,7 @@ using DrugStore.Domain.SharedKernel;
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 
 public sealed record CreateProductCommand(
-    string Title,
+    string Name,
     string? ProductCode,
     string? Detail,
     bool Status,

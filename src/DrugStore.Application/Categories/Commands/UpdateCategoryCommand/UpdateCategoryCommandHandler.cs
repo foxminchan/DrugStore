@@ -4,7 +4,6 @@ using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
-using Mapster;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
 
@@ -15,8 +14,8 @@ public sealed class UpdateCategoryCommandHandler(Repository<Category> repository
     {
         var category = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, category);
-        category.Update(request.Title, request.Link);
+        category.Update(request.Title, request.Description);
         await repository.UpdateAsync(category, cancellationToken);
-        return Result<CategoryVm>.Success(category.Adapt<CategoryVm>());
+        return Result<CategoryVm>.Success(new(category.Id, category.Name, category.Description));
     }
 }

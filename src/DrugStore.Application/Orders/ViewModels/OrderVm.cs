@@ -11,16 +11,12 @@ public sealed record OrderVm(
     OrderStatus? Status,
     PaymentMethod? PaymentMethod,
     IdentityId? CustomerId,
-    DateTime CreatedDate,
-    DateTime? UpdateDate,
-    Guid Version,
-    List<OrderItemVm> Items);
+    List<OrderItemVm> Items
+);
 
 public sealed record OrderItemVm(
     ProductId? ProductId,
     OrderId? OrderId,
-    int Quantity, 
-    decimal Price, 
-    DateTime CreatedDate,
-    DateTime? UpdateDate,
-    Guid Version);
+    int Quantity,
+    decimal Price
+);
