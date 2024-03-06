@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using DrugStore.Infrastructure.Cache.Redis;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,8 +16,8 @@ public static class Extension
         var postgresConn = builder.Configuration.GetConnectionString("Postgres");
         Guard.Against.Null(postgresConn, message: "Connection string 'Postgres' not found.");
 
-        var redisConn = builder.Configuration.GetConnectionString("Redis");
-        Guard.Against.Null(redisConn, message: "Connection string 'Redis' not found.");
+        var redisConn = builder.Configuration.GetSection("RedisSettings").Get<RedisSettings>()?.Url;
+        Guard.Against.Null(redisConn, message: "Redis URL not found.");
 
         var identityServer = builder.Configuration.GetValue<string>("IdentityUrlExternal");
         Guard.Against.Null(identityServer, message: "IdentityServer URL not found.");

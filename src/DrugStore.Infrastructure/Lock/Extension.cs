@@ -1,4 +1,5 @@
 ﻿using Ardalis.GuardClauses;
+using DrugStore.Infrastructure.Cache.Redis;
 using Medallion.Threading;
 using Medallion.Threading.Redis;
 using Microsoft.Extensions.Configuration;
@@ -13,7 +14,7 @@ public static class Extension
         => services.AddSingleton<IDistributedLockProvider>(
             _ =>
             {
-                var connectionString = configuration.GetConnectionString("Redis");
+                var connectionString = configuration.GetSection("RedisSettings").Get<RedisSettings>()?.Url;
                 Guard.Against.NullOrEmpty(connectionString);
                 return new RedisDistributedSynchronizationProvider(
                     ConnectionMultiplexer.Connect(connectionString).GetDatabase()

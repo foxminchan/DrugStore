@@ -47,7 +47,8 @@ public static class Extension
 
         if (!string.IsNullOrWhiteSpace(redisSettings.Password)) configurationOptions.Password = redisSettings.Password;
 
-        redisSettings.Url = config.GetConnectionString("Redis") ?? throw new InvalidOperationException();
+        redisSettings.Url = config.GetSection("RedisSettings").Get<RedisSettings>()?.Url 
+                            ?? throw new InvalidOperationException();
 
         foreach (var endpoint in redisSettings.Url.Split(',')) configurationOptions.EndPoints.Add(endpoint);
 
