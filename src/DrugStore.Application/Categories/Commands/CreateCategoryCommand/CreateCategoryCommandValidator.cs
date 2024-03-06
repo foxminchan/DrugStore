@@ -9,7 +9,7 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
         RuleFor(x => x.RequestId)
             .NotEmpty();
 
-        RuleFor(x => x.CategoryRequest.Title)
+        RuleFor(x => x.CategoryRequest.Name)
             .NotEmpty()
             .MaximumLength(50);
 

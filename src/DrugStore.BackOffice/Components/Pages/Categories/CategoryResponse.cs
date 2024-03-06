@@ -2,7 +2,7 @@
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
-public sealed class CategoriesResponse
+public sealed class CategoryResponse
 {
     [JsonPropertyName("id")]
     public Guid Id { get; set; }

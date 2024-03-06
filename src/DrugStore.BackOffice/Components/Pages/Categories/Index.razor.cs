@@ -4,7 +4,7 @@ using Radzen;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
-public sealed partial class Categories
+public sealed partial class Index
 {
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
@@ -14,9 +14,9 @@ public sealed partial class Categories
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
-    [Inject] private ExportService<CategoriesResponse> ExportService { get; set; } = default!;
+    [Inject] private ExportService<CategoryResponse> ExportService { get; set; } = default!;
 
-    private List<CategoriesResponse> _categories = [];
+    private List<CategoryResponse> _categories = [];
     private bool _loading;
 
     protected override async Task OnInitializedAsync()
@@ -26,17 +26,14 @@ public sealed partial class Categories
         _loading = false;
     }
 
-    private Task EditCategory(Guid id)
-    {
-        NavigationManager.NavigateTo($"/categories/edit/{id}");
-        return Task.CompletedTask;
-    }
+    private async Task EditCategory(Guid id)
+        => await DialogService.OpenAsync<Edit>("Edit Category",
+            new() { ["Id"] = id },
+            new() { Width = "40%", Height = "60%" }
+        );
 
-    private Task AddCategory()
-    {
-        NavigationManager.NavigateTo("/categories/add");
-        return Task.CompletedTask;
-    }
+    private async Task AddCategory()
+        => await DialogService.OpenAsync<Add>("Add Category", options: new() { Width = "40%", Height = "60%" });
 
     private async Task DeleteCategory(Guid id)
     {

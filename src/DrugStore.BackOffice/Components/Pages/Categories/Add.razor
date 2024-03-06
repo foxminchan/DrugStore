@@ -1,0 +1,14 @@
+﻿@page "/Categories/add"
+
+<RadzenTemplateForm Data="_category" Submit="@((CategoryCreateRequest category) => AddCategory(category))">
+    <RadzenFieldset Text="Category information">
+        <RadzenStack Gap="1rem">
+            <RadzenLabel Text="Name" Component="label"/>
+            <RadzenTextBox @bind-Value="_category.Name" Name="Name"/>
+            <RadzenRequiredValidator Component="Name" Text="Name is required" Popup="true" Style="position: absolute"/>
+            <RadzenLabel Text="Description" Component="label"/>
+            <RadzenTextBox @bind-Value="_category.Description" Name="Description"/>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Save" ButtonStyle="ButtonStyle.Primary"/>
+        </RadzenStack>
+    </RadzenFieldset>
+</RadzenTemplateForm>

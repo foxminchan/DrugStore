@@ -4,8 +4,7 @@
 
 <PageTitle>Categories management</PageTitle>
 
-
-<RadzenDataGrid Data="_categories"TItem="CategoriesResponse"
+<RadzenDataGrid Data="_categories"TItem="CategoryResponse"
                 IsLoading="@_loading"
                 AllowFiltering="true"
                 AllowSorting="true">
@@ -24,9 +23,9 @@
                       Click="@(() => ExportToCsv())"/>
     </HeaderTemplate>
     <Columns>
-        <RadzenDataGridColumn TItem="CategoriesResponse" Property="Name" Width="200px" Title="Name"/>
-        <RadzenDataGridColumn TItem="CategoriesResponse" Property="Description" Title="Description"/>
-        <RadzenDataGridColumn TItem="CategoriesResponse" Width="100px" Filterable="false" Sortable="false">
+        <RadzenDataGridColumn TItem="CategoryResponse" Property="Name" Width="200px" Title="Name"/>
+        <RadzenDataGridColumn TItem="CategoryResponse" Property="Description" Title="Description"/>
+        <RadzenDataGridColumn TItem="CategoryResponse" Width="100px" Filterable="false" Sortable="false">
             <Template Context="category">
                 <RadzenButton Variant="Variant.Flat"
                               Icon="edit"
