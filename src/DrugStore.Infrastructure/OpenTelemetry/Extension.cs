@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
@@ -28,7 +29,11 @@ public static class Extension
 
         builder.Logging.AddOpenTelemetry(logging =>
             logging.SetResourceBuilder(resourceBuilder)
-                .AddOtlpExporter(options => options.Endpoint = oltpEndpoint)
+                .AddOtlpExporter(options =>
+                {
+                    options.Endpoint = new("http://localhost:5341/ingest/otlp/v1/logs");
+                    options.Protocol = OtlpExportProtocol.HttpProtobuf;
+                })
         );
 
         builder.Services.Configure<OpenTelemetryLoggerOptions>(opt =>

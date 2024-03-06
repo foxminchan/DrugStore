@@ -21,6 +21,7 @@ services:
       - "55679:55679" # zpages extension
     depends_on:
       - prometheus
+      - jaeger
     deploy:
       resources:
         limits:
@@ -71,12 +72,14 @@ services:
     networks:
       - bridge-network
 
-  zipkin:
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: jaeger
+    restart: always
     ports:
-      - "9412:9411"
-    restart: unless-stopped
+      - "16686:16686"
+      - "14268"
+      - "14250"
     networks:
       - bridge-network
 

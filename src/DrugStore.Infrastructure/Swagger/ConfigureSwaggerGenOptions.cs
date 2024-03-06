@@ -42,7 +42,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         {
                             { ClaimHelper.Read, "Read Access to API" },
                             { ClaimHelper.Write, "Write Access to API" },
-                            { ClaimHelper.Manage, "Manage Access to API" }
+                            { ClaimHelper.Manage, "Manage Access to API" },
                         }
                     }
                 }

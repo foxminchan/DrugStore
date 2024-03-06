@@ -16,12 +16,8 @@ exporters:
 
   logging:
 
-  zipkin:
-    endpoint: "http://zipkin:9412/api/v2/spans"
-    format: proto
-
-  otlphttp/seq:
-    endpoint: "http://seq:5341/ingest/otlp/v1/logs"
+  otlphttp/jaeger:
+    endpoint: jaeger:14250
 
 processors:
   batch:
@@ -39,7 +35,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, zipkin]
+      exporters: [logging, otlphttp/jaeger]
     metrics:
       receivers: [otlp]
       processors: [batch]
@@ -47,4 +43,4 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, otlphttp/seq]
+      exporters: [logging]

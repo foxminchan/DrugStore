@@ -12,8 +12,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Radzen.Blazor" Version="4.25.10" />
-		<PackageReference Include="Refit.HttpClientFactory" Version="7.0.0" />
+		<PackageReference Include="Radzen.Blazor"/>
+		<PackageReference Include="Refit.HttpClientFactory"  />
 	</ItemGroup>
 
 	<ItemGroup>

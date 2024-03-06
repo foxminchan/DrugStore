@@ -24,9 +24,12 @@ internal static class HostingExtensions
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
-        builder.Services
+        var identityServerBuilder = builder.Services
             .AddIdentityServer(options =>
             {
+                options.IssuerUri = builder.Configuration.GetValue<string>("IssuerUrl");
+                options.Authentication.CookieLifetime = TimeSpan.FromHours(2);
+
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
@@ -37,8 +40,9 @@ internal static class HostingExtensions
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryApiResources(Config.ApiResources)
             .AddInMemoryClients(Config.Clients(builder.Configuration))
-            .AddAspNetIdentity<ApplicationUser>()
-            .AddDeveloperSigningCredential();
+            .AddAspNetIdentity<ApplicationUser>();
+
+        if (builder.Environment.IsDevelopment()) identityServerBuilder.AddDeveloperSigningCredential();
 
         builder.Services.AddAuthentication();
 

@@ -30,11 +30,19 @@ public static class Config
     ];
 
     public static IEnumerable<Client> Clients(IConfiguration configuration) =>
-    [
+    [  new()
+        {
+            ClientId = "ro.client",
+            ClientName = "Resource Owner Client",
+            AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+            ClientSecrets = { new Secret("secret".Sha256()) },
+            AllowedScopes = { ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage }
+        },
         new()
         {
             ClientId = "storefront",
             ClientName = "Storefront Client",
+            ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
             RequirePkce = true,
             RequireClientSecret = false,
@@ -46,6 +54,7 @@ public static class Config
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write
             }
@@ -54,6 +63,7 @@ public static class Config
         {
             ClientId = "backoffice",
             ClientName = "Backoffice Client",
+            ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
             RequirePkce = true,
             RequireClientSecret = false,
@@ -65,6 +75,7 @@ public static class Config
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write,
                 ClaimHelper.Manage
@@ -74,6 +85,7 @@ public static class Config
         {
             ClientId = "apiswaggerui",
             ClientName = "DrugStore API",
+            ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedGrantTypes = GrantTypes.Implicit,
             AllowAccessTokensViaBrowser = true,
             RequirePkce = true,

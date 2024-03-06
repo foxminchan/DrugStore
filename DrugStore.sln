@@ -39,11 +39,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.UnitTest", "tests
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StroreFront.EndToEnd", "tests\StroreFront.EndToEnd\StroreFront.EndToEnd.csproj", "{8AB62F6F-97BA-4ECC-BA14-4C257BF8184C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.StoreFront", "src\DrugStore.StoreFront\DrugStore.StoreFront.csproj", "{4BD35F7D-4010-4A91-A73A-B519A894B278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.StoreFront", "src\DrugStore.StoreFront\DrugStore.StoreFront.csproj", "{4BD35F7D-4010-4A91-A73A-B519A894B278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrugStore.BackOffice", "src\DrugStore.BackOffice\DrugStore.BackOffice.csproj", "{B8FB4F1E-BBF0-4C5C-B4B3-11034069E28C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.BackOffice", "src\DrugStore.BackOffice\DrugStore.BackOffice.csproj", "{B8FB4F1E-BBF0-4C5C-B4B3-11034069E28C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.WebAPI", "src\DrugStore.WebAPI\DrugStore.WebAPI.csproj", "{51BB3671-7388-483C-B2D6-1263A33FC70B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9D4A7FB3-9793-4A49-94A1-85D217120AB3}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
