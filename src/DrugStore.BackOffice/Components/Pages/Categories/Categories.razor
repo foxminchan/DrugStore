@@ -1,0 +1,43 @@
+﻿<h3>Categories</h3>
+
+@page "/Categories"
+
+<PageTitle>Categories management</PageTitle>
+
+
+<RadzenDataGrid Data="_categories"TItem="CategoriesResponse"
+                IsLoading="@_loading"
+                AllowFiltering="true"
+                AllowSorting="true">
+    <HeaderTemplate>
+        <RadzenButton Icon="add"
+                      Text="Add category"
+                      ButtonStyle="ButtonStyle.Primary"
+                      Click="@(() => AddCategory())"/>
+        <RadzenButton Icon="refresh"
+                      Text="Refresh"
+                      ButtonStyle="ButtonStyle.Secondary"
+                      Click="@(() => OnInitializedAsync())"/>
+        <RadzenButton Icon="file_download"
+                      Text="Export to CSV"
+                      ButtonStyle="ButtonStyle.Info"
+                      Click="@(() => ExportToCsv())"/>
+    </HeaderTemplate>
+    <Columns>
+        <RadzenDataGridColumn TItem="CategoriesResponse" Property="Name" Width="200px" Title="Name"/>
+        <RadzenDataGridColumn TItem="CategoriesResponse" Property="Description" Title="Description"/>
+        <RadzenDataGridColumn TItem="CategoriesResponse" Width="100px" Filterable="false" Sortable="false">
+            <Template Context="category">
+                <RadzenButton Variant="Variant.Flat"
+                              Icon="edit"
+                              ButtonStyle="ButtonStyle.Warning"
+                              Click="@(() => EditCategory(category.Id))"/>
+                <RadzenButton Variant="Variant.Flat"
+                              Icon="delete"
+                              ButtonStyle="ButtonStyle.Danger"
+                              Click="@(() => DeleteCategory(category.Id))"/>
+            </Template>
+        </RadzenDataGridColumn>
+
+    </Columns>
+</RadzenDataGrid>

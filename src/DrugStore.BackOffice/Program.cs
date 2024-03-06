@@ -1,8 +1,9 @@
 using Ardalis.GuardClauses;
-using DrugStore.BackOffice.Categories;
 using DrugStore.BackOffice.Components;
-using DrugStore.BackOffice.Customer;
-using DrugStore.BackOffice.Products;
+using DrugStore.BackOffice.Components.Pages.Categories;
+using DrugStore.BackOffice.Components.Pages.Customer;
+using DrugStore.BackOffice.Components.Pages.Products;
+using DrugStore.BackOffice.Services;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
 using Radzen;
@@ -17,6 +18,8 @@ builder.Services.AddRadzenComponents();
 
 builder.AddOpenTelemetry(builder.Configuration);
 builder.AddSerilog(builder.Environment.ApplicationName);
+
+builder.Services.AddScoped(typeof(ExportService<>));
 
 var apiRoute = builder.Configuration.GetSection("ApiUrl").Value;
 

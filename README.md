@@ -47,53 +47,6 @@ pnpm install
 docker-compose -f ./docker-compose.yml -f ./docker-compose.o11y.yaml up -d
 ```
 
-### External services configuration
-
-#### Cloudinary
-
-<p align="justify">
-Navigate to the <a href="https://cloudinary.com/console">Cloudinary Console</a> website and create an account. After creating an account, navigate to the dashboard and copy the cloud name, API key, and API secret. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
-</p>
-
-```json
-{
-  "CloudinarySettings": {
-    "CloudName": "cloud_name",
-    "ApiKey": "api_key",
-    "ApiSecret": "api_secret"
-  }
-}
-```
-
-#### Stripe
-
-<p align="justify">
-Navigate to the <a href="https://dashboard.stripe.com/test/apikeys">Stripe Dashboard</a> website and create an account. After creating an account, navigate to the API keys and copy the secret key. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
-</p>
-
-```json
-{
-  "StripeSettings": {
-    "ApiKey": "stripe_secret_key"
-  }
-}
-```
-
-#### SendGrid
-
-<p align="justify">
-Navigate to the <a href="https://app.sendgrid.com/settings/api_keys">SendGrid Dashboard</a> website and create an account. After creating an account, navigate to the API keys and create a new API key. Create a file named <code>appsettings.Development.json</code> in the <code>DrugStore.Presentation</code> project and add the following code:
-</p>
-
-```json
-{
-  "SendGridSettings": {
-    "ApiKey": "send_grid_api_key",
-    "DefaultFromEmail": "email_address"
-  }
-}
-```
-
 ## Usage
 
 ### Running the application

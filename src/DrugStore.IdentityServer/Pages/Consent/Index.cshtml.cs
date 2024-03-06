@@ -104,7 +104,7 @@ public class Index(
         var request = await interaction.GetAuthorizationContextAsync(returnUrl);
         if (request is { }) return CreateConsentViewModel(model, returnUrl, request);
 
-        logger.LogError("No consent request matching request: {returnUrl}", returnUrl);
+        logger.LogError("No consent request matching request: {ReturnUrl}", returnUrl);
         return null;
     }
 
@@ -124,7 +124,7 @@ public class Index(
                 .ToArray()
         };
 
-        logger.LogDebug("Request for consent: {returnUrl}", returnUrl);
+        logger.LogDebug("Request for consent: {ReturnUrl}", returnUrl);
 
         var resourceIndicators =
             request.Parameters.GetValues(OidcConstants.AuthorizeRequest.Resource) ?? Enumerable.Empty<string>();

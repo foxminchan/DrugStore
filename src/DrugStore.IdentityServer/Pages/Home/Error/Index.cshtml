@@ -11,7 +11,7 @@
             <div class="alert alert-danger">
                 Sorry, there was an error
 
-                @if (Model.View.Error != null)
+                @if (Model.View.Error is { })
                 {
                     <strong>
                         <em>
@@ -19,14 +19,14 @@
                         </em>
                     </strong>
 
-                    if (Model.View.Error.ErrorDescription != null)
+                    if (Model.View.Error.ErrorDescription is { })
                     {
                         <div>@Model.View.Error.ErrorDescription</div>
                     }
                 }
             </div>
 
-            @if (Model?.View?.Error?.RequestId != null)
+            @if (Model?.View?.Error?.RequestId is { })
             {
                 <div class="request-id">Request Id: @Model.View.Error.RequestId</div>
             }

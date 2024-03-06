@@ -27,7 +27,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-sm-8 card-name">
-                            @if (grant.ClientLogoUrl != null)
+                            @if (grant.ClientLogoUrl is { })
                             {
                                 <img src="@grant.ClientLogoUrl">
                             }
@@ -44,7 +44,7 @@
                 </div>
 
                 <ul class="list-group list-group-flush">
-                    @if (grant.Description != null)
+                    @if (grant.Description is { })
                     {
                         <li class="list-group-item">
                             <label>Description:</label> @grant.Description

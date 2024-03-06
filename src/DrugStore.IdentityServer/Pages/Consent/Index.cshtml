@@ -5,10 +5,10 @@
 
 <div class="page-consent">
     <div class="lead">
-        @if (Model.View.ClientLogoUrl != null)
+        @if (Model.View.ClientLogoUrl is { })
         {
             <div class="client-logo">
-                <img src="@Model.View.ClientLogoUrl">
+                <img src="@Model.View.ClientLogoUrl" alt="@Model.View.ClientLogoUrl">
             </div>
         }
         <h1>
@@ -96,7 +96,7 @@
                 <button name="Input.button" value="no" class="btn btn-secondary">No, Do Not Allow</button>
             </div>
             <div class="col-sm-4 col-lg-auto">
-                @if (Model.View.ClientUrl != null)
+                @if (Model.View.ClientUrl is { })
                 {
                     <a class="btn btn-outline-info" href="@Model.View.ClientUrl">
                         <span class="glyphicon glyphicon-info-sign"></span>
