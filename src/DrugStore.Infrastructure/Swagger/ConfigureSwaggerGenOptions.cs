@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning.ApiExplorer;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,19 +26,9 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                     License = new() { Name = "MIT", Url = new("https://opensource.org/licenses/MIT") }
                 });
 
-        options.AddSecurityDefinition("Bearer",
-            new()
-            {
-                Name = "Authorization",
-                Description = "Enter the Bearer Authorization string as following: `Generated-JWT-Token`",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.Http,
-                Scheme = JwtBearerDefaults.AuthenticationScheme
-            });
-
         var identityUrlExternal = config.GetValue<string>("IdentityUrlExternal");
 
-        options.AddSecurityDefinition("oauth2",
+        options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme,
             new()
             {
                 Type = SecuritySchemeType.OAuth2,
@@ -49,9 +40,9 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         TokenUrl = new($"{identityUrlExternal}/connect/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            { "read", "Read Access to API" },
-                            { "write", "Write Access to API" },
-                            { "manage", "Manage Access to API" }
+                            { ClaimHelper.Read, "Read Access to API" },
+                            { ClaimHelper.Write, "Write Access to API" },
+                            { ClaimHelper.Manage, "Manage Access to API" }
                         }
                     }
                 }
@@ -62,16 +53,14 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
             {
                 new()
                 {
-                    Name = JwtBearerDefaults.AuthenticationScheme,
-                    In = ParameterLocation.Header,
                     Reference = new()
                     {
-                        Id = JwtBearerDefaults.AuthenticationScheme, Type = ReferenceType.SecurityScheme
+                        Id = JwtBearerDefaults.AuthenticationScheme,
+                        Type = ReferenceType.SecurityScheme
                     }
                 },
-                new List<string>()
-            },
-            { new() { Reference = new() { Type = ReferenceType.SecurityScheme, Id = "OAuth2" } }, new List<string>() }
+                new List<string>([ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage])
+            }
         });
 
         options.OperationFilter<AuthorizeCheckOperationFilter>();

@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer;
+﻿using DrugStore.Domain.IdentityAggregate.Helpers;
+using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
 namespace DrugStore.IdentityServer;
@@ -13,14 +14,19 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes =>
     [
-        new("read", "Read Access to API"),
-        new("write", "Write Access to API"),
-        new("manage", "Manage Access to API")
+        new(ClaimHelper.Read, "Read Access to API"),
+        new(ClaimHelper.Write, "Write Access to API"),
+        new(ClaimHelper.Manage, "Manage Access to API")
     ];
 
     public static IEnumerable<ApiResource> ApiResources =>
     [
-        new() { Name = "drugstore", DisplayName = "DrugStore API", Scopes = { "read", "write", "manage" } }
+        new()
+        {
+            Name = "drugstore",
+            DisplayName = "DrugStore API",
+            Scopes = { ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage }
+        }
     ];
 
     public static IEnumerable<Client> Clients(IConfiguration configuration) =>
@@ -40,8 +46,8 @@ public static class Config
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                "read",
-                "write"
+                ClaimHelper.Read,
+                ClaimHelper.Write
             }
         },
         new()
@@ -59,9 +65,9 @@ public static class Config
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                "read",
-                "write",
-                "manage"
+                ClaimHelper.Read,
+                ClaimHelper.Write,
+                ClaimHelper.Manage
             }
         },
         new()
@@ -70,9 +76,15 @@ public static class Config
             ClientName = "DrugStore API",
             AllowedGrantTypes = GrantTypes.Implicit,
             AllowAccessTokensViaBrowser = true,
+            RequirePkce = true,
             RedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/oauth2-redirect.html" },
             PostLogoutRedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/" },
-            AllowedScopes = { "read", "write", "manage" }
+            AllowedScopes =
+            {
+                ClaimHelper.Read,
+                ClaimHelper.Write,
+                ClaimHelper.Manage
+            }
         }
     ];
 }

@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Helpers;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -14,13 +13,17 @@ namespace DrugStore.WebAPI.Extensions;
 
 public static class ProgramExtension
 {
-    public static void AddIdentity(this IServiceCollection services)
+    public static void AddIdentity(this IHostApplicationBuilder builder)
     {
-        services.AddAuthentication(IdentityConstants.BearerScheme)
-            .AddBearerToken(IdentityConstants.BearerScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+            {
+                options.Audience = "drugstore";
+                options.Authority = builder.Configuration.GetValue<string>("IdentityUrl");
+                options.RequireHttpsMetadata = false;
+            });
 
-        services.AddAuthorizationBuilder()
+        builder.Services.AddAuthorizationBuilder()
             .AddPolicy(PolicieHelper.Admin,
                 policy => policy
                     .RequireRole(RoleHelper.Admin)
@@ -30,33 +33,32 @@ public static class ProgramExtension
                     .RequireRole(RoleHelper.Customer)
                     .RequireClaim(ClaimTypes.Role, ClaimHelper.Read, ClaimHelper.Write));
 
-        services.AddIdentityCore<ApplicationUser>()
+        builder.Services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders()
-            .AddApiEndpoints();
+            .AddDefaultTokenProviders();
     }
 
-    public static void AddInfrastructureService(this IServiceCollection services, WebApplicationBuilder builder) 
+    public static void AddInfrastructureService(this IServiceCollection services, WebApplicationBuilder builder)
         => services.AddInfrastructure(builder);
 
     public static void AddApplicationService(this IServiceCollection services) => services.AddApplication();
 
-    public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration) 
-        => services.AddPostgresDbContext(configuration).AddDatabaseDeveloperPageExceptionFilter();
+    public static IServiceCollection AddCustomDbContext(this IHostApplicationBuilder builder)
+        => builder.Services.AddPostgresDbContext(builder.Configuration).AddDatabaseDeveloperPageExceptionFilter();
 
     public static void UseInfrastructureService(this WebApplication app) => app.UseInfrastructure();
 
-    public static IServiceCollection AddCustomCors(this IServiceCollection services, string corsName = "api") 
+    public static IServiceCollection AddCustomCors(this IServiceCollection services, string corsName = "api")
         => services.AddCors(options => options.AddPolicy(corsName,
             policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 
-    public static IApplicationBuilder UseCustomCors(this IApplicationBuilder app, string corsName = "api") 
+    public static IApplicationBuilder UseCustomCors(this IApplicationBuilder app, string corsName = "api")
         => app.UseCors(corsName);
 
-    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
+    public static IServiceCollection AddEndpoints(this IServiceCollection services)
     {
-        var serviceDescriptors = assembly
+        var serviceDescriptors = AssemblyReference.Program
             .DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false } &&
                            type.IsAssignableTo(typeof(IEndpoint)))

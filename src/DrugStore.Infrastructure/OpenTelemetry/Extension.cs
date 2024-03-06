@@ -41,6 +41,7 @@ public static class Extension
         builder.Services.AddOpenTelemetry()
             .WithTracing(trace =>
                 trace.SetResourceBuilder(resourceBuilder)
+                    .SetSampler(new AlwaysOnSampler())
                     .AddOtlpExporter(options => options.Endpoint = oltpEndpoint)
                     .AddSource("Microsoft.AspNetCore", "System.Net.Http")
                     .AddEntityFrameworkCoreInstrumentation(b => b.SetDbStatementForText = true)

@@ -23,7 +23,7 @@ public sealed class CategoryEndpoint : IEndpoint
             .WithTags("Category")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
-        group.MapGet("", GetCategories).WithName(nameof(GetCategories));
+        group.MapGet("", GetCategories).WithName(nameof(GetCategories)).RequireAuthorization();
         group.MapGet("{id:guid}", GetCategoryById).WithName(nameof(GetCategoryById));
         group.MapPost("", CreateCategory).WithName(nameof(CreateCategory));
         group.MapPut("", UpdateCategory).WithName(nameof(UpdateCategory));

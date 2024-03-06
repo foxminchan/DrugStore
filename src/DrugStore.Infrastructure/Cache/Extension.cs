@@ -1,5 +1,8 @@
 ﻿using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Infrastructure.Cache.Redis.Internal;
+using Medallion.Threading;
+using Medallion.Threading.Redis;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
@@ -29,6 +32,15 @@ public static class Extension
 
         services.AddSingleton<IRedisService, RedisService>();
 
+        services.AddDataProtection()
+            .SetApplicationName("DrugStore")
+            .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(redisSettings.Url), "DataProtectionKeys");
+
+        services.AddSingleton<IDistributedLockProvider>(
+            _ => new RedisDistributedSynchronizationProvider(
+                ConnectionMultiplexer.Connect(redisSettings.Url).GetDatabase()
+            ));
+
         return services;
     }
 
@@ -47,7 +59,7 @@ public static class Extension
 
         if (!string.IsNullOrWhiteSpace(redisSettings.Password)) configurationOptions.Password = redisSettings.Password;
 
-        redisSettings.Url = config.GetSection("RedisSettings").Get<RedisSettings>()?.Url 
+        redisSettings.Url = config.GetSection("RedisSettings").Get<RedisSettings>()?.Url
                             ?? throw new InvalidOperationException();
 
         foreach (var endpoint in redisSettings.Url.Split(',')) configurationOptions.EndPoints.Add(endpoint);

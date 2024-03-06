@@ -1,18 +1,16 @@
-using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
-using AssemblyReference = DrugStore.WebAPI.AssemblyReference;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddIdentity();
-builder.Services.AddRateLimiting();
+builder.AddIdentity();
+builder.AddCustomDbContext();
+builder.Services.AddEndpoints();
 builder.Services.AddCustomCors();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddRateLimiting();
 builder.Services.AddApplicationService();
-builder.Services.AddEndpoints(AssemblyReference.Program);
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureService(builder);
-builder.Services.AddCustomDbContext(builder.Configuration);
 
 var app = builder.Build();
 
@@ -36,12 +34,6 @@ var versionGroupBuilder = app
 app.MapEndpoints(versionGroupBuilder);
 app.UseAuthentication()
     .UseAuthorization();
-
-versionGroupBuilder
-    .MapGroup("/auth")
-    .MapIdentityApi<ApplicationUser>()
-    .WithTags("Auth")
-    .MapToApiVersion(new(1, 0));
 
 app.Map("/", () => Results.Redirect("/swagger"));
 app.Map("/error",

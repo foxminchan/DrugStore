@@ -3,7 +3,6 @@ using DrugStore.Infrastructure.Cache;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.Infrastructure.Idempotency;
 using DrugStore.Infrastructure.Kestrel;
-using DrugStore.Infrastructure.Lock;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.Merchant;
 using DrugStore.Infrastructure.OpenTelemetry;
@@ -36,7 +35,6 @@ public static class Extension
         services.AddMerchant(builder.Configuration);
         services.AddRedisCache(builder.Configuration);
         services.AddCloudinary(builder.Configuration);
-        services.AddDistributedLock(builder.Configuration);
     }
 
     [DebuggerStepThrough]
