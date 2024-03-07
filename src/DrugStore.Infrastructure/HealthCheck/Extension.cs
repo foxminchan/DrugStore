@@ -26,6 +26,8 @@ public static class Extension
         Guard.Against.Null(kafka, message: "Kafka URL not found.");
 
         builder.Services.AddHealthChecks()
+            .AddCheck("self", () => HealthCheckResult.Healthy())
+            .AddCheck<MinioHealthCheck>(name: "Minio", tags: ["storage"])
             .AddNpgSql(postgresConn, name: "Postgres", tags: ["database"])
             .AddRedis(redisConn, "Redis", tags: ["redis"])
             .AddIdentityServer(new Uri(identityServer), name: "Identity Server", tags: ["identity-server"])

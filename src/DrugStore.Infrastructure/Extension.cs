@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using DrugStore.Infrastructure.Cache;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.Infrastructure.HealthCheck;
 using DrugStore.Infrastructure.Idempotency;
 using DrugStore.Infrastructure.Kestrel;
 using DrugStore.Infrastructure.Logging;
@@ -30,6 +31,7 @@ public static class Extension
         builder.AddKestrel();
         builder.AddRedisCache();
         builder.AddMinioStorage();
+        builder.AddHealthCheck();
         builder.AddOpenTelemetry();
         builder.AddSerilog(builder.Environment.ApplicationName);
     }
@@ -39,6 +41,7 @@ public static class Extension
     {
         app.UseKestrel();
         app.UseOpenApi();
+        app.MapHealthCheck();
         app.UseCustomProblemDetails();
         app.UseCustomExceptionHandler();
     }

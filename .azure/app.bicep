@@ -40,6 +40,13 @@ module kafkaConnect 'app/kafka-connect.bicep' = {
   }
 }
 
+module minio 'app/minio.bicep' = {
+  name: 'minio'
+  params: {
+    kubeConfig: aksCluster.listClusterAdminCredential().kubeconfigs[0].value
+  }
+}
+
 module api 'app/api.bicep' = {
   name: 'api'
   params: {
@@ -58,14 +65,6 @@ module storeFront 'app/store-front.bicep' = {
 
 module backOffice 'app/back-office.bicep' = {
   name: 'backOffice'
-  params: {
-    containerRegistry: containerRegistry.properties.loginServer
-    kubeConfig: aksCluster.listClusterAdminCredential().kubeconfigs[0].value
-  }
-}
-
-module webStatus 'app/web-status.bicep' = {
-  name: 'webStatus'
   params: {
     containerRegistry: containerRegistry.properties.loginServer
     kubeConfig: aksCluster.listClusterAdminCredential().kubeconfigs[0].value
