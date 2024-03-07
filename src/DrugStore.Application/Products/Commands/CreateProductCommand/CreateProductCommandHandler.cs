@@ -2,14 +2,14 @@
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Infrastructure.Storage.Cloudinary;
+using DrugStore.Infrastructure.Storage.Minio;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 
 public sealed class CreateProductCommandHandler(
     Repository<Product> repository,
-    ICloudinaryService cloudinaryService) : IIdempotencyCommandHandler<CreateProductCommand, Result<ProductId>>
+    IMinioService minioService) : IIdempotencyCommandHandler<CreateProductCommand, Result<ProductId>>
 {
     public async Task<Result<ProductId>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
@@ -30,11 +30,12 @@ public sealed class CreateProductCommandHandler(
 
         foreach (var image in request.Images)
         {
-            var result = await cloudinaryService.AddPhotoAsync(image);
+            var result = await minioService.UploadFileAsync(image, nameof(Product));
+
             product.Images?.Add(new(
-                result.Value.Url,
+                result,
                 request.ProductRequest.Name,
-                result.Value.PublishId,
+                nameof(Product),
                 false
             ));
         }

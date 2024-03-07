@@ -15,14 +15,14 @@ public sealed class OrderItemConfiguration : BaseConfiguration<OrderItem>
         builder.Property(e => e.OrderId)
             .HasConversion(
                 id => id.Value,
-                value => new()
+                value => new(value)
             )
             .ValueGeneratedOnAdd();
 
         builder.Property(e => e.ProductId)
             .HasConversion(
                 id => id.Value,
-                value => new()
+                value => new(value)
             )
             .ValueGeneratedOnAdd();
 

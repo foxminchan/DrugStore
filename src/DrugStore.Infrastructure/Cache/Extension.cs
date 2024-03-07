@@ -5,6 +5,7 @@ using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 
 namespace DrugStore.Infrastructure.Cache;
@@ -12,36 +13,38 @@ namespace DrugStore.Infrastructure.Cache;
 public static class Extension
 {
     public static IServiceCollection AddRedisCache(
-        this IServiceCollection services,
-        IConfiguration config,
+        this IHostApplicationBuilder builder,
         Action<RedisSettings>? setupAction = null)
     {
-        if (services.Contains(ServiceDescriptor.Singleton<IRedisService, RedisService>())) return services;
+        if (builder.Services.Contains(ServiceDescriptor.Singleton<IRedisService, RedisService>()))
+            return builder.Services;
 
         RedisSettings redisSettings = new();
-        var redisCacheSection = config.GetSection(nameof(RedisSettings));
+        var redisCacheSection = builder.Configuration.GetSection(nameof(RedisSettings));
         redisCacheSection.Bind(redisSettings);
-        services.Configure<RedisSettings>(redisCacheSection);
+        builder.Services.Configure<RedisSettings>(redisCacheSection);
         setupAction?.Invoke(redisSettings);
 
-        services.AddStackExchangeRedisCache(options =>
+        builder.Services.AddStackExchangeRedisCache(options =>
         {
-            options.InstanceName = config[redisSettings.Prefix];
-            options.ConfigurationOptions = GetRedisConfigurationOptions(redisSettings, config);
+            options.InstanceName = builder.Configuration[redisSettings.Prefix];
+            options.ConfigurationOptions = GetRedisConfigurationOptions(redisSettings, builder.Configuration);
         });
 
-        services.AddSingleton<IRedisService, RedisService>();
+        builder.Services.AddSingleton<IRedisService, RedisService>();
 
-        services.AddDataProtection()
-            .SetApplicationName("DrugStore")
-            .PersistKeysToStackExchangeRedis(ConnectionMultiplexer.Connect(redisSettings.Url), "DataProtectionKeys");
+        builder.Services.AddDataProtection()
+            .SetApplicationName(builder.Configuration[redisSettings.Prefix] ?? string.Empty)
+            .PersistKeysToStackExchangeRedis(
+                ConnectionMultiplexer.Connect(redisSettings.Url), "DataProtectionKeys"
+            );
 
-        services.AddSingleton<IDistributedLockProvider>(
+        builder.Services.AddSingleton<IDistributedLockProvider>(
             _ => new RedisDistributedSynchronizationProvider(
                 ConnectionMultiplexer.Connect(redisSettings.Url).GetDatabase()
             ));
 
-        return services;
+        return builder.Services;
     }
 
     private static ConfigurationOptions GetRedisConfigurationOptions(RedisSettings redisSettings, IConfiguration config)
@@ -59,7 +62,7 @@ public static class Extension
 
         if (!string.IsNullOrWhiteSpace(redisSettings.Password)) configurationOptions.Password = redisSettings.Password;
 
-        redisSettings.Url = config.GetSection("RedisSettings").Get<RedisSettings>()?.Url
+        redisSettings.Url = config.GetSection(nameof(RedisSettings)).Get<RedisSettings>()?.Url
                             ?? throw new InvalidOperationException();
 
         foreach (var endpoint in redisSettings.Url.Split(',')) configurationOptions.EndPoints.Add(endpoint);

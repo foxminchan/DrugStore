@@ -56,12 +56,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<ProductId, Guid>(
                     (ProductId id) => id.Value,
-                    (Guid value) => new ProductId()),
+                    (Guid value) => new ProductId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<ProductId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<ProductId, Guid>(
                         (ProductId id) => id.Value,
-                        (Guid value) => new ProductId())));
+                        (Guid value) => new ProductId(value))));
             id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             id.AddAnnotation("Relational:ColumnName", "id");
@@ -90,12 +90,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<CategoryId, Guid>(
                     (CategoryId id) => id.Value,
-                    (Guid value) => new CategoryId()),
+                    (Guid value) => new CategoryId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CategoryId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<CategoryId, Guid>(
                         (CategoryId id) => id.Value,
-                        (Guid value) => new CategoryId())));
+                        (Guid value) => new CategoryId(value))));
             categoryId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             categoryId.AddAnnotation("Relational:ColumnName", "category_id");
 
@@ -121,7 +121,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 429, DateTimeKind.Utc).AddTicks(6786));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 534, DateTimeKind.Utc).AddTicks(2678));
 
             var detail = runtimeEntityType.AddProperty(
                 "Detail",
@@ -281,7 +281,7 @@ updateDate.TypeMapping = NpgsqlTimestampTzTypeMapping.Default.Clone(
         (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
 updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
 updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 429, DateTimeKind.Utc).AddTicks(7106));
+updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 534, DateTimeKind.Utc).AddTicks(3172));
 
 var version = runtimeEntityType.AddProperty(
     "Version",

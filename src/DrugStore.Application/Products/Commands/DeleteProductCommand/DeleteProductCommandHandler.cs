@@ -2,14 +2,14 @@
 using Ardalis.Result;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Infrastructure.Storage.Cloudinary;
+using DrugStore.Infrastructure.Storage.Minio;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 
 public sealed class DeleteProductCommandHandler(
     Repository<Product> repository,
-    ICloudinaryService cloudinaryService) : ICommandHandler<DeleteProductCommand, Result>
+    IMinioService minioService) : ICommandHandler<DeleteProductCommand, Result>
 {
     public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
@@ -18,8 +18,11 @@ public sealed class DeleteProductCommandHandler(
 
         if (product.Images is { })
         {
-            var tasks = product.Images.Select(image => cloudinaryService.DeletePhotoAsync(image.Title));
-            await Task.WhenAll(tasks);
+            var tasks = product.Images.Select(image => image.ImageUrl is { }
+                ? Task.FromResult(minioService.RemoveFileAsync(nameof(Product), image.ImageUrl))
+                : Task.CompletedTask
+            );
+            await Task.WhenAll(tasks).ConfigureAwait(false);
         }
 
         await repository.DeleteAsync(product, cancellationToken);

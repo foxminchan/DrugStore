@@ -16,7 +16,7 @@ public class CardConfiguration : BaseConfiguration<Card>
         builder.Property(e => e.Id)
             .HasConversion(
                 id => id.Value,
-                value => new()
+                value => new(value)
             )
             .HasDefaultValueSql(UniqueHelper.UuidAlgorithm)
             .ValueGeneratedOnAdd();

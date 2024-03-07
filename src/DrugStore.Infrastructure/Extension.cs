@@ -4,7 +4,6 @@ using DrugStore.Infrastructure.Exception;
 using DrugStore.Infrastructure.Idempotency;
 using DrugStore.Infrastructure.Kestrel;
 using DrugStore.Infrastructure.Logging;
-using DrugStore.Infrastructure.Merchant;
 using DrugStore.Infrastructure.OpenTelemetry;
 using DrugStore.Infrastructure.ProblemDetails;
 using DrugStore.Infrastructure.Storage;
@@ -21,20 +20,18 @@ public static class Extension
     [DebuggerStepThrough]
     public static void AddInfrastructure(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        builder.AddKestrel();
-        builder.AddSerilog(builder.Environment.ApplicationName);
-        builder.AddOpenTelemetry(builder.Configuration);
-
+        services.AddValidator();
         services.AddVersioning();
         services.AddOpenApi();
-        services.AddValidator();
         services.AddIdempotency();
         services.AddCustomProblemDetails();
         services.AddCustomExceptionHandler();
 
-        services.AddMerchant(builder.Configuration);
-        services.AddRedisCache(builder.Configuration);
-        services.AddCloudinary(builder.Configuration);
+        builder.AddKestrel();
+        builder.AddRedisCache();
+        builder.AddMinioStorage();
+        builder.AddOpenTelemetry();
+        builder.AddSerilog(builder.Environment.ApplicationName);
     }
 
     [DebuggerStepThrough]

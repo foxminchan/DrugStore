@@ -45,7 +45,7 @@ public sealed class ApplicationDbContextInitializer(
     {
         ApplicationRole admin = new(RoleHelper.Admin);
 
-        logger.LogInformation("Admin role: {admin}", admin.Name);
+        logger.LogInformation("Admin role: {Admin}", admin.Name);
 
         if (!await roleManager.RoleExistsAsync(RoleHelper.Admin))
         {

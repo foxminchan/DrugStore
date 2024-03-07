@@ -7,10 +7,10 @@ public sealed class FilterHelperValidator : AbstractValidator<FilterHelper>
 {
     public FilterHelperValidator()
     {
-        RuleFor(x => x.Paging.PageNumber)
+        RuleFor(x => x.PageNumber)
             .GreaterThan(0);
 
-        RuleFor(x => x.Paging.PageSize)
+        RuleFor(x => x.PageSize)
             .GreaterThan(0);
     }
 }

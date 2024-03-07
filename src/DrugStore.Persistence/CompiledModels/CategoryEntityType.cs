@@ -50,12 +50,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<CategoryId, Guid>(
                     (CategoryId id) => id.Value,
-                    (Guid value) => new CategoryId()),
+                    (Guid value) => new CategoryId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CategoryId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<CategoryId, Guid>(
                         (CategoryId id) => id.Value,
-                        (Guid value) => new CategoryId())));
+                        (Guid value) => new CategoryId(value))));
             id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             id.AddAnnotation("Relational:ColumnName", "id");
@@ -83,7 +83,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 425, DateTimeKind.Utc).AddTicks(1308));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 526, DateTimeKind.Utc).AddTicks(1165));
 
             var description = runtimeEntityType.AddProperty(
                 "Description",
@@ -160,7 +160,7 @@ namespace DrugStore.Persistence.CompiledModels
             (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
     updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
     updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-    updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 425, DateTimeKind.Utc).AddTicks(1715));
+    updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 526, DateTimeKind.Utc).AddTicks(1794));
 
     var version = runtimeEntityType.AddProperty(
         "Version",

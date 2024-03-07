@@ -20,10 +20,10 @@ public sealed class Category : EntityBase, IAggregateRoot
         Description = description;
     }
 
-    public CategoryId Id { get; set; } = new(Guid.NewGuid());
-    public string? Name { get; set; }
-    public string? Description { get; set; }
-    public ICollection<Product>? Products { get; set; } = [];
+    public CategoryId Id { get; private set; } = new(Guid.NewGuid());
+    public string? Name { get; private set; }
+    public string? Description { get; private set; }
+    public ICollection<Product>? Products { get; private set; } = [];
 
     public void Update(string title, string? description)
     {

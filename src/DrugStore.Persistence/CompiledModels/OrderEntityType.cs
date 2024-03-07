@@ -56,12 +56,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<OrderId, Guid>(
                     (OrderId id) => id.Value,
-                    (Guid value) => new OrderId()),
+                    (Guid value) => new OrderId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<OrderId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<OrderId, Guid>(
                         (OrderId id) => id.Value,
-                        (Guid value) => new OrderId())));
+                        (Guid value) => new OrderId(value))));
             id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             id.AddAnnotation("Relational:ColumnName", "id");
@@ -90,12 +90,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<CardId, Guid>(
                     (CardId id) => id.Value,
-                    (Guid value) => new CardId()),
+                    (Guid value) => new CardId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CardId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<CardId, Guid>(
                         (CardId id) => id.Value,
-                        (Guid value) => new CardId())));
+                        (Guid value) => new CardId(value))));
             cardId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             cardId.AddAnnotation("Relational:ColumnName", "card_id");
 
@@ -148,7 +148,7 @@ namespace DrugStore.Persistence.CompiledModels
                 (DateTime v) => v));
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-        createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 426, DateTimeKind.Utc).AddTicks(1602));
+        createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 527, DateTimeKind.Utc).AddTicks(7678));
 
         var customerId = runtimeEntityType.AddProperty(
             "CustomerId",
@@ -172,13 +172,13 @@ namespace DrugStore.Persistence.CompiledModels
             mappingInfo: new RelationalTypeMappingInfo(
                 storeTypeName: "uuid"),
             converter: new ValueConverter<IdentityId, Guid>(
-                (IdentityId c) => c.Value,
-                (Guid c) => new IdentityId(c)),
+                (IdentityId id) => id.Value,
+                (Guid value) => new IdentityId(value)),
             jsonValueReaderWriter: new JsonConvertedValueReaderWriter<IdentityId, Guid>(
                 JsonGuidReaderWriter.Instance,
                 new ValueConverter<IdentityId, Guid>(
-                    (IdentityId c) => c.Value,
-                    (Guid c) => new IdentityId(c))));
+                    (IdentityId id) => id.Value,
+                    (Guid value) => new IdentityId(value))));
         customerId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         customerId.AddAnnotation("Relational:ColumnName", "customer_id");
 
@@ -268,7 +268,7 @@ namespace DrugStore.Persistence.CompiledModels
                 (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-        updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 426, DateTimeKind.Utc).AddTicks(1997));
+        updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 527, DateTimeKind.Utc).AddTicks(8200));
 
         var version = runtimeEntityType.AddProperty(
             "Version",

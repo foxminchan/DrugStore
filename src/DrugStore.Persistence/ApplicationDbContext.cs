@@ -50,8 +50,8 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             foreach (var prop in properties)
                 builder.Entity(entityType.Name).Property(prop.Name)
                     .HasConversion(new ValueConverter<IdentityId, Guid>(
-                        c => c.Value,
-                        c => new(c)
+                        id => id.Value,
+                        value => new(value)
                     ))
                     .HasDefaultValueSql(UniqueHelper.UuidAlgorithm);
         }

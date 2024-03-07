@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using DrugStore.Infrastructure.Cache;
-using DrugStore.Infrastructure.Idempotency.Behaviors;
+using DrugStore.Infrastructure.Idempotency;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.Validator;
 using DrugStore.Persistence;

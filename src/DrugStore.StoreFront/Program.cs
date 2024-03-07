@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.AddOpenTelemetry(builder.Configuration);
+builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
 
 var app = builder.Build();

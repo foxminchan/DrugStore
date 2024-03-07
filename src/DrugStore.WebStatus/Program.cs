@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddHealthCheck();
 builder.Logging.AddJsonConsole();
-builder.AddOpenTelemetry(builder.Configuration);
+builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
 
 var app = builder.Build();

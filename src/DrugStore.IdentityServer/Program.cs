@@ -7,8 +7,8 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
+    builder.AddOpenTelemetry();
     builder.AddSerilog(builder.Environment.ApplicationName);
-    builder.AddOpenTelemetry(builder.Configuration);
 
     var app = builder
         .ConfigureServices()

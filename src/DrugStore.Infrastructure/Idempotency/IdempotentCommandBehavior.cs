@@ -3,7 +3,7 @@ using DrugStore.Infrastructure.Idempotency.Internal;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace DrugStore.Infrastructure.Idempotency.Behaviors;
+namespace DrugStore.Infrastructure.Idempotency;
 
 public sealed class IdempotentCommandBehavior<TRequest, TResponse>(
     IIdempotencyService idempotencyService,

@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
@@ -12,7 +12,7 @@ namespace DrugStore.Infrastructure.OpenTelemetry;
 
 public static class Extension
 {
-    public static void AddOpenTelemetry(this WebApplicationBuilder builder, IConfiguration config)
+    public static void AddOpenTelemetry(this IHostApplicationBuilder builder)
     {
         var resourceBuilder = ResourceBuilder
             .CreateDefault()
@@ -23,7 +23,7 @@ public static class Extension
             );
 
         Uri oltpEndpoint = new(
-            config.GetValue<string>("OtlpEndpoint")
+            builder.Configuration.GetValue<string>("OtlpEndpoint")
             ?? throw new InvalidOperationException("Endpoint is not configured")
         );
 

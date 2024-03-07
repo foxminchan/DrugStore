@@ -1,30 +1,34 @@
-﻿using CloudinaryDotNet;
-using DrugStore.Infrastructure.Storage.Cloudinary;
-using DrugStore.Infrastructure.Storage.Cloudinary.Internal;
+﻿using Ardalis.GuardClauses;
+using DrugStore.Infrastructure.Storage.Minio;
+using DrugStore.Infrastructure.Storage.Minio.Internal;
 using DrugStore.Infrastructure.Validator;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Minio;
 
 namespace DrugStore.Infrastructure.Storage;
 
 public static class Extension
 {
-    public static IServiceCollection AddCloudinary(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddMinioStorage(this IHostApplicationBuilder builder)
     {
-        services.AddOptions<CloudinarySettings>()
-            .Bind(configuration.GetSection(nameof(CloudinarySettings)))
+        builder.Services.AddOptions<MinioSettings>()
+            .Bind(builder.Configuration.GetSection(nameof(MinioSettings)))
             .ValidateFluentValidation()
             .ValidateOnStart();
 
-        services.AddScoped<ICloudinaryUploadApi, CloudinaryDotNet.Cloudinary>(provider =>
-        {
-            var cloudinary = provider.GetRequiredService<IOptions<CloudinarySettings>>().Value;
-            return new(new Account(cloudinary.CloudName, cloudinary.ApiKey, cloudinary.ApiSecret));
-        });
+        var minioSettings = builder.Services.BuildServiceProvider().GetService<IOptions<MinioSettings>>()?.Value;
 
-        services.AddScoped<ICloudinaryService, CloudinaryService>();
+        Guard.Against.Null(minioSettings);
 
-        return services;
+        builder.Services.AddMinio(cfg => cfg
+            .WithEndpoint(minioSettings.Endpoint)
+            .WithCredentials(minioSettings.AccessKey, minioSettings.SecretKey)
+        );
+
+        builder.Services.AddScoped<IMinioService, MinioService>();
+
+        return builder.Services;
     }
 }

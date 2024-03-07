@@ -119,13 +119,13 @@ namespace DrugStore.Persistence.CompiledModels
                 mappingInfo: new RelationalTypeMappingInfo(
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<IdentityId, Guid>(
-                    (IdentityId c) => c.Value,
-                    (Guid c) => new IdentityId(c)),
+                    (IdentityId id) => id.Value,
+                    (Guid value) => new IdentityId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<IdentityId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<IdentityId, Guid>(
-                        (IdentityId c) => c.Value,
-                        (Guid c) => new IdentityId(c))));
+                        (IdentityId id) => id.Value,
+                        (Guid value) => new IdentityId(value))));
             userId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             userId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             userId.AddAnnotation("Relational:ColumnName", "user_id");

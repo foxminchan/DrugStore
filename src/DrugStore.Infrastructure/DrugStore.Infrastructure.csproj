@@ -29,18 +29,12 @@
 		<PackageReference Include="Scrutor" />
 		<PackageReference Include="Polly" />
 		<PackageReference Include="DistributedLock" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="CloudinaryDotNet" />
-		<PackageReference Include="Stripe.net" />
+		<PackageReference Include="Minio" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
-		<PackageReference Include="FluentEmail.SendGrid" />
-		<PackageReference Include="FluentEmail.Razor" />
 	</ItemGroup>
 
 	<ItemGroup>

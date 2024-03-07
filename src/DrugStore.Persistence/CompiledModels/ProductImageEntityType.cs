@@ -49,12 +49,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<ProductId, Guid>(
                     (ProductId id) => id.Value,
-                    (Guid value) => new ProductId()),
+                    (Guid value) => new ProductId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<ProductId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<ProductId, Guid>(
                         (ProductId id) => id.Value,
-                        (Guid value) => new ProductId())));
+                        (Guid value) => new ProductId(value))));
             productId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             productId.AddAnnotation("Relational:ColumnName", "product_id");

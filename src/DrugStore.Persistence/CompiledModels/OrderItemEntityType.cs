@@ -54,12 +54,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<OrderId, Guid>(
                     (OrderId id) => id.Value,
-                    (Guid value) => new OrderId()),
+                    (Guid value) => new OrderId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<OrderId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<OrderId, Guid>(
                         (OrderId id) => id.Value,
-                        (Guid value) => new OrderId())));
+                        (Guid value) => new OrderId(value))));
             orderId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             orderId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             orderId.AddAnnotation("Relational:ColumnName", "order_id");
@@ -88,12 +88,12 @@ namespace DrugStore.Persistence.CompiledModels
                     storeTypeName: "uuid"),
                 converter: new ValueConverter<ProductId, Guid>(
                     (ProductId id) => id.Value,
-                    (Guid value) => new ProductId()),
+                    (Guid value) => new ProductId(value)),
                 jsonValueReaderWriter: new JsonConvertedValueReaderWriter<ProductId, Guid>(
                     JsonGuidReaderWriter.Instance,
                     new ValueConverter<ProductId, Guid>(
                         (ProductId id) => id.Value,
-                        (Guid value) => new ProductId())));
+                        (Guid value) => new ProductId(value))));
             productId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
             productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             productId.AddAnnotation("Relational:ColumnName", "product_id");
@@ -120,7 +120,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 428, DateTimeKind.Utc).AddTicks(1432));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 531, DateTimeKind.Utc).AddTicks(2140));
 
             var price = runtimeEntityType.AddProperty(
                 "Price",
@@ -195,7 +195,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-            updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 4, 16, 58, 19, 428, DateTimeKind.Utc).AddTicks(1790));
+            updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 531, DateTimeKind.Utc).AddTicks(2643));
 
             var version = runtimeEntityType.AddProperty(
                 "Version",

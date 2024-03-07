@@ -16,7 +16,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddRadzenComponents();
 
-builder.AddOpenTelemetry(builder.Configuration);
+builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
 
 builder.Services.AddScoped(typeof(ExportService<>));

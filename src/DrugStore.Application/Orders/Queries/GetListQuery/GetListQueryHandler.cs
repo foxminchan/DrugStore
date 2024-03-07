@@ -14,8 +14,8 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
         CancellationToken cancellationToken)
     {
         OrdersFilterSpec spec = new(
-            request.Filter.Paging.PageNumber,
-            request.Filter.Paging.PageSize,
+            request.Filter.PageNumber,
+            request.Filter.PageSize,
             request.Filter.IsAscending,
             request.Filter.OrderBy,
             request.Filter.Search
@@ -23,10 +23,10 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
 
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
-        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.Paging.PageSize);
+        var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         PagedInfo pageInfo = new(
-            request.Filter.Paging.PageNumber,
-            request.Filter.Paging.PageSize,
+            request.Filter.PageNumber,
+            request.Filter.PageSize,
             totalPages,
             totalRecords);
 
