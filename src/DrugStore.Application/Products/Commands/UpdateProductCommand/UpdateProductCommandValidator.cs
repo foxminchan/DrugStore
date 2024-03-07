@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Categories.Validators;
 using DrugStore.Application.Products.Validators;
-using DrugStore.Application.Shared;
 using FluentValidation;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
@@ -8,34 +7,30 @@ namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
     public UpdateProductCommandValidator(
-        ProductPriceValidator productPriceValidator,
-        FileValidator fileValidator,
+        ProductPriceValidator productPriceValidator, 
         CategoryIdValidator categoryIdValidator)
     {
-        RuleFor(x => x.ProductRequest.Id)
+        RuleFor(x => x.Id)
             .NotEmpty();
 
-        RuleFor(x => x.ProductRequest.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(50);
 
-        RuleFor(x => x.ProductRequest.ProductCode)
+        RuleFor(x => x.ProductCode)
             .MaximumLength(20);
 
-        RuleFor(x => x.ProductRequest.Detail)
+        RuleFor(x => x.Detail)
             .MaximumLength(500);
 
-        RuleFor(x => x.ProductRequest.Quantity)
+        RuleFor(x => x.Quantity)
             .NotEmpty()
             .GreaterThanOrEqualTo(0);
 
-        RuleFor(x => x.ProductRequest.ProductPrice)
+        RuleFor(x => x.ProductPrice)
             .SetValidator(productPriceValidator);
 
-        RuleFor(x => x.Images)
-            .ForEach(x => x.SetValidator(fileValidator));
-
-        RuleFor(x => x.ProductRequest.CategoryId)
+        RuleFor(x => x.CategoryId)
             .SetValidator(categoryIdValidator);
     }
 }

@@ -8,7 +8,6 @@ namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 public sealed class CreateProductCommandValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductCommandValidator(
-        FileValidator fileValidator,
         CategoryIdValidator categoryIdValidator,
         ProductPriceValidator productPriceValidator)
     {
@@ -25,9 +24,6 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
         RuleFor(x => x.ProductRequest.Quantity)
             .NotEmpty()
             .GreaterThanOrEqualTo(0);
-
-        RuleFor(x => x.Images)
-            .ForEach(x => x.SetValidator(fileValidator));
 
         RuleFor(x => x.ProductRequest.ProductPrice)
             .SetValidator(productPriceValidator);

@@ -5,11 +5,10 @@ using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
-using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
-public sealed record ProductUpdateRequest(
+public sealed record UpdateProductCommand(
     ProductId Id,
     string Name,
     string? ProductCode,
@@ -19,7 +18,4 @@ public sealed record ProductUpdateRequest(
     CategoryId? CategoryId,
     ProductPrice ProductPrice,
     List<string>? ImageUrls
-);
-
-public sealed record UpdateProductCommand(ProductUpdateRequest ProductRequest, List<IFormFile>? Images)
-    : ICommand<Result<ProductVm>>;
+) : ICommand<Result<ProductVm>>;

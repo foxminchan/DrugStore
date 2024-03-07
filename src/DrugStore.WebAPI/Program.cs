@@ -1,5 +1,6 @@
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,10 +8,18 @@ builder.AddIdentity();
 builder.AddCustomDbContext();
 builder.Services.AddEndpoints();
 builder.Services.AddCustomCors();
+builder.Services.AddAntiforgery();
 builder.Services.AddRateLimiting();
 builder.Services.AddApplicationService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureService(builder);
+
+builder.Services.Configure<FormOptions>(o =>
+{
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartBodyLengthLimit = int.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
+});
 
 var app = builder.Build();
 
@@ -32,6 +41,8 @@ var versionGroupBuilder = app
     .WithApiVersionSet(apiVersionSet);
 
 app.MapEndpoints(versionGroupBuilder);
+
+app.UseAntiforgery();
 app.UseAuthentication()
     .UseAuthorization();
 

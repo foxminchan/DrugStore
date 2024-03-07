@@ -7,7 +7,6 @@ using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Minio;
 using DrugStore.Persistence;
 using Mapster;
-using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
@@ -17,21 +16,20 @@ public sealed class UpdateProductCommandHandler(
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await repository.GetByIdAsync(request.ProductRequest.Id, cancellationToken);
-        Guard.Against.NotFound(request.ProductRequest.Id, product);
+        var product = await repository.GetByIdAsync(request.Id, cancellationToken);
+        Guard.Against.NotFound(request.Id, product);
 
         product.Update(
-            request.ProductRequest.Name,
-            request.ProductRequest.ProductCode,
-            request.ProductRequest.Detail,
-            request.ProductRequest.Status,
-            request.ProductRequest.Quantity,
-            request.ProductRequest.CategoryId,
-            request.ProductRequest.ProductPrice
+            request.Name,
+            request.ProductCode,
+            request.Detail,
+            request.Status,
+            request.Quantity,
+            request.CategoryId,
+            request.ProductPrice
         );
 
-        await RemoveObsoleteImagesAsync(product, request.ProductRequest.ImageUrls);
-        await UploadNewImagesAsync(product, request.Images);
+        await RemoveObsoleteImagesAsync(product, request.ImageUrls);
         await repository.UpdateAsync(product, cancellationToken);
 
         if (product.Status == ProductStatus.OutOfStock || product.Status == ProductStatus.Discontinued)
@@ -57,24 +55,5 @@ public sealed class UpdateProductCommandHandler(
         });
 
         await Task.WhenAll(tasks).ConfigureAwait(false);
-    }
-
-    private async Task UploadNewImagesAsync(Product product, IEnumerable<IFormFile>? images)
-    {
-        if (images is null)
-            return;
-
-        var uploadTasks = images.Select(async image =>
-        {
-            var result = await minioService.UploadFileAsync(image, nameof(Product));
-            product.Images?.Add(new(
-                result,
-                product.Name,
-                nameof(Product),
-                false
-            ));
-        });
-
-        await Task.WhenAll(uploadTasks).ConfigureAwait(false);
     }
 }
