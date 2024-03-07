@@ -19,7 +19,7 @@ public sealed class UpdateProductImageCommandHandler(
 
         foreach (var image in request.Images)
         {
-            var result = await minioService.UploadFileAsync(image, nameof(Product));
+            var result = await minioService.UploadFileAsync(image, nameof(Product).ToLowerInvariant());
 
             product.Images?.Add(new(
                 result,

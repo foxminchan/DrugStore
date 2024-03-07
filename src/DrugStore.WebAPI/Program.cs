@@ -1,5 +1,6 @@
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +9,6 @@ builder.AddIdentity();
 builder.AddCustomDbContext();
 builder.Services.AddEndpoints();
 builder.Services.AddCustomCors();
-builder.Services.AddAntiforgery();
 builder.Services.AddRateLimiting();
 builder.Services.AddApplicationService();
 builder.Services.AddEndpointsApiExplorer();
@@ -42,9 +42,14 @@ var versionGroupBuilder = app
 
 app.MapEndpoints(versionGroupBuilder);
 
-app.UseAntiforgery();
-app.UseAuthentication()
-    .UseAuthorization();
+app.MapIdentity();
+
+app.MapGet("antiforgery/token", (IAntiforgery forgeryService, HttpContext context) =>
+{
+    var tokens = forgeryService.GetAndStoreTokens(context);
+    var xsrfToken = tokens.RequestToken;
+    return TypedResults.Content(xsrfToken, "text/plain");
+}).ExcludeFromDescription();
 
 app.Map("/", () => Results.Redirect("/swagger"));
 app.Map("/error",

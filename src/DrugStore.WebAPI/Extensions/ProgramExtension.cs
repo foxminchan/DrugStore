@@ -37,6 +37,15 @@ public static class ProgramExtension
             .AddRoles<ApplicationRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+    }
+
+    public static void MapIdentity(this WebApplication app)
+    {
+        app.UseAntiforgery();
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 
     public static void AddInfrastructureService(this IServiceCollection services, WebApplicationBuilder builder)

@@ -120,7 +120,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 531, DateTimeKind.Utc).AddTicks(2140));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 438, DateTimeKind.Utc).AddTicks(8905));
 
             var price = runtimeEntityType.AddProperty(
                 "Price",
@@ -195,7 +195,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
             updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-            updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 11, 26, 21, 531, DateTimeKind.Utc).AddTicks(2643));
+            updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 438, DateTimeKind.Utc).AddTicks(9419));
 
             var version = runtimeEntityType.AddProperty(
                 "Version",

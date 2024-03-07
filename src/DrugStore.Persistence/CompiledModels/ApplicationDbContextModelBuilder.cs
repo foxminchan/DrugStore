@@ -883,7 +883,7 @@ namespace DrugStore.Persistence.CompiledModels
                 IsNullable = true
             };
             drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("alt", altColumnBase);
-            var idColumnBase5 = new ColumnBase<ColumnMappingBase>("id", "integer", drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
+            var idColumnBase5 = new ColumnBase<ColumnMappingBase>("id", "uuid", drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
             drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("id", idColumnBase5);
             var image_urlColumnBase = new ColumnBase<ColumnMappingBase>("image_url", "character varying(100)", drugStoreDomainProductAggregateValueObjectsProductImageTableBase);
             drugStoreDomainProductAggregateValueObjectsProductImageTableBase.Columns.Add("image_url", image_urlColumnBase);
@@ -901,20 +901,17 @@ namespace DrugStore.Persistence.CompiledModels
             drugStoreDomainProductAggregateValueObjectsProductImageTableBase.AddTypeMapping(drugStoreDomainProductAggregateValueObjectsProductImageMappingBase, false);
             defaultTableMappings7.Add(drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)idColumnBase5, productImage.FindProperty("Id")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
-            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_idColumnBase0, productImage.FindProperty("ProductId")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)altColumnBase, productImage.FindProperty("Alt")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)image_urlColumnBase, productImage.FindProperty("ImageUrl")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)is_mainColumnBase, productImage.FindProperty("IsMain")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
+            RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)product_idColumnBase0, productImage.FindProperty("ProductId")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
             RelationalModel.CreateColumnMapping((ColumnBase<ColumnMappingBase>)titleColumnBase, productImage.FindProperty("Title")!, drugStoreDomainProductAggregateValueObjectsProductImageMappingBase);
 
             var tableMappings7 = new List<TableMapping>();
             productImage.SetRuntimeAnnotation("Relational:TableMappings", tableMappings7);
             var product_imageTable = new Table("product_image", null, relationalModel);
-            var product_idColumn0 = new Column("product_id", "uuid", product_imageTable);
-            product_imageTable.Columns.Add("product_id", product_idColumn0);
-            var idColumn5 = new Column("id", "integer", product_imageTable);
+            var idColumn5 = new Column("id", "uuid", product_imageTable);
             product_imageTable.Columns.Add("id", idColumn5);
-            idColumn5.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
             var altColumn = new Column("alt", "character varying(100)", product_imageTable)
             {
                 IsNullable = true
@@ -924,28 +921,38 @@ namespace DrugStore.Persistence.CompiledModels
             product_imageTable.Columns.Add("image_url", image_urlColumn);
             var is_mainColumn = new Column("is_main", "boolean", product_imageTable);
             product_imageTable.Columns.Add("is_main", is_mainColumn);
+            var product_idColumn0 = new Column("product_id", "uuid", product_imageTable);
+            product_imageTable.Columns.Add("product_id", product_idColumn0);
             var titleColumn = new Column("title", "character varying(100)", product_imageTable)
             {
                 IsNullable = true
             };
             product_imageTable.Columns.Add("title", titleColumn);
-            var pk_product_image = new UniqueConstraint("pk_product_image", product_imageTable, new[] { product_idColumn0, idColumn5 });
+            var pk_product_image = new UniqueConstraint("pk_product_image", product_imageTable, new[] { idColumn5 });
             product_imageTable.PrimaryKey = pk_product_image;
             var pk_product_imageUc = RelationalModel.GetKey(this,
                 "DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
-                new[] { "ProductId", "Id" });
+                new[] { "Id" });
             pk_product_image.MappedKeys.Add(pk_product_imageUc);
             RelationalModel.GetOrCreateUniqueConstraints(pk_product_imageUc).Add(pk_product_image);
             product_imageTable.UniqueConstraints.Add("pk_product_image", pk_product_image);
+            var ix_product_image_product_id = new TableIndex(
+            "ix_product_image_product_id", product_imageTable, new[] { product_idColumn0 }, false);
+            var ix_product_image_product_idIx = RelationalModel.GetIndex(this,
+                "DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage",
+                new[] { "ProductId" });
+            ix_product_image_product_id.MappedIndexes.Add(ix_product_image_product_idIx);
+            RelationalModel.GetOrCreateTableIndexes(ix_product_image_product_idIx).Add(ix_product_image_product_id);
+            product_imageTable.Indexes.Add("ix_product_image_product_id", ix_product_image_product_id);
             relationalModel.Tables.Add(("product_image", null), product_imageTable);
             var product_imageTableMapping = new TableMapping(productImage, product_imageTable, true);
             product_imageTable.AddTypeMapping(product_imageTableMapping, false);
             tableMappings7.Add(product_imageTableMapping);
             RelationalModel.CreateColumnMapping(idColumn5, productImage.FindProperty("Id")!, product_imageTableMapping);
-            RelationalModel.CreateColumnMapping(product_idColumn0, productImage.FindProperty("ProductId")!, product_imageTableMapping);
             RelationalModel.CreateColumnMapping(altColumn, productImage.FindProperty("Alt")!, product_imageTableMapping);
             RelationalModel.CreateColumnMapping(image_urlColumn, productImage.FindProperty("ImageUrl")!, product_imageTableMapping);
             RelationalModel.CreateColumnMapping(is_mainColumn, productImage.FindProperty("IsMain")!, product_imageTableMapping);
+            RelationalModel.CreateColumnMapping(product_idColumn0, productImage.FindProperty("ProductId")!, product_imageTableMapping);
             RelationalModel.CreateColumnMapping(titleColumn, productImage.FindProperty("Title")!, product_imageTableMapping);
 
             var productPrice = FindEntityType("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice")!;

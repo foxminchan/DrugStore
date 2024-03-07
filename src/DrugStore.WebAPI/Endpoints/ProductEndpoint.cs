@@ -76,7 +76,7 @@ public sealed class ProductEndpoint : IEndpoint
     private static async Task<Result<ProductId>> UpdateImages(
         [FromServices] ISender sender,
         [FromRoute] ProductId id,
-        [FromForm] List<IFormFile> images,
+        [FromForm] IFormFileCollection images,
         CancellationToken cancellationToken)
         => await sender.Send(new UpdateProductImageCommand(id, images), cancellationToken);
 

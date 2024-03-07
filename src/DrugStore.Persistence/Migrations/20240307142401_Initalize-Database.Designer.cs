@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DrugStore.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240304170018_Inintalize-Database")]
-    partial class InintalizeDatabase
+    [Migration("20240307142401_Initalize-Database")]
+    partial class InitalizeDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,7 +37,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(7664))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(1837))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
@@ -54,7 +54,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(8151))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(2257))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -201,7 +201,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 715, DateTimeKind.Utc).AddTicks(6779))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 835, DateTimeKind.Utc).AddTicks(8739))
                         .HasColumnName("created_date");
 
                     b.Property<int>("Cvc")
@@ -232,7 +232,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 716, DateTimeKind.Utc).AddTicks(5319))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 836, DateTimeKind.Utc).AddTicks(6666))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -266,7 +266,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(3530))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5067))
                         .HasColumnName("created_date");
 
                     b.Property<Guid?>("CustomerId")
@@ -284,7 +284,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(4151))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5528))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -319,7 +319,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1307))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(4645))
                         .HasColumnName("created_date");
 
                     b.Property<decimal>("Price")
@@ -333,7 +333,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1843))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(5147))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -365,7 +365,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1149))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1183))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Detail")
@@ -399,7 +399,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1641))
+                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1630))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
@@ -641,16 +641,9 @@ namespace DrugStore.Persistence.Migrations
 
                     b.OwnsMany("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", "Images", b1 =>
                         {
-                            b1.Property<Guid>("ProductId")
+                            b1.Property<Guid>("Id")
                                 .HasColumnType("uuid")
-                                .HasColumnName("product_id");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer")
                                 .HasColumnName("id");
-
-                            NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
                             b1.Property<string>("Alt")
                                 .HasMaxLength(100)
@@ -667,13 +660,20 @@ namespace DrugStore.Persistence.Migrations
                                 .HasColumnType("boolean")
                                 .HasColumnName("is_main");
 
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("product_id");
+
                             b1.Property<string>("Title")
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)")
                                 .HasColumnName("title");
 
-                            b1.HasKey("ProductId", "Id")
+                            b1.HasKey("Id")
                                 .HasName("pk_product_image");
+
+                            b1.HasIndex("ProductId")
+                                .HasDatabaseName("ix_product_image_product_id");
 
                             b1.ToTable("product_image", (string)null);
 

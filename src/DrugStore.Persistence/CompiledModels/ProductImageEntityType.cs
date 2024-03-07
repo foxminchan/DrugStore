@@ -28,11 +28,13 @@ namespace DrugStore.Persistence.CompiledModels
                 typeof(ProductImage),
                 baseEntityType);
 
-            var productId = runtimeEntityType.AddProperty(
-                "ProductId",
+            var id = runtimeEntityType.AddProperty(
+                "Id",
                 typeof(ProductId),
+                propertyInfo: typeof(ProductImage).GetProperty("Id", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
+                fieldInfo: typeof(ProductImage).GetField("<Id>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 afterSaveBehavior: PropertySaveBehavior.Throw);
-            productId.TypeMapping = GuidTypeMapping.Default.Clone(
+            id.TypeMapping = GuidTypeMapping.Default.Clone(
                 comparer: new ValueComparer<ProductId>(
                     (ProductId v1, ProductId v2) => v1.Equals(v2),
                     (ProductId v) => v.GetHashCode(),
@@ -55,32 +57,8 @@ namespace DrugStore.Persistence.CompiledModels
                     new ValueConverter<ProductId, Guid>(
                         (ProductId id) => id.Value,
                         (Guid value) => new ProductId(value))));
-            productId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
-            productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-            productId.AddAnnotation("Relational:ColumnName", "product_id");
-
-            var id = runtimeEntityType.AddProperty(
-                "Id",
-                typeof(int),
-                valueGenerated: ValueGenerated.OnAdd,
-                afterSaveBehavior: PropertySaveBehavior.Throw,
-                sentinel: 0);
-            id.TypeMapping = IntTypeMapping.Default.Clone(
-                comparer: new ValueComparer<int>(
-                    (int v1, int v2) => v1 == v2,
-                    (int v) => v,
-                    (int v) => v),
-                keyComparer: new ValueComparer<int>(
-                    (int v1, int v2) => v1 == v2,
-                    (int v) => v,
-                    (int v) => v),
-                providerValueComparer: new ValueComparer<int>(
-                    (int v1, int v2) => v1 == v2,
-                    (int v) => v,
-                    (int v) => v),
-                mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "integer"));
-            id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+            id.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
+            id.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             id.AddAnnotation("Relational:ColumnName", "id");
 
             var alt = runtimeEntityType.AddProperty(
@@ -158,6 +136,36 @@ namespace DrugStore.Persistence.CompiledModels
     isMain.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
     isMain.AddAnnotation("Relational:ColumnName", "is_main");
 
+    var productId = runtimeEntityType.AddProperty(
+        "ProductId",
+        typeof(ProductId));
+    productId.TypeMapping = GuidTypeMapping.Default.Clone(
+        comparer: new ValueComparer<ProductId>(
+            (ProductId v1, ProductId v2) => v1.Equals(v2),
+            (ProductId v) => v.GetHashCode(),
+            (ProductId v) => v),
+        keyComparer: new ValueComparer<ProductId>(
+            (ProductId v1, ProductId v2) => v1.Equals(v2),
+            (ProductId v) => v.GetHashCode(),
+            (ProductId v) => v),
+        providerValueComparer: new ValueComparer<Guid>(
+            (Guid v1, Guid v2) => v1 == v2,
+            (Guid v) => v.GetHashCode(),
+            (Guid v) => v),
+        mappingInfo: new RelationalTypeMappingInfo(
+            storeTypeName: "uuid"),
+        converter: new ValueConverter<ProductId, Guid>(
+            (ProductId id) => id.Value,
+            (Guid value) => new ProductId(value)),
+        jsonValueReaderWriter: new JsonConvertedValueReaderWriter<ProductId, Guid>(
+            JsonGuidReaderWriter.Instance,
+            new ValueConverter<ProductId, Guid>(
+                (ProductId id) => id.Value,
+                (Guid value) => new ProductId(value))));
+    productId.SetSentinelFromProviderValue(new Guid("00000000-0000-0000-0000-000000000000"));
+    productId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
+    productId.AddAnnotation("Relational:ColumnName", "product_id");
+
     var title = runtimeEntityType.AddProperty(
         "Title",
         typeof(string),
@@ -186,9 +194,13 @@ title.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrat
 title.AddAnnotation("Relational:ColumnName", "title");
 
 var key = runtimeEntityType.AddKey(
-    new[] { productId, id });
+    new[] { id });
 runtimeEntityType.SetPrimaryKey(key);
 key.AddAnnotation("Relational:Name", "pk_product_image");
+
+var index = runtimeEntityType.AddIndex(
+    new[] { productId });
+index.AddAnnotation("Relational:Name", "ix_product_image_product_id");
 
 return runtimeEntityType;
 }

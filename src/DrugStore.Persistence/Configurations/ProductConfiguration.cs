@@ -34,6 +34,14 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             p => p.Images,
             e =>
             {
+                e.HasKey(i => i.Id);
+
+                e.Property(i => i.Id)
+                    .HasConversion(
+                        id => id.Value,
+                        value => new(value)
+                    );
+
                 e.Property(i => i.ImageUrl)
                     .HasMaxLength(100)
                     .IsRequired();
@@ -43,6 +51,8 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
 
                 e.Property(i => i.Title)
                     .HasMaxLength(100);
+
+                e.WithOwner().HasForeignKey("ProductId");
             });
 
         builder.Property(p => p.Quantity)

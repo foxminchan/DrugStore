@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DrugStore.Persistence.Migrations;
 
 /// <inheritdoc />
-public partial class InintalizeDatabase : Migration
+public partial class InitalizeDatabase : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -61,9 +61,9 @@ public partial class InintalizeDatabase : Migration
                 expiry_month = table.Column<byte>(type: "smallint", nullable: false),
                 cvc = table.Column<int>(type: "integer", nullable: false),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 715, DateTimeKind.Utc).AddTicks(6779)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 835, DateTimeKind.Utc).AddTicks(8739)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 716, DateTimeKind.Utc).AddTicks(5319)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 836, DateTimeKind.Utc).AddTicks(6666)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table => { table.PrimaryKey("pk_cards", x => x.id); });
@@ -76,9 +76,9 @@ public partial class InintalizeDatabase : Migration
                 name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                 description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(7664)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(1837)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 718, DateTimeKind.Utc).AddTicks(8151)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(2257)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table => { table.PrimaryKey("pk_categories", x => x.id); });
@@ -202,9 +202,9 @@ public partial class InintalizeDatabase : Migration
                 customer_id = table.Column<Guid>(type: "uuid", nullable: true),
                 card_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(3530)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5067)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 721, DateTimeKind.Utc).AddTicks(4151)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5528)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
@@ -236,9 +236,9 @@ public partial class InintalizeDatabase : Migration
                 quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                 category_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1149)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1183)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 728, DateTimeKind.Utc).AddTicks(1641)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1630)),
                 version = table.Column<Guid>(type: "uuid", nullable: false),
                 price = table.Column<string>(type: "jsonb", nullable: true)
             },
@@ -262,9 +262,9 @@ public partial class InintalizeDatabase : Migration
                 price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                 quantity = table.Column<int>(type: "integer", nullable: false),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1307)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(4645)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 4, 17, 0, 17, 725, DateTimeKind.Utc).AddTicks(1843)),
+                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(5147)),
                 version = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
@@ -287,18 +287,16 @@ public partial class InintalizeDatabase : Migration
             name: "product_image",
             columns: table => new
             {
-                product_id = table.Column<Guid>(type: "uuid", nullable: false),
-                id = table.Column<int>(type: "integer", nullable: false)
-                    .Annotation("Npgsql:ValueGenerationStrategy",
-                        NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                id = table.Column<Guid>(type: "uuid", nullable: false),
                 image_url = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                 alt = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
                 title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                is_main = table.Column<bool>(type: "boolean", nullable: false)
+                is_main = table.Column<bool>(type: "boolean", nullable: false),
+                product_id = table.Column<Guid>(type: "uuid", nullable: false)
             },
             constraints: table =>
             {
-                table.PrimaryKey("pk_product_image", x => new { x.product_id, x.id });
+                table.PrimaryKey("pk_product_image", x => x.id);
                 table.ForeignKey(
                     name: "fk_product_image_products_product_id",
                     column: x => x.product_id,
@@ -358,6 +356,11 @@ public partial class InintalizeDatabase : Migration
             name: "ix_orders_customer_id",
             table: "orders",
             column: "customer_id");
+
+        migrationBuilder.CreateIndex(
+            name: "ix_product_image_product_id",
+            table: "product_image",
+            column: "product_id");
 
         migrationBuilder.CreateIndex(
             name: "ix_products_category_id",

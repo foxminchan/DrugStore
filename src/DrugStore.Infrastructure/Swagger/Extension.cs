@@ -15,7 +15,11 @@ public static class Extension
         => services
             .AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerGenOptions>()
             .AddFluentValidationRulesToSwagger()
-            .AddSwaggerGen(c => c.SchemaFilter<StronglyTypedIdFilter>());
+            .AddSwaggerGen(c =>
+            {
+                c.SchemaFilter<StronglyTypedIdFilter>();
+                c.SchemaFilter<SmartEnumSchemaFilter>();
+            });
 
     public static IApplicationBuilder UseOpenApi(this WebApplication app)
     {
@@ -28,9 +32,11 @@ public static class Extension
                 new()
                 {
                     Url = $"{httpReq.Scheme}://{httpReq.Host.Value}",
-                    Description = string.Join(" ",
+                    Description = string.Join(
+                        " ",
                         Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? Environments.Production,
-                        "Environment")
+                        nameof(Environment)
+                    )
                 }
             ];
         }));
