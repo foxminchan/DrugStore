@@ -29,13 +29,13 @@ public sealed class ProductEndpoint : IEndpoint
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("", GetProducts).WithName(nameof(GetProducts));
-        group.MapGet("{id:guid}", GetProductById).WithName(nameof(GetProductById));
-        group.MapGet("/category/{id:guid}", GetProductsByCategoryId).WithName(nameof(GetProductsByCategoryId));
+        group.MapGet("{id}", GetProductById).WithName(nameof(GetProductById));
+        group.MapGet("/category/{id}", GetProductsByCategoryId).WithName(nameof(GetProductsByCategoryId));
         group.MapPost("", CreateProduct).WithName(nameof(CreateProduct));
         group.MapPut("", UpdateProduct).WithName(nameof(UpdateProduct));
-        group.MapPut("/images/{id:guid}", UpdateImages).WithName(nameof(UpdateImages)).DisableAntiforgery();
+        group.MapPut("/images/{id}", UpdateImages).WithName(nameof(UpdateImages)).DisableAntiforgery();
         group.MapPut("images", UpdateMainImage).WithName(nameof(UpdateMainImage));
-        group.MapDelete("{id:guid}", DeleteProduct).WithName(nameof(DeleteProduct));
+        group.MapDelete("{id}", DeleteProduct).WithName(nameof(DeleteProduct));
     }
 
     private static async Task<Result<ProductVm>> GetProductById(

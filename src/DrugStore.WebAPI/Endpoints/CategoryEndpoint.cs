@@ -24,10 +24,10 @@ public sealed class CategoryEndpoint : IEndpoint
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("", GetCategories).WithName(nameof(GetCategories));
-        group.MapGet("{id:guid}", GetCategoryById).WithName(nameof(GetCategoryById));
+        group.MapGet("{id}", GetCategoryById).WithName(nameof(GetCategoryById));
         group.MapPost("", CreateCategory).WithName(nameof(CreateCategory));
         group.MapPut("", UpdateCategory).WithName(nameof(UpdateCategory));
-        group.MapDelete("{id:guid}", DeleteCategory).WithName(nameof(DeleteCategory));
+        group.MapDelete("{id}", DeleteCategory).WithName(nameof(DeleteCategory));
     }
 
     private static async Task<Result<CategoryVm>> GetCategoryById(

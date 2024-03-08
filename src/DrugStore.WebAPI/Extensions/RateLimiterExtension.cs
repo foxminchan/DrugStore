@@ -7,8 +7,8 @@ public static class RateLimitExtensions
 {
     private const string Policy = "PerUserRatelimit";
 
-    public static IServiceCollection AddRateLimiting(this IServiceCollection services)
-        => services.AddRateLimiter(options =>
+    public static IServiceCollection AddRateLimiting(this IHostApplicationBuilder builder)
+        => builder.Services.AddRateLimiter(options =>
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 

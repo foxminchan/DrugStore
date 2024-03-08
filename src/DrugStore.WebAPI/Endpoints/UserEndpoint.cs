@@ -25,10 +25,10 @@ public sealed class UserEndpoint : IEndpoint
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("", GetUsers).WithName(nameof(GetUsers));
-        group.MapGet("{id:guid}", GetUserById).WithName(nameof(GetUserById));
+        group.MapGet("{id}", GetUserById).WithName(nameof(GetUserById)).CacheOutput();
         group.MapPost("", CreateUser).WithName(nameof(CreateUser));
         group.MapPut("", UpdateUser).WithName(nameof(UpdateUser));
-        group.MapDelete("{id:guid}", DeleteUser).WithName(nameof(DeleteUser));
+        group.MapDelete("{id}", DeleteUser).WithName(nameof(DeleteUser));
     }
 
     private static async Task<Result<UserVm>> GetUserById(

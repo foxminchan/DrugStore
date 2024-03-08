@@ -34,7 +34,7 @@ public static class Extension
         builder.Services.AddSingleton<IRedisService, RedisService>();
 
         builder.Services.AddDataProtection()
-            .SetApplicationName(builder.Configuration[redisSettings.Prefix] ?? string.Empty)
+            .SetApplicationName(builder.Configuration[redisSettings.Prefix] ?? nameof(DrugStore))
             .PersistKeysToStackExchangeRedis(
                 ConnectionMultiplexer.Connect(redisSettings.Url), "DataProtectionKeys"
             );

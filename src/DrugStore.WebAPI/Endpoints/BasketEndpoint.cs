@@ -22,10 +22,10 @@ public sealed class BasketEndpoint : IEndpoint
             .WithTags("Baskets")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
-        group.MapGet("{customerId:guid}", GetBasketByCustomerId).WithName(nameof(GetBasketByCustomerId));
+        group.MapGet("{customerId}", GetBasketByCustomerId).WithName(nameof(GetBasketByCustomerId));
         group.MapPost("", CreateBasket).WithName(nameof(CreateBasket));
         group.MapPut("", UpdateBasket).WithName(nameof(UpdateBasket));
-        group.MapDelete("{customerId:guid}", DeleteBasket).WithName(nameof(DeleteBasket));
+        group.MapDelete("{customerId}", DeleteBasket).WithName(nameof(DeleteBasket));
     }
 
     private static async Task<Result<CustomerBasket>> GetBasketByCustomerId(

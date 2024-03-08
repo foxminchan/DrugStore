@@ -7,7 +7,7 @@ namespace DrugStore.Domain.BasketAggregate;
 
 public sealed class CustomerBasket : EntityBase, IAggregateRoot
 {
-    public IdentityId Id { get; set; } = new();
+    public IdentityId Id { get; set; } = new(Guid.NewGuid());
     public List<BasketItem> Items { get; set; } = [];
 
     public void AddItem(BasketItem basketItem)

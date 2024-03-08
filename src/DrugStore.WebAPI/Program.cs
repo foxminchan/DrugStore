@@ -1,25 +1,18 @@
+using System.Net.Mime;
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddIdentity();
 builder.AddCustomDbContext();
-builder.Services.AddEndpoints();
-builder.Services.AddCustomCors();
-builder.Services.AddRateLimiting();
-builder.Services.AddApplicationService();
+builder.AddEndpoints();
+builder.AddCustomCors();
+builder.AddRateLimiting();
+builder.AddApplicationService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureService(builder);
-
-builder.Services.Configure<FormOptions>(o =>
-{
-    o.ValueLengthLimit = int.MaxValue;
-    o.MultipartBodyLengthLimit = int.MaxValue;
-    o.MemoryBufferThreshold = int.MaxValue;
-});
 
 var app = builder.Build();
 
@@ -48,13 +41,14 @@ app.MapGet("antiforgery/token", (IAntiforgery forgeryService, HttpContext contex
 {
     var tokens = forgeryService.GetAndStoreTokens(context);
     var xsrfToken = tokens.RequestToken;
-    return TypedResults.Content(xsrfToken, "text/plain");
+    return TypedResults.Content(xsrfToken, MediaTypeNames.Text.Plain);
 }).ExcludeFromDescription();
 
 app.Map("/", () => Results.Redirect("/swagger"));
 app.Map("/error",
-        () => Results.Problem("An unexpected error occurred.", statusCode: StatusCodes.Status500InternalServerError))
-    .ExcludeFromDescription();
+    () => Results.Problem(
+        "An unexpected error occurred.", statusCode: StatusCodes.Status500InternalServerError
+    )).ExcludeFromDescription();
 
 app.MapPrometheusScrapingEndpoint();
 

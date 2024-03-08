@@ -7,13 +7,10 @@ namespace DrugStore.Infrastructure.Validator;
 
 public static class Extension
 {
-    public static OptionsBuilder<TOption> ValidateFluentValidation<TOption>(
-        this OptionsBuilder<TOption> builder)
+    public static OptionsBuilder<TOption> ValidateFluentValidation<TOption>(this OptionsBuilder<TOption> builder)
         where TOption : class
     {
-        builder.Services.AddSingleton<IValidateOptions<TOption>>(service =>
-            new OptionValidation<TOption>(service));
-
+        builder.Services.AddSingleton<IValidateOptions<TOption>>(service => new OptionValidation<TOption>(service));
         return builder;
     }
 
@@ -25,7 +22,7 @@ public static class Extension
     }
 
     [DebuggerStepThrough]
-    public static IServiceCollection AddValidator(this IServiceCollection services) 
+    public static IServiceCollection AddValidator(this IServiceCollection services)
         => services.Scan(scan => scan
             .FromAssemblies(AssemblyReference.Assembly)
             .AddClasses(c => c.AssignableTo(typeof(IValidator<>)))

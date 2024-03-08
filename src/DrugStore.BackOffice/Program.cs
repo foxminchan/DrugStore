@@ -6,6 +6,7 @@ using DrugStore.BackOffice.Components.Pages.Products;
 using DrugStore.BackOffice.Services;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
+using DrugStore.Infrastructure.Validator;
 using Radzen;
 using Refit;
 
@@ -18,6 +19,8 @@ builder.Services.AddRadzenComponents();
 
 builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
+
+builder.Services.AddValidator();
 
 builder.Services.AddScoped(typeof(ExportService<>));
 

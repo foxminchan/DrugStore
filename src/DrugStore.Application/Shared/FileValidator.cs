@@ -8,8 +8,8 @@ public sealed class FileValidator : AbstractValidator<IFormFile>
     public FileValidator()
     {
         RuleFor(x => x.Length)
-            .LessThanOrEqualTo(1048576)
-            .WithMessage("File size should be less than 1MB");
+            .LessThanOrEqualTo(int.MaxValue)
+            .WithMessage("File size should be less than 2MB");
 
         RuleFor(x => x.FileName)
             .Must(x => x.EndsWith(".jpg") || x.EndsWith(".jpeg") || x.EndsWith(".png"))

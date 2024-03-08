@@ -26,13 +26,13 @@ public sealed class OrderEndpoint : IEndpoint
             .WithTags("Orders")
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
-        group.MapGet("{orderId:guid}", GetOrder).WithName(nameof(GetOrder));
+        group.MapGet("{orderId}", GetOrder).WithName(nameof(GetOrder));
         group.MapGet("", GetOrders).WithName(nameof(GetOrders));
-        group.MapGet("customer/{customerId:guid}", GetOrdersByCustomer)
+        group.MapGet("customer/{customerId}", GetOrdersByCustomer)
             .WithName(nameof(GetOrdersByCustomer));
         group.MapPost("", CreateOrder).WithName(nameof(CreateOrder));
         group.MapPut("", UpdateOrder).WithName(nameof(UpdateOrder));
-        group.MapDelete("{orderId:guid}", DeleteOrder).WithName(nameof(DeleteOrder));
+        group.MapDelete("{orderId}", DeleteOrder).WithName(nameof(DeleteOrder));
     }
 
     private static async Task<Result<OrderVm>> GetOrder(

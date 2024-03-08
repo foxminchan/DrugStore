@@ -18,7 +18,7 @@ public static class ProgramExtension
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
-                options.Audience = "drugstore";
+                options.Audience = nameof(DrugStore).ToLowerInvariant();
                 options.Authority = builder.Configuration.GetValue<string>("IdentityUrl");
                 options.RequireHttpsMetadata = false;
             });
@@ -51,21 +51,22 @@ public static class ProgramExtension
     public static void AddInfrastructureService(this IServiceCollection services, WebApplicationBuilder builder)
         => services.AddInfrastructure(builder);
 
-    public static void AddApplicationService(this IServiceCollection services) => services.AddApplication();
+    public static void AddApplicationService(this IHostApplicationBuilder builder) => builder.Services.AddApplication();
 
     public static IServiceCollection AddCustomDbContext(this IHostApplicationBuilder builder)
         => builder.Services.AddPostgresDbContext(builder.Configuration).AddDatabaseDeveloperPageExceptionFilter();
 
     public static void UseInfrastructureService(this WebApplication app) => app.UseInfrastructure();
 
-    public static IServiceCollection AddCustomCors(this IServiceCollection services, string corsName = "api")
-        => services.AddCors(options => options.AddPolicy(corsName,
-            policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+    public static IServiceCollection AddCustomCors(this IHostApplicationBuilder builder, string corsName = "api")
+        => builder.Services.AddCors(options => options.AddPolicy(corsName,
+            policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+        ));
 
     public static IApplicationBuilder UseCustomCors(this IApplicationBuilder app, string corsName = "api")
         => app.UseCors(corsName);
 
-    public static IServiceCollection AddEndpoints(this IServiceCollection services)
+    public static IServiceCollection AddEndpoints(this IHostApplicationBuilder builder)
     {
         var serviceDescriptors = AssemblyReference.Program
             .DefinedTypes
@@ -74,9 +75,9 @@ public static class ProgramExtension
             .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
             .ToArray();
 
-        services.TryAddEnumerable(serviceDescriptors);
+        builder.Services.TryAddEnumerable(serviceDescriptors);
 
-        return services;
+        return builder.Services;
     }
 
     public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)

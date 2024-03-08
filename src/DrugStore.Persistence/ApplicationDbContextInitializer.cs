@@ -56,6 +56,9 @@ public sealed class ApplicationDbContextInitializer(
         }
 
         ApplicationRole customer = new(RoleHelper.Customer);
+
+        logger.LogInformation("Customer role: {Customer}", customer.Name);
+
         if (!await roleManager.RoleExistsAsync(RoleHelper.Customer))
         {
             await roleManager.CreateAsync(customer);
@@ -72,6 +75,8 @@ public sealed class ApplicationDbContextInitializer(
             new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh")
         );
 
+        logger.LogInformation("Admin user: {Admin}", administrator.UserName);
+
         if (userManager.Users.All(u => u.UserName != administrator.UserName))
         {
             await userManager.CreateAsync(administrator, password);
@@ -84,6 +89,8 @@ public sealed class ApplicationDbContextInitializer(
             "0123456789",
             new("Xa Lo Ha Noi", "Thu Duc", "Ho Chi Minh")
         );
+
+        logger.LogInformation("Customer user: {Customer}", user.UserName);
 
         if (userManager.Users.All(u => u.UserName != user.UserName))
         {
