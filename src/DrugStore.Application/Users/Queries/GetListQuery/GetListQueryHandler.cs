@@ -10,13 +10,11 @@ namespace DrugStore.Application.Users.Queries.GetListQuery;
 public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager)
     : IQueryHandler<GetListQuery, PagedResult<List<UserVm>>>
 {
-    public async Task<PagedResult<List<UserVm>>> Handle(
-        GetListQuery request,
-        CancellationToken cancellationToken)
+    public async Task<PagedResult<List<UserVm>>> Handle(GetListQuery request, CancellationToken cancellationToken)
     {
         var query = userManager.Users.OrderBy(x => x.Id);
 
-        if (!request.Filter.IsAscending) query = query.OrderDescending();
+        if (!request.Filter.IsAscending) query = query.OrderByDescending(x => x.Id);
 
         var users = await query
             .Skip((request.Filter.PageNumber - 1) * request.Filter.PageSize)
@@ -25,12 +23,13 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
             .ToListAsync(cancellationToken);
 
         if (!string.IsNullOrEmpty(request.Filter.Search))
-            users = users.Where(x => x is { FullName: { }, Email: { } } &&
-                                     (
-                                         x.Email.Contains(request.Filter.Search) ||
-                                         x.FullName.Contains(request.Filter.Search)
-                                     )
-            ).ToList();
+            users = users.AsEnumerable()
+                .Where(x => x is { FullName: { }, Email: { } } &&
+                            (
+                                x.Email.Contains(request.Filter.Search) ||
+                                x.FullName.Contains(request.Filter.Search)
+                            )
+                ).ToList();
 
         var totalRecords = await userManager.Users.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);

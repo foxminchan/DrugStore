@@ -46,8 +46,12 @@ public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory
         var client = _factory.CreateClient();
 
         // Act
+        client.DefaultRequestHeaders.Add("X-Idempotency-Key", Guid.NewGuid().ToString());
         var response =
-            await client.PostAsJsonAsync("/api/v1/categories", new { Title = string.Empty, Link = string.Empty });
+            await client.PostAsJsonAsync("/api/v1/categories", new
+            {
+                Title = string.Empty, Link = string.Empty
+            });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

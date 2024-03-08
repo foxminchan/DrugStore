@@ -10,8 +10,8 @@ namespace DrugStore.Infrastructure.Exception;
 public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext, 
-        System.Exception exception, 
+        HttpContext httpContext,
+        System.Exception exception,
         CancellationToken cancellationToken)
     {
         logger.LogError(exception, "Exception occurred: {ExceptionMessage}", exception.Message);
@@ -35,7 +35,7 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 break;
 
             default:
-                await HandleDefaultException(httpContext, cancellationToken);
+                await HandleDefaultException(httpContext, exception, cancellationToken);
                 break;
         }
 
@@ -97,14 +97,16 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
 
     private static async Task HandleDefaultException(
         HttpContext httpContext,
+        System.Exception exception,
         CancellationToken cancellationToken)
     {
         Microsoft.AspNetCore.Mvc.ProblemDetails details = new()
         {
             Status = StatusCodes.Status500InternalServerError,
+            Type = exception.GetType().Name,
             Title = "An error occurred while processing your request.",
-            Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
-            Instance = httpContext.Request.Path
+            Detail = exception.Message,
+            Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
         };
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);

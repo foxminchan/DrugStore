@@ -12,6 +12,7 @@ public static class Extension
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.AddServerHeader = false;
+            options.Limits.MaxConcurrentConnections = 100;
             options.Limits.MaxRequestBodySize = 10 * 1024 * 1024;
             options.Limits.MinRequestBodyDataRate = new(100, TimeSpan.FromSeconds(10));
             options.Limits.MinResponseDataRate = new(100, TimeSpan.FromSeconds(10));
@@ -24,8 +25,9 @@ public static class Extension
             .AddRouting(options => options.LowercaseUrls = true);
 
         builder.Services.AddOutputCache(
-            options => options.AddBasePolicy(policyBuilder => policyBuilder.Expire(TimeSpan.FromSeconds(10)))
-        );
+            options => options.AddBasePolicy(policyBuilder => policyBuilder
+                .Expire(TimeSpan.FromSeconds(10)).SetVaryByQuery("*")
+            ));
 
         builder.Services.Configure<FormOptions>(o =>
         {
@@ -39,6 +41,7 @@ public static class Extension
 
     public static void UseKestrel(this IApplicationBuilder app)
         => app.UseHsts()
+            .UseOutputCache()
             .UseRequestTimeouts()
             .UseResponseCompression()
             .UseResponseCaching()
