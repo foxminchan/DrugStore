@@ -27,13 +27,16 @@ public sealed partial class Index
     }
 
     private async Task EditCategory(Guid id)
-        => await DialogService.OpenAsync<Edit>("Edit Category",
-            new() { ["Id"] = id },
-            new() { Width = "40%", Height = "60%" }
-        );
+    {
+        NavigationManager.NavigateTo($"/categories/edit/{id}");
+        await Task.CompletedTask;
+    }
 
     private async Task AddCategory()
-        => await DialogService.OpenAsync<Add>("Add Category", options: new() { Width = "40%", Height = "60%" });
+    {
+        NavigationManager.NavigateTo("/categories/add");
+        await Task.CompletedTask;
+    }
 
     private async Task DeleteCategory(Guid id)
     {
