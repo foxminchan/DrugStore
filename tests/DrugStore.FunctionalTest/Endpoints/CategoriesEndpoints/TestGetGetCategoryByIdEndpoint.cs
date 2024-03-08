@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
-public sealed class TestGetGetCategoryByIdEndpoint(ApplicationFactory<Program> factory)
+public sealed class TestGetGetCategoryByIdEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
@@ -35,6 +35,7 @@ public sealed class TestGetGetCategoryByIdEndpoint(ApplicationFactory<Program> f
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var item = await response.Content.ReadFromJsonAsync<Result<CategoryVm>>();
+        output.WriteLine("Response: {0}", item);
         item.Should().NotBeNull().And.Match<CategoryVm>(x => x.Id == id);
     }
 
@@ -51,5 +52,6 @@ public sealed class TestGetGetCategoryByIdEndpoint(ApplicationFactory<Program> f
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        output.WriteLine("Response: {0}", response);
     }
 }

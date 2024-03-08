@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.HealthCheckEndpoints;
 
-public class TestReadinessEndpoint(ApplicationFactory<Program> factory)
+public class TestReadinessEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>
 {
     [Fact]
@@ -26,6 +26,7 @@ public class TestReadinessEndpoint(ApplicationFactory<Program> factory)
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
+            output.WriteLine("Response: {0}", response.StatusCode);
         }
         finally
         {
@@ -44,5 +45,6 @@ public class TestReadinessEndpoint(ApplicationFactory<Program> factory)
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+        output.WriteLine("Response: {0}", response.StatusCode);
     }
 }

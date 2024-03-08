@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
-public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factory)
+public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
@@ -34,6 +34,7 @@ public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factor
         response.EnsureSuccessStatusCode();
         var items =
             await response.Content.ReadFromJsonAsync<Result<IEnumerable<CategoryVm>>>();
+        output.WriteLine("Response: {0}", items);
         items.Should()
             .NotBeNull()
             .And

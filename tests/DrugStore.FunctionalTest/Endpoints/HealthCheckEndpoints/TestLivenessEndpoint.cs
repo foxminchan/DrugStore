@@ -1,12 +1,12 @@
 ﻿using System.Net;
+using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.HealthCheckEndpoints;
 
-public class TestLivenessEndpoint(WebApplicationFactory<Program> factory)
-    : IClassFixture<WebApplicationFactory<Program>>
+public sealed class TestLivenessEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
+    : IClassFixture<ApplicationFactory<Program>>
 {
     [Fact]
     public async Task ShouldBeReturnOk()
@@ -27,11 +27,12 @@ public class TestLivenessEndpoint(WebApplicationFactory<Program> factory)
         response.EnsureSuccessStatusCode();
         var responseString = await response.Content.ReadAsStringAsync();
         Assert.Equal("Healthy", responseString);
+        output.WriteLine("Response: {0}", responseString);
     }
 
     [Theory]
-    [InlineData("ConnectionStrings:Postgres")]
     [InlineData("ConnectionStrings:Redis")]
+    [InlineData("ConnectionStrings:Postgres")]
     public async Task ShouldBeReturnUnhealthy(string connectionString)
     {
         // Arrange
@@ -43,5 +44,6 @@ public class TestLivenessEndpoint(WebApplicationFactory<Program> factory)
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+        output.WriteLine("Response: {0}", response);
     }
 }

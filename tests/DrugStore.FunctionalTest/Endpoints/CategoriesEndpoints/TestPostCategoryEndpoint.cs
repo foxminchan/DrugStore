@@ -8,7 +8,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
-public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory)
+public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer();
@@ -35,6 +35,7 @@ public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         response.Headers.Location.Should().NotBeNull();
+        output.WriteLine("Response: {0}", response);
     }
 
     [Fact]
@@ -49,5 +50,6 @@ public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        output.WriteLine("Response: {0}", response);
     }
 }

@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
-public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> factory)
+public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
@@ -31,6 +31,7 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        output.WriteLine("Response: {0}", response);
     }
 
     [Theory(DisplayName = "Should be return not found")]
@@ -46,5 +47,6 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        output.WriteLine("Response: {0}", response);
     }
 }
