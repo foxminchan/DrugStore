@@ -18,7 +18,7 @@ public sealed class OrderItem : EntityBase
 
     public OrderItem(decimal price, int quantity, ProductId productId, OrderId orderId)
     {
-        Price = Guard.Against.NegativeOrZero(price);
+        Price = Guard.Against.Negative(price);
         Quantity = Guard.Against.NegativeOrZero(quantity);
         ProductId = productId;
         OrderId = orderId;

@@ -17,17 +17,9 @@ public sealed class UpdateProductImageCommandHandler(
         var product = await repository.GetByIdAsync(request.ProductId, cancellationToken);
         Guard.Against.NotFound(request.ProductId, product);
 
-        foreach (var image in request.Images)
-        {
-            var result = await minioService.UploadFileAsync(image, nameof(Product).ToLowerInvariant());
+        var result = await minioService.UploadFileAsync(request.Image, nameof(Product).ToLowerInvariant());
 
-            product.Images?.Add(new(
-                result,
-                product.Name,
-                nameof(Product),
-                false
-            ));
-        }
+        product.Image = new(result, nameof(Product), product.Name);
 
         await repository.UpdateAsync(product, cancellationToken);
 

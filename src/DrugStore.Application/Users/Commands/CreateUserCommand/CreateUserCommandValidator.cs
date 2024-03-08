@@ -1,4 +1,5 @@
 ﻿using DrugStore.Application.Users.Validators;
+using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
@@ -10,7 +11,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
         RuleFor(x => x.UserRequest.Email)
             .NotEmpty()
             .EmailAddress()
-            .MaximumLength(50);
+            .MaximumLength(DatabaseLengthHelper.ShortLength);
 
         RuleFor(x => x.UserRequest.Password)
             .NotEmpty()
@@ -24,11 +25,10 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 
         RuleFor(x => x.UserRequest.FullName)
             .NotEmpty()
-            .MaximumLength(50);
+            .MaximumLength(DatabaseLengthHelper.ShortLength);
 
         RuleFor(x => x.UserRequest.Phone)
             .NotEmpty()
-            .MaximumLength(10)
             .Matches(@"^\d{10}$")
             .WithMessage("Phone number must be 10 digits");
 

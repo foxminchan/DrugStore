@@ -34,29 +34,31 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(1837))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 150, DateTimeKind.Utc).AddTicks(8701))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)")
                         .HasColumnName("description");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(2257))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 151, DateTimeKind.Utc).AddTicks(6369))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("6a655ecd-7673-4b91-9503-7151e4bb0397"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
@@ -187,62 +189,6 @@ namespace DrugStore.Persistence.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("DrugStore.Domain.OrderAggregate.Card", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 835, DateTimeKind.Utc).AddTicks(8739))
-                        .HasColumnName("created_date");
-
-                    b.Property<int>("Cvc")
-                        .HasColumnType("integer")
-                        .HasColumnName("cvc");
-
-                    b.Property<byte?>("ExpiryMonth")
-                        .IsRequired()
-                        .HasColumnType("smallint")
-                        .HasColumnName("expiry_month");
-
-                    b.Property<int>("ExpiryYear")
-                        .HasColumnType("integer")
-                        .HasColumnName("expiry_year");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
-                        .HasColumnName("name");
-
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(16)
-                        .HasColumnType("character varying(16)")
-                        .HasColumnName("number");
-
-                    b.Property<DateTime?>("UpdateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 836, DateTimeKind.Utc).AddTicks(6666))
-                        .HasColumnName("update_date");
-
-                    b.Property<Guid>("Version")
-                        .IsConcurrencyToken()
-                        .HasColumnType("uuid")
-                        .HasColumnName("version");
-
-                    b.HasKey("Id")
-                        .HasName("pk_cards");
-
-                    b.ToTable("cards", (string)null);
-                });
-
             modelBuilder.Entity("DrugStore.Domain.OrderAggregate.Order", b =>
                 {
                     b.Property<Guid>("Id")
@@ -251,49 +197,36 @@ namespace DrugStore.Persistence.Migrations
                         .HasColumnName("id")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<Guid?>("CardId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("card_id");
-
                     b.Property<string>("Code")
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)")
                         .HasColumnName("code");
 
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5067))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(984))
                         .HasColumnName("created_date");
 
                     b.Property<Guid?>("CustomerId")
                         .HasColumnType("uuid")
                         .HasColumnName("customer_id");
 
-                    b.Property<int?>("PaymentMethod")
-                        .HasColumnType("integer")
-                        .HasColumnName("payment_method");
-
-                    b.Property<int?>("Status")
-                        .HasColumnType("integer")
-                        .HasColumnName("status");
-
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5528))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(1469))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("a39a74de-422f-4132-8415-5d3a261842a6"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
                         .HasName("pk_orders");
-
-                    b.HasIndex("CardId")
-                        .HasDatabaseName("ix_orders_card_id");
 
                     b.HasIndex("CustomerId")
                         .HasDatabaseName("ix_orders_customer_id");
@@ -316,11 +249,11 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(4645))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(6679))
                         .HasColumnName("created_date");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)")
+                        .HasColumnType("numeric")
                         .HasColumnName("price");
 
                     b.Property<int>("Quantity")
@@ -330,12 +263,14 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(5147))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(7157))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("6ec0bcc7-fd63-4119-a198-b7720ee48a72"))
                         .HasColumnName("version");
 
                     b.HasKey("OrderId", "ProductId")
@@ -362,13 +297,13 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1183))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(3567))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Detail")
                         .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)")
                         .HasColumnName("detail");
 
                     b.Property<string>("Name")
@@ -379,8 +314,8 @@ namespace DrugStore.Persistence.Migrations
 
                     b.Property<string>("ProductCode")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)")
                         .HasColumnName("product_code");
 
                     b.Property<int>("Quantity")
@@ -396,12 +331,14 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1630))
+                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(4031))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
+                        .HasDefaultValue(new Guid("f2dfa8c3-58bb-479e-a338-4a3065872405"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
@@ -590,19 +527,11 @@ namespace DrugStore.Persistence.Migrations
 
             modelBuilder.Entity("DrugStore.Domain.OrderAggregate.Order", b =>
                 {
-                    b.HasOne("DrugStore.Domain.OrderAggregate.Card", "Card")
-                        .WithMany("Orders")
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .HasConstraintName("fk_orders_cards_card_id");
-
                     b.HasOne("DrugStore.Domain.IdentityAggregate.ApplicationUser", "Customer")
                         .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_orders_asp_net_users_customer_id");
-
-                    b.Navigation("Card");
 
                     b.Navigation("Customer");
                 });
@@ -636,47 +565,29 @@ namespace DrugStore.Persistence.Migrations
                         .OnDelete(DeleteBehavior.SetNull)
                         .HasConstraintName("fk_products_categories_category_id");
 
-                    b.OwnsMany("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", "Images", b1 =>
+                    b.OwnsOne("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", "Image", b1 =>
                         {
-                            b1.Property<Guid>("Id")
-                                .HasColumnType("uuid")
-                                .HasColumnName("id");
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("uuid");
 
                             b1.Property<string>("Alt")
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("alt");
+                                .HasColumnType("text");
 
                             b1.Property<string>("ImageUrl")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("image_url");
-
-                            b1.Property<bool>("IsMain")
-                                .HasColumnType("boolean")
-                                .HasColumnName("is_main");
-
-                            b1.Property<Guid>("ProductId")
-                                .HasColumnType("uuid")
-                                .HasColumnName("product_id");
+                                .HasColumnType("text");
 
                             b1.Property<string>("Title")
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)")
-                                .HasColumnName("title");
+                                .HasColumnType("text");
 
-                            b1.HasKey("Id")
-                                .HasName("pk_product_image");
+                            b1.HasKey("ProductId");
 
-                            b1.HasIndex("ProductId")
-                                .HasDatabaseName("ix_product_image_product_id");
+                            b1.ToTable("products");
 
-                            b1.ToTable("product_image", (string)null);
+                            b1.ToJson("image");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId")
-                                .HasConstraintName("fk_product_image_products_product_id");
+                                .HasConstraintName("fk_products_products_id");
                         });
 
                     b.OwnsOne("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice", "Price", b1 =>
@@ -703,7 +614,7 @@ namespace DrugStore.Persistence.Migrations
 
                     b.Navigation("Category");
 
-                    b.Navigation("Images");
+                    b.Navigation("Image");
 
                     b.Navigation("Price");
                 });
@@ -771,11 +682,6 @@ namespace DrugStore.Persistence.Migrations
                 });
 
             modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationUser", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
-            modelBuilder.Entity("DrugStore.Domain.OrderAggregate.Card", b =>
                 {
                     b.Navigation("Orders");
                 });

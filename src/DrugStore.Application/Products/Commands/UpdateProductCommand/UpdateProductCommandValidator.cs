@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Categories.Validators;
 using DrugStore.Application.Products.Validators;
+using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
@@ -15,13 +16,13 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
 
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(50);
+            .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
         RuleFor(x => x.ProductCode)
-            .MaximumLength(20);
+            .MaximumLength(DatabaseLengthHelper.SmallLength);
 
         RuleFor(x => x.Detail)
-            .MaximumLength(500);
+            .MaximumLength(DatabaseLengthHelper.MaxLength);
 
         RuleFor(x => x.Quantity)
             .NotEmpty()

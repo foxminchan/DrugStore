@@ -16,6 +16,7 @@ public abstract class BaseConfiguration<TEntity> : IEntityTypeConfiguration<TEnt
             .HasDefaultValue(DateTime.UtcNow);
 
         builder.Property(e => e.Version)
+            .HasDefaultValue(Guid.NewGuid())
             .IsConcurrencyToken();
     }
 }

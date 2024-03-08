@@ -22,7 +22,7 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Name)
-            .HasMaxLength(100)
+            .HasMaxLength(DatabaseLengthHelper.DefaultLength)
             .IsRequired();
 
         builder.OwnsOne(
@@ -30,41 +30,21 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             e => e.ToJson()
         );
 
-        builder.OwnsMany(
-            p => p.Images,
-            e =>
-            {
-                e.HasKey(i => i.Id);
-
-                e.Property(i => i.Id)
-                    .HasConversion(
-                        id => id.Value,
-                        value => new(value)
-                    );
-
-                e.Property(i => i.ImageUrl)
-                    .HasMaxLength(100)
-                    .IsRequired();
-
-                e.Property(i => i.Alt)
-                    .HasMaxLength(100);
-
-                e.Property(i => i.Title)
-                    .HasMaxLength(100);
-
-                e.WithOwner().HasForeignKey("ProductId");
-            });
+        builder.OwnsOne(
+            p => p.Image,
+            e => e.ToJson()
+        );
 
         builder.Property(p => p.Quantity)
             .HasDefaultValue(0)
             .IsRequired();
 
         builder.Property(p => p.ProductCode)
-            .HasMaxLength(20)
+            .HasMaxLength(DatabaseLengthHelper.SmallLength)
             .IsRequired();
 
         builder.Property(p => p.Detail)
-            .HasMaxLength(500)
+            .HasMaxLength(DatabaseLengthHelper.MaxLength)
             .IsRequired();
 
         builder.HasOne(p => p.Category)

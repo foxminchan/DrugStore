@@ -1,7 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.IdentityAggregate.Primitives;
-using DrugStore.Domain.OrderAggregate.Enums;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
@@ -11,8 +10,6 @@ namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 public sealed record OrderUpdateRequest(
     OrderId Id,
     string? Code,
-    OrderStatus Status,
-    PaymentMethod PaymentMethod,
     IdentityId? CustomerId,
     List<OrderItemUpdateRequest> Items);
 

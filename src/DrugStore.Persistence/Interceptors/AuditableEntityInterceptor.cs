@@ -39,7 +39,6 @@ public sealed class AuditableEntityInterceptor : SaveChangesInterceptor
             if (entry.State == EntityState.Added) entry.Entity.CreatedDate = DateTime.UtcNow;
 
             entry.Entity.UpdateDate = DateTime.UtcNow;
-            entry.Entity.Version = Guid.NewGuid();
         }
     }
 }

@@ -51,35 +51,18 @@ public partial class InitalizeDatabase : Migration
             constraints: table => { table.PrimaryKey("pk_asp_net_users", x => x.id); });
 
         migrationBuilder.CreateTable(
-            name: "cards",
-            columns: table => new
-            {
-                id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
-                name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                number = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
-                expiry_year = table.Column<int>(type: "integer", nullable: false),
-                expiry_month = table.Column<byte>(type: "smallint", nullable: false),
-                cvc = table.Column<int>(type: "integer", nullable: false),
-                created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 835, DateTimeKind.Utc).AddTicks(8739)),
-                update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 836, DateTimeKind.Utc).AddTicks(6666)),
-                version = table.Column<Guid>(type: "uuid", nullable: false)
-            },
-            constraints: table => { table.PrimaryKey("pk_cards", x => x.id); });
-
-        migrationBuilder.CreateTable(
             name: "categories",
             columns: table => new
             {
                 id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
-                name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
+                name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(1837)),
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 150, DateTimeKind.Utc).AddTicks(8701)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 838, DateTimeKind.Utc).AddTicks(2257)),
-                version = table.Column<Guid>(type: "uuid", nullable: false)
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 151, DateTimeKind.Utc).AddTicks(6369)),
+                version = table.Column<Guid>(type: "uuid", nullable: false,
+                    defaultValue: new Guid("6a655ecd-7673-4b91-9503-7151e4bb0397"))
             },
             constraints: table => { table.PrimaryKey("pk_categories", x => x.id); });
 
@@ -196,16 +179,14 @@ public partial class InitalizeDatabase : Migration
             columns: table => new
             {
                 id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
-                code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
-                status = table.Column<int>(type: "integer", nullable: true),
-                payment_method = table.Column<int>(type: "integer", nullable: true),
+                code = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: true),
                 customer_id = table.Column<Guid>(type: "uuid", nullable: true),
-                card_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5067)),
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(984)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 839, DateTimeKind.Utc).AddTicks(5528)),
-                version = table.Column<Guid>(type: "uuid", nullable: false)
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(1469)),
+                version = table.Column<Guid>(type: "uuid", nullable: false,
+                    defaultValue: new Guid("a39a74de-422f-4132-8415-5d3a261842a6"))
             },
             constraints: table =>
             {
@@ -216,12 +197,6 @@ public partial class InitalizeDatabase : Migration
                     principalTable: "AspNetUsers",
                     principalColumn: "id",
                     onDelete: ReferentialAction.SetNull);
-                table.ForeignKey(
-                    name: "fk_orders_cards_card_id",
-                    column: x => x.card_id,
-                    principalTable: "cards",
-                    principalColumn: "id",
-                    onDelete: ReferentialAction.SetNull);
             });
 
         migrationBuilder.CreateTable(
@@ -230,16 +205,18 @@ public partial class InitalizeDatabase : Migration
             {
                 id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
                 name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                product_code = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
-                detail = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                product_code = table.Column<string>(type: "character varying(16)", maxLength: 16, nullable: false),
+                detail = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                 status = table.Column<int>(type: "integer", nullable: true),
                 quantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                 category_id = table.Column<Guid>(type: "uuid", nullable: true),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1183)),
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(3567)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 846, DateTimeKind.Utc).AddTicks(1630)),
-                version = table.Column<Guid>(type: "uuid", nullable: false),
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(4031)),
+                version = table.Column<Guid>(type: "uuid", nullable: false,
+                    defaultValue: new Guid("f2dfa8c3-58bb-479e-a338-4a3065872405")),
+                image = table.Column<string>(type: "jsonb", nullable: true),
                 price = table.Column<string>(type: "jsonb", nullable: true)
             },
             constraints: table =>
@@ -259,13 +236,14 @@ public partial class InitalizeDatabase : Migration
             {
                 product_id = table.Column<Guid>(type: "uuid", nullable: false),
                 order_id = table.Column<Guid>(type: "uuid", nullable: false),
-                price = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                price = table.Column<decimal>(type: "numeric", nullable: false),
                 quantity = table.Column<int>(type: "integer", nullable: false),
                 created_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(4645)),
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(6679)),
                 update_date = table.Column<DateTime>(type: "timestamp with time zone", nullable: true,
-                    defaultValue: new DateTime(2024, 3, 7, 14, 24, 0, 843, DateTimeKind.Utc).AddTicks(5147)),
-                version = table.Column<Guid>(type: "uuid", nullable: false)
+                    defaultValue: new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(7157)),
+                version = table.Column<Guid>(type: "uuid", nullable: false,
+                    defaultValue: new Guid("6ec0bcc7-fd63-4119-a198-b7720ee48a72"))
             },
             constraints: table =>
             {
@@ -281,28 +259,6 @@ public partial class InitalizeDatabase : Migration
                     column: x => x.product_id,
                     principalTable: "products",
                     principalColumn: "id");
-            });
-
-        migrationBuilder.CreateTable(
-            name: "product_image",
-            columns: table => new
-            {
-                id = table.Column<Guid>(type: "uuid", nullable: false),
-                image_url = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                alt = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: true),
-                is_main = table.Column<bool>(type: "boolean", nullable: false),
-                product_id = table.Column<Guid>(type: "uuid", nullable: false)
-            },
-            constraints: table =>
-            {
-                table.PrimaryKey("pk_product_image", x => x.id);
-                table.ForeignKey(
-                    name: "fk_product_image_products_product_id",
-                    column: x => x.product_id,
-                    principalTable: "products",
-                    principalColumn: "id",
-                    onDelete: ReferentialAction.Cascade);
             });
 
         migrationBuilder.CreateIndex(
@@ -348,19 +304,9 @@ public partial class InitalizeDatabase : Migration
             column: "product_id");
 
         migrationBuilder.CreateIndex(
-            name: "ix_orders_card_id",
-            table: "orders",
-            column: "card_id");
-
-        migrationBuilder.CreateIndex(
             name: "ix_orders_customer_id",
             table: "orders",
             column: "customer_id");
-
-        migrationBuilder.CreateIndex(
-            name: "ix_product_image_product_id",
-            table: "product_image",
-            column: "product_id");
 
         migrationBuilder.CreateIndex(
             name: "ix_products_category_id",
@@ -390,9 +336,6 @@ public partial class InitalizeDatabase : Migration
             name: "order_details");
 
         migrationBuilder.DropTable(
-            name: "product_image");
-
-        migrationBuilder.DropTable(
             name: "AspNetRoles");
 
         migrationBuilder.DropTable(
@@ -403,9 +346,6 @@ public partial class InitalizeDatabase : Migration
 
         migrationBuilder.DropTable(
             name: "AspNetUsers");
-
-        migrationBuilder.DropTable(
-            name: "cards");
 
         migrationBuilder.DropTable(
             name: "categories");

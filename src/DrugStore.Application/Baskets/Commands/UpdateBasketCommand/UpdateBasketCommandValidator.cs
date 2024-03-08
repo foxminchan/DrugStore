@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using DrugStore.Persistence.Helpers;
+using FluentValidation;
 
 namespace DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 
@@ -13,12 +14,12 @@ public sealed class UpdateBasketCommandValidator : AbstractValidator<UpdateBaske
             .NotEmpty();
 
         RuleFor(x => x.Item.ProductName)
-            .MaximumLength(100);
+            .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
         RuleFor(x => x.Item.Quantity)
             .GreaterThan(0);
 
         RuleFor(x => x.Item.Price)
-            .GreaterThan(0);
+            .GreaterThanOrEqualTo(0);
     }
 }

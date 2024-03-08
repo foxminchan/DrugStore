@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Ardalis.SmartEnum.EFCore;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
-using DrugStore.Domain.OrderAggregate.Enums;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.EntityFrameworkCore;
@@ -67,45 +65,13 @@ namespace DrugStore.Persistence.CompiledModels
             id.AddAnnotation("Relational:ColumnName", "id");
             id.AddAnnotation("Relational:DefaultValueSql", "uuid_generate_v4()");
 
-            var cardId = runtimeEntityType.AddProperty(
-                "CardId",
-                typeof(CardId?),
-                propertyInfo: typeof(Order).GetProperty("CardId", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                fieldInfo: typeof(Order).GetField("<CardId>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                nullable: true);
-            cardId.TypeMapping = GuidTypeMapping.Default.Clone(
-                comparer: new ValueComparer<CardId?>(
-                    (Nullable<CardId> v1, Nullable<CardId> v2) => v1.HasValue && v2.HasValue && ((CardId)v1).Equals((CardId)v2) || !v1.HasValue && !v2.HasValue,
-                    (Nullable<CardId> v) => v.HasValue ? ((CardId)v).GetHashCode() : 0,
-                    (Nullable<CardId> v) => v.HasValue ? (Nullable<CardId>)(CardId)v : default(Nullable<CardId>)),
-                keyComparer: new ValueComparer<CardId?>(
-                    (Nullable<CardId> v1, Nullable<CardId> v2) => v1.HasValue && v2.HasValue && ((CardId)v1).Equals((CardId)v2) || !v1.HasValue && !v2.HasValue,
-                    (Nullable<CardId> v) => v.HasValue ? ((CardId)v).GetHashCode() : 0,
-                    (Nullable<CardId> v) => v.HasValue ? (Nullable<CardId>)(CardId)v : default(Nullable<CardId>)),
-                providerValueComparer: new ValueComparer<Guid>(
-                    (Guid v1, Guid v2) => v1 == v2,
-                    (Guid v) => v.GetHashCode(),
-                    (Guid v) => v),
-                mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "uuid"),
-                converter: new ValueConverter<CardId, Guid>(
-                    (CardId id) => id.Value,
-                    (Guid value) => new CardId(value)),
-                jsonValueReaderWriter: new JsonConvertedValueReaderWriter<CardId, Guid>(
-                    JsonGuidReaderWriter.Instance,
-                    new ValueConverter<CardId, Guid>(
-                        (CardId id) => id.Value,
-                        (Guid value) => new CardId(value))));
-            cardId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-            cardId.AddAnnotation("Relational:ColumnName", "card_id");
-
             var code = runtimeEntityType.AddProperty(
                 "Code",
                 typeof(string),
                 propertyInfo: typeof(Order).GetProperty("Code", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 fieldInfo: typeof(Order).GetField("<Code>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 nullable: true,
-                maxLength: 20);
+                maxLength: 16);
             code.TypeMapping = NpgsqlStringTypeMapping.Default.Clone(
                 comparer: new ValueComparer<string>(
                     (string v1, string v2) => v1 == v2,
@@ -120,8 +86,8 @@ namespace DrugStore.Persistence.CompiledModels
                     (string v) => v.GetHashCode(),
                     (string v) => v),
                 mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "character varying(20)",
-                    size: 20));
+                    storeTypeName: "character varying(16)",
+                    size: 16));
             code.TypeMapping = ((NpgsqlStringTypeMapping)code.TypeMapping).Clone(npgsqlDbType: NpgsqlTypes.NpgsqlDbType.Varchar);
         code.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         code.AddAnnotation("Relational:ColumnName", "code");
@@ -148,7 +114,7 @@ namespace DrugStore.Persistence.CompiledModels
                 (DateTime v) => v));
         createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-        createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 435, DateTimeKind.Utc).AddTicks(771));
+        createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 80, DateTimeKind.Utc).AddTicks(2942));
 
         var customerId = runtimeEntityType.AddProperty(
             "CustomerId",
@@ -182,70 +148,6 @@ namespace DrugStore.Persistence.CompiledModels
         customerId.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         customerId.AddAnnotation("Relational:ColumnName", "customer_id");
 
-        var paymentMethod = runtimeEntityType.AddProperty(
-            "PaymentMethod",
-            typeof(PaymentMethod),
-            propertyInfo: typeof(Order).GetProperty("PaymentMethod", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Order).GetField("<PaymentMethod>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            nullable: true);
-        paymentMethod.TypeMapping = IntTypeMapping.Default.Clone(
-            comparer: new ValueComparer<PaymentMethod>(
-                (PaymentMethod v1, PaymentMethod v2) => object.Equals(v1, v2),
-                (PaymentMethod v) => v.GetHashCode(),
-                (PaymentMethod v) => v),
-            keyComparer: new ValueComparer<PaymentMethod>(
-                (PaymentMethod v1, PaymentMethod v2) => object.Equals(v1, v2),
-                (PaymentMethod v) => v.GetHashCode(),
-                (PaymentMethod v) => v),
-            providerValueComparer: new ValueComparer<int>(
-                (int v1, int v2) => v1 == v2,
-                (int v) => v,
-                (int v) => v),
-            mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "integer"),
-            converter: new ValueConverter<PaymentMethod, int>(
-                (PaymentMethod item) => item.Value,
-                (int key) => SmartEnumConverter<PaymentMethod, int>.GetFromValue(key)),
-            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<PaymentMethod, int>(
-                JsonInt32ReaderWriter.Instance,
-                new ValueConverter<PaymentMethod, int>(
-                    (PaymentMethod item) => item.Value,
-                    (int key) => SmartEnumConverter<PaymentMethod, int>.GetFromValue(key))));
-        paymentMethod.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-        paymentMethod.AddAnnotation("Relational:ColumnName", "payment_method");
-
-        var status = runtimeEntityType.AddProperty(
-            "Status",
-            typeof(OrderStatus),
-            propertyInfo: typeof(Order).GetProperty("Status", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Order).GetField("<Status>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            nullable: true);
-        status.TypeMapping = IntTypeMapping.Default.Clone(
-            comparer: new ValueComparer<OrderStatus>(
-                (OrderStatus v1, OrderStatus v2) => object.Equals(v1, v2),
-                (OrderStatus v) => v.GetHashCode(),
-                (OrderStatus v) => v),
-            keyComparer: new ValueComparer<OrderStatus>(
-                (OrderStatus v1, OrderStatus v2) => object.Equals(v1, v2),
-                (OrderStatus v) => v.GetHashCode(),
-                (OrderStatus v) => v),
-            providerValueComparer: new ValueComparer<int>(
-                (int v1, int v2) => v1 == v2,
-                (int v) => v,
-                (int v) => v),
-            mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "integer"),
-            converter: new ValueConverter<OrderStatus, int>(
-                (OrderStatus item) => item.Value,
-                (int key) => SmartEnumConverter<OrderStatus, int>.GetFromValue(key)),
-            jsonValueReaderWriter: new JsonConvertedValueReaderWriter<OrderStatus, int>(
-                JsonInt32ReaderWriter.Instance,
-                new ValueConverter<OrderStatus, int>(
-                    (OrderStatus item) => item.Value,
-                    (int key) => SmartEnumConverter<OrderStatus, int>.GetFromValue(key))));
-        status.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
-        status.AddAnnotation("Relational:ColumnName", "status");
-
         var updateDate = runtimeEntityType.AddProperty(
             "UpdateDate",
             typeof(DateTime?),
@@ -268,7 +170,7 @@ namespace DrugStore.Persistence.CompiledModels
                 (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
         updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-        updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 435, DateTimeKind.Utc).AddTicks(1268));
+        updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 80, DateTimeKind.Utc).AddTicks(3213));
 
         var version = runtimeEntityType.AddProperty(
             "Version",
@@ -276,6 +178,7 @@ namespace DrugStore.Persistence.CompiledModels
             propertyInfo: typeof(EntityBase).GetProperty("Version", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(EntityBase).GetField("<Version>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             concurrencyToken: true,
+            valueGenerated: ValueGenerated.OnAdd,
             sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
         version.TypeMapping = GuidTypeMapping.Default.Clone(
             comparer: new ValueComparer<Guid>(
@@ -294,6 +197,7 @@ namespace DrugStore.Persistence.CompiledModels
                 storeTypeName: "uuid"));
         version.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         version.AddAnnotation("Relational:ColumnName", "version");
+        version.AddAnnotation("Relational:DefaultValue", new Guid("8fce0e43-2ba1-4f2b-9fdc-d29e42ceda5a"));
 
         var key = runtimeEntityType.AddKey(
             new[] { id });
@@ -301,42 +205,13 @@ namespace DrugStore.Persistence.CompiledModels
         key.AddAnnotation("Relational:Name", "pk_orders");
 
         var index = runtimeEntityType.AddIndex(
-            new[] { cardId });
-        index.AddAnnotation("Relational:Name", "ix_orders_card_id");
-
-        var index0 = runtimeEntityType.AddIndex(
             new[] { customerId });
-        index0.AddAnnotation("Relational:Name", "ix_orders_customer_id");
+        index.AddAnnotation("Relational:Name", "ix_orders_customer_id");
 
         return runtimeEntityType;
     }
 
     public static RuntimeForeignKey CreateForeignKey1(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
-    {
-        var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("CardId") },
-            principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),
-            principalEntityType,
-            deleteBehavior: DeleteBehavior.SetNull);
-
-        var card = declaringEntityType.AddNavigation("Card",
-            runtimeForeignKey,
-            onDependent: true,
-            typeof(Card),
-            propertyInfo: typeof(Order).GetProperty("Card", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Order).GetField("<Card>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-
-        var orders = principalEntityType.AddNavigation("Orders",
-            runtimeForeignKey,
-            onDependent: false,
-            typeof(ICollection<Order>),
-            propertyInfo: typeof(Card).GetProperty("Orders", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            fieldInfo: typeof(Card).GetField("<Orders>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly));
-
-        runtimeForeignKey.AddAnnotation("Relational:Name", "fk_orders_cards_card_id");
-        return runtimeForeignKey;
-    }
-
-    public static RuntimeForeignKey CreateForeignKey2(RuntimeEntityType declaringEntityType, RuntimeEntityType principalEntityType)
     {
         var runtimeForeignKey = declaringEntityType.AddForeignKey(new[] { declaringEntityType.FindProperty("CustomerId") },
             principalEntityType.FindKey(new[] { principalEntityType.FindProperty("Id") }),

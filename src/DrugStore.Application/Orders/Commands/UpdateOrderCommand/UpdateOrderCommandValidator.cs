@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Products.Validators;
 using DrugStore.Application.Users.Validators;
+using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
 namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;
@@ -14,13 +15,7 @@ public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderC
             .NotEmpty();
 
         RuleFor(x => x.Request.Code)
-            .MaximumLength(20);
-
-        RuleFor(x => x.Request.Status)
-            .IsInEnum();
-
-        RuleFor(x => x.Request.PaymentMethod)
-            .IsInEnum();
+            .MaximumLength(DatabaseLengthHelper.SmallLength);
 
         RuleFor(x => x.Request.Items)
             .NotEmpty()
@@ -44,6 +39,6 @@ public sealed class OrderItemCreateRequestValidator : AbstractValidator<OrderIte
             .GreaterThan(0);
 
         RuleFor(x => x.Price)
-            .GreaterThan(0);
+            .GreaterThanOrEqualTo(0);
     }
 }

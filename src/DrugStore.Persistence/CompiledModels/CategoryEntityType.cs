@@ -83,7 +83,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 433, DateTimeKind.Utc).AddTicks(7302));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 79, DateTimeKind.Utc).AddTicks(2475));
 
             var description = runtimeEntityType.AddProperty(
                 "Description",
@@ -91,7 +91,7 @@ namespace DrugStore.Persistence.CompiledModels
                 propertyInfo: typeof(Category).GetProperty("Description", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 fieldInfo: typeof(Category).GetField("<Description>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 nullable: true,
-                maxLength: 200);
+                maxLength: 500);
             description.TypeMapping = NpgsqlStringTypeMapping.Default.Clone(
                 comparer: new ValueComparer<string>(
                     (string v1, string v2) => v1 == v2,
@@ -106,8 +106,8 @@ namespace DrugStore.Persistence.CompiledModels
                     (string v) => v.GetHashCode(),
                     (string v) => v),
                 mappingInfo: new RelationalTypeMappingInfo(
-                    storeTypeName: "character varying(200)",
-                    size: 200));
+                    storeTypeName: "character varying(500)",
+                    size: 500));
             description.TypeMapping = ((NpgsqlStringTypeMapping)description.TypeMapping).Clone(npgsqlDbType: NpgsqlTypes.NpgsqlDbType.Varchar);
         description.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
         description.AddAnnotation("Relational:ColumnName", "description");
@@ -117,7 +117,7 @@ namespace DrugStore.Persistence.CompiledModels
             typeof(string),
             propertyInfo: typeof(Category).GetProperty("Name", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
             fieldInfo: typeof(Category).GetField("<Name>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-            maxLength: 50);
+            maxLength: 100);
         name.TypeMapping = NpgsqlStringTypeMapping.Default.Clone(
             comparer: new ValueComparer<string>(
                 (string v1, string v2) => v1 == v2,
@@ -132,8 +132,8 @@ namespace DrugStore.Persistence.CompiledModels
                 (string v) => v.GetHashCode(),
                 (string v) => v),
             mappingInfo: new RelationalTypeMappingInfo(
-                storeTypeName: "character varying(50)",
-                size: 50));
+                storeTypeName: "character varying(100)",
+                size: 100));
         name.TypeMapping = ((NpgsqlStringTypeMapping)name.TypeMapping).Clone(npgsqlDbType: NpgsqlTypes.NpgsqlDbType.Varchar);
     name.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
     name.AddAnnotation("Relational:ColumnName", "name");
@@ -160,7 +160,7 @@ namespace DrugStore.Persistence.CompiledModels
             (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
     updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
     updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-    updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 7, 14, 23, 41, 433, DateTimeKind.Utc).AddTicks(7729));
+    updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 79, DateTimeKind.Utc).AddTicks(2778));
 
     var version = runtimeEntityType.AddProperty(
         "Version",
@@ -168,6 +168,7 @@ namespace DrugStore.Persistence.CompiledModels
         propertyInfo: typeof(EntityBase).GetProperty("Version", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
         fieldInfo: typeof(EntityBase).GetField("<Version>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
         concurrencyToken: true,
+        valueGenerated: ValueGenerated.OnAdd,
         sentinel: new Guid("00000000-0000-0000-0000-000000000000"));
     version.TypeMapping = GuidTypeMapping.Default.Clone(
         comparer: new ValueComparer<Guid>(
@@ -186,6 +187,7 @@ namespace DrugStore.Persistence.CompiledModels
             storeTypeName: "uuid"));
     version.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
     version.AddAnnotation("Relational:ColumnName", "version");
+    version.AddAnnotation("Relational:DefaultValue", new Guid("3c9237d7-2ee0-49d1-ab85-f2f92ccc2fce"));
 
     var key = runtimeEntityType.AddKey(
         new[] { id });

@@ -21,7 +21,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Order> Orders => Set<Order>();
     public DbSet<OrderItem> OrderDetails => Set<OrderItem>();
-    public DbSet<Card> Cards => Set<Card>();
 
     public IEnumerable<DomainEventBase> GetDomainEvents()
     {

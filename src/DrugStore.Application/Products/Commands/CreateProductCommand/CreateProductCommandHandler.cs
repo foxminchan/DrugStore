@@ -15,7 +15,6 @@ public sealed class CreateProductCommandHandler(Repository<Product> repository)
             request.ProductRequest.Name,
             request.ProductRequest.ProductCode,
             request.ProductRequest.Detail,
-            request.ProductRequest.Status,
             request.ProductRequest.Quantity,
             request.ProductRequest.CategoryId,
             request.ProductRequest.ProductPrice

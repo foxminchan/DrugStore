@@ -10,7 +10,6 @@ public sealed record ProductCreateRequest(
     string Name,
     string? ProductCode,
     string? Detail,
-    bool Status,
     int Quantity,
     CategoryId? CategoryId,
     ProductPrice ProductPrice

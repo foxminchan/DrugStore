@@ -16,8 +16,6 @@ public sealed class UpdateOrderCommandHandler(Repository<Order> repository)
         Guard.Against.NotFound(request.Request.Id, order);
         order.UpdateOrder(
             request.Request.Code,
-            request.Request.Status,
-            request.Request.PaymentMethod,
             request.Request.CustomerId
         );
         request.Request.Items.ForEach(
@@ -28,8 +26,6 @@ public sealed class UpdateOrderCommandHandler(Repository<Order> repository)
             new(
                 order.Id,
                 order.Code,
-                order.Status,
-                order.PaymentMethod,
                 order.CustomerId,
                 order.OrderItems.Select(
                     item => new OrderItemVm(

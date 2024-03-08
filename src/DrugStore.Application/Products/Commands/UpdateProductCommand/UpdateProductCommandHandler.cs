@@ -2,7 +2,6 @@
 using Ardalis.Result;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
-using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Minio;
 using DrugStore.Persistence;
@@ -23,37 +22,23 @@ public sealed class UpdateProductCommandHandler(
             request.Name,
             request.ProductCode,
             request.Detail,
-            request.Status,
             request.Quantity,
             request.CategoryId,
             request.ProductPrice
         );
 
-        await RemoveObsoleteImagesAsync(product, request.ImageUrls);
+        await RemoveObsoleteImagesAsync(product, request.ImageUrl);
         await repository.UpdateAsync(product, cancellationToken);
-
-        if (product.Status == ProductStatus.OutOfStock || product.Status == ProductStatus.Discontinued)
-            product.DisableProduct(product.Id);
 
         return Result<ProductVm>.Success(product.Adapt<ProductVm>());
     }
 
-    private async Task RemoveObsoleteImagesAsync(Product product, IEnumerable<string>? imageUrls)
+    private async Task RemoveObsoleteImagesAsync(Product product, string? imageUrl)
     {
-        if (imageUrls is null || product.Images is null)
+        if (imageUrl is null || product.Image is null)
             return;
 
-        var tasks = imageUrls.Select(async imageUrl =>
-        {
-            var image = product.Images.FirstOrDefault(i => i.ImageUrl == imageUrl);
-            if (image is { })
-            {
-                if (image.ImageUrl is { })
-                    await minioService.RemoveFileAsync(nameof(Product), image.ImageUrl);
-                product.Images?.Remove(image);
-            }
-        });
-
-        await Task.WhenAll(tasks).ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+            await minioService.RemoveFileAsync(nameof(Product), product.Image.ImageUrl);
     }
 }

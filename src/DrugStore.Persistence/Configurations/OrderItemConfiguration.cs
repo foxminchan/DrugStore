@@ -27,7 +27,6 @@ public sealed class OrderItemConfiguration : BaseConfiguration<OrderItem>
             .ValueGeneratedOnAdd();
 
         builder.Property(oi => oi.Price)
-            .HasColumnType("decimal(18,2)")
             .IsRequired();
 
         builder.Property(oi => oi.Quantity)

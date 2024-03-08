@@ -29,6 +29,7 @@ public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory
         Faker faker = new();
 
         // Act
+        client.DefaultRequestHeaders.Add("X-Idempotency-Key", Guid.NewGuid().ToString());
         var response = await client.PostAsJsonAsync("/api/v1/categories",
             new { Title = faker.Commerce.Categories(1)[0], Link = faker.Internet.Url() });
 

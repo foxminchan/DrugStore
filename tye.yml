@@ -12,12 +12,6 @@ services:
       - protocol: https
         port: 7060
 
-  - name: WebStatus
-    project: src/Web/DrugStore.WebStatus/DrugStore.WebStatus.csproj
-    bindings:
-      - protocol: https
-        port: 7050
-
   - name: BackOffice
     project: src/Web/DrugStore.BackOffice/DrugStore.BackOffice.csproj
     bindings:

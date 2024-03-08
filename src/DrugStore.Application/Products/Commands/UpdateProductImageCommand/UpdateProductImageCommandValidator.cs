@@ -8,7 +8,7 @@ public sealed class UpdateProductImageCommandValidator : AbstractValidator<Updat
     public UpdateProductImageCommandValidator(FileValidator fileValidator)
     {
         RuleFor(x => x.ProductId).NotEmpty();
-        RuleFor(x => x.Images)
-            .ForEach(x => x.SetValidator(fileValidator));
+        RuleFor(x => x.Image)
+            .SetValidator(fileValidator);
     }
 }

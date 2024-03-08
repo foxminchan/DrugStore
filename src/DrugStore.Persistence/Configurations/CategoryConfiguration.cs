@@ -22,10 +22,10 @@ public sealed class CategoryConfiguration : BaseConfiguration<Category>
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Name)
-            .HasMaxLength(50)
+            .HasMaxLength(DatabaseLengthHelper.DefaultLength)
             .IsRequired();
 
         builder.Property(c => c.Description)
-            .HasMaxLength(200);
+            .HasMaxLength(DatabaseLengthHelper.LongLength);
     }
 }

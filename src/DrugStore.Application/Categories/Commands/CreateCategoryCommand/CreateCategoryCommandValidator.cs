@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using DrugStore.Persistence.Helpers;
+using FluentValidation;
 
 namespace DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 
@@ -11,9 +12,9 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
 
         RuleFor(x => x.CategoryRequest.Name)
             .NotEmpty()
-            .MaximumLength(50);
+            .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
         RuleFor(x => x.CategoryRequest.Description)
-            .MaximumLength(100);
+            .MaximumLength(DatabaseLengthHelper.LongLength);
     }
 }

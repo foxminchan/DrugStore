@@ -4,9 +4,9 @@
 
 <div class="rz-m-12">
     <RadzenBreadCrumb>
-        <RadzenBreadCrumbItem Path="/" Text="Home" />
-        <RadzenBreadCrumbItem Path="/categories" Text="Categories" />
-        <RadzenBreadCrumbItem Text="Edit" />
+        <RadzenBreadCrumbItem Path="/" Text="Home"/>
+        <RadzenBreadCrumbItem Path="/categories" Text="Categories"/>
+        <RadzenBreadCrumbItem Text="Edit"/>
     </RadzenBreadCrumb>
 </div>
 
@@ -21,15 +21,15 @@
     <RadzenFieldset Text="Category information">
         <RadzenStack Gap="1rem">
             <RadzenTextBox @bind-Value="_category.Id" Name="Id" Style="display: none"/>
-            <RadzenLabel Text="Name" Component="Name" />
+            <RadzenLabel Text="Name" Component="Name"/>
             <RadzenTextBox Style="display: block"
                            Name="Name"
                            @bind-Value="@_category.Name"
                            class="w-100"
-                           Placeholder="Enter category name" />
+                           Placeholder="Enter category name"/>
             <RadzenCustomValidator Component="Name"
                                    Text="Name is required and has 50 characters maximum"
-                                   Validator="@(() => ValidateCategoryName(_category.Name))" />
+                                   Validator="@(() => ValidateCategoryName(_category.Name))"/>
             <RadzenLabel Text="Description" Component="Description"/>
             <RadzenTextBox Style="display: block"
                            Name="Description"

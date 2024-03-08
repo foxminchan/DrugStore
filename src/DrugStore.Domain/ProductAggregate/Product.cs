@@ -24,7 +24,6 @@ public sealed class Product : EntityBase, IAggregateRoot
         string name,
         string? productCode,
         string? detail,
-        bool status,
         int quantity,
         CategoryId? categoryId,
         ProductPrice productPrice)
@@ -32,8 +31,8 @@ public sealed class Product : EntityBase, IAggregateRoot
         Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
         Detail = detail;
-        Status = status ? ProductStatus.InStock : ProductStatus.OutOfStock;
-        Quantity = Guard.Against.NegativeOrZero(quantity);
+        Status = quantity > 0 ? ProductStatus.InStock : ProductStatus.OutOfStock;
+        Quantity = Guard.Against.Negative(quantity);
         CategoryId = categoryId;
         Price = productPrice;
     }
@@ -44,17 +43,16 @@ public sealed class Product : EntityBase, IAggregateRoot
     public string? Detail { get; set; }
     public ProductStatus? Status { get; set; }
     public int Quantity { get; set; }
-    public CategoryId? CategoryId { get; set; }
+    public ProductImage? Image { get; set; }
     public ProductPrice? Price { get; set; }
+    public CategoryId? CategoryId { get; set; }
     [JsonIgnore] public Category? Category { get; set; }
-    public ICollection<ProductImage>? Images { get; set; } = [];
     public ICollection<OrderItem>? OrderItems { get; set; } = [];
 
     public void Update(
         string name,
         string? productCode,
         string? detail,
-        ProductStatus status,
         int quantity,
         CategoryId? categoryId,
         ProductPrice productPrice)
@@ -62,8 +60,8 @@ public sealed class Product : EntityBase, IAggregateRoot
         Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
         Detail = detail;
-        Status = status;
-        Quantity = Guard.Against.NegativeOrZero(quantity);
+        Status = quantity > 0 ? ProductStatus.InStock : ProductStatus.OutOfStock;
+        Quantity = Guard.Against.Negative(quantity);
         CategoryId = categoryId;
         Price = productPrice;
     }

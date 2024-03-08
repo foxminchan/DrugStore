@@ -35,8 +35,6 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
                 order => new OrderVm(
                     order.Id,
                     order.Code,
-                    order.Status,
-                    order.PaymentMethod,
                     order.CustomerId,
                     order.OrderItems.Select(
                         item => new OrderItemVm(

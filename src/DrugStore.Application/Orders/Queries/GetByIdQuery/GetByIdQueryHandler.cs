@@ -19,8 +19,6 @@ public sealed class GetByIdQueryHandler(Repository<Order> repository)
         OrderVm orderVm = new(
             order.Id,
             order.Code,
-            order.Status,
-            order.PaymentMethod,
             order.CustomerId,
             order.OrderItems.Select(
                 item => new OrderItemVm(

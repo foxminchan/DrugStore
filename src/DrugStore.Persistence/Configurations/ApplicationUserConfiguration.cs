@@ -1,4 +1,5 @@
 ﻿using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Persistence.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,11 +10,11 @@ public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Appl
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.Property(u => u.FullName)
-            .HasMaxLength(50)
+            .HasMaxLength(DatabaseLengthHelper.ShortLength)
             .IsRequired();
 
         builder.Property(u => u.PhoneNumber)
-            .HasMaxLength(10);
+            .HasMaxLength(DatabaseLengthHelper.TinyLength);
 
         builder.OwnsOne(
             u => u.Address,

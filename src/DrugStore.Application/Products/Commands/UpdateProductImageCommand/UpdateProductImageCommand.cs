@@ -5,5 +5,5 @@ using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductImageCommand;
 
-public sealed record UpdateProductImageCommand(ProductId ProductId, IFormFileCollection Images)
+public sealed record UpdateProductImageCommand(ProductId ProductId, IFormFile Image)
     : ICommand<Result<ProductId>>;

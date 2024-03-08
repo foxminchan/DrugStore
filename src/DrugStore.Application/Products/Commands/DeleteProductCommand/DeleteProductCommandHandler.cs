@@ -16,13 +16,9 @@ public sealed class DeleteProductCommandHandler(
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
-        if (product.Images is { })
+        if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
         {
-            var tasks = product.Images.Select(image => image.ImageUrl is { }
-                ? Task.FromResult(minioService.RemoveFileAsync(nameof(Product), image.ImageUrl))
-                : Task.CompletedTask
-            );
-            await Task.WhenAll(tasks).ConfigureAwait(false);
+            await minioService.RemoveFileAsync(nameof(Product), product.Image.ImageUrl);
         }
 
         await repository.DeleteAsync(product, cancellationToken);

@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Categories.Validators;
 using DrugStore.Application.Products.Validators;
+using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
@@ -12,13 +13,13 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
     {
         RuleFor(x => x.ProductRequest.Name)
             .NotEmpty()
-            .MaximumLength(50);
+            .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
         RuleFor(x => x.ProductRequest.ProductCode)
-            .MaximumLength(20);
+            .MaximumLength(DatabaseLengthHelper.SmallLength);
 
         RuleFor(x => x.ProductRequest.Detail)
-            .MaximumLength(500);
+            .MaximumLength(DatabaseLengthHelper.MaxLength);
 
         RuleFor(x => x.ProductRequest.Quantity)
             .GreaterThanOrEqualTo(0);

@@ -22,16 +22,11 @@ public sealed class OrderConfiguration : BaseConfiguration<Order>
             .ValueGeneratedOnAdd();
 
         builder.Property(o => o.Code)
-            .HasMaxLength(20);
+            .HasMaxLength(DatabaseLengthHelper.SmallLength);
 
         builder.HasOne(o => o.Customer)
             .WithMany(c => c.Orders)
             .HasForeignKey(o => o.CustomerId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-        builder.HasOne(o => o.Card)
-            .WithMany(c => c.Orders)
-            .HasForeignKey(o => o.CardId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

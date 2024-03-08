@@ -1,7 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Products.Commands.CreateProductCommand;
 using DrugStore.Application.Products.Commands.DeleteProductCommand;
-using DrugStore.Application.Products.Commands.UpdateMainImageCommand;
 using DrugStore.Application.Products.Commands.UpdateProductCommand;
 using DrugStore.Application.Products.Commands.UpdateProductImageCommand;
 using DrugStore.Application.Products.Queries.GetByIdQuery;
@@ -34,7 +33,6 @@ public sealed class ProductEndpoint : IEndpoint
         group.MapPost("", CreateProduct).WithName(nameof(CreateProduct));
         group.MapPut("", UpdateProduct).WithName(nameof(UpdateProduct));
         group.MapPut("/images/{id}", UpdateImages).WithName(nameof(UpdateImages)).DisableAntiforgery();
-        group.MapPut("images", UpdateMainImage).WithName(nameof(UpdateMainImage));
         group.MapDelete("{id}", DeleteProduct).WithName(nameof(DeleteProduct));
     }
 
@@ -76,15 +74,9 @@ public sealed class ProductEndpoint : IEndpoint
     private static async Task<Result<ProductId>> UpdateImages(
         [FromServices] ISender sender,
         [FromRoute] ProductId id,
-        [FromForm] IFormFileCollection images,
+        [FromForm] IFormFile images,
         CancellationToken cancellationToken)
         => await sender.Send(new UpdateProductImageCommand(id, images), cancellationToken);
-
-    private static async Task<Result<ProductId>> UpdateMainImage(
-        [FromServices] ISender sender,
-        [AsParameters] UpdateMainImageCommand command,
-        CancellationToken cancellationToken)
-        => await sender.Send(command, cancellationToken);
 
     private static async Task<Result> DeleteProduct(
         [FromServices] ISender sender,
