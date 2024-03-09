@@ -6,7 +6,7 @@ namespace DrugStore.BackOffice.Services;
 
 public sealed class ExportService<T>
 {
-    public FileStreamResult ExportCsv(IQueryable<T> data)
+    public Stream ExportCsv(IQueryable<T> data)
     {
         var columns = GetProperties(data.ElementType);
 
@@ -35,7 +35,7 @@ public sealed class ExportService<T>
                 FileDownloadName = "export.csv"
             };
 
-        return result;
+        return result.FileStream;
     }
 
     public static IEnumerable<KeyValuePair<string, Type>> GetProperties(Type type)

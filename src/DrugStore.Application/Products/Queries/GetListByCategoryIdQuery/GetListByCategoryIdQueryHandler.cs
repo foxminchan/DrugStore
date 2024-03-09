@@ -19,6 +19,8 @@ public sealed class GetListByCategoryIdQueryHandler(Repository<Product> reposito
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         PagedInfo pageInfo = new(request.Filter.PageNumber, request.Filter.PageSize, totalPages, totalRecords);
-        return new(pageInfo, entities.Adapt<List<ProductVm>>());
+        return new(
+            pageInfo, entities.Select(e => e.Adapt<ProductVm>() with { Category = e.Category?.Name }).ToList()
+        );
     }
 }

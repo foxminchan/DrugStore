@@ -12,6 +12,10 @@ public partial class Edit
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    private bool _busy;
+
+    private bool _loading;
+
     private readonly List<string> _errorMessages = [];
 
     private readonly CategoryUpdateRequest _category = new();
@@ -20,18 +24,34 @@ public partial class Edit
 
     protected override async Task OnInitializedAsync()
     {
+        _loading = true;
         var category = await CategoriesApi.GetCategoryAsync(new(Id));
+        _loading = false;
+
         if (category.IsSuccess)
         {
             _category.Id = category.Value.Id.ToString();
             _category.Name = category.Value.Name;
             _category.Description = category.Value.Description;
         }
+        else
+        {
+            NotificationService.Notify(new()
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = "Category not found!"
+            });
+            NavigationManager.NavigateTo("/categories");
+        }
     }
 
     private async Task OnSubmit(CategoryUpdateRequest category)
     {
+        _busy = true;
         var result = await CategoriesApi.UpdateCategoryAsync(category);
+        _busy = false;
+
         switch (result.Status)
         {
             case ResultStatus.Ok:

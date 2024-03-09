@@ -5,4 +5,4 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
 
-public sealed record UpdateCategoryCommand(CategoryId Id, string Title, string? Description) : ICommand<Result<CategoryVm>>;
+public sealed record UpdateCategoryCommand(CategoryId Id, string Name, string? Description) : ICommand<Result<CategoryVm>>;

@@ -1,5 +1,4 @@
-﻿using DrugStore.Domain.CategoryAggregate.Primitives;
-using DrugStore.Domain.ProductAggregate.Enums;
+﻿using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 
@@ -12,7 +11,7 @@ public sealed record ProductVm(
     string? Detail,
     ProductStatus Status,
     int Quantity,
-    CategoryId? CategoryId,
+    string? Category,
     ProductPrice Price,
     ProductImage? Image
 );

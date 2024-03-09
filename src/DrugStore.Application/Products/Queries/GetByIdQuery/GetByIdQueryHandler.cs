@@ -15,6 +15,6 @@ public sealed class GetByIdQueryHandler(Repository<Product> repository)
     {
         var entity = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
-        return Result<ProductVm>.Success(entity.Adapt<ProductVm>());
+        return Result<ProductVm>.Success(entity.Adapt<ProductVm>() with { Category = entity.Category?.Name });
     }
 }

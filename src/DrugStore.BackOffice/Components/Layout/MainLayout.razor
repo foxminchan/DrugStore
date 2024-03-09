@@ -6,7 +6,7 @@
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
             <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)"/>
-            <RadzenLabel Text="Drug Store Admin"/>
+            <RadzenLabel Text="Drug Store CMS"/>
             <RadzenProfileMenu Style="margin-left: auto;">
                 <Template>
                     <RadzenGravatar Email="user@example.com"></RadzenGravatar>
@@ -19,11 +19,11 @@
         </RadzenStack>
     </RadzenHeader>
     <RadzenSidebar Responsive="true" @bind-Expanded="@_sidebarExpanded">
-        <RadzenImage Path="logo.svg" AlternateText="Drug Store Admin"/>
+        <RadzenImage Path="logo.svg" AlternateText="Drug Store CMS" />
         <RadzenPanelMenu>
             <ChildContent>
                 <RadzenPanelMenuItem Text="Catalog" Icon="inventory">
-                    <RadzenPanelMenuItem Text="Products" Path="productions"/>
+                    <RadzenPanelMenuItem Text="Products" Path="products"/>
                     <RadzenPanelMenuItem Text="Categories" Path="categories"/>
                 </RadzenPanelMenuItem>
                 <RadzenPanelMenuItem Text="Customers" Icon="people">

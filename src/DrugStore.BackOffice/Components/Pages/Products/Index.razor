@@ -1,0 +1,17 @@
+﻿@page "/products"
+
+<PageTitle>Products management</PageTitle>
+
+<div class="rz-m-12">
+    <RadzenBreadCrumb>
+        <RadzenBreadCrumbItem Path="/" Text="Home" />
+        <RadzenBreadCrumbItem Text="Products" />
+    </RadzenBreadCrumb>
+</div>
+
+@if (_errorMessages.Any())
+{
+    <RadzenNotification IsOpen="true" Duration="5000" Severity="NotificationSeverity.Error">
+        <RadzenNotificationMessage Text="@string.Join(Environment.NewLine, _errorMessages)" />
+    </RadzenNotification>
+}

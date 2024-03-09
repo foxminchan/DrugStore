@@ -1,4 +1,4 @@
-﻿@page "/Categories/add"
+﻿@page "/categories/add"
 
 <PageTitle>Add Category</PageTitle>
 
@@ -38,7 +38,7 @@
             <RadzenCustomValidator Component="Description"
                                    Text="Description has 100 characters maximum"
                                    Validator="@(() => ValidateCategoryDescription(_category.Description))"/>
-            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit"></RadzenButton>
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" IsBusy="@_busy"></RadzenButton>
         </RadzenStack>
     </RadzenFieldset>
 </RadzenTemplateForm>

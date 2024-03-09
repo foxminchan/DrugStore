@@ -14,7 +14,7 @@ public sealed class UpdateCategoryCommandHandler(Repository<Category> repository
     {
         var category = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, category);
-        category.Update(request.Title, request.Description);
+        category.Update(request.Name, request.Description);
         await repository.UpdateAsync(category, cancellationToken);
         return Result<CategoryVm>.Success(new(category.Id, category.Name, category.Description));
     }

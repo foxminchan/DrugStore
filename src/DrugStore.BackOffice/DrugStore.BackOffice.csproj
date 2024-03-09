@@ -26,4 +26,8 @@
 		<ProjectReference Include="..\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Helpers\" />
+	</ItemGroup>
+
 </Project>

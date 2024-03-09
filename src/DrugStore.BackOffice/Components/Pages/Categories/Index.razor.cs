@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Services;
+﻿using Ardalis.Result;
+using DrugStore.BackOffice.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 
@@ -16,14 +17,19 @@ public sealed partial class Index
 
     [Inject] private ExportService<CategoryResponse> ExportService { get; set; } = default!;
 
+    private readonly List<string> _errorMessages = [];
     private List<CategoryResponse> _categories = [];
     private bool _loading;
 
     protected override async Task OnInitializedAsync()
     {
         _loading = true;
-        _categories = await CategoriesApi.GetCategoriesAsync();
+        var result = await CategoriesApi.GetCategoriesAsync();
         _loading = false;
+        if (result.Status == ResultStatus.Ok) 
+            _categories = result.Value;
+        else
+            _errorMessages.Add("An error occurred while retrieving categories. Please try again.");
     }
 
     private async Task EditCategory(Guid id)
@@ -59,8 +65,7 @@ public sealed partial class Index
 
     private Task ExportToCsv()
     {
-        var result = ExportService.ExportCsv(_categories.AsQueryable());
-        NavigationManager.NavigateTo(result.FileDownloadName);
+        ExportService.ExportCsv(_categories.AsQueryable());
         return Task.CompletedTask;
     }
 }

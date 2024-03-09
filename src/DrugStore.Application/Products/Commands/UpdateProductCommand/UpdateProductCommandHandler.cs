@@ -30,7 +30,7 @@ public sealed class UpdateProductCommandHandler(
         await RemoveObsoleteImagesAsync(product, request.ImageUrl);
         await repository.UpdateAsync(product, cancellationToken);
 
-        return Result<ProductVm>.Success(product.Adapt<ProductVm>());
+        return Result<ProductVm>.Success(product.Adapt<ProductVm>() with { Category = product.Category?.Name });
     }
 
     private async Task RemoveObsoleteImagesAsync(Product product, string? imageUrl)

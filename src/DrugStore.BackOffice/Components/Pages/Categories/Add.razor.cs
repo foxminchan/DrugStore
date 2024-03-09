@@ -12,13 +12,17 @@ public partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    private bool _busy;
+    
     private readonly List<string> _errorMessages = [];
 
     private readonly CategoryCreateRequest _category = new();
 
     private async Task OnSubmit(CategoryCreateRequest category)
     {
+        _busy = true;
         var result = await CategoriesApi.AddCategoryAsync(category, Guid.NewGuid().ToString());
+        _busy = false;
 
         switch (result.Status)
         {

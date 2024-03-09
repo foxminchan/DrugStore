@@ -1,7 +1,7 @@
 using Ardalis.GuardClauses;
 using DrugStore.BackOffice.Components;
 using DrugStore.BackOffice.Components.Pages.Categories;
-using DrugStore.BackOffice.Components.Pages.Customer;
+using DrugStore.BackOffice.Components.Pages.Customers;
 using DrugStore.BackOffice.Components.Pages.Products;
 using DrugStore.BackOffice.Services;
 using DrugStore.Infrastructure.Logging;

@@ -31,6 +31,8 @@ public sealed class GetListQueryHandler(Repository<Product> repository)
             totalPages,
             totalRecords
         );
-        return new(pageInfo, entities.Adapt<List<ProductVm>>());
+        return new(
+            pageInfo, entities.Select(e => e.Adapt<ProductVm>() with { Category = e.Category?.Name }).ToList()
+        );
     }
 }

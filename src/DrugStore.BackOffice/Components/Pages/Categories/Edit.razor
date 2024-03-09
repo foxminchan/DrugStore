@@ -17,29 +17,38 @@
     </RadzenAlert>
 }
 
-<RadzenTemplateForm TItem="CategoryUpdateRequest" Data="@_category" Submit="@OnSubmit">
-    <RadzenFieldset Text="Category information">
-        <RadzenStack Gap="1rem">
-            <RadzenTextBox @bind-Value="_category.Id" Name="Id" Style="display: none"/>
-            <RadzenLabel Text="Name" Component="Name"/>
-            <RadzenTextBox Style="display: block"
-                           Name="Name"
-                           @bind-Value="@_category.Name"
-                           class="w-100"
-                           Placeholder="Enter category name"/>
-            <RadzenCustomValidator Component="Name"
-                                   Text="Name is required and has 50 characters maximum"
-                                   Validator="@(() => ValidateCategoryName(_category.Name))"/>
-            <RadzenLabel Text="Description" Component="Description"/>
-            <RadzenTextBox Style="display: block"
-                           Name="Description"
-                           @bind-Value="@_category.Description"
-                           class="w-100"
-                           Placeholder="Enter category description"/>
-            <RadzenCustomValidator Component="Description"
-                                   Text="Description has 100 characters maximum"
-                                   Validator="@(() => ValidateCategoryDescription(_category.Description))"/>
-            <RadzenButton ButtonType="ButtonType.Submit" Text="Update" ButtonStyle="ButtonStyle.Primary"/>
-        </RadzenStack>
-    </RadzenFieldset>
-</RadzenTemplateForm>
+@if (_loading)
+{
+    <RadzenPanel>
+        <RadzenProgressBar Style="height: 4px"/>
+    </RadzenPanel>
+}
+else
+{
+    <RadzenTemplateForm TItem="CategoryUpdateRequest" Data="@_category" Submit="@OnSubmit">
+        <RadzenFieldset Text="Category information">
+            <RadzenStack Gap="1rem">
+                <RadzenTextBox @bind-Value="_category.Id" Name="Id" Style="display: none"/>
+                <RadzenLabel Text="Name" Component="Name"/>
+                <RadzenTextBox Style="display: block"
+                               Name="Name"
+                               @bind-Value="@_category.Name"
+                               class="w-100"
+                               Placeholder="Enter category name"/>
+                <RadzenCustomValidator Component="Name"
+                                       Text="Name is required and has 50 characters maximum"
+                                       Validator="@(() => ValidateCategoryName(_category.Name))"/>
+                <RadzenLabel Text="Description" Component="Description"/>
+                <RadzenTextBox Style="display: block"
+                               Name="Description"
+                               @bind-Value="@_category.Description"
+                               class="w-100"
+                               Placeholder="Enter category description"/>
+                <RadzenCustomValidator Component="Description"
+                                       Text="Description has 100 characters maximum"
+                                       Validator="@(() => ValidateCategoryDescription(_category.Description))"/>
+                <RadzenButton ButtonType="ButtonType.Submit" Text="Update" ButtonStyle="ButtonStyle.Primary" IsBusy="@_busy"/>
+            </RadzenStack>
+        </RadzenFieldset>
+    </RadzenTemplateForm>
+}

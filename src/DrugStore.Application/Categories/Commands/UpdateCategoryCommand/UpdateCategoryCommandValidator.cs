@@ -10,7 +10,7 @@ public sealed class UpdateCategoryCommandValidator : AbstractValidator<UpdateCat
         RuleFor(x => x.Id)
             .NotEmpty();
 
-        RuleFor(x => x.Title)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(DatabaseLengthHelper.DefaultLength);
 

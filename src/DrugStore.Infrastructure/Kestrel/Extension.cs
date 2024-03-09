@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DrugStore.Infrastructure.Kestrel;
@@ -12,12 +13,8 @@ public static class Extension
         builder.WebHost.ConfigureKestrel(options =>
         {
             options.AddServerHeader = false;
-            options.Limits.MaxConcurrentConnections = 100;
-            options.Limits.MaxRequestBodySize = 10 * 1024 * 1024;
-            options.Limits.MinRequestBodyDataRate = new(100, TimeSpan.FromSeconds(10));
-            options.Limits.MinResponseDataRate = new(100, TimeSpan.FromSeconds(10));
-            options.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(2);
-            options.Limits.RequestHeadersTimeout = TimeSpan.FromMinutes(1);
+            options.AllowResponseHeaderCompression = true;
+            options.ConfigureEndpointDefaults(o => o.Protocols = HttpProtocols.Http1AndHttp2AndHttp3);
         });
 
         builder.Services.AddResponseCompression()
