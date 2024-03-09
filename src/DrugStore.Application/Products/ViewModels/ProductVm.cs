@@ -13,5 +13,6 @@ public sealed record ProductVm(
     ProductStatus Status,
     int Quantity,
     CategoryId? CategoryId,
-    ProductPrice Price
+    ProductPrice Price,
+    ProductImage? Image
 );

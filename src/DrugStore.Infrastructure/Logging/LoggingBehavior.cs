@@ -27,7 +27,8 @@ public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior
         var sw = Stopwatch.StartNew();
         var response = await next();
 
-        logger.LogInformation("Handled {RequestName} with {Response} in {ms} ms", typeof(TRequest).Name, response,
+        logger.LogInformation("Handled {RequestName} with {Response} in {ElapsedMilliseconds} ms",
+            typeof(TRequest).Name, response,
             sw.ElapsedMilliseconds);
 
         sw.Stop();

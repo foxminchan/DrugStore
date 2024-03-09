@@ -2,6 +2,7 @@ using System.Net.Mime;
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,15 @@ if (app.Environment.IsDevelopment()) await app.InitializeDatabaseAsync();
 app.UseCustomCors();
 app.UseRateLimiter();
 app.UseInfrastructureService();
+
+if (!Directory.Exists(Path.Combine(app.Environment.ContentRootPath, "Pics")))
+    Directory.CreateDirectory(Path.Combine(app.Environment.ContentRootPath, "Pics"));
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(app.Environment.ContentRootPath, "Pics")),
+    RequestPath = "/pics"
+});
 
 var apiVersionSet = app
     .NewApiVersionSet()

@@ -30,7 +30,7 @@ public static class Extension
 
         builder.AddKestrel();
         builder.AddRedisCache();
-        builder.AddMinioStorage();
+        builder.AddLocalStorage();
         builder.AddHealthCheck();
         builder.AddOpenTelemetry();
         builder.AddSerilog(builder.Environment.ApplicationName);

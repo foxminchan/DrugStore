@@ -15,7 +15,10 @@ public static class ProgramExtension
 {
     public static void AddIdentity(this IHostApplicationBuilder builder)
     {
-        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        builder.Services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.Audience = nameof(DrugStore).ToLowerInvariant();
@@ -59,9 +62,22 @@ public static class ProgramExtension
     public static void UseInfrastructureService(this WebApplication app) => app.UseInfrastructure();
 
     public static IServiceCollection AddCustomCors(this IHostApplicationBuilder builder, string corsName = "api")
-        => builder.Services.AddCors(options => options.AddPolicy(corsName,
-            policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()
+    {
+        var clientEndpoints = new[]
+        {
+            builder.Configuration.GetValue<string>("ClientEndpoints:StoreFront") ?? string.Empty,
+            builder.Configuration.GetValue<string>("ClientEndpoints:BackOffice") ?? string.Empty
+        };
+
+        builder.Services.AddCors(options => options.AddPolicy(corsName,
+            policy => policy
+                .WithOrigins(clientEndpoints)
+                .AllowAnyHeader()
+                .AllowAnyMethod()
         ));
+
+        return builder.Services;
+    }
 
     public static IApplicationBuilder UseCustomCors(this IApplicationBuilder app, string corsName = "api")
         => app.UseCors(corsName);

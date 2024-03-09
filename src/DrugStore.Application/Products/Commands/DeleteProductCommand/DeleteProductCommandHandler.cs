@@ -2,14 +2,14 @@
 using Ardalis.Result;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Infrastructure.Storage.Minio;
+using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 
 public sealed class DeleteProductCommandHandler(
     Repository<Product> repository,
-    IMinioService minioService) : ICommandHandler<DeleteProductCommand, Result>
+    ILocalStorage localStorage) : ICommandHandler<DeleteProductCommand, Result>
 {
     public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
@@ -17,9 +17,7 @@ public sealed class DeleteProductCommandHandler(
         Guard.Against.NotFound(request.Id, product);
 
         if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
-        {
-            await minioService.RemoveFileAsync(nameof(Product), product.Image.ImageUrl);
-        }
+            await localStorage.RemoveFileAsync(product.Image.ImageUrl, cancellationToken);
 
         await repository.DeleteAsync(product, cancellationToken);
         product.DisableProduct(product.Id);

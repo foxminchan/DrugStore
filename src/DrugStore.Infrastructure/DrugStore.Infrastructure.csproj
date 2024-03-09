@@ -29,7 +29,6 @@
 		<PackageReference Include="Scrutor" />
 		<PackageReference Include="Polly" />
 		<PackageReference Include="DistributedLock" />
-		<PackageReference Include="Minio" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -62,6 +61,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Storage\Local\Internal\" />
 	</ItemGroup>
 
 </Project>

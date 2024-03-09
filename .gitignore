@@ -38,6 +38,7 @@ keys/
 
 vol/
 StrykerOutput/
+Pics
 
 # NUNIT
 *.VisualState.xml

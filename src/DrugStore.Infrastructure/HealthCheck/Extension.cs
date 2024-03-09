@@ -27,7 +27,7 @@ public static class Extension
 
         builder.Services.AddHealthChecks()
             .AddCheck("self", () => HealthCheckResult.Healthy())
-            .AddCheck<MinioHealthCheck>(name: "Minio", tags: ["storage"])
+            .AddCheck<LocalFileHealthCheck>(name: "Local", tags: ["storage"])
             .AddNpgSql(postgresConn, name: "Postgres", tags: ["database"])
             .AddRedis(redisConn, "Redis", tags: ["redis"])
             .AddIdentityServer(new Uri(identityServer), name: "Identity Server", tags: ["identity-server"])

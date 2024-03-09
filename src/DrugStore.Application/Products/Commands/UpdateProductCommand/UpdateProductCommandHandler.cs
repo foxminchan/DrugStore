@@ -3,7 +3,7 @@ using Ardalis.Result;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Infrastructure.Storage.Minio;
+using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.Persistence;
 using Mapster;
 
@@ -11,7 +11,7 @@ namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed class UpdateProductCommandHandler(
     Repository<Product> repository,
-    IMinioService minioService) : ICommandHandler<UpdateProductCommand, Result<ProductVm>>
+    ILocalStorage localStorage) : ICommandHandler<UpdateProductCommand, Result<ProductVm>>
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
@@ -39,6 +39,6 @@ public sealed class UpdateProductCommandHandler(
             return;
 
         if (!string.IsNullOrWhiteSpace(product.Image.ImageUrl))
-            await minioService.RemoveFileAsync(nameof(Product), product.Image.ImageUrl);
+            await localStorage.RemoveFileAsync(product.Image.ImageUrl);
     }
 }

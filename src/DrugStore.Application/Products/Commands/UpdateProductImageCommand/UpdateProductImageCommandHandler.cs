@@ -3,23 +3,23 @@ using Ardalis.Result;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Infrastructure.Storage.Minio;
+using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductImageCommand;
 
 public sealed class UpdateProductImageCommandHandler(
     Repository<Product> repository,
-    IMinioService minioService) : ICommandHandler<UpdateProductImageCommand, Result<ProductId>>
+    ILocalStorage localStorage) : ICommandHandler<UpdateProductImageCommand, Result<ProductId>>
 {
     public async Task<Result<ProductId>> Handle(UpdateProductImageCommand request, CancellationToken cancellationToken)
     {
         var product = await repository.GetByIdAsync(request.ProductId, cancellationToken);
         Guard.Against.NotFound(request.ProductId, product);
 
-        var result = await minioService.UploadFileAsync(request.Image, nameof(Product).ToLowerInvariant());
+        var result = await localStorage.UploadFileAsync(request.Image, cancellationToken);
 
-        product.Image = new(result, nameof(Product), product.Name);
+        product.Image = new(result, product.Name, nameof(Product));
 
         await repository.UpdateAsync(product, cancellationToken);
 
