@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.BackOffice.Components.Pages.Customers;
 
-public partial class Update
+public partial class Edit
 {
     
 }

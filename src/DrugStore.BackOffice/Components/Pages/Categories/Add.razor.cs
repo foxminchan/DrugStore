@@ -4,7 +4,7 @@ using Radzen;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
-public partial class Add
+public sealed partial class Add
 {
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
@@ -14,7 +14,7 @@ public partial class Add
 
     private bool _busy;
     
-    private readonly List<string> _errorMessages = [];
+    private readonly List<string> _errors = [];
 
     private readonly CategoryCreateRequest _category = new();
 
@@ -38,11 +38,11 @@ public partial class Add
             case ResultStatus.Invalid:
             {
                 foreach (var error in result.ValidationErrors) 
-                    _errorMessages.Add(error.ErrorMessage);
+                    _errors.Add(error.ErrorMessage);
                 break;
             }
             default:
-                _errorMessages.Add("An error occurred while adding the category. Please try again.");
+                _errors.Add("An error occurred while adding the category. Please try again.");
                 break;
         }
     }

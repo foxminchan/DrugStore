@@ -6,7 +6,7 @@ using Radzen.Blazor;
 
 namespace DrugStore.BackOffice.Components.Pages.Products;
 
-public partial class Index
+public sealed partial class Index
 {
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
 
@@ -36,7 +36,9 @@ public partial class Index
             _count = (int)result.PagedInfo.TotalRecords;
         }
         else
+        {
             _errorMessages.Add("An error occurred while retrieving products. Please try again.");
+        }
     }
 
     private async Task AddProducts()
@@ -59,14 +61,28 @@ public partial class Index
             new() { OkButtonText = "Yes", CancelButtonText = "No" }
         ) ?? false;
         if (!result) return;
-        await ProductsApi.DeleteProductAsync(id);
+        var status = await ProductsApi.DeleteProductAsync(id);
+
+        if (status.Status != ResultStatus.Ok)
+        {
+            NotificationService.Notify(new()
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = "An error occurred while deleting the product. Please try again."
+            });
+
+            return;
+        }
+
         NotificationService.Notify(new()
         {
             Severity = NotificationSeverity.Success,
             Summary = "Success",
-            Detail = "Product deleted successfully!"
+            Detail = "Product deleted successfully."
         });
         _products.RemoveAll(p => p.Id == id);
+        _count--;
         await _dataGrid.Reload();
     }
 

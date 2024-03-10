@@ -19,7 +19,7 @@ public sealed partial class Index
     [Inject] private ExportService<CategoryResponse> ExportService { get; set; } = default!;
 
     private RadzenDataGrid<CategoryResponse> _dataGrid = default!;
-    private readonly List<string> _errorMessages = [];
+    private readonly List<string> _errors = [];
     private List<CategoryResponse> _categories = [];
     private bool _loading;
 
@@ -28,10 +28,10 @@ public sealed partial class Index
         _loading = true;
         var result = await CategoriesApi.GetCategoriesAsync();
         _loading = false;
-        if (result.Status == ResultStatus.Ok) 
+        if (result.Status == ResultStatus.Ok)
             _categories = result.Value;
         else
-            _errorMessages.Add("An error occurred while retrieving categories. Please try again.");
+            _errors.Add("An error occurred while retrieving categories. Please try again.");
     }
 
     private async Task EditCategory(Guid id)
@@ -54,7 +54,20 @@ public sealed partial class Index
             new() { OkButtonText = "Yes", CancelButtonText = "No" }
         ) ?? false;
         if (!result) return;
-        await CategoriesApi.DeleteCategoryAsync(id);
+        var status = await CategoriesApi.DeleteCategoryAsync(id);
+
+        if (status.Status != ResultStatus.Ok)
+        {
+            NotificationService.Notify(new()
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = "An error occurred while deleting the category. Please try again."
+            });
+
+            return;
+        }
+
         NotificationService.Notify(new()
         {
             Severity = NotificationSeverity.Success,

@@ -12,11 +12,9 @@
     </RadzenBreadCrumb>
 </div>
 
-@if (_errorMessages.Any())
+@if (_errors.Any())
 {
-    <RadzenAlert AlertStyle="AlertStyle.Danger" ShowIcon="true" Title="Error" Variant="Variant.Flat" Shade="Shade.Lighter">
-        @_errorMessages
-    </RadzenAlert>
+    <ErrorStack ErrorMessages="@_errors"></ErrorStack>
 }
 
 <RadzenTemplateForm TItem="CategoryCreateRequest" Data="@_category" Submit="@OnSubmit">

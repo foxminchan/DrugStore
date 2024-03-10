@@ -11,9 +11,9 @@
     </RadzenBreadCrumb>
 </div>
 
-@if (_errorMessages.Any())
+@if (_errors.Any())
 {
-    <ErrorStack ErrorMessages="@_errorMessages"></ErrorStack>
+    <ErrorStack ErrorMessages="@_errors"></ErrorStack>
 }
 
 <RadzenDataGrid @ref="_dataGrid"
@@ -25,6 +25,12 @@
     <EmptyTemplate>
         <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No categories found</p>
     </EmptyTemplate>
+    <LoadingTemplate>
+        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" 
+                                   Value="100" 
+                                   ShowValue="false" 
+                                   Mode="ProgressBarMode.Indeterminate"/>
+    </LoadingTemplate>
     <HeaderTemplate>
         <RadzenButton Icon="add"
                       Text="Add category"
@@ -52,15 +58,21 @@
                               Width="100px"
                               Frozen="true"
                               Filterable="false"
+                              FrozenPosition="FrozenColumnPosition.Right"
                               Sortable="false">
             <Template Context="category">
-                <RadzenButton Variant="Variant.Flat"
-                              Icon="edit"
+                <RadzenButton Icon="edit"
                               ButtonStyle="ButtonStyle.Warning"
+                              Variant="Variant.Flat"
+                              Shade="Shade.Lighter"
+                              Size="ButtonSize.Medium"
                               Click="@(() => EditCategory(category.Id))"/>
-                <RadzenButton Variant="Variant.Flat"
+                <RadzenButton ButtonStyle="ButtonStyle.Danger"
                               Icon="delete"
-                              ButtonStyle="ButtonStyle.Danger"
+                              Variant="Variant.Flat"
+                              Shade="Shade.Lighter"
+                              Size="ButtonSize.Medium"
+                              class="my-1 ms-1"
                               Click="@(() => DeleteCategory(category.Id))"/>
             </Template>
         </RadzenDataGridColumn>
