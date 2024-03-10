@@ -1,18 +1,15 @@
 ﻿@using DrugStore.BackOffice.Components.Layout
 @page "/Login"
-@layout BlankLayout
+@layout LoginLayout
 
-<h3>Login</h3>
+<RadzenText Text="DrugStore's Admin" TextStyle="TextStyle.H3" TagName="TagName.H4" TextAlign="TextAlign.Center" />  
 
-<RadzenCard class="rz-my-12 rz-mx-auto rz-p-4 rz-p-md-12" style="max-width: 600px;">
+<RadzenTemplateForm Data=@("LoginWithRegister")>
+    <RadzenLogin AllowResetPassword="false"
+                 AllowRegister="false"/>
+</RadzenTemplateForm>
 
-    <RadzenTemplateForm Data=@("LoginWithRegister")>
-        <RadzenLogin AllowResetPassword="false" 
-                     AllowRegister="false" />
-    </RadzenTemplateForm>
-
-</RadzenCard>
 
 @code {
-    
+
 }

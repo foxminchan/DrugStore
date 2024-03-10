@@ -6,7 +6,6 @@
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
             <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)"/>
-            <RadzenLabel Text="Drug Store CMS"/>
             <RadzenProfileMenu Style="margin-left: auto;">
                 <Template>
                     <RadzenGravatar Email="user@example.com"></RadzenGravatar>
@@ -18,10 +17,29 @@
             </RadzenProfileMenu>
         </RadzenStack>
     </RadzenHeader>
-    <RadzenSidebar Responsive="true" @bind-Expanded="@_sidebarExpanded">
-        <RadzenImage Path="logo.svg" AlternateText="Drug Store CMS" />
+    <RadzenBody Expanded="_sidebarExpanded">
+        <RadzenRow class="rz-mx-auto rz-px-4 rz-pt-2 rz-pt-md-4 rz-pt-lg-6 rz-pt-xl-12 rz-pb-2 rz-pb-lg-12"
+                   Style="max-width: 1440px;">
+            <RadzenColumn Size="12">
+                @Body
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenBody >
+    <RadzenSidebar Responsive="true" Expanded="_sidebarExpanded" Style="z-index: 2">
+        <RadzenStack class="rz-py-4 rz-py-lg-6"
+                     AlignItems="AlignItems.Center"
+                     Style="padding: var(--rz-panel-menu-item-padding); border-bottom: var(--rz-panel-menu-item-border);">
+            <RadzenImage Style="width: 48px; height: 48px;"
+                         Path="logo.png"
+                         AlternateText="Drug Store CMS"/>
+            <RadzenText Text="Drug Store CMS"
+                        TextStyle="TextStyle.Subtitle1"
+                        class="rz-mb-0"
+                        Style="color: var(--rz-primary-light);"/>
+        </RadzenStack>
         <RadzenPanelMenu>
             <ChildContent>
+                <RadzenPanelMenuItem Text="Home" Path="" Icon="home"/>
                 <RadzenPanelMenuItem Text="Catalog" Icon="inventory">
                     <RadzenPanelMenuItem Text="Products" Path="products"/>
                     <RadzenPanelMenuItem Text="Categories" Path="categories"/>
@@ -36,14 +54,16 @@
                 </RadzenPanelMenuItem>
             </ChildContent>
         </RadzenPanelMenu>
+        <RadzenStack AlignItems="AlignItems.Center"
+                     Gap="0"
+                     class="rz-py-4 rz-py-lg-6"
+                     Style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="@string.Concat("© ", DateTime.Now.Year, " Drug Store CMS")"
+                        TextStyle="TextStyle.Caption"
+                        class="rz-mb-0"
+                        Style="color: var(--rz-text-disabled-color);"
+                        TagName="TagName.P"
+                        TextAlign="TextAlign.Center"/>
+        </RadzenStack>
     </RadzenSidebar>
-    <RadzenBody>
-        <div class="rz-p-4">
-            @Body
-        </div>
-    </RadzenBody>
 </RadzenLayout>
-
-@code {
-    bool _sidebarExpanded = true;
-}

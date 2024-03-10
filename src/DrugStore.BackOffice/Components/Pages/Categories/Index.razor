@@ -2,79 +2,89 @@
 
 <PageTitle>Categories management</PageTitle>
 
-<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
-
-<div class="rz-m-12">
-    <RadzenBreadCrumb>
-        <RadzenBreadCrumbItem Path="/" Text="Home"/>
-        <RadzenBreadCrumbItem Text="Categories"/>
-    </RadzenBreadCrumb>
-</div>
+<RadzenBreadCrumb>
+    <RadzenBreadCrumbItem Path="/" Text="Home"/>
+    <RadzenBreadCrumbItem Text="Categories"/>
+</RadzenBreadCrumb>
 
 @if (_errors.Any())
 {
     <ErrorStack ErrorMessages="@_errors"></ErrorStack>
 }
 
-<RadzenDataGrid @ref="_dataGrid"
-                Data="_categories"
-                IsLoading="_loading"
-                TItem="CategoryResponse"
-                AllowFiltering="true"
-                AllowSorting="true">
-    <EmptyTemplate>
-        <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No categories found</p>
-    </EmptyTemplate>
-    <LoadingTemplate>
-        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary" 
-                                   Value="100" 
-                                   ShowValue="false" 
-                                   Mode="ProgressBarMode.Indeterminate"/>
-    </LoadingTemplate>
-    <HeaderTemplate>
-        <RadzenButton Icon="add"
-                      Text="Add category"
-                      ButtonStyle="ButtonStyle.Primary"
-                      Click="@(() => AddCategory())"/>
-        <RadzenButton Icon="refresh"
-                      Text="Refresh"
-                      ButtonStyle="ButtonStyle.Secondary"
-                      Click="@(() => OnInitializedAsync())"/>
-        <RadzenButton Icon="file_download"
-                      Text="Export to CSV"
-                      ButtonStyle="ButtonStyle.Info"
-                      Click="@(() => ExportToCsv())"/>
-    </HeaderTemplate>
-    <Columns>
-        <RadzenDataGridColumn TItem="CategoryResponse"
-                              Width="250px"
-                              Property="@nameof(CategoryResponse.Name)"
-                              Title="@nameof(CategoryResponse.Name)">
-        </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="CategoryResponse"
-                              Property="@nameof(CategoryResponse.Description)"
-                              Title="@nameof(CategoryResponse.Description)"/>
-        <RadzenDataGridColumn TItem="CategoryResponse"
-                              Width="100px"
-                              Frozen="true"
-                              Filterable="false"
-                              FrozenPosition="FrozenColumnPosition.Right"
-                              Sortable="false">
-            <Template Context="category">
-                <RadzenButton Icon="edit"
-                              ButtonStyle="ButtonStyle.Warning"
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Categories" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.End"
+                         Gap="0.5rem">
+                <RadzenButton Icon="file_download"
+                              Text="Export to CSV"
                               Variant="Variant.Flat"
                               Shade="Shade.Lighter"
-                              Size="ButtonSize.Medium"
-                              Click="@(() => EditCategory(category.Id))"/>
-                <RadzenButton ButtonStyle="ButtonStyle.Danger"
-                              Icon="delete"
-                              Variant="Variant.Flat"
-                              Shade="Shade.Lighter"
-                              Size="ButtonSize.Medium"
-                              class="my-1 ms-1"
-                              Click="@(() => DeleteCategory(category.Id))"/>
-            </Template>
-        </RadzenDataGridColumn>
-    </Columns>
-</RadzenDataGrid>
+                              ButtonStyle="ButtonStyle.Info"
+                              Click="ExportToCsv"/>
+                <RadzenButton Icon="add_circle_outline"
+                              Text="Add category"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Click="AddCategory"/>
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenRow>
+        <RadzenColumn SizeMD="12">
+            <RadzenDataGrid @ref="_dataGrid"
+                            Data="_categories"
+                            IsLoading="_loading"
+                            TItem="CategoryResponse"
+                            AllowFiltering="true"
+                            AllowSorting="true">
+                <EmptyTemplate>
+                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No categories found</p>
+                </EmptyTemplate>
+                <LoadingTemplate>
+                    <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
+                                               Value="100"
+                                               ShowValue="false"
+                                               Mode="ProgressBarMode.Indeterminate"/>
+                </LoadingTemplate>
+                <Columns>
+                    <RadzenDataGridColumn TItem="CategoryResponse"
+                                          Width="250px"
+                                          Property="@nameof(CategoryResponse.Name)"
+                                          Title="@nameof(CategoryResponse.Name)">
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="CategoryResponse"
+                                          Property="@nameof(CategoryResponse.Description)"
+                                          Title="@nameof(CategoryResponse.Description)"/>
+                    <RadzenDataGridColumn TItem="CategoryResponse"
+                                          Width="100px"
+                                          Frozen="true"
+                                          Filterable="false"
+                                          FrozenPosition="FrozenColumnPosition.Right"
+                                          Sortable="false">
+                        <Template Context="category">
+                            <RadzenButton Icon="edit"
+                                          ButtonStyle="ButtonStyle.Warning"
+                                          Variant="Variant.Flat"
+                                          Shade="Shade.Lighter"
+                                          Size="ButtonSize.Medium"
+                                          Click="@(() => EditCategory(category.Id))"/>
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                          Icon="delete"
+                                          Variant="Variant.Flat"
+                                          Shade="Shade.Lighter"
+                                          Size="ButtonSize.Medium"
+                                          class="my-1 ms-1"
+                                          Click="@(() => DeleteCategory(category.Id))"/>
+                        </Template>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>

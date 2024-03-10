@@ -63,8 +63,4 @@
 		<ProjectReference Include="..\DrugStore.Domain\DrugStore.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Storage\Local\Internal\" />
-	</ItemGroup>
-
 </Project>

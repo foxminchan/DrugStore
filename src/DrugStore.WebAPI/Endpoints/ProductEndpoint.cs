@@ -75,8 +75,9 @@ public sealed class ProductEndpoint : IEndpoint
         [FromServices] ISender sender,
         [FromRoute] ProductId id,
         [FromForm] IFormFile images,
+        [FromForm] string alt,
         CancellationToken cancellationToken)
-        => await sender.Send(new UpdateProductImageCommand(id, images), cancellationToken);
+        => await sender.Send(new UpdateProductImageCommand(id, alt, images), cancellationToken);
 
     private static async Task<Result> DeleteProduct(
         [FromServices] ISender sender,

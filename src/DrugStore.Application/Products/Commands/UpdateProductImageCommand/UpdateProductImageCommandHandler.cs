@@ -17,9 +17,12 @@ public sealed class UpdateProductImageCommandHandler(
         var product = await repository.GetByIdAsync(request.ProductId, cancellationToken);
         Guard.Against.NotFound(request.ProductId, product);
 
+        if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+            await localStorage.RemoveFileAsync(product.Image.ImageUrl, cancellationToken);
+
         var result = await localStorage.UploadFileAsync(request.Image, cancellationToken);
 
-        product.Image = new(result, product.Name, nameof(Product));
+        product.Image = new(result, request.Alt, product.Name);
 
         await repository.UpdateAsync(product, cancellationToken);
 

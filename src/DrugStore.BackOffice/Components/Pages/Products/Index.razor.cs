@@ -91,4 +91,21 @@ public sealed partial class Index
         ExportService.ExportCsv(_products.AsQueryable());
         await Task.CompletedTask;
     }
+
+    private async Task Search(ChangeEventArgs args)
+    {
+        _loading = true;
+        var result = await ProductsApi.GetProductsAsync(new() { Search = args.Value?.ToString() });
+        _loading = false;
+
+        if (result.Status == ResultStatus.Ok)
+        {
+            _products = result.Value;
+            _count = (int)result.PagedInfo.TotalRecords;
+        }
+        else
+        {
+            _errorMessages.Add("An error occurred while retrieving products. Please try again.");
+        }
+    }
 }

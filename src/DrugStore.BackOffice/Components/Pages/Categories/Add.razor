@@ -2,15 +2,13 @@
 
 <PageTitle>Add Category</PageTitle>
 
-<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
+<RadzenBreadCrumb>
+    <RadzenBreadCrumbItem Path="/" Text="Home"/>
+    <RadzenBreadCrumbItem Path="/categories" Text="Categories"/>
+    <RadzenBreadCrumbItem Text="Add"/>
+</RadzenBreadCrumb>
 
-<div class="rz-m-12">
-    <RadzenBreadCrumb>
-        <RadzenBreadCrumbItem Path="/" Text="Home"/>
-        <RadzenBreadCrumbItem Path="/categories" Text="Categories"/>
-        <RadzenBreadCrumbItem Text="Add"/>
-    </RadzenBreadCrumb>
-</div>
+<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
 
 @if (_errors.Any())
 {
@@ -23,6 +21,7 @@
             <RadzenLabel Text="Name" Component="Name"/>
             <RadzenTextBox Style="display: block"
                            Name="Name"
+                           ReadOnly="_busy"
                            @bind-Value="@_category.Name"
                            class="w-100"
                            Placeholder="Enter category name"/>
@@ -30,15 +29,32 @@
                                    Text="Name is required and has 50 characters maximum"
                                    Validator="@(() => ValidateCategoryName(_category.Name))"/>
             <RadzenLabel Text="Description" Component="Description"/>
-            <RadzenTextBox Style="display: block"
-                           Name="Description"
-                           @bind-Value="@_category.Description"
-                           class="w-100"
-                           Placeholder="Enter category description"/>
+            <RadzenTextArea Style="display: block"
+                            Name="Description"
+                            ReadOnly="_busy"
+                            @bind-Value="@_category.Description"
+                            class="w-100"
+                            Placeholder="Enter category description"/>
             <RadzenCustomValidator Component="Description"
                                    Text="Description has 100 characters maximum"
                                    Validator="@(() => ValidateCategoryDescription(_category.Description))"/>
-            <RadzenButton ButtonType="ButtonType.Submit" Text="Submit" IsBusy="@_busy"></RadzenButton>
         </RadzenStack>
     </RadzenFieldset>
+    <RadzenStack Style="margin-top:1rem;" 
+                 Orientation="Orientation.Horizontal" 
+                 AlignItems="AlignItems.Center" 
+                 JustifyContent="JustifyContent.End" 
+                 Gap="0.5rem">
+        <RadzenButton ButtonStyle="ButtonStyle.Primary"
+                      ButtonType="ButtonType.Submit"
+                      Icon="save"
+                      Text="Save"
+                      Variant="Variant.Flat"
+                      IsBusy="@_busy"/>
+        <RadzenButton ButtonStyle="ButtonStyle.Light"
+                      Text="Cancel"
+                      Variant="Variant.Flat"
+                      IsBusy="@_busy"
+                      Click="@CancelButtonClick"/>
+    </RadzenStack>
 </RadzenTemplateForm>

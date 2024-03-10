@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Radzen;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
@@ -82,5 +83,11 @@ public sealed partial class Edit
         if (string.IsNullOrEmpty(description)) return true;
 
         return description.Length <= 100;
+    }
+
+    private async Task CancelButtonClick(MouseEventArgs arg)
+    {
+        NavigationManager.NavigateTo("/categories");
+        await Task.CompletedTask;
     }
 }
