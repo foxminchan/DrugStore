@@ -2,6 +2,8 @@
 
 <PageTitle>Add Category</PageTitle>
 
+<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
+
 <div class="rz-m-12">
     <RadzenBreadCrumb>
         <RadzenBreadCrumbItem Path="/" Text="Home"/>
@@ -18,7 +20,7 @@
 }
 
 <RadzenTemplateForm TItem="CategoryCreateRequest" Data="@_category" Submit="@OnSubmit">
-    <RadzenFieldset Text="Personal information">
+    <RadzenFieldset Text="Category information">
         <RadzenStack Gap="1rem">
             <RadzenLabel Text="Name" Component="Name"/>
             <RadzenTextBox Style="display: block"

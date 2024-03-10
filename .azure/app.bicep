@@ -40,13 +40,6 @@ module kafkaConnect 'app/kafka-connect.bicep' = {
   }
 }
 
-module minio 'app/minio.bicep' = {
-  name: 'minio'
-  params: {
-    kubeConfig: aksCluster.listClusterAdminCredential().kubeconfigs[0].value
-  }
-}
-
 module api 'app/api.bicep' = {
   name: 'api'
   params: {

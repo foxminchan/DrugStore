@@ -1,8 +1,8 @@
-﻿<h3>Categories</h3>
-
-@page "/categories"
+﻿@page "/categories"
 
 <PageTitle>Categories management</PageTitle>
+
+<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
 
 <div class="rz-m-12">
     <RadzenBreadCrumb>
@@ -18,8 +18,8 @@
 
 <RadzenDataGrid @ref="_dataGrid"
                 Data="_categories"
+                IsLoading="_loading"
                 TItem="CategoryResponse"
-                IsLoading="@_loading"
                 AllowFiltering="true"
                 AllowSorting="true">
     <EmptyTemplate>

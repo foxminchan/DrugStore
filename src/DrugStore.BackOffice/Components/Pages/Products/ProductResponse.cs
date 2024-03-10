@@ -17,7 +17,7 @@ public sealed class ProductResponse
     public string? Detail { get; set; }
 
     [JsonPropertyName("status")]
-    public string? Status { get; set; }
+    public ProductStatus? Status { get; set; }
 
     [JsonPropertyName("quantity")]
     public int Quantity { get; set; }
@@ -51,4 +51,13 @@ public sealed class ProductImage
 
     [JsonPropertyName("title")]
     public string? Title { get; set; }
+}
+
+public sealed class ProductStatus
+{
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+
+    [JsonPropertyName("value")]
+    public int Value { get; set; }
 }
