@@ -13,15 +13,18 @@
 
 @if (_errorMessages.Any())
 {
-    <RadzenNotification IsOpen="true" Duration="5000" Severity="NotificationSeverity.Error">
-        <RadzenNotificationMessage Text="@string.Join(Environment.NewLine, _errorMessages)"/>
-    </RadzenNotification>
+    <ErrorStack ErrorMessages="@_errorMessages"></ErrorStack>
 }
 
-<RadzenDataGrid Data="_categories"TItem="CategoryResponse"
+<RadzenDataGrid @ref="_dataGrid"
+                Data="_categories"
+                TItem="CategoryResponse"
                 IsLoading="@_loading"
                 AllowFiltering="true"
                 AllowSorting="true">
+    <EmptyTemplate>
+        <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No categories found</p>
+    </EmptyTemplate>
     <HeaderTemplate>
         <RadzenButton Icon="add"
                       Text="Add category"
@@ -37,9 +40,19 @@
                       Click="@(() => ExportToCsv())"/>
     </HeaderTemplate>
     <Columns>
-        <RadzenDataGridColumn TItem="CategoryResponse" Property="Name" Width="200px" Title="Name"/>
-        <RadzenDataGridColumn TItem="CategoryResponse" Property="Description" Title="Description"/>
-        <RadzenDataGridColumn TItem="CategoryResponse" Width="100px" Filterable="false" Sortable="false">
+        <RadzenDataGridColumn TItem="CategoryResponse"
+                              Width="250px"
+                              Property="@nameof(CategoryResponse.Name)"
+                              Title="@nameof(CategoryResponse.Name)">
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="CategoryResponse"
+                              Property="@nameof(CategoryResponse.Description)"
+                              Title="@nameof(CategoryResponse.Description)"/>
+        <RadzenDataGridColumn TItem="CategoryResponse"
+                              Width="100px"
+                              Frozen="true"
+                              Filterable="false"
+                              Sortable="false">
             <Template Context="category">
                 <RadzenButton Variant="Variant.Flat"
                               Icon="edit"
@@ -51,6 +64,5 @@
                               Click="@(() => DeleteCategory(category.Id))"/>
             </Template>
         </RadzenDataGridColumn>
-
     </Columns>
 </RadzenDataGrid>

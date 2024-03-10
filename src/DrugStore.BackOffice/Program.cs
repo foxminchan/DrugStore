@@ -2,11 +2,12 @@ using Ardalis.GuardClauses;
 using DrugStore.BackOffice.Components;
 using DrugStore.BackOffice.Components.Pages.Categories;
 using DrugStore.BackOffice.Components.Pages.Customers;
+using DrugStore.BackOffice.Components.Pages.Orders;
 using DrugStore.BackOffice.Components.Pages.Products;
+using DrugStore.BackOffice.Components.Pages.Users;
 using DrugStore.BackOffice.Services;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
-using DrugStore.Infrastructure.Validator;
 using Radzen;
 using Refit;
 
@@ -19,8 +20,6 @@ builder.Services.AddRadzenComponents();
 
 builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
-
-builder.Services.AddValidator();
 
 builder.Services.AddScoped(typeof(ExportService<>));
 
@@ -35,6 +34,12 @@ builder.Services.AddRefitClient<IProductsApi>()
     .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute));
 
 builder.Services.AddRefitClient<ICustomersApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute));
+
+builder.Services.AddRefitClient<IOrdersApi>()
+    .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute));
+
+builder.Services.AddRefitClient<IUsersApi>()
     .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute));
 
 var app = builder.Build();

@@ -2,6 +2,7 @@
 using DrugStore.BackOffice.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
+using Radzen.Blazor;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -17,6 +18,7 @@ public sealed partial class Index
 
     [Inject] private ExportService<CategoryResponse> ExportService { get; set; } = default!;
 
+    private RadzenDataGrid<CategoryResponse> _dataGrid = default!;
     private readonly List<string> _errorMessages = [];
     private List<CategoryResponse> _categories = [];
     private bool _loading;
@@ -60,7 +62,7 @@ public sealed partial class Index
             Detail = "Category deleted successfully!"
         });
         _categories.RemoveAll(category => category.Id == id);
-        StateHasChanged();
+        await _dataGrid.Reload();
     }
 
     private Task ExportToCsv()

@@ -1,17 +1,145 @@
 ﻿@page "/products"
+@using DrugStore.BackOffice.Helpers
+@using System.Globalization
 
 <PageTitle>Products management</PageTitle>
 
 <div class="rz-m-12">
     <RadzenBreadCrumb>
-        <RadzenBreadCrumbItem Path="/" Text="Home" />
-        <RadzenBreadCrumbItem Text="Products" />
+        <RadzenBreadCrumbItem Path="/" Text="Home"/>
+        <RadzenBreadCrumbItem Text="Products"/>
     </RadzenBreadCrumb>
 </div>
 
 @if (_errorMessages.Any())
 {
-    <RadzenNotification IsOpen="true" Duration="5000" Severity="NotificationSeverity.Error">
-        <RadzenNotificationMessage Text="@string.Join(Environment.NewLine, _errorMessages)" />
-    </RadzenNotification>
+    <ErrorStack ErrorMessages="@_errorMessages"></ErrorStack>
 }
+
+<RadzenDataGrid @ref="_dataGrid"
+                TItem="ProductResponse"
+                Data="@_products"
+                AllowFiltering="true"
+                AllowPaging="true"
+                PageSize="20"
+                AllowSorting="true"
+                ShowPagingSummary="true"
+                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                IsLoading="@_loading"
+                Count="@_count">
+    <EmptyTemplate>
+        <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No products found</p>
+    </EmptyTemplate>
+    <HeaderTemplate>
+        <RadzenButton Icon="add"
+                      Text="Add product"
+                      ButtonStyle="ButtonStyle.Primary"
+                      Click="@(() => AddProducts())"/>
+        <RadzenButton Icon="refresh"
+                      Text="Refresh"
+                      ButtonStyle="ButtonStyle.Secondary"
+                      Click="@(() => OnInitializedAsync())"/>
+        <RadzenButton Icon="file_download"
+                      Text="Export to CSV"
+                      ButtonStyle="ButtonStyle.Info"
+                      Click="@(() => ExportToCsv())"/>
+    </HeaderTemplate>
+    <Columns>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Frozen="true"
+                              Property="@nameof(ProductResponse.Name)"
+                              Title="@nameof(ProductResponse.Name)"/>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Title="Photo"
+                              Frozen="true"
+                              Sortable="false"
+                              Filterable="false"
+                              Width="80px"
+                              TextAlign="TextAlign.Center">
+            <Template Context="product">
+                @if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+                {
+                    <RadzenImage Path="@(string.Concat(EndpointHelper.StaticEndpoint, product.Image?.ImageUrl))"
+                                 class="rz-gravatar"
+                                 AlternateText="@product.Image?.Alt"/>
+                }
+                else
+                {
+                    <RadzenImage Path="https://fakeimg.pl/100x100?text=No+image"
+                                 class="rz-gravatar"
+                                 AlternateText="No image"/>
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Property="@nameof(ProductResponse.ProductCode)"
+                              Title="@nameof(ProductResponse.ProductCode)" />
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Property="@nameof(ProductResponse.Detail)"
+                              Title="@nameof(ProductResponse.Detail)"/>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Property="@nameof(ProductResponse.Status)"
+                              Title="@nameof(ProductResponse.Status)">
+            <Template Context="product">
+                @if (string.Equals(product.Status, "InStock", StringComparison.OrdinalIgnoreCase))
+                {
+                    <span class="rz-text-success">@product.Status</span>
+                }
+                else
+                {
+                    <span class="rz-text-danger">@product.Status</span>
+                }
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Property="@nameof(ProductResponse.Quantity)"
+                              Title="@nameof(ProductResponse.Quantity)"/>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Property="@nameof(ProductResponse.Category)"
+                              Title="@nameof(ProductResponse.Category)"/>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Filterable="false"
+                              Sortable="false"
+                              TextAlign="TextAlign.Center"
+                              Property="@nameof(ProductResponse.Price)"
+                              Title="@nameof(ProductResponse.Price)">
+            <Columns>
+                <RadzenDataGridColumn TItem="ProductResponse"
+                                      Property="@nameof(ProductResponse.Price.Price)"
+                                      Title="@nameof(ProductResponse.Price.Price)">
+                    <Template Context="product">
+                        <span class="rz-text-primary">
+                            @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.Price)
+                        </span>
+                    </Template>
+                </RadzenDataGridColumn>
+                <RadzenDataGridColumn TItem="ProductResponse"
+                                      Property="@nameof(ProductResponse.Price.PriceSale)"
+                                      Title="@nameof(ProductResponse.Price.PriceSale)">
+                    <Template Context="product">
+                        <span class="rz-text-danger">
+                            @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.PriceSale)
+                        </span>
+                    </Template>
+                </RadzenDataGridColumn>
+            </Columns>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="ProductResponse"
+                              Title="Actions"
+                              Width="100px"
+                              Frozen="true"
+                              Filterable="false"
+                              Sortable="false">
+            <Template Context="product">
+                <RadzenButton Variant="Variant.Flat"
+                              Icon="edit"
+                              ButtonStyle="ButtonStyle.Secondary"
+                              Click="@(() => EditProduct(product.Id))"/>
+                <RadzenButton Variant="Variant.Flat"
+                              Icon="edit"
+                              ButtonStyle="ButtonStyle.Danger"
+                              Click="@(() => DeleteProduct(product.Id))"/>
+            </Template>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>

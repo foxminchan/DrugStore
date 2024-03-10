@@ -27,7 +27,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Helpers\" />
+	  <UpToDateCheckInput Remove="Components\ErrorStack.razor" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="Components\ErrorStack.razor" />
 	</ItemGroup>
 
 </Project>
