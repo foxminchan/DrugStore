@@ -1,5 +1,6 @@
 ﻿using Ardalis.Result;
 using DrugStore.BackOffice.Components.Pages.Categories;
+using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -16,7 +17,6 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
-    private const int MaxFileSize = 2097152;
     private readonly List<string> _errors = [];
     private List<CategoryResponse> _categories = [];
     private readonly ProductCreateRequest _product = new();
@@ -28,31 +28,19 @@ public sealed partial class Add
         {
             _busy = true;
 
-            var newProduct = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
+            var newProductResult = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
 
-            if (newProduct.Status != ResultStatus.Ok)
-            {
-                HandleError("An error occurred while adding the product. Please try again.");
-                return;
-            }
-
-            if (product.Image.File is { })
-            {
-                var image = await ProductsApi.UpdateProductImageAsync(newProduct.Value, product.Image);
-
-                if (image.Status != ResultStatus.Ok)
-                {
-                    HandleError("An error occurred while adding the product image. Please try again.");
-                    return;
-                }
-            }
-
-            HandleSuccess("Product added successfully.");
-            NavigationManager.NavigateTo("/products");
+            if (newProductResult.Status == ResultStatus.Ok)
+                await HandleProductCreationSuccess(newProductResult.Value, product.Image);
+            else
+                HandleProductCreationFailure(
+                    [.. newProductResult.ValidationErrors],
+                    "An error occurred while adding the product. Please try again."
+                );
         }
         catch (Exception ex)
         {
-            HandleError($"An unexpected error occurred: {ex.Message}");
+            _errors.Add(ex.Message);
         }
         finally
         {
@@ -60,13 +48,40 @@ public sealed partial class Add
         }
     }
 
-    private void HandleError(string message) =>
-        NotificationService.Notify(new()
+    private async Task HandleProductCreationSuccess(Guid id, ProductImageRequest image)
+    {
+        if (image.File is null)
         {
-            Severity = NotificationSeverity.Error,
-            Summary = "Error",
-            Detail = message
-        });
+            HandleSuccess("Product added successfully.");
+            NavigationManager.NavigateTo("/products");
+        }
+        else
+        {
+            var imageResult = await ProductsApi.UpdateProductImageAsync(id, image);
+
+            if (imageResult.Status == ResultStatus.Ok)
+            {
+                HandleSuccess("Product added successfully.");
+                NavigationManager.NavigateTo("/products");
+            }
+            else
+            {
+                HandleProductCreationFailure(
+                    [.. imageResult.ValidationErrors],
+                    "An error occurred while adding the product image. Please try again."
+                );
+            }
+        }
+    }
+
+    private void HandleProductCreationFailure(List<ValidationError> validationErrors, string defaultMessage)
+    {
+        foreach (var error in validationErrors) _errors.Add(error.ErrorMessage);
+
+        if (validationErrors.Count != 0) return;
+
+        _errors.Add(defaultMessage);
+    }
 
     private void HandleSuccess(string message) =>
         NotificationService.Notify(new()
@@ -76,13 +91,16 @@ public sealed partial class Add
             Detail = message
         });
 
+
     private async Task LoadData()
     {
         _busy = true;
         var result = await CategoriesApi.GetCategoriesAsync();
         _busy = false;
         if (result.Status == ResultStatus.Ok)
+        {
             _categories = result.Value;
+        }
         else
         {
             NotificationService.Notify(new()
@@ -103,20 +121,20 @@ public sealed partial class Add
         await Task.CompletedTask;
     }
 
-    private static bool ValidateProductName(string? name) => !string.IsNullOrEmpty(name) && name.Length <= 100;
+    private static bool ValidateProductName(string? name)
+        => !string.IsNullOrEmpty(name) && name.Length <= DataLengthHelper.DefaultLength;
 
     private static bool ValidateProductCode(string? code)
     {
         if (string.IsNullOrEmpty(code)) return true;
 
-        return code.Length <= 16;
+        return code.Length <= DataLengthHelper.SmallLength;
     }
 
     private static bool ValidateProductDetail(string? detail)
     {
         if (string.IsNullOrEmpty(detail)) return true;
-
-        return detail.Length <= 1000;
+        return detail.Length <= DataLengthHelper.MaxLength;
     }
 
     private static bool ValidateProductQuantity(int productQuantity) => productQuantity >= 0;
@@ -125,16 +143,15 @@ public sealed partial class Add
 
     private static bool ValidateProductPrice(decimal productPrice) => productPrice >= 0;
 
-    private bool ValidateProductPriceSale(decimal productPriceSale) 
+    private bool ValidateProductPriceSale(decimal productPriceSale)
         => productPriceSale >= 0 && productPriceSale <= _product.Product.ProductPrice.Price;
 
     private static bool ValidateProductImage(IFormFile? image)
     {
         if (image is null) return true;
-
-        return image.ContentType.Contains("image") && image.Length <= MaxFileSize;
+        return image.ContentType.Contains("image") && image.Length <= DataLengthHelper.MaxFileSize;
     }
 
-    private bool ValidateProductImageAlt(string? alt) 
-        => _product.Image.File is null || !string.IsNullOrEmpty(alt) && alt.Length <= 100;
+    private bool ValidateProductImageAlt(string? alt)
+        => _product.Image.File is null || (!string.IsNullOrEmpty(alt) && alt.Length <= DataLengthHelper.DefaultLength);
 }

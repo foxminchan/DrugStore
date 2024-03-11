@@ -1,4 +1,5 @@
 ﻿using Ardalis.Result;
+using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -14,7 +15,7 @@ public sealed partial class Add
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     private bool _busy;
-    
+
     private readonly List<string> _errors = [];
 
     private readonly CategoryCreateRequest _category = new();
@@ -38,7 +39,7 @@ public sealed partial class Add
                 break;
             case ResultStatus.Invalid:
             {
-                foreach (var error in result.ValidationErrors) 
+                foreach (var error in result.ValidationErrors)
                     _errors.Add(error.ErrorMessage);
                 break;
             }
@@ -48,13 +49,14 @@ public sealed partial class Add
         }
     }
 
-    private static bool ValidateCategoryName(string? name) => !string.IsNullOrEmpty(name) && name.Length <= 50;
+    private static bool ValidateCategoryName(string? name)
+        => !string.IsNullOrEmpty(name) && name.Length <= DataLengthHelper.ShortLength;
 
     private static bool ValidateCategoryDescription(string? description)
     {
         if (string.IsNullOrEmpty(description)) return true;
 
-        return description.Length <= 100;
+        return description.Length <= DataLengthHelper.LongLength;
     }
 
     private async Task CancelButtonClick(MouseEventArgs arg)

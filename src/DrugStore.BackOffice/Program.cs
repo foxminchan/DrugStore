@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using DrugStore.BackOffice;
 using DrugStore.BackOffice.Components;
 using DrugStore.BackOffice.Components.Pages.Categories;
 using DrugStore.BackOffice.Components.Pages.Customers;
@@ -23,7 +24,12 @@ builder.AddSerilog(builder.Environment.ApplicationName);
 
 builder.Services.AddScoped(typeof(ExportService<>));
 
-var apiRoute = builder.Configuration.GetSection("ApiUrl").Value;
+builder.Services.AddOptions<Settings>()
+    .Bind(builder.Configuration.GetSection(nameof(Settings)))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
+
+var apiRoute = builder.Configuration.GetSection(nameof(Settings)).Get<Settings>()?.ApiEndpoint;
 
 Guard.Against.NullOrWhiteSpace(apiRoute);
 

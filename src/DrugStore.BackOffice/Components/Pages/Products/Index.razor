@@ -1,6 +1,6 @@
 ﻿@page "/products"
-@using DrugStore.BackOffice.Helpers
 @using System.Globalization
+@inject IConfiguration Configuration
 
 <PageTitle>Products management</PageTitle>
 
@@ -33,11 +33,11 @@
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
-                              Click="AddProducts" />
+                              Click="AddProducts"/>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenTextBox Placeholder="Search ..." Style="display: block; width: 100%" @oninput="Search" />
+    <RadzenTextBox Placeholder="Search ..." Style="display: block; width: 100%" @oninput="Search"/>
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenDataGrid @ref="_dataGrid"
@@ -79,8 +79,8 @@
                         <Template Context="product">
                             @if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
                             {
-                                <RadzenImage Path="@(string.Concat(EndpointHelper.StaticEndpoint, product.Image?.ImageUrl))"
-                                             class="rz-gravatar"
+                                <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image?.ImageUrl))" 
+                                             class="rz-gravatar" 
                                              AlternateText="@product.Image?.Alt"/>
                             }
                             else
@@ -109,7 +109,7 @@
                                          Shade="Shade.Lighter"
                                          Variant="Variant.Flat"
                                          Text="@product.Status?.Name"
-                                         BadgeStyle="product.Status?.Value == 1 ? BadgeStyle.Success : BadgeStyle.Danger"/>
+                                         BadgeStyle="@(string.Equals(product.Status?.Name, "InStock", StringComparison.OrdinalIgnoreCase) ? BadgeStyle.Success : BadgeStyle.Danger)"/>
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="ProductResponse"
