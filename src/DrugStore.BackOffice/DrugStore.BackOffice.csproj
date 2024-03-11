@@ -26,12 +26,4 @@
 		<ProjectReference Include="..\DrugStore.Infrastructure\DrugStore.Infrastructure.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <UpToDateCheckInput Remove="Components\ErrorStack.razor" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <_ContentIncludedByDefault Remove="Components\ErrorStack.razor" />
-	</ItemGroup>
-
 </Project>

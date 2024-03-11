@@ -9,7 +9,7 @@
 
 @if (_errors.Any())
 {
-    <ErrorStack ErrorMessages="@_errors"></ErrorStack>
+    <ErrorStack ErrorMessages="_errors"></ErrorStack>
 }
 
 <RadzenStack>
@@ -73,14 +73,14 @@
                                           Variant="Variant.Flat"
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
-                                          Click="@(() => EditCategory(category.Id))"/>
+                                          Click="() => EditCategory(category.Id)"/>
                             <RadzenButton ButtonStyle="ButtonStyle.Danger"
                                           Icon="delete"
                                           Variant="Variant.Flat"
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
                                           class="my-1 ms-1"
-                                          Click="@(() => DeleteCategory(category.Id))"/>
+                                          Click="() => DeleteCategory(category.Id)"/>
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>

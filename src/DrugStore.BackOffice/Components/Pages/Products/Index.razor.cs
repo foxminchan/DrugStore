@@ -19,7 +19,7 @@ public sealed partial class Index
     [Inject] private ExportService<ProductResponse> ExportService { get; set; } = default!;
 
     private RadzenDataGrid<ProductResponse> _dataGrid = default!;
-    private readonly List<string> _errorMessages = [];
+    private readonly List<string> _errors = [];
     private List<ProductResponse> _products = [];
     private bool _loading;
     private int _count;
@@ -37,7 +37,7 @@ public sealed partial class Index
         }
         else
         {
-            _errorMessages.Add("An error occurred while retrieving products. Please try again.");
+            _errors.Add("An error occurred while retrieving products. Please try again.");
         }
     }
 
@@ -105,7 +105,7 @@ public sealed partial class Index
         }
         else
         {
-            _errorMessages.Add("An error occurred while retrieving products. Please try again.");
+            _errors.Add("An error occurred while retrieving products. Please try again.");
         }
     }
 }

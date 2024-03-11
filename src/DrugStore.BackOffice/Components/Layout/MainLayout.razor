@@ -5,7 +5,7 @@
 <RadzenLayout Style="grid-template-areas: 'rz-sidebar rz-header' 'rz-sidebar rz-body'">
     <RadzenHeader>
         <RadzenStack Orientation="Orientation.Horizontal" AlignItems="AlignItems.Center" Gap="0">
-            <RadzenSidebarToggle Click="@(() => _sidebarExpanded = !_sidebarExpanded)"/>
+            <RadzenSidebarToggle Click="() => _sidebarExpanded = !_sidebarExpanded"/>
             <RadzenProfileMenu Style="margin-left: auto;">
                 <Template>
                     <RadzenGravatar Email="user@example.com"></RadzenGravatar>

@@ -9,9 +9,9 @@
     <RadzenBreadCrumbItem Text="Products"/>
 </RadzenBreadCrumb>
 
-@if (_errorMessages.Any())
+@if (_errors.Any())
 {
-    <ErrorStack ErrorMessages="@_errorMessages"></ErrorStack>
+    <ErrorStack ErrorMessages="_errors"></ErrorStack>
 }
 
 <RadzenStack>
@@ -37,7 +37,7 @@
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenTextBox Placeholder="Search ..." Style="display: block; width: 100%" @oninput="@Search" />
+    <RadzenTextBox Placeholder="Search ..." Style="display: block; width: 100%" @oninput="Search" />
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenDataGrid @ref="_dataGrid"
@@ -109,8 +109,7 @@
                                          Shade="Shade.Lighter"
                                          Variant="Variant.Flat"
                                          Text="@product.Status?.Name"
-                                         TextAlign="TextAlign.Center"
-                                         BadgeStyle="@(product.Status?.Value == 1 ? BadgeStyle.Success : BadgeStyle.Danger)"/>
+                                         BadgeStyle="product.Status?.Value == 1 ? BadgeStyle.Success : BadgeStyle.Danger"/>
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="ProductResponse"
@@ -158,14 +157,14 @@
                                           Variant="Variant.Flat"
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
-                                          Click="@(() => EditProduct(product.Id))"/>
+                                          Click="() => EditProduct(product.Id)"/>
                             <RadzenButton ButtonStyle="ButtonStyle.Danger"
                                           Icon="delete"
                                           Variant="Variant.Flat"
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
                                           class="my-1 ms-1"
-                                          Click="@(() => DeleteProduct(product.Id))"/>
+                                          Click="() => DeleteProduct(product.Id)"/>
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>
