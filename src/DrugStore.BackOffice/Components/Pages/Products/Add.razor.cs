@@ -16,6 +16,7 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    private const int MaxFileSize = 2097152;
     private readonly List<string> _errors = [];
     private List<CategoryResponse> _categories = [];
     private readonly ProductCreateRequest _product = new();
@@ -23,47 +24,57 @@ public sealed partial class Add
 
     private async Task OnSubmit(ProductCreateRequest product)
     {
-        _busy = true;
-        var newProduct = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
-        if (newProduct.Status == ResultStatus.Ok)
+        try
         {
-            if (product.Image is { File: { } })
+            _busy = true;
+
+            var newProduct = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
+
+            if (newProduct.Status != ResultStatus.Ok)
+            {
+                HandleError("An error occurred while adding the product. Please try again.");
+                return;
+            }
+
+            if (product.Image.File is { })
             {
                 var image = await ProductsApi.UpdateProductImageAsync(newProduct.Value, product.Image);
+
                 if (image.Status != ResultStatus.Ok)
                 {
-                    _busy = false;
-                    NotificationService.Notify(new()
-                    {
-                        Severity = NotificationSeverity.Error,
-                        Summary = "Error",
-                        Detail = "An error occurred while adding the product image. Please try again."
-                    });
+                    HandleError("An error occurred while adding the product image. Please try again.");
                     return;
                 }
             }
+
+            HandleSuccess("Product added successfully.");
+            NavigationManager.NavigateTo("/products");
         }
-        else
+        catch (Exception ex)
+        {
+            HandleError($"An unexpected error occurred: {ex.Message}");
+        }
+        finally
         {
             _busy = false;
-            NotificationService.Notify(new()
-            {
-                Severity = NotificationSeverity.Error,
-                Summary = "Error",
-                Detail = "An error occurred while adding the product. Please try again."
-            });
-            return;
         }
+    }
 
-        _busy = false;
+    private void HandleError(string message) =>
+        NotificationService.Notify(new()
+        {
+            Severity = NotificationSeverity.Error,
+            Summary = "Error",
+            Detail = message
+        });
+
+    private void HandleSuccess(string message) =>
         NotificationService.Notify(new()
         {
             Severity = NotificationSeverity.Success,
             Summary = "Success",
-            Detail = "Product added successfully."
+            Detail = message
         });
-        NavigationManager.NavigateTo("/products");
-    }
 
     private async Task LoadData()
     {
@@ -121,9 +132,9 @@ public sealed partial class Add
     {
         if (image is null) return true;
 
-        return image.ContentType.Contains("image") && image.Length <= 2097152;
+        return image.ContentType.Contains("image") && image.Length <= MaxFileSize;
     }
 
     private bool ValidateProductImageAlt(string? alt) 
-        => _product.Image?.File is null || !string.IsNullOrEmpty(alt) && alt.Length <= 100;
+        => _product.Image.File is null || !string.IsNullOrEmpty(alt) && alt.Length <= 100;
 }
