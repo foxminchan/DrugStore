@@ -22,7 +22,7 @@ public class IndexModel(
         LoginRequest = await backchannelAuthenticationInteractionService.GetLoginRequestByInternalIdAsync(id);
         if (LoginRequest is { }) return Page();
 
-        logger.LogWarning("Invalid backchannel login id {id}", id);
+        logger.LogWarning("Invalid backchannel login id {Id}", id);
         return RedirectToPage("/Home/Error/Index");
     }
 }

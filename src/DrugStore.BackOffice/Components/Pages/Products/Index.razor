@@ -2,7 +2,7 @@
 @using System.Globalization
 @inject IConfiguration Configuration
 
-<PageTitle>Products management</PageTitle>
+<PageTitle>Products List</PageTitle>
 
 <RadzenBreadCrumb>
     <RadzenBreadCrumbItem Path="/" Text="Home"/>
@@ -11,7 +11,12 @@
 
 @if (_errors.Any())
 {
-    <ErrorStack ErrorMessages="_errors"></ErrorStack>
+    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
+        @foreach (var error in _errors)
+        {
+            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
+        }
+    </RadzenAlert>
 }
 
 <RadzenStack>

@@ -33,12 +33,12 @@ public class Callback(
         if (logger.IsEnabled(LogLevel.Debug))
         {
             var externalClaims = externalUser.Claims.Select(c => $"{c.Type}: {c.Value}");
-            logger.LogDebug("External claims: {@claims}", externalClaims);
+            logger.LogDebug("External claims: {@Claims}", externalClaims);
         }
 
         // lookup our user and external provider info
         // try to determine the unique id of the external user (issued by the provider)
-        // the most common claim type for that are the sub claim and the NameIdentifier
+        // the most common claim type for that are the sub-claim and the NameIdentifier
         // depending on the external provider, some other claim type might be used
         var userIdClaim = externalUser.FindFirst(JwtClaimTypes.Subject) ??
                           externalUser.FindFirst(ClaimTypes.NameIdentifier) ??

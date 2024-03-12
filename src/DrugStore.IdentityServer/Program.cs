@@ -1,5 +1,4 @@
 ﻿using DrugStore.IdentityServer;
-using DrugStore.Infrastructure.Cache;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
 using Serilog;
@@ -8,7 +7,6 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.AddRedisCache();
     builder.AddOpenTelemetry();
     builder.AddSerilog(builder.Environment.ApplicationName);
 

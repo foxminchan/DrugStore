@@ -27,9 +27,6 @@ internal static class HostingExtensions
         var identityServerBuilder = builder.Services
             .AddIdentityServer(options =>
             {
-                options.IssuerUri = builder.Configuration.GetValue<string>("IssuerUrl");
-                options.Authentication.CookieLifetime = TimeSpan.FromHours(2);
-
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;

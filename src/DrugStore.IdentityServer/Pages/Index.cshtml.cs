@@ -8,7 +8,7 @@ namespace DrugStore.IdentityServer.Pages;
 [AllowAnonymous]
 public class Index : PageModel
 {
-    public string Version;
+    public string Version { get; private set; } = string.Empty;
 
     public void OnGet() 
         => Version = typeof(IdentityServerMiddleware).Assembly

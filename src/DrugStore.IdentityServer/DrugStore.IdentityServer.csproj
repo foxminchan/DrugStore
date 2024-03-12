@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
+	    <Nullable>disable</Nullable>
+		<RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
         <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
         <UserSecretsId>836834af-f629-480f-ab30-c05dcef3c5f4</UserSecretsId>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>

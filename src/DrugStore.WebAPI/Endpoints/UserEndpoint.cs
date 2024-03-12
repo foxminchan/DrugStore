@@ -3,6 +3,7 @@ using DrugStore.Application.Users.Commands.CreateUserCommand;
 using DrugStore.Application.Users.Commands.DeleteUserCommand;
 using DrugStore.Application.Users.Commands.UpdateUserCommand;
 using DrugStore.Application.Users.Queries.GetByIdQuery;
+using DrugStore.Application.Users.Queries.GetByRoleQuery;
 using DrugStore.Application.Users.Queries.GetListQuery;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate.Primitives;
@@ -25,6 +26,7 @@ public sealed class UserEndpoint : IEndpoint
             .MapToApiVersion(new(1, 0));
         group.RequirePerUserRateLimit();
         group.MapGet("", GetUsers).WithName(nameof(GetUsers));
+        group.MapGet("/staff/{isStaff}", GetUsersByRole).WithName(nameof(GetUsersByRole));
         group.MapGet("{id}", GetUserById).WithName(nameof(GetUserById)).CacheOutput();
         group.MapPost("", CreateUser).WithName(nameof(CreateUser));
         group.MapPut("", UpdateUser).WithName(nameof(UpdateUser));
@@ -42,6 +44,13 @@ public sealed class UserEndpoint : IEndpoint
         [AsParameters] FilterHelper filter,
         CancellationToken cancellationToken)
         => await sender.Send(new GetListQuery(filter), cancellationToken);
+
+    private static async Task<PagedResult<List<UserVm>>> GetUsersByRole(
+        [FromServices] ISender sender,
+        [FromRoute] bool isStaff,
+        [AsParameters] FilterHelper filter,
+        CancellationToken cancellationToken)
+        => await sender.Send(new GetByRoleQuery(filter, isStaff), cancellationToken);
 
     private static async Task<Result<IdentityId>> CreateUser(
         [FromServices] ISender sender,

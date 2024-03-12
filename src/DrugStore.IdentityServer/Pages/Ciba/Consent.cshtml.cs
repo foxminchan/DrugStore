@@ -37,7 +37,7 @@ public class Consent(
         var request = await interaction.GetLoginRequestByInternalIdAsync(Input.Id);
         if (request is null || request.Subject.GetSubjectId() != User.GetSubjectId())
         {
-            logger.LogError("Invalid id {id}", Input.Id);
+            logger.LogError("Invalid id {Id}", Input.Id);
             return RedirectToPage("/Home/Error/Index");
         }
 
@@ -99,7 +99,7 @@ public class Consent(
         if (request is { } && request.Subject.GetSubjectId() == User.GetSubjectId())
             return CreateConsentViewModel(model, id, request);
 
-        logger.LogError("No backchannel login request matching id: {id}", id);
+        logger.LogError("No backchannel login request matching id: {Id}", id);
         return null;
     }
 
@@ -119,7 +119,7 @@ public class Consent(
                 .ToArray()
         };
 
-        logger.LogDebug("Id {id} has identity scopes: {scopes}", id, vm.IdentityScopes.Select(x => x.Name));
+        logger.LogDebug("Id {Id} has identity scopes: {Scopes}", id, vm.IdentityScopes.Select(x => x.Name));
 
         var resourceIndicators = request.RequestedResourceIndicators ?? [];
         var apiResources =

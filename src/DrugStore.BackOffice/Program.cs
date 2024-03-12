@@ -65,7 +65,7 @@ builder.Services.AddAuthentication(options =>
         options.RequireHttpsMetadata = false;
         options.GetClaimsFromUserInfoEndpoint = true;
 
-        options.ClientId = "backoffice";
+        options.ClientId = builder.Configuration["IdentityServer:ClientId"];
         options.ClientSecret = "secret";
         options.ResponseType = OpenIdConnectResponseType.Code;
 
@@ -73,6 +73,7 @@ builder.Services.AddAuthentication(options =>
 
         options.Scope.Add("openid");
         options.Scope.Add("profile");
+        options.Scope.Add("offline_access");
         options.Scope.Add(ClaimHelper.Read);
         options.Scope.Add(ClaimHelper.Write);
         options.Scope.Add(ClaimHelper.Manage);

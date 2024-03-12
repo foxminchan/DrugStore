@@ -12,7 +12,12 @@
 
 @if (_errors.Any())
 {
-    <ErrorStack ErrorMessages="_errors"></ErrorStack>
+    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
+        @foreach (var error in _errors)
+        {
+            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
+        }
+    </RadzenAlert>
 }
 
 <RadzenTemplateForm TItem="CategoryCreateRequest" Data="_category" Submit="OnSubmit">
@@ -40,9 +45,9 @@
                                    Validator="() => ValidateCategoryDescription(_category.Description)"/>
         </RadzenStack>
     </RadzenFieldset>
-    <RadzenStack Style="margin-top:1rem;" 
-                 Orientation="Orientation.Horizontal" 
-                 AlignItems="AlignItems.Center" 
+    <RadzenStack Style="margin-top:1rem;"
+                 Orientation="Orientation.Horizontal"
+                 AlignItems="AlignItems.Center"
                  JustifyContent="JustifyContent.Center"
                  Gap="0.5rem">
         <RadzenButton ButtonStyle="ButtonStyle.Primary"

@@ -47,13 +47,14 @@ public static class Config
             RequirePkce = true,
             RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["StorefrontClient"] ?? throw new InvalidOperationException() },
-            RedirectUris = { $"{configuration["StorefrontClient"]}/authentication/login-callback" },
-            PostLogoutRedirectUris = { $"{configuration["StorefrontClient"]}/authentication/logout-callback" },
+            AllowedCorsOrigins = { configuration["ClientUrl:Storefront"] ?? throw new InvalidOperationException() },
+            RedirectUris = { $"{configuration["ClientUrl:Storefront"]}/authentication/login-callback" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Storefront"]}/authentication/logout-callback" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write
             }
@@ -67,13 +68,14 @@ public static class Config
             RequirePkce = true,
             RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["BackofficeClient"] ?? throw new InvalidOperationException() },
-            RedirectUris = { $"{configuration["BackofficeClient"]}/authentication/login-callback" },
-            PostLogoutRedirectUris = { $"{configuration["BackofficeClient"]}/authentication/logout-callback" },
+            AllowedCorsOrigins = { configuration["ClientUrl:Backoffice"] ?? throw new InvalidOperationException() },
+            RedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/authentication/login-callback" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/authentication/logout-callback" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
+                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write,
                 ClaimHelper.Manage
@@ -87,10 +89,13 @@ public static class Config
             AllowedGrantTypes = GrantTypes.Implicit,
             AllowAccessTokensViaBrowser = true,
             RequirePkce = true,
-            RedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/oauth2-redirect.html" },
-            PostLogoutRedirectUris = { $"{configuration["ApiSwaggerUI"]}/swagger/" },
+            AllowedCorsOrigins = { configuration["ClientUrl:Swagger"] ?? throw new InvalidOperationException() },
+            RedirectUris = { $"{configuration["ClientUrl:Swagger"]}/swagger/oauth2-redirect.html" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Swagger"]}/swagger/" },
             AllowedScopes =
             {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
                 ClaimHelper.Read,
                 ClaimHelper.Write,
                 ClaimHelper.Manage

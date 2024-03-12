@@ -23,12 +23,14 @@ public sealed class LocalStorage : ILocalStorage
         return newFileName;
     }
 
-    public async Task RemoveFileAsync(string path, CancellationToken cancellationToken = default) =>
+    public async Task RemoveFileAsync(string id, CancellationToken cancellationToken = default) =>
         await _retryPolicy.ExecuteAsync(async () =>
         {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Pics", id);
             await Task.Run(() =>
             {
-                if (File.Exists(path)) File.Delete(path);
+                if (File.Exists(filePath))
+                    File.Delete(filePath);
             }, cancellationToken);
         });
 }
