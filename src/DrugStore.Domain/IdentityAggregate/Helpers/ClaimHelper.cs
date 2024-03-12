@@ -2,7 +2,7 @@
 
 public static class ClaimHelper
 {
-    public const string Read = nameof(Read);
-    public const string Write = nameof(Write);
-    public const string Manage = nameof(Manage);
+    public const string Read = nameof(Read.ToLowerInvariant);
+    public const string Write = nameof(Write.ToLowerInvariant);
+    public const string Manage = nameof(Manage.ToLowerInvariant);
 }

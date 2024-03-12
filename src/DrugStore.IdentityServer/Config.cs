@@ -47,14 +47,13 @@ public static class Config
             RequirePkce = true,
             RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["StorefrontClient"] },
+            AllowedCorsOrigins = { configuration["StorefrontClient"] ?? throw new InvalidOperationException() },
             RedirectUris = { $"{configuration["StorefrontClient"]}/authentication/login-callback" },
             PostLogoutRedirectUris = { $"{configuration["StorefrontClient"]}/authentication/logout-callback" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write
             }
@@ -68,14 +67,13 @@ public static class Config
             RequirePkce = true,
             RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["BackofficeClient"] },
+            AllowedCorsOrigins = { configuration["BackofficeClient"] ?? throw new InvalidOperationException() },
             RedirectUris = { $"{configuration["BackofficeClient"]}/authentication/login-callback" },
             PostLogoutRedirectUris = { $"{configuration["BackofficeClient"]}/authentication/logout-callback" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                IdentityServerConstants.StandardScopes.OfflineAccess,
                 ClaimHelper.Read,
                 ClaimHelper.Write,
                 ClaimHelper.Manage

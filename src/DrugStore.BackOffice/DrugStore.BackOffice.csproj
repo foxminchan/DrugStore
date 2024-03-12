@@ -11,6 +11,7 @@
 	<ItemGroup>
 		<PackageReference Include="Radzen.Blazor" />
 		<PackageReference Include="Refit.HttpClientFactory" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
 	</ItemGroup>
 
 	<ItemGroup>

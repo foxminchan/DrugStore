@@ -7,8 +7,13 @@ using DrugStore.BackOffice.Components.Pages.Orders;
 using DrugStore.BackOffice.Components.Pages.Products;
 using DrugStore.BackOffice.Components.Pages.Users;
 using DrugStore.BackOffice.Services;
+using DrugStore.Domain.IdentityAggregate.Helpers;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Radzen;
 using Refit;
 
@@ -48,11 +53,45 @@ builder.Services.AddRefitClient<IOrdersApi>()
 builder.Services.AddRefitClient<IUsersApi>()
     .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute));
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+    })
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+    {
+        options.Authority = builder.Configuration["IdentityServer:Authority"];
+        options.RequireHttpsMetadata = false;
+        options.GetClaimsFromUserInfoEndpoint = true;
+
+        options.ClientId = "backoffice";
+        options.ClientSecret = "secret";
+        options.ResponseType = OpenIdConnectResponseType.Code;
+
+        options.SaveTokens = true;
+
+        options.Scope.Add("openid");
+        options.Scope.Add("profile");
+        options.Scope.Add(ClaimHelper.Read);
+        options.Scope.Add(ClaimHelper.Write);
+        options.Scope.Add(ClaimHelper.Manage);
+
+        options.TokenValidationParameters = new()
+        {
+            NameClaimType = "name",
+            RoleClaimType = "role"
+        };
+    });
+
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error", true);
     app.UseHsts();
 }
 
@@ -60,6 +99,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

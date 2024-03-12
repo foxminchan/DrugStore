@@ -79,8 +79,8 @@
                         <Template Context="product">
                             @if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
                             {
-                                <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image?.ImageUrl))" 
-                                             class="rz-gravatar" 
+                                <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image?.ImageUrl))"
+                                             class="rz-gravatar"
                                              AlternateText="@product.Image?.Alt"/>
                             }
                             else

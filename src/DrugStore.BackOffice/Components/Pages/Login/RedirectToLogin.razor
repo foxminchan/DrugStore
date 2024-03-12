@@ -1,0 +1,23 @@
+﻿@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter] public bool IsAuthenticated { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        if (!IsAuthenticated)
+        {
+            var redirectUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            NavigationManager.NavigateTo(!string.IsNullOrEmpty(redirectUrl)
+                ? $"login?redirectUrl={Uri.EscapeDataString(redirectUrl)}"
+                : "login", true);
+        }
+        else
+        {
+            NavigationManager.NavigateTo("Unauthorized");
+        }
+
+        return Task.CompletedTask;
+    }
+
+}
