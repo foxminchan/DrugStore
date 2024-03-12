@@ -85,8 +85,8 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
+builder.Services.AddAuthorization();
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
 
 var app = builder.Build();
 
@@ -94,6 +94,10 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", true);
     app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
