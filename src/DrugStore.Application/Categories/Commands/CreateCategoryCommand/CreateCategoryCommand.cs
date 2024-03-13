@@ -4,7 +4,5 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 
-public sealed record CategoryCreateRequest(string Name, string? Description);
-
-public sealed record CreateCategoryCommand(Guid RequestId, CategoryCreateRequest CategoryRequest)
+public sealed record CreateCategoryCommand(Guid RequestId, string Name, string? Description)
     : IdempotencyCommand<Result<CategoryId>>(RequestId);

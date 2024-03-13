@@ -11,13 +11,13 @@ public sealed class CreateOrderCommandHandler(Repository<Order> repository)
 {
     public async Task<Result<OrderId>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        Order order = new(request.Request.Code, request.Request.CustomerId);
+        Order order = new(request.Code, request.CustomerId);
         var result = await repository.AddAsync(order, cancellationToken);
-        request.Request.Items.ForEach(
+        request.Items.ForEach(
             item => order.OrderItems.Add(new(item.Price, item.Quantity, item.Id, result.Id))
         );
         await repository.UpdateAsync(order, cancellationToken);
-        order.AddOrder($"user:{request.Request.CustomerId}:cart");
+        order.AddOrder($"user:{request.CustomerId}:cart");
         return Result<OrderId>.Success(order.Id);
     }
 }

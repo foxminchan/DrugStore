@@ -10,11 +10,11 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
         RuleFor(x => x.RequestId)
             .NotEmpty();
 
-        RuleFor(x => x.CategoryRequest.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
-        RuleFor(x => x.CategoryRequest.Description)
+        RuleFor(x => x.Description)
             .MaximumLength(DatabaseLengthHelper.LongLength);
     }
 }

@@ -5,7 +5,5 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 
-public sealed record BasketCreateRequest(IdentityId CustomerId, BasketItem Item);
-
-public sealed record CreateBasketCommand(Guid RequestId, BasketCreateRequest BasketRequest)
+public sealed record CreateBasketCommand(Guid RequestId, IdentityId CustomerId, BasketItem Item)
     : IdempotencyCommand<Result<IdentityId>>(RequestId);

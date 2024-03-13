@@ -2,6 +2,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MediatR" />
+		<PackageReference Include="StronglyTypedId" />
 		<PackageReference Include="SonarAnalyzer.CSharp" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 	</ItemGroup>
@@ -13,7 +14,7 @@
 		<PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
 		<PackageReference Include="Ardalis.SmartEnum" />
 		<PackageReference Include="Ardalis.SmartEnum.EFCore" />
-		<PackageReference Include="StronglyTypedId" />
+		<PackageReference Include="Ardalis.ListStartupServices" />
 	</ItemGroup>
 
 </Project>

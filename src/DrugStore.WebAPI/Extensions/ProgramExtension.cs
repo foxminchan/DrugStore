@@ -1,10 +1,12 @@
-﻿using System.Security.Claims;
+﻿using System.Net.Mime;
+using System.Security.Claims;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Helpers;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -86,9 +88,9 @@ public static class ProgramExtension
     {
         var serviceDescriptors = AssemblyReference.Program
             .DefinedTypes
-            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(IEndpoint)))
-            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .Where(type => type.GetInterfaces().Contains(typeof(IEndpoint)))
+            .Where(type => !type.IsInterface)
+            .Select(type => ServiceDescriptor.Scoped(typeof(IEndpoint), type))
             .ToArray();
 
         builder.Services.TryAddEnumerable(serviceDescriptors);
@@ -96,12 +98,46 @@ public static class ProgramExtension
         return builder.Services;
     }
 
-    public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null)
+    public static IApplicationBuilder MapEndpoints(this WebApplication app)
     {
-        var endpoints = app.Services.GetRequiredService<IEnumerable<IEndpoint>>();
-        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
+        var scope = app.Services.CreateScope();
+
+        var endpoints = scope.ServiceProvider.GetRequiredService<IEnumerable<IEndpoint>>();
+
+        var apiVersionSet = app
+            .NewApiVersionSet()
+            .HasApiVersion(new(1, 0))
+            .HasApiVersion(new(2, 0))
+            .ReportApiVersions()
+            .Build();
+
+        IEndpointRouteBuilder builder = app
+            .MapGroup("/api/v{apiVersion:apiVersion}")
+            .WithApiVersionSet(apiVersionSet);
 
         foreach (var endpoint in endpoints) endpoint.MapEndpoint(builder);
+
+        return app;
+    }
+
+    public static IApplicationBuilder MapSpecialEndpoints(this WebApplication app)
+    {
+        app.MapGet("antiforgery/token", (IAntiforgery forgeryService, HttpContext context) =>
+        {
+            var tokens = forgeryService.GetAndStoreTokens(context);
+            var xsrfToken = tokens.RequestToken;
+            return TypedResults.Content(xsrfToken, MediaTypeNames.Text.Plain);
+        }).ExcludeFromDescription();
+
+        app.Map("/", () => Results.Redirect("/swagger"));
+
+        app.Map("/error",
+            () => Results.Problem(
+                "An unexpected error occurred.",
+                statusCode: StatusCodes.Status500InternalServerError
+            )).ExcludeFromDescription();
+
+        app.MapPrometheusScrapingEndpoint();
 
         return app;
     }

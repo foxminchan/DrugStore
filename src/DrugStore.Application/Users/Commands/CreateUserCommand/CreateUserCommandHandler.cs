@@ -13,22 +13,24 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
 {
     public async Task<Result<IdentityId>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if (userManager.Users.Any(u => u.UserName == request.UserRequest.Email))
+        if (userManager.Users.Any(u => string.Equals(
+                u.Email, request.Email, StringComparison.OrdinalIgnoreCase
+            )))
             return Result.Invalid(new ValidationError(
-                nameof(request.UserRequest.Email),
+                nameof(request.Email),
                 "Email already exists",
                 StatusCodes.Status400BadRequest.ToString(),
                 ValidationSeverity.Error
             ));
 
         ApplicationUser user = new(
-            request.UserRequest.Email,
-            request.UserRequest.FullName,
-            request.UserRequest.Phone,
-            request.UserRequest.Address
+            request.Email,
+            request.FullName,
+            request.Phone,
+            request.Address
         );
 
-        var result = await userManager.CreateAsync(user, request.UserRequest.ConfirmPassword);
+        var result = await userManager.CreateAsync(user, request.ConfirmPassword);
 
         if (!result.Succeeded)
             return Result.Invalid(new List<ValidationError>(

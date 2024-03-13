@@ -12,12 +12,12 @@ public sealed class CreateProductCommandHandler(Repository<Product> repository)
     public async Task<Result<ProductId>> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
         Product product = new(
-            request.ProductRequest.Name,
-            request.ProductRequest.ProductCode,
-            request.ProductRequest.Detail,
-            request.ProductRequest.Quantity,
-            request.ProductRequest.CategoryId,
-            request.ProductRequest.ProductPrice
+            request.Name,
+            request.ProductCode,
+            request.Detail,
+            request.Quantity,
+            request.CategoryId,
+            request.ProductPrice
         );
 
         await repository.AddAsync(product, cancellationToken);

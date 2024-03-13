@@ -14,7 +14,8 @@ public sealed class OrdersFilterSpec : Specification<Order>
     {
         Query.Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Include(o => o.OrderItems.Select(i => i.Product));
+            .Include(o => o.OrderItems)
+            .Include(o => o.Customer);
 
         if (!string.IsNullOrWhiteSpace(code)) Query.Where(o => o.Code!.Contains(code));
 

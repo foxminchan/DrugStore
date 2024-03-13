@@ -32,6 +32,9 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
             new()
             {
                 Type = SecuritySchemeType.OAuth2,
+                Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] and then your token in the text input below.
+                      \r\n\r\nExample: 'Bearer abc12345def'",
                 Flows = new()
                 {
                     Implicit = new()

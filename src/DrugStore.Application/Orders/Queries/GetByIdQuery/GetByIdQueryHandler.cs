@@ -9,27 +9,33 @@ using DrugStore.Persistence;
 namespace DrugStore.Application.Orders.Queries.GetByIdQuery;
 
 public sealed class GetByIdQueryHandler(Repository<Order> repository)
-    : IQueryHandler<GetByIdQuery, Result<OrderVm>>
+    : IQueryHandler<GetByIdQuery, Result<OrderDetailVm>>
 {
-    public async Task<Result<OrderVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<OrderDetailVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
         var order = await repository.FirstOrDefaultAsync(new OrderByIdSpec(request.Id), cancellationToken);
         Guard.Against.NotFound(request.Id, order);
 
-        OrderVm orderVm = new(
-            order.Id,
-            order.Code,
-            order.CustomerId,
-            order.OrderItems.Select(
-                item => new OrderItemVm(
-                    item.ProductId,
-                    item.OrderId,
-                    item.Quantity,
-                    item.Price
+        OrderDetailVm orderVm = new(
+            new(
+                order.Id,
+                order.Code,
+                order.Customer,
+                order.OrderItems?.Sum(item => item.Quantity * item.Price) ?? 0
+            ),
+            [
+                ..order.OrderItems?.Select(
+                    item => new OrderItemVm(
+                        item.ProductId,
+                        item.OrderId,
+                        item.Quantity,
+                        item.Price,
+                        item.Price * item.Quantity
+                    )
                 )
-            ).ToList()
+            ]
         );
 
-        return Result<OrderVm>.Success(orderVm);
+        return Result<OrderDetailVm>.Success(orderVm);
     }
 }

@@ -6,15 +6,11 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 
-public sealed record ProductCreateRequest(
+public sealed record CreateProductCommand(
+    Guid RequestId,
     string Name,
     string? ProductCode,
     string? Detail,
     int Quantity,
     CategoryId? CategoryId,
-    ProductPrice ProductPrice
-);
-
-public sealed record CreateProductCommand(
-    Guid RequestId,
-    ProductCreateRequest ProductRequest) : IdempotencyCommand<Result<ProductId>>(RequestId);
+    ProductPrice ProductPrice) : IdempotencyCommand<Result<ProductId>>(RequestId);

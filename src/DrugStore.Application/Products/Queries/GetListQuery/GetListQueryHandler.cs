@@ -4,7 +4,6 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence;
-using Mapster;
 
 namespace DrugStore.Application.Products.Queries.GetListQuery;
 
@@ -15,7 +14,7 @@ public sealed class GetListQueryHandler(Repository<Product> repository)
         CancellationToken cancellationToken)
     {
         ProductsFilterSpec spec = new(
-            request.Filter.PageNumber,
+            request.Filter.PageIndex,
             request.Filter.PageSize,
             request.Filter.IsAscending,
             request.Filter.OrderBy,
@@ -25,14 +24,27 @@ public sealed class GetListQueryHandler(Repository<Product> repository)
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
+
         PagedInfo pageInfo = new(
-            request.Filter.PageNumber,
+            request.Filter.PageIndex,
             request.Filter.PageSize,
             totalPages,
             totalRecords
         );
-        return new(
-            pageInfo, entities.Select(e => e.Adapt<ProductVm>() with { Category = e.Category?.Name }).ToList()
-        );
+
+        return new(pageInfo, [
+            .. entities
+                .Select(x => new ProductVm(
+                    x.Id,
+                    x.Name,
+                    x.ProductCode,
+                    x.Detail,
+                    x.Status,
+                    x.Quantity,
+                    x.Category,
+                    x.Price,
+                    x.Image
+                ))
+        ]);
     }
 }

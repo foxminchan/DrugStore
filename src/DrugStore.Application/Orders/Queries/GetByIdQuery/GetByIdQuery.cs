@@ -5,4 +5,4 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Orders.Queries.GetByIdQuery;
 
-public sealed record GetByIdQuery(OrderId Id) : IQuery<Result<OrderVm>>;
+public sealed record GetByIdQuery(OrderId Id) : IQuery<Result<OrderDetailVm>>;

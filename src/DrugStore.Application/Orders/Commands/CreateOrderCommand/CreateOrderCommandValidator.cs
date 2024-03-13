@@ -11,14 +11,14 @@ public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderC
         UserByIdValidator userByIdValidator,
         IValidator<OrderItemCreateRequest> orderItemValidator)
     {
-        RuleFor(x => x.Request.Code)
+        RuleFor(x => x.Code)
             .MaximumLength(DatabaseLengthHelper.SmallLength);
 
-        RuleFor(x => x.Request.Items)
+        RuleFor(x => x.Items)
             .NotEmpty()
             .ForEach(x => x.SetValidator(orderItemValidator));
 
-        RuleFor(x => x.Request.CustomerId)
+        RuleFor(x => x.CustomerId)
             .NotEmpty()
             .SetValidator(userByIdValidator);
     }

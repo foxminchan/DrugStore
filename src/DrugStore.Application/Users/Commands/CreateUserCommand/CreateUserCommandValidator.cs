@@ -8,31 +8,31 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 {
     public CreateUserCommandValidator()
     {
-        RuleFor(x => x.UserRequest.Email)
+        RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
             .MaximumLength(DatabaseLengthHelper.ShortLength);
 
-        RuleFor(x => x.UserRequest.Password)
+        RuleFor(x => x.Password)
             .NotEmpty()
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")
             .WithMessage(
                 "Password must be between 8 and 15 characters and contain at least one uppercase letter, one lowercase letter, and one number");
 
-        RuleFor(x => x.UserRequest.ConfirmPassword)
-            .Equal(x => x.UserRequest.Password)
+        RuleFor(x => x.ConfirmPassword)
+            .Equal(x => x.Password)
             .WithMessage("Password and Confirm Password must be the same.");
 
-        RuleFor(x => x.UserRequest.FullName)
+        RuleFor(x => x.FullName)
             .NotEmpty()
             .MaximumLength(DatabaseLengthHelper.ShortLength);
 
-        RuleFor(x => x.UserRequest.Phone)
+        RuleFor(x => x.Phone)
             .NotEmpty()
             .Matches(@"^\d{10}$")
             .WithMessage("Phone number must be 10 digits");
 
-        RuleFor(x => x.UserRequest.Address)
+        RuleFor(x => x.Address)
             .SetValidator(new AddressValidator()!);
     }
 }

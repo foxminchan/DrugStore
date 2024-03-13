@@ -9,5 +9,6 @@ public sealed class OrdersByUserIdSpec : Specification<Order>
         => Query.Where(p => p.CustomerId == userId)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Include(o => o.OrderItems);
+            .Include(o => o.OrderItems)
+            .Include(u => u.Customer);
 }

@@ -5,13 +5,11 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
 
-public sealed record UserCreateRequest(
+public sealed record CreateUserCommand(
+    Guid RequestId,
     string Email,
     string Password,
     string ConfirmPassword,
     string? FullName,
     string? Phone,
-    Address? Address);
-
-public sealed record CreateUserCommand(Guid RequestId, UserCreateRequest UserRequest)
-    : IdempotencyCommand<Result<IdentityId>>(RequestId);
+    Address? Address) : IdempotencyCommand<Result<IdentityId>>(RequestId);

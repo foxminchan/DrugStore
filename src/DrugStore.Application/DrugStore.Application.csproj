@@ -4,4 +4,8 @@
         <ProjectReference Include="..\DrugStore.Persistence\DrugStore.Persistence.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Baskets\ViewModels\" />
+    </ItemGroup>
+
 </Project>

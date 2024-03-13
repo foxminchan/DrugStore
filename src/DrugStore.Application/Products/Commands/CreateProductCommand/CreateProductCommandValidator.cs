@@ -11,23 +11,23 @@ public sealed class CreateProductCommandValidator : AbstractValidator<CreateProd
         CategoryIdValidator categoryIdValidator,
         ProductPriceValidator productPriceValidator)
     {
-        RuleFor(x => x.ProductRequest.Name)
+        RuleFor(x => x.Name)
             .NotEmpty()
             .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
-        RuleFor(x => x.ProductRequest.ProductCode)
+        RuleFor(x => x.ProductCode)
             .MaximumLength(DatabaseLengthHelper.SmallLength);
 
-        RuleFor(x => x.ProductRequest.Detail)
+        RuleFor(x => x.Detail)
             .MaximumLength(DatabaseLengthHelper.MaxLength);
 
-        RuleFor(x => x.ProductRequest.Quantity)
+        RuleFor(x => x.Quantity)
             .GreaterThanOrEqualTo(0);
 
-        RuleFor(x => x.ProductRequest.ProductPrice)
+        RuleFor(x => x.ProductPrice)
             .SetValidator(productPriceValidator);
 
-        RuleFor(x => x.ProductRequest.CategoryId)
+        RuleFor(x => x.CategoryId)
             .SetValidator(categoryIdValidator);
     }
 }

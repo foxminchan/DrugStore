@@ -26,7 +26,7 @@ public sealed class Order : EntityBase, IAggregateRoot
     public string? Code { get; set; }
     public IdentityId? CustomerId { get; set; }
     [JsonIgnore] public ApplicationUser? Customer { get; set; }
-    public ICollection<OrderItem> OrderItems { get; set; } = [];
+    public ICollection<OrderItem>? OrderItems { get; set; } = [];
 
     public void AddOrder(string key) => RegisterDomainEvent(new OrderCreatedEvent(key));
 

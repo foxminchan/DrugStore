@@ -6,13 +6,13 @@ namespace DrugStore.Domain.ProductAggregate.Specifications;
 public sealed class ProductsFilterSpec : Specification<Product>
 {
     public ProductsFilterSpec(
-        int pageNumber,
+        int pageIndex,
         int pageSize,
         bool isAscending,
         string? orderBy,
         string? productName)
     {
-        Query.Skip((pageNumber - 1) * pageSize)
+        Query.Skip((pageIndex - 1) * pageSize)
             .Take(pageSize)
             .Include(p => p.Category);
 

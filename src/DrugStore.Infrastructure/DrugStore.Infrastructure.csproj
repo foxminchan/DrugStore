@@ -14,18 +14,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Polly" />
+		<PackageReference Include="Scrutor" />
+		<PackageReference Include="DistributedLock.Redis" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Mapster" />
-		<PackageReference Include="Scrutor" />
-		<PackageReference Include="Polly" />
-		<PackageReference Include="DistributedLock" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 	</ItemGroup>

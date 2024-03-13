@@ -11,7 +11,7 @@ public sealed class CreateCategoryCommandHandler(Repository<Category> repository
 {
     public async Task<Result<CategoryId>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
     {
-        Category category = new(request.CategoryRequest.Name, request.CategoryRequest.Description);
+        Category category = new(request.Name, request.Description);
         await repository.AddAsync(category, cancellationToken);
         return Result<CategoryId>.Success(category.Id);
     }

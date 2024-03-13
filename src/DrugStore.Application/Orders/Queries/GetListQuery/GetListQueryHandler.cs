@@ -14,7 +14,7 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
         CancellationToken cancellationToken)
     {
         OrdersFilterSpec spec = new(
-            request.Filter.PageNumber,
+            request.Filter.PageIndex,
             request.Filter.PageSize,
             request.Filter.IsAscending,
             request.Filter.OrderBy,
@@ -25,28 +25,22 @@ public sealed class GetListQueryHandler(Repository<Order> repository)
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         PagedInfo pageInfo = new(
-            request.Filter.PageNumber,
+            request.Filter.PageIndex,
             request.Filter.PageSize,
             totalPages,
             totalRecords);
 
-        var orderVms = entities
-            .Select(
-                order => new OrderVm(
-                    order.Id,
-                    order.Code,
-                    order.CustomerId,
-                    order.OrderItems.Select(
-                        item => new OrderItemVm(
-                            item.ProductId,
-                            item.OrderId,
-                            item.Quantity,
-                            item.Price
-                        )
-                    ).ToList()
+        return new(pageInfo,
+        [
+            ..entities
+                .Select(
+                    order => new OrderVm(
+                        order.Id,
+                        order.Code,
+                        order.Customer,
+                        order.OrderItems?.Sum(item => item.Quantity * item.Price) ?? 0
+                    )
                 )
-            ).ToList();
-
-        return new(pageInfo, orderVms);
+        ]);
     }
 }

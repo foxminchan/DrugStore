@@ -14,21 +14,21 @@ public sealed class CreateBasketCommandHandler(
     public async Task<Result<IdentityId>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {
         BasketItem basketItem = new(
-            request.BasketRequest.Item.Id,
-            request.BasketRequest.Item.ProductName,
-            request.BasketRequest.Item.Quantity,
-            request.BasketRequest.Item.Price
+            request.Item.Id,
+            request.Item.ProductName,
+            request.Item.Quantity,
+            request.Item.Price
         );
 
-        var key = $"user:{request.BasketRequest.CustomerId}:cart";
+        var key = $"user:{request.CustomerId}:cart";
         var basket = redisService.Get<CustomerBasket>(key) ??
-                     new CustomerBasket { Id = request.BasketRequest.CustomerId };
+                     new CustomerBasket { Id = request.CustomerId };
 
         basket.Items.Add(basketItem);
 
         await using (await distributedLockProvider.TryAcquireLockAsync(key, cancellationToken: cancellationToken))
         {
-            redisService.HashGetOrSet(key, request.BasketRequest.CustomerId.ToString(), () => basket);
+            redisService.HashGetOrSet(key, request.CustomerId.ToString(), () => basket);
             basket.AddItem(basketItem);
         }
 

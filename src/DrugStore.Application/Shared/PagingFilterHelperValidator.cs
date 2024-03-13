@@ -7,7 +7,7 @@ public sealed class PagingFilterHelperValidator : AbstractValidator<PagingHelper
 {
     public PagingFilterHelperValidator()
     {
-        RuleFor(p => p.PageNumber)
+        RuleFor(p => p.PageIndex)
             .GreaterThan(0);
 
         RuleFor(p => p.PageSize)

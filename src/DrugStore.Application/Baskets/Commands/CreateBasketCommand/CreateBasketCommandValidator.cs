@@ -10,19 +10,19 @@ public sealed class CreateBasketCommandValidator : AbstractValidator<CreateBaske
         RuleFor(x => x.RequestId)
             .NotEmpty();
 
-        RuleFor(x => x.BasketRequest.CustomerId)
+        RuleFor(x => x.CustomerId)
             .NotEmpty();
 
-        RuleFor(x => x.BasketRequest.Item.Id)
+        RuleFor(x => x.Item.Id)
             .NotEmpty();
 
-        RuleFor(x => x.BasketRequest.Item.ProductName)
+        RuleFor(x => x.Item.ProductName)
             .MaximumLength(DatabaseLengthHelper.DefaultLength);
 
-        RuleFor(x => x.BasketRequest.Item.Quantity)
+        RuleFor(x => x.Item.Quantity)
             .GreaterThan(0);
 
-        RuleFor(x => x.BasketRequest.Item.Price)
+        RuleFor(x => x.Item.Price)
             .GreaterThanOrEqualTo(0);
     }
 }

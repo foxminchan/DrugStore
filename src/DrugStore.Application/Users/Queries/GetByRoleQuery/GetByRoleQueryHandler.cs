@@ -23,7 +23,7 @@ public sealed class GetByRoleQueryHandler(UserManager<ApplicationUser> userManag
             query = [.. query.OrderByDescending(x => x.Id)];
 
         var customers = query
-            .Skip((request.Filter.PageNumber - 1) * request.Filter.PageSize)
+            .Skip((request.Filter.PageIndex - 1) * request.Filter.PageSize)
             .Take(request.Filter.PageSize)
             .Select(x => new UserVm(x.Id, x.Email, x.FullName, x.PhoneNumber, x.Address))
             .ToList();
@@ -39,7 +39,7 @@ public sealed class GetByRoleQueryHandler(UserManager<ApplicationUser> userManag
         var totalRecords = await userManager.Users.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
         PagedInfo pagedInfo = new(
-            request.Filter.PageNumber,
+            request.Filter.PageIndex,
             request.Filter.PageSize,
             totalPages,
             totalRecords
