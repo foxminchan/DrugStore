@@ -1,6 +1,6 @@
-﻿namespace DrugStore.BackOffice.Helpers;
+﻿namespace DrugStore.BackOffice.Constants;
 
-public static class DataLengthHelper
+public static class DataTypeLength
 {
     public const int MaxFileSize = 2097152;
     public const int TinyLength = 10;

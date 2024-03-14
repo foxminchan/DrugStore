@@ -1,6 +1,6 @@
-﻿namespace DrugStore.Persistence.Helpers;
+﻿namespace DrugStore.Persistence.Constants;
 
-public static class DatabaseLengthHelper
+public static class DatabaseSchemaLength
 {
     public const int TinyLength = 10;
     public const int SmallLength = 16;

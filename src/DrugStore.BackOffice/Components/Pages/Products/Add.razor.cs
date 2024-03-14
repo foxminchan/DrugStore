@@ -2,6 +2,7 @@
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Components.Pages.Products.Requests;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
+using DrugStore.BackOffice.Constants;
 using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -83,19 +84,19 @@ public sealed partial class Add
     }
 
     private static bool ValidateProductName(string? name)
-        => !string.IsNullOrEmpty(name) && name.Length <= DataLengthHelper.DefaultLength;
+        => !string.IsNullOrEmpty(name) && name.Length <= DataTypeLength.DefaultLength;
 
     private static bool ValidateProductCode(string? code)
     {
         if (string.IsNullOrEmpty(code)) return true;
 
-        return code.Length <= DataLengthHelper.SmallLength;
+        return code.Length <= DataTypeLength.SmallLength;
     }
 
     private static bool ValidateProductDetail(string? detail)
     {
         if (string.IsNullOrEmpty(detail)) return true;
-        return detail.Length <= DataLengthHelper.MaxLength;
+        return detail.Length <= DataTypeLength.MaxLength;
     }
 
     private static bool ValidateProductQuantity(int productQuantity) => productQuantity >= 0;
@@ -110,9 +111,9 @@ public sealed partial class Add
     private static bool ValidateProductImage(IFormFile? image)
     {
         if (image is null) return true;
-        return image.ContentType.Contains("image") && image.Length <= DataLengthHelper.MaxFileSize;
+        return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MaxFileSize;
     }
 
     private bool ValidateProductImageAlt(string? alt)
-        => _product.Image.File is null || (!string.IsNullOrEmpty(alt) && alt.Length <= DataLengthHelper.DefaultLength);
+        => _product.Image.File is null || (!string.IsNullOrEmpty(alt) && alt.Length <= DataTypeLength.DefaultLength);
 }

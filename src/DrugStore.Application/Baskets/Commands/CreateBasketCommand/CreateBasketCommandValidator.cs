@@ -1,4 +1,4 @@
-﻿using DrugStore.Persistence.Helpers;
+﻿using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Baskets.Commands.CreateBasketCommand;
@@ -17,7 +17,7 @@ public sealed class CreateBasketCommandValidator : AbstractValidator<CreateBaske
             .NotEmpty();
 
         RuleFor(x => x.Item.ProductName)
-            .MaximumLength(DatabaseLengthHelper.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DefaultLength);
 
         RuleFor(x => x.Item.Quantity)
             .GreaterThan(0);

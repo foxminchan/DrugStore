@@ -1,5 +1,6 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
+using DrugStore.BackOffice.Constants;
 using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -54,12 +55,12 @@ public sealed partial class Add
     }
 
     private static bool ValidateCategoryName(string? name)
-        => !string.IsNullOrEmpty(name) && name.Length <= DataLengthHelper.ShortLength;
+        => !string.IsNullOrEmpty(name) && name.Length <= DataTypeLength.ShortLength;
 
     private static bool ValidateCategoryDescription(string? description)
     {
         if (string.IsNullOrEmpty(description)) return true;
-        return description.Length <= DataLengthHelper.LongLength;
+        return description.Length <= DataTypeLength.LongLength;
     }
 
     private async Task CancelButtonClick(MouseEventArgs arg)

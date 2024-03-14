@@ -1,5 +1,5 @@
 ﻿using DrugStore.Application.Users.Validators;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
@@ -11,7 +11,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
-            .MaximumLength(DatabaseLengthHelper.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.ShortLength);
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -25,7 +25,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 
         RuleFor(x => x.FullName)
             .NotEmpty()
-            .MaximumLength(DatabaseLengthHelper.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.ShortLength);
 
         RuleFor(x => x.Phone)
             .NotEmpty()

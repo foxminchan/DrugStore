@@ -1,4 +1,4 @@
-﻿using DrugStore.Persistence.Helpers;
+﻿using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
@@ -12,9 +12,9 @@ public sealed class UpdateCategoryCommandValidator : AbstractValidator<UpdateCat
 
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(DatabaseLengthHelper.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DefaultLength);
 
         RuleFor(x => x.Description)
-            .MaximumLength(DatabaseLengthHelper.LongLength);
+            .MaximumLength(DatabaseSchemaLength.LongLength);
     }
 }

@@ -4,7 +4,7 @@ using DrugStore.BackOffice.Components.Pages.Products.Services;
 using DrugStore.BackOffice.Components.Pages.Users.Customers.Services;
 using DrugStore.BackOffice.Components.Pages.Users.Staffs.Services;
 using DrugStore.BackOffice.Delegates;
-using DrugStore.Domain.IdentityAggregate.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -58,9 +58,9 @@ public static class HostingExtensions
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("offline_access");
-                options.Scope.Add(ClaimHelper.Read);
-                options.Scope.Add(ClaimHelper.Write);
-                options.Scope.Add(ClaimHelper.Manage);
+                options.Scope.Add(Claims.Read);
+                options.Scope.Add(Claims.Write);
+                options.Scope.Add(Claims.Manage);
 
                 options.TokenValidationParameters = new()
                 {

@@ -9,5 +9,6 @@ public sealed class ProductsByCategoryIdSpec : Specification<Product>
         => Query.Where(p => p.CategoryId == categoryId)
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
-            .Include(p => p.Category);
+            .Include(p => p.Category)
+            .EnableCache(nameof(ProductsByCategoryIdSpec), categoryId, pageNumber, pageSize);
 }

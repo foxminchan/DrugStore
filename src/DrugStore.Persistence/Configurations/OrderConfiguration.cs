@@ -1,5 +1,5 @@
 ﻿using DrugStore.Domain.OrderAggregate;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,11 +18,11 @@ public sealed class OrderConfiguration : BaseConfiguration<Order>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueHelper.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
             .ValueGeneratedOnAdd();
 
         builder.Property(o => o.Code)
-            .HasMaxLength(DatabaseLengthHelper.SmallLength);
+            .HasMaxLength(DatabaseSchemaLength.SmallLength);
 
         builder.HasOne(o => o.Customer)
             .WithMany(c => c.Orders)

@@ -1,5 +1,5 @@
 ﻿using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,14 +18,14 @@ public sealed class CategoryConfiguration : BaseConfiguration<Category>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueHelper.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Name)
-            .HasMaxLength(DatabaseLengthHelper.DefaultLength)
+            .HasMaxLength(DatabaseSchemaLength.DefaultLength)
             .IsRequired();
 
         builder.Property(c => c.Description)
-            .HasMaxLength(DatabaseLengthHelper.LongLength);
+            .HasMaxLength(DatabaseSchemaLength.LongLength);
     }
 }

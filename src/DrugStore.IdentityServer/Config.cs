@@ -1,4 +1,4 @@
-﻿using DrugStore.Domain.IdentityAggregate.Helpers;
+﻿using DrugStore.Domain.IdentityAggregate.Constants;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
@@ -14,9 +14,9 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes =>
     [
-        new(ClaimHelper.Read, "Read Access to API"),
-        new(ClaimHelper.Write, "Write Access to API"),
-        new(ClaimHelper.Manage, "Manage Access to API")
+        new(Claims.Read, "Read Access to API"),
+        new(Claims.Write, "Write Access to API"),
+        new(Claims.Manage, "Manage Access to API")
     ];
 
     public static IEnumerable<ApiResource> ApiResources =>
@@ -25,7 +25,7 @@ public static class Config
         {
             Name = "drugstore",
             DisplayName = "DrugStore API",
-            Scopes = { ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage }
+            Scopes = { Claims.Read, Claims.Write, Claims.Manage }
         }
     ];
 
@@ -36,7 +36,7 @@ public static class Config
             ClientName = "Resource Owner Client",
             AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedScopes = { ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage }
+            AllowedScopes = { Claims.Read, Claims.Write, Claims.Manage }
         },
         new()
         {
@@ -55,8 +55,8 @@ public static class Config
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
                 IdentityServerConstants.StandardScopes.OfflineAccess,
-                ClaimHelper.Read,
-                ClaimHelper.Write
+                Claims.Read,
+                Claims.Write
             }
         },
         new()
@@ -76,9 +76,9 @@ public static class Config
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
                 IdentityServerConstants.StandardScopes.OfflineAccess,
-                ClaimHelper.Read,
-                ClaimHelper.Write,
-                ClaimHelper.Manage
+                Claims.Read,
+                Claims.Write,
+                Claims.Manage
             }
         },
         new()
@@ -96,9 +96,9 @@ public static class Config
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                ClaimHelper.Read,
-                ClaimHelper.Write,
-                ClaimHelper.Manage
+                Claims.Read,
+                Claims.Write,
+                Claims.Manage
             }
         }
     ];

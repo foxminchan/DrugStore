@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -43,27 +43,27 @@ public sealed class ApplicationDbContextInitializer(
 
     private async Task TrySeedAsync()
     {
-        ApplicationRole admin = new(RoleHelper.Admin);
+        ApplicationRole admin = new(Roles.Admin);
 
         logger.LogInformation("Admin role: {Admin}", admin.Name);
 
-        if (!await roleManager.RoleExistsAsync(RoleHelper.Admin))
+        if (!await roleManager.RoleExistsAsync(Roles.Admin))
         {
             await roleManager.CreateAsync(admin);
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Manage));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Read));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, ClaimHelper.Write));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Manage));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Read));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));
         }
 
-        ApplicationRole customer = new(RoleHelper.Customer);
+        ApplicationRole customer = new(Roles.Customer);
 
         logger.LogInformation("Customer role: {Customer}", customer.Name);
 
-        if (!await roleManager.RoleExistsAsync(RoleHelper.Customer))
+        if (!await roleManager.RoleExistsAsync(Roles.Customer))
         {
             await roleManager.CreateAsync(customer);
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, ClaimHelper.Read));
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, ClaimHelper.Write));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Read));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Write));
         }
 
         const string password = "P@ssw0rd";

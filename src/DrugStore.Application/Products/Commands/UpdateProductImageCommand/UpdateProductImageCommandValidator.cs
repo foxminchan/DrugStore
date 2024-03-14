@@ -1,5 +1,5 @@
 ﻿using DrugStore.Application.Shared;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductImageCommand;
@@ -12,7 +12,7 @@ public sealed class UpdateProductImageCommandValidator : AbstractValidator<Updat
 
         RuleFor(x => x.Alt)
             .NotEmpty()
-            .MaximumLength(DatabaseLengthHelper.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DefaultLength);
 
         RuleFor(x => x.Image)
             .SetValidator(fileValidator);

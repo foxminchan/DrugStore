@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -14,7 +14,7 @@ public sealed class GetByRoleQueryHandler(UserManager<ApplicationUser> userManag
     public async Task<PagedResult<List<UserVm>>> Handle(GetByRoleQuery request, CancellationToken cancellationToken)
     {
         var query = await userManager.GetUsersInRoleAsync(
-            request.IsStaff ? RoleHelper.Admin : RoleHelper.Customer
+            request.IsStaff ? Roles.Admin : Roles.Customer
         );
 
         query = [.. query.OrderBy(x => x.Id)];

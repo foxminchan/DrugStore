@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Products.Validators;
 using DrugStore.Application.Users.Validators;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Orders.Commands.CreateOrderCommand;
@@ -12,7 +12,7 @@ public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderC
         IValidator<OrderItemCreateRequest> orderItemValidator)
     {
         RuleFor(x => x.Code)
-            .MaximumLength(DatabaseLengthHelper.SmallLength);
+            .MaximumLength(DatabaseSchemaLength.SmallLength);
 
         RuleFor(x => x.Items)
             .NotEmpty()

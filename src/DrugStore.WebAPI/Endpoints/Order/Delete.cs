@@ -10,7 +10,7 @@ public sealed class Delete(ISender sender) : IEndpoint<Unit, DeleteOrderRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapDelete("orders/{id}", async (OrderId id) => await HandleAsync(new(id)))
-            .WithTags(nameof(User))
+            .WithTags(nameof(Order))
             .WithName("Delete Order")
             .Produces<Unit>()
             .MapToApiVersion(new(1, 0))

@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Users.Validators;
-using DrugStore.Domain.IdentityAggregate.Helpers;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Commands.UpdateUserCommand;
@@ -15,7 +15,7 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
-            .MaximumLength(DatabaseLengthHelper.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.ShortLength);
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -29,7 +29,7 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
 
         RuleFor(x => x.FullName)
             .NotEmpty()
-            .MaximumLength(DatabaseLengthHelper.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.ShortLength);
 
         RuleFor(x => x.Phone)
             .NotEmpty()
@@ -37,7 +37,7 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
             .WithMessage("Phone number must be 10 digits");
 
         RuleFor(x => x.Role)
-            .Must(x => x is RoleHelper.Admin or RoleHelper.Customer)
+            .Must(x => x is Roles.Admin or Roles.Customer)
             .WithMessage("Role must be one of Admin or Customer");
 
         RuleFor(x => x.Address)

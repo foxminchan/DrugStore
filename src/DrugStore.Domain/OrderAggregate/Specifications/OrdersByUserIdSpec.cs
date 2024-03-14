@@ -10,5 +10,6 @@ public sealed class OrdersByUserIdSpec : Specification<Order>
             .Skip((pageNumber - 1) * pageSize)
             .Take(pageSize)
             .Include(o => o.OrderItems)
-            .Include(u => u.Customer);
+            .Include(u => u.Customer)
+            .EnableCache(nameof(OrdersByUserIdSpec), userId, pageNumber, pageSize);
 }

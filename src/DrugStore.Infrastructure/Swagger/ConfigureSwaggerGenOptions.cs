@@ -1,5 +1,5 @@
 ﻿using Asp.Versioning.ApiExplorer;
-using DrugStore.Domain.IdentityAggregate.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,9 +42,9 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         TokenUrl = new($"{identityUrlExternal}/connect/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            { ClaimHelper.Read, "Read Access to API" },
-                            { ClaimHelper.Write, "Write Access to API" },
-                            { ClaimHelper.Manage, "Manage Access to API" },
+                            { Claims.Read, "Read Access to API" },
+                            { Claims.Write, "Write Access to API" },
+                            { Claims.Manage, "Manage Access to API" },
                         }
                     }
                 }
@@ -61,7 +61,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         Type = ReferenceType.SecurityScheme
                     }
                 },
-                new List<string>([ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage])
+                new List<string>([Claims.Read, Claims.Write, Claims.Manage])
             }
         });
 

@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Helpers;
+using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
@@ -29,14 +29,14 @@ public static class HostingExtensions
             });
 
         builder.Services.AddAuthorizationBuilder()
-            .AddPolicy(PolicieHelper.Admin,
+            .AddPolicy(Policies.Admin,
                 policy => policy
-                    .RequireRole(RoleHelper.Admin)
-                    .RequireClaim(ClaimTypes.Role, ClaimHelper.Read, ClaimHelper.Write, ClaimHelper.Manage))
-            .AddPolicy(PolicieHelper.Customer,
+                    .RequireRole(Roles.Admin)
+                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write, Claims.Manage))
+            .AddPolicy(Policies.Customer,
                 policy => policy
-                    .RequireRole(RoleHelper.Customer)
-                    .RequireClaim(ClaimTypes.Role, ClaimHelper.Read, ClaimHelper.Write));
+                    .RequireRole(Roles.Customer)
+                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write));
 
         builder.Services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()

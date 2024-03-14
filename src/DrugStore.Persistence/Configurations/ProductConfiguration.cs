@@ -1,5 +1,5 @@
 ﻿using DrugStore.Domain.ProductAggregate;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,11 +18,11 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueHelper.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
             .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Name)
-            .HasMaxLength(DatabaseLengthHelper.DefaultLength)
+            .HasMaxLength(DatabaseSchemaLength.DefaultLength)
             .IsRequired();
 
         builder.OwnsOne(
@@ -40,11 +40,11 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             .IsRequired();
 
         builder.Property(p => p.ProductCode)
-            .HasMaxLength(DatabaseLengthHelper.SmallLength)
+            .HasMaxLength(DatabaseSchemaLength.SmallLength)
             .IsRequired();
 
         builder.Property(p => p.Detail)
-            .HasMaxLength(DatabaseLengthHelper.MaxLength)
+            .HasMaxLength(DatabaseSchemaLength.MaxLength)
             .IsRequired();
 
         builder.HasOne(p => p.Category)

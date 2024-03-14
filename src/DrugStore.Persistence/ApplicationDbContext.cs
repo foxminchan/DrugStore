@@ -6,7 +6,7 @@ using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence.Helpers;
+using DrugStore.Persistence.Constants;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -52,12 +52,12 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                         id => id.Value,
                         value => new(value)
                     ))
-                    .HasDefaultValueSql(UniqueHelper.UuidAlgorithm);
+                    .HasDefaultValueSql(UniqueId.UuidAlgorithm);
         }
 
         base.OnModelCreating(builder);
         builder.ConfigureSmartEnum();
-        builder.HasPostgresExtension(UniqueHelper.UuidExtension);
+        builder.HasPostgresExtension(UniqueId.UuidExtension);
         builder.ApplyConfigurationsFromAssembly(AssemblyReference.DomainAssembly);
     }
 }
