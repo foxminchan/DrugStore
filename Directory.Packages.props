@@ -51,7 +51,7 @@
     <PackageVersion Include="StronglyTypedId" Version="1.0.0-beta07" />
     <PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.3" />
-    <PackageVersion Include="Radzen.Blazor" Version="4.26.1" />
+    <PackageVersion Include="Radzen.Blazor" Version="4.27.0" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />

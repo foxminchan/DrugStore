@@ -1,9 +1,12 @@
-﻿using Ardalis.Result;
-using DrugStore.BackOffice.Components.Pages.Categories;
+﻿using DrugStore.BackOffice.Components.Pages.Categories.Responses;
+using DrugStore.BackOffice.Components.Pages.Categories.Services;
+using DrugStore.BackOffice.Components.Pages.Products.Requests;
+using DrugStore.BackOffice.Components.Pages.Products.Services;
 using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
+using Refit;
 
 namespace DrugStore.BackOffice.Components.Pages.Products;
 
@@ -17,30 +20,32 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
-    private readonly List<string> _errors = [];
-    private List<CategoryResponse> _categories = [];
-    private readonly ProductCreateRequest _product = new();
+    private int _count;
     private bool _busy;
+    private List<Category> _categories = [];
+    private Category _selectedCategory = new();
+    private readonly CreateProduct _product = new();
+    private Dictionary<string, string> _errors = [];
 
-    private async Task OnSubmit(ProductCreateRequest product)
+    private async Task OnSubmit(CreateProduct product)
     {
         try
         {
             _busy = true;
+            var newProduct = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
 
-            var newProductResult = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
-
-            if (newProductResult.Status == ResultStatus.Ok)
-                await HandleProductCreationSuccess(newProductResult.Value, product.Image);
-            else
-                HandleProductCreationFailure(
-                    [.. newProductResult.ValidationErrors],
-                    "An error occurred while adding the product. Please try again."
-                );
+            if (product.Image.File is { }) await ProductsApi.UpdateProductImageAsync(newProduct, product.Image);
         }
-        catch (Exception ex)
+        catch (ValidationApiException validationException)
         {
-            _errors.Add(ex.Message);
+            var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
+            if (errorModel?.ValidationErrors is { })
+                _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to create Product" });
         }
         finally
         {
@@ -48,71 +53,27 @@ public sealed partial class Add
         }
     }
 
-    private async Task HandleProductCreationSuccess(Guid id, ProductImageRequest image)
-    {
-        if (image.File is null)
-        {
-            HandleSuccess("Product added successfully.");
-            NavigationManager.NavigateTo("/products");
-        }
-        else
-        {
-            var imageResult = await ProductsApi.UpdateProductImageAsync(id, image);
-
-            if (imageResult.Status == ResultStatus.Ok)
-            {
-                HandleSuccess("Product added successfully.");
-                NavigationManager.NavigateTo("/products");
-            }
-            else
-            {
-                HandleProductCreationFailure(
-                    [.. imageResult.ValidationErrors],
-                    "An error occurred while adding the product image. Please try again."
-                );
-            }
-        }
-    }
-
-    private void HandleProductCreationFailure(List<ValidationError> validationErrors, string defaultMessage)
-    {
-        foreach (var error in validationErrors) _errors.Add(error.ErrorMessage);
-
-        if (validationErrors.Count != 0) return;
-
-        _errors.Add(defaultMessage);
-    }
-
-    private void HandleSuccess(string message) =>
-        NotificationService.Notify(new()
-        {
-            Severity = NotificationSeverity.Success,
-            Summary = "Success",
-            Detail = message
-        });
-
 
     private async Task LoadData()
     {
-        _busy = true;
-        var result = await CategoriesApi.GetCategoriesAsync();
-        _busy = false;
-        if (result.Status == ResultStatus.Ok)
+        try
         {
-            _categories = result.Value;
+            _busy = true;
+            var result = await CategoriesApi.GetCategoriesAsync();
+            _categories = result.Categories;
+            _count = _categories.Count;
+            _selectedCategory = _categories[0];
+            await InvokeAsync(StateHasChanged);
         }
-        else
+        catch (Exception)
         {
             NotificationService.Notify(new()
-            {
-                Severity = NotificationSeverity.Error,
-                Summary = "Error",
-                Detail = "An error occurred while loading categories. Please try again."
-            });
-            NavigationManager.NavigateTo("/products");
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Categories" });
         }
-
-        await InvokeAsync(StateHasChanged);
+        finally
+        {
+            _busy = false;
+        }
     }
 
     private async Task CancelButtonClick(MouseEventArgs arg)

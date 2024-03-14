@@ -1,4 +1,5 @@
 ﻿@page "/categories/edit/{Id}"
+@using DrugStore.BackOffice.Components.Pages.Categories.Requests
 
 <PageTitle>Edit Category</PageTitle>
 
@@ -10,17 +11,7 @@
 
 <RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
 
-@if (_errors.Any())
-{
-    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
-        @foreach (var error in _errors)
-        {
-            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
-        }
-    </RadzenAlert>
-}
-
-@if (_loading)
+@if (_busy)
 {
     <RadzenPanel>
         <RadzenProgressBar Style="height: 4px"/>
@@ -28,7 +19,17 @@
 }
 else
 {
-    <RadzenTemplateForm TItem="CategoryUpdateRequest" Data="_category" Submit="OnSubmit">
+    <RadzenAlert Shade="Shade.Lighter"Variant="Variant.Flat"Size="AlertSize.Small"AlertStyle="AlertStyle.Danger"
+                 Visible="_errors.Any()">
+        @foreach (var error in _errors)
+        {
+            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">
+                <strong>@error.Key:</strong> @error.Value
+            </RadzenText>
+        }
+    </RadzenAlert>
+
+    <RadzenTemplateForm TItem="UpdateCategory" Data="_category" Submit="OnSubmit">
         <RadzenFieldset Text="Category information">
             <RadzenStack Gap="1rem">
                 <RadzenTextBox @bind-Value="_category.Id" Name="Id" Style="display: none"/>

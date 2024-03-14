@@ -47,15 +47,16 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         System.Exception invalidIdempotencyException,
         CancellationToken cancellationToken)
     {
-        var invalidIdempotencyErrorModel = Result.Invalid(
-            new ValidationError(
-                "X-Idempotency-Key",
-                invalidIdempotencyException.Message,
-                StatusCodes.Status400BadRequest.ToString(),
-                ValidationSeverity.Info
-            ));
+        Microsoft.AspNetCore.Mvc.ProblemDetails details = new()
+        {
+            Status = StatusCodes.Status400BadRequest,
+            Type = invalidIdempotencyException.GetType().Name,
+            Title = "Invalid Idempotency Key",
+            Detail = invalidIdempotencyException.Message,
+            Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
+        };
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await httpContext.Response.WriteAsJsonAsync(invalidIdempotencyErrorModel, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
     }
 
     private static async Task HandleValidationException(
@@ -79,9 +80,16 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         System.Exception notFoundException,
         CancellationToken cancellationToken)
     {
-        var notFoundErrorModel = Result.Error(notFoundException.Message);
+        Microsoft.AspNetCore.Mvc.ProblemDetails details = new()
+        {
+            Status = StatusCodes.Status404NotFound,
+            Type = notFoundException.GetType().Name,
+            Title = "Not Found",
+            Detail = notFoundException.Message,
+            Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
+        };
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-        await httpContext.Response.WriteAsJsonAsync(notFoundErrorModel, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
     }
 
     private static async Task HandleUnauthorizedAccessException(
@@ -89,10 +97,16 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         System.Exception unauthorizedAccessException,
         CancellationToken cancellationToken)
     {
-        var unauthorizedErrorModel =
-            Result.Error(unauthorizedAccessException.Message);
+        Microsoft.AspNetCore.Mvc.ProblemDetails details = new()
+        {
+            Status = StatusCodes.Status401Unauthorized,
+            Type = unauthorizedAccessException.GetType().Name,
+            Title = "Unauthorized",
+            Detail = unauthorizedAccessException.Message,
+            Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
+        };
         httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await httpContext.Response.WriteAsJsonAsync(unauthorizedErrorModel, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
     }
 
     private static async Task HandleDefaultException(
@@ -104,7 +118,7 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         {
             Status = StatusCodes.Status500InternalServerError,
             Type = exception.GetType().Name,
-            Title = "An error occurred while processing your request.",
+            Title = "An error occurred while processing your request",
             Detail = exception.Message,
             Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
         };

@@ -1,5 +1,5 @@
-﻿using Ardalis.Result;
-using DrugStore.BackOffice.Services;
+﻿using DrugStore.BackOffice.Components.Pages.Categories.Responses;
+using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
@@ -16,22 +16,27 @@ public sealed partial class Index
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
-    [Inject] private ExportService<CategoryResponse> ExportService { get; set; } = default!;
-
-    private RadzenDataGrid<CategoryResponse> _dataGrid = default!;
-    private readonly List<string> _errors = [];
-    private List<CategoryResponse> _categories = [];
+    private RadzenDataGrid<Category> _dataGrid = default!;
+    private List<Category> _categories = [];
     private bool _loading;
 
     protected override async Task OnInitializedAsync()
     {
-        _loading = true;
-        var result = await CategoriesApi.GetCategoriesAsync();
-        _loading = false;
-        if (result.Status == ResultStatus.Ok)
-            _categories = result.Value;
-        else
-            _errors.Add("An error occurred while retrieving categories. Please try again.");
+        try
+        {
+            _loading = true;
+            var result = await CategoriesApi.GetCategoriesAsync();
+            _categories = result.Categories;
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+        }
+        finally
+        {
+            _loading = false;
+        }
     }
 
     private async Task EditCategory(Guid id)
@@ -49,38 +54,37 @@ public sealed partial class Index
     private async Task DeleteCategory(Guid id)
     {
         var result = await DialogService.Confirm(
-            "Are you sure?",
-            "Delete Category",
-            new() { OkButtonText = "Yes", CancelButtonText = "No" }
+            message: "Are you sure?",
+            title: "Delete Category",
+            options: new()
+            {
+                OkButtonText = "Yes",
+                CancelButtonText = "No"
+            }
         ) ?? false;
-        if (!result) return;
-        var status = await CategoriesApi.DeleteCategoryAsync(id);
 
-        if (status.Status != ResultStatus.Ok)
+        if (!result)
+            return;
+
+        try
+        {
+            await CategoriesApi.DeleteCategoryAsync(id);
+            NotificationService.Notify(new()
+            {
+                Severity = NotificationSeverity.Success,
+                Summary = "Success",
+                Detail = "Category deleted successfully!"
+            });
+            await _dataGrid.Reload();
+        }
+        catch (Exception)
         {
             NotificationService.Notify(new()
             {
                 Severity = NotificationSeverity.Error,
                 Summary = "Error",
-                Detail = "An error occurred while deleting the category. Please try again."
+                Detail = "Unable to delete Category"
             });
-
-            return;
         }
-
-        NotificationService.Notify(new()
-        {
-            Severity = NotificationSeverity.Success,
-            Summary = "Success",
-            Detail = "Category deleted successfully!"
-        });
-        _categories.RemoveAll(category => category.Id == id);
-        await _dataGrid.Reload();
-    }
-
-    private Task ExportToCsv()
-    {
-        ExportService.ExportCsv(_categories.AsQueryable());
-        return Task.CompletedTask;
     }
 }

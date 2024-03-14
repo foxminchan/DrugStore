@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ public sealed class Create(ISender sender) : IEndpoint<CreateCategoryResponse, C
             .WithTags(nameof(Category))
             .WithName("Create Category")
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization();
+            .RequirePerUserRateLimit();
 
     public async Task<CreateCategoryResponse> HandleAsync(
         CreateCategoryRequest request,

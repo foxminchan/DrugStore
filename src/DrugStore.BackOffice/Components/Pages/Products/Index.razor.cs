@@ -1,5 +1,5 @@
-﻿using Ardalis.Result;
-using DrugStore.BackOffice.Services;
+﻿using DrugStore.BackOffice.Components.Pages.Products.Response;
+using DrugStore.BackOffice.Components.Pages.Products.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
@@ -16,28 +16,28 @@ public sealed partial class Index
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
-    [Inject] private ExportService<ProductResponse> ExportService { get; set; } = default!;
-
-    private RadzenDataGrid<ProductResponse> _dataGrid = default!;
-    private readonly List<string> _errors = [];
-    private List<ProductResponse> _products = [];
+    private RadzenDataGrid<Product> _dataGrid = default!;
+    private List<Product> _products = [];
     private bool _loading;
     private int _count;
 
     protected override async Task OnInitializedAsync()
     {
-        _loading = true;
-        var result = await ProductsApi.GetProductsAsync(new());
-        _loading = false;
-
-        if (result.Status == ResultStatus.Ok)
+        try
         {
-            _products = result.Value;
+            _loading = true;
+            var result = await ProductsApi.GetProductsAsync(new());
+            _products = result.Products;
             _count = (int)result.PagedInfo.TotalRecords;
         }
-        else
+        catch (Exception)
         {
-            _errors.Add("An error occurred while retrieving products. Please try again.");
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+        }
+        finally
+        {
+            _loading = false;
         }
     }
 
@@ -60,52 +60,49 @@ public sealed partial class Index
             "Delete Product",
             new() { OkButtonText = "Yes", CancelButtonText = "No" }
         ) ?? false;
-        if (!result) return;
-        var status = await ProductsApi.DeleteProductAsync(id);
 
-        if (status.Status != ResultStatus.Ok)
+        if (!result)
+            return;
+
+        try
         {
+            await ProductsApi.DeleteProductAsync(id);
+
             NotificationService.Notify(new()
             {
                 Severity = NotificationSeverity.Error,
                 Summary = "Error",
                 Detail = "An error occurred while deleting the product. Please try again."
             });
-
-            return;
+            await _dataGrid.Reload();
         }
-
-        NotificationService.Notify(new()
+        catch (Exception)
         {
-            Severity = NotificationSeverity.Success,
-            Summary = "Success",
-            Detail = "Product deleted successfully."
-        });
-        _products.RemoveAll(p => p.Id == id);
-        _count--;
-        await _dataGrid.Reload();
-    }
-
-    private async Task ExportToCsv()
-    {
-        ExportService.ExportCsv(_products.AsQueryable());
-        await Task.CompletedTask;
+            NotificationService.Notify(new()
+            {
+                Severity = NotificationSeverity.Error,
+                Summary = "Error",
+                Detail = "Unable to delete Category"
+            });
+        }
     }
 
     private async Task Search(ChangeEventArgs args)
     {
-        _loading = true;
-        var result = await ProductsApi.GetProductsAsync(new() { Search = args.Value?.ToString() });
-        _loading = false;
-
-        if (result.Status == ResultStatus.Ok)
+        try
         {
-            _products = result.Value;
-            _count = (int)result.PagedInfo.TotalRecords;
+            _loading = true;
+            var result = await ProductsApi.GetProductsAsync(new() { Search = args.Value?.ToString() });
+            _products = result.Products;
         }
-        else
+        catch (Exception)
         {
-            _errors.Add("An error occurred while retrieving products. Please try again.");
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+        }
+        finally
+        {
+            _loading = false;
         }
     }
 }

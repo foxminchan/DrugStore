@@ -1,8 +1,10 @@
-﻿using Ardalis.Result;
+﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
+using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
+using Refit;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -16,65 +18,64 @@ public sealed partial class Edit
 
     private bool _busy;
 
-    private bool _loading;
-
-    private readonly List<string> _errors = [];
-
-    private readonly CategoryUpdateRequest _category = new();
+    private readonly UpdateCategory _category = new();
 
     [Parameter] public required string Id { get; set; }
 
+    private Dictionary<string, string> _errors = [];
+
     protected override async Task OnInitializedAsync()
     {
-        _loading = true;
-        var category = await CategoriesApi.GetCategoryAsync(new(Id));
-        _loading = false;
-
-        if (category.IsSuccess)
+        try
         {
-            _category.Id = category.Value.Id.ToString();
-            _category.Name = category.Value.Name;
-            _category.Description = category.Value.Description;
+            _busy = true;
+            var category = await CategoriesApi.GetCategoryAsync(new(Id));
+            _category.Id = category.Id.ToString();
+            _category.Name = category.Name;
+            _category.Description = category.Description;
         }
-        else
+        catch (Exception)
         {
             NotificationService.Notify(new()
-            {
-                Severity = NotificationSeverity.Error,
-                Summary = "Error",
-                Detail = "Category not found!"
-            });
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
             NavigationManager.NavigateTo("/categories");
+        }
+        finally
+        {
+            _busy = false;
         }
     }
 
-    private async Task OnSubmit(CategoryUpdateRequest category)
+    private async Task OnSubmit(UpdateCategory category)
     {
-        _busy = true;
-        var result = await CategoriesApi.UpdateCategoryAsync(category);
-        _busy = false;
-
-        switch (result.Status)
+        try
         {
-            case ResultStatus.Ok:
-                NotificationService.Notify(new()
-                {
-                    Severity = NotificationSeverity.Success,
-                    Summary = "Success",
-                    Detail = "Category updated successfully!"
-                });
-                NavigationManager.NavigateTo("/categories");
-                break;
-            case ResultStatus.Invalid:
+            _busy = true;
+            await CategoriesApi.UpdateCategoryAsync(category);
+            NotificationService.Notify(new()
             {
-                foreach (var error in result.ValidationErrors)
-                    _errors.Add(error.ErrorMessage);
-                break;
-            }
-            default:
-                _errors.Add("An error occurred while adding the category. Please try again.");
-                break;
+                Severity = NotificationSeverity.Success,
+                Summary = "Success",
+                Detail = "Category updated successfully!"
+            });
+            NavigationManager.NavigateTo("/categories");
         }
+        catch (ValidationApiException validationException)
+        {
+            var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
+            if (errorModel?.ValidationErrors is { })
+                _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to add Category" });
+        }
+        finally
+        {
+            _busy = false;
+        }
+       
     }
 
     private static bool ValidateCategoryName(string? name)
@@ -83,7 +84,6 @@ public sealed partial class Edit
     private static bool ValidateCategoryDescription(string? description)
     {
         if (string.IsNullOrEmpty(description)) return true;
-
         return description.Length <= DataLengthHelper.LongLength;
     }
 

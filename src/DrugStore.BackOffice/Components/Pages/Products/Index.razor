@@ -1,4 +1,5 @@
 ﻿@page "/products"
+@using DrugStore.BackOffice.Components.Pages.Products.Response
 @using System.Globalization
 @inject IConfiguration Configuration
 
@@ -8,16 +9,6 @@
     <RadzenBreadCrumbItem Path="/" Text="Home"/>
     <RadzenBreadCrumbItem Text="Products"/>
 </RadzenBreadCrumb>
-
-@if (_errors.Any())
-{
-    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
-        @foreach (var error in _errors)
-        {
-            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
-        }
-    </RadzenAlert>
-}
 
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
@@ -29,12 +20,6 @@
                          AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End"
                          Gap="0.5rem">
-                <RadzenButton Icon="file_download"
-                              Text="Export to CSV"
-                              Variant="Variant.Flat"
-                              Shade="Shade.Lighter"
-                              ButtonStyle="ButtonStyle.Info"
-                              Click="ExportToCsv"/>
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
@@ -48,7 +33,7 @@
             <RadzenDataGrid @ref="_dataGrid"
                             Data="_products"
                             IsLoading="_loading"
-                            TItem="ProductResponse"
+                            TItem="Product"
                             AllowPaging="true"
                             AllowFiltering="true"
                             AllowSorting="true"
@@ -69,12 +54,12 @@
                                                Mode="ProgressBarMode.Indeterminate"/>
                 </LoadingTemplate>
                 <Columns>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                    <RadzenDataGridColumn TItem="Product"
                                           Frozen="true"
                                           Width="130px"
-                                          Property="@nameof(ProductResponse.Name)"
-                                          Title="@nameof(ProductResponse.Name)"/>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                                          Property="@nameof(Product.Name)"
+                                          Title="@nameof(Product.Name)"/>
+                    <RadzenDataGridColumn TItem="Product"
                                           Title="Photo"
                                           TextAlign="TextAlign.Center"
                                           Frozen="true"
@@ -96,53 +81,54 @@
                             }
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                    <RadzenDataGridColumn TItem="Product"
                                           Width="130px"
-                                          Property="@nameof(ProductResponse.ProductCode)"
+                                          Property="@nameof(Product.ProductCode)"
                                           Title="Code"/>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                    <RadzenDataGridColumn TItem="Product"
                                           Width="350px"
-                                          Property="@nameof(ProductResponse.Detail)"
-                                          Title="@nameof(ProductResponse.Detail)"/>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                                          Property="@nameof(Product.Detail)"
+                                          Title="@nameof(Product.Detail)"/>
+                    <RadzenDataGridColumn TItem="Product"
                                           Width="120px"
                                           TextAlign="TextAlign.Center"
-                                          Property="@nameof(ProductResponse.Status)"
-                                          Title="@nameof(ProductResponse.Status)">
+                                          Property="@nameof(Product.Status)"
+                                          Title="@nameof(Product.Status)">
                         <Template Context="product">
                             <RadzenBadge class="price-badge"
                                          Shade="Shade.Lighter"
                                          Variant="Variant.Flat"
-                                         Text="@product.Status?.Name"
-                                         BadgeStyle="@(string.Equals(product.Status?.Name, "InStock", StringComparison.OrdinalIgnoreCase) ? BadgeStyle.Success : BadgeStyle.Danger)"/>
+                                         Text="@product.Status"
+                                         BadgeStyle="@(string.Equals(product.Status, "InStock", StringComparison.OrdinalIgnoreCase) ? BadgeStyle.Success : BadgeStyle.Danger)"/>
                         </Template>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                    <RadzenDataGridColumn TItem="Product"
+                                          Width="140px"
+                                          TextAlign="TextAlign.Center"
+                                          Property="@nameof(Product.Quantity)"
+                                          Title="@nameof(Product.Quantity)"/>
+                    <RadzenDataGridColumn TItem="Product"
                                           Width="160px"
-                                          Property="@nameof(ProductResponse.Quantity)"
-                                          Title="@nameof(ProductResponse.Quantity)"/>
-                    <RadzenDataGridColumn TItem="ProductResponse"
-                                          Width="160px"
-                                          Property="@nameof(ProductResponse.Category)"
-                                          Title="@nameof(ProductResponse.Category)"/>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                                          Property="@nameof(Product.Category)"
+                                          Title="@nameof(Product.Category)"/>
+                    <RadzenDataGridColumn TItem="Product"
                                           Filterable="false"
                                           Sortable="false"
                                           TextAlign="TextAlign.Center"
-                                          Property="@nameof(ProductResponse.Price)"
-                                          Title="@nameof(ProductResponse.Price)">
+                                          Property="@nameof(Product.Price)"
+                                          Title="@nameof(Product.Price)">
                         <Columns>
-                            <RadzenDataGridColumn TItem="ProductResponse"
+                            <RadzenDataGridColumn TItem="Product"
                                                   TextAlign="TextAlign.Center"
-                                                  Property="@nameof(ProductResponse.Price.Price)"
-                                                  Title="@nameof(ProductResponse.Price.Price)">
+                                                  Property="@nameof(Product.Price.Price)"
+                                                  Title="@nameof(Product.Price.Price)">
                                 <Template Context="product">
                                     @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.Price)
                                 </Template>
                             </RadzenDataGridColumn>
-                            <RadzenDataGridColumn TItem="ProductResponse"
+                            <RadzenDataGridColumn TItem="Product"
                                                   TextAlign="TextAlign.Center"
-                                                  Property="@nameof(ProductResponse.Price.PriceSale)"
+                                                  Property="@nameof(Product.Price.PriceSale)"
                                                   Title="Price Sale">
                                 <Template Context="product">
                                     @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.PriceSale)
@@ -150,7 +136,7 @@
                             </RadzenDataGridColumn>
                         </Columns>
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="ProductResponse"
+                    <RadzenDataGridColumn TItem="Product"
                                           Width="100px"
                                           Frozen="true"
                                           FrozenPosition="FrozenColumnPosition.Right"

@@ -1,4 +1,5 @@
 ﻿@page "/products/add"
+@using DrugStore.BackOffice.Components.Pages.Products.Requests
 
 <PageTitle>Add Product</PageTitle>
 
@@ -10,17 +11,17 @@
 
 <RadzenText TextStyle="TextStyle.H3">Products</RadzenText>
 
-@if (_errors.Any())
-{
-    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
-        @foreach (var error in _errors)
-        {
-            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
-        }
-    </RadzenAlert>
-}
+<RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger"
+             Visible="_errors.Any()">
+    @foreach (var error in _errors)
+    {
+        <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">
+            <strong>@error.Key:</strong> @error.Value
+        </RadzenText>
+    }
+</RadzenAlert>
 
-<RadzenTemplateForm TItem="ProductCreateRequest" Data="_product" Submit="OnSubmit">
+<RadzenTemplateForm TItem="CreateProduct" Data="_product" Submit="OnSubmit">
     <RadzenFieldset Text="Product information">
         <RadzenStack Gap="1rem">
             <RadzenLabel Text="Name" Component="Name"/>
@@ -82,18 +83,19 @@
                                    Text="Quantity must be greater than 0"
                                    Validator="() => ValidateProductQuantity(_product.Product.Quantity)"/>
             <RadzenLabel Text="Category" Component="Category"/>
-            <RadzenDropDown Style="display: block"
-                            Name="Category"
-                            ReadOnly="_busy"
-                            AllowClear="true"
-                            AllowFiltering="true"
-                            LoadData="LoadData"
-                            @bind-Value="_product.Product.CategoryId"
-                            Data="_categories"
-                            TextProperty="Name"
-                            ValueProperty="Id"
-                            class="w-100"
-                            Placeholder="Select category"/>
+            <RadzenDropDownDataGrid Data="_categories"
+                                    TextProperty="Name"
+                                    ValueProperty="Id"
+                                    Style="display: block; width: 100%"
+                                    Name="Category"
+                                    AllowClear="true"
+                                    AllowFiltering="true"
+                                    IsLoading="_busy"
+                                    LoadData="LoadData"
+                                    Count="_count"
+                                    SelectedValue="_selectedCategory"
+                                    @bind-Value="_product.Product.CategoryId"
+                                    Placeholder="Select category"/>
             <RadzenCustomValidator Component="Category"
                                    Text="Category is required"
                                    Validator="() => ValidateProductCategory(_product.Product.CategoryId)"/>

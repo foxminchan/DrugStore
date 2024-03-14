@@ -14,7 +14,7 @@ public sealed class CreateOrderCommandHandler(Repository<Order> repository)
         Order order = new(request.Code, request.CustomerId);
         var result = await repository.AddAsync(order, cancellationToken);
         request.Items.ForEach(
-            item => order.OrderItems.Add(new(item.Price, item.Quantity, item.Id, result.Id))
+            item => order.OrderItems?.Add(new(item.Price, item.Quantity, item.Id, result.Id))
         );
         await repository.UpdateAsync(order, cancellationToken);
         order.AddOrder($"user:{request.CustomerId}:cart");

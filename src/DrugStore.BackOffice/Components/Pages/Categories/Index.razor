@@ -1,4 +1,5 @@
 ﻿@page "/categories"
+@using DrugStore.BackOffice.Components.Pages.Categories.Responses
 
 <PageTitle>Categories List</PageTitle>
 
@@ -6,16 +7,6 @@
     <RadzenBreadCrumbItem Path="/" Text="Home"/>
     <RadzenBreadCrumbItem Text="Categories"/>
 </RadzenBreadCrumb>
-
-@if (_errors.Any())
-{
-    <RadzenAlert Title="Alert with Title" AlertStyle="AlertStyle.Info" Variant="Variant.Flat" Shade="Shade.Lighter">
-        @foreach (var error in _errors)
-        {
-            <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">@error</RadzenText>
-        }
-    </RadzenAlert>
-}
 
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
@@ -27,12 +18,6 @@
                          AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End"
                          Gap="0.5rem">
-                <RadzenButton Icon="file_download"
-                              Text="Export to CSV"
-                              Variant="Variant.Flat"
-                              Shade="Shade.Lighter"
-                              ButtonStyle="ButtonStyle.Info"
-                              Click="ExportToCsv"/>
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
@@ -45,7 +30,7 @@
             <RadzenDataGrid @ref="_dataGrid"
                             Data="_categories"
                             IsLoading="_loading"
-                            TItem="CategoryResponse"
+                            TItem="Category"
                             AllowFiltering="true"
                             AllowSorting="true">
                 <EmptyTemplate>
@@ -58,15 +43,15 @@
                                                Mode="ProgressBarMode.Indeterminate"/>
                 </LoadingTemplate>
                 <Columns>
-                    <RadzenDataGridColumn TItem="CategoryResponse"
+                    <RadzenDataGridColumn TItem="Category"
                                           Width="250px"
-                                          Property="@nameof(CategoryResponse.Name)"
-                                          Title="@nameof(CategoryResponse.Name)">
+                                          Property="@nameof(Category.Name)"
+                                          Title="@nameof(Category.Name)">
                     </RadzenDataGridColumn>
-                    <RadzenDataGridColumn TItem="CategoryResponse"
-                                          Property="@nameof(CategoryResponse.Description)"
-                                          Title="@nameof(CategoryResponse.Description)"/>
-                    <RadzenDataGridColumn TItem="CategoryResponse"
+                    <RadzenDataGridColumn TItem="Category"
+                                          Property="@nameof(Category.Description)"
+                                          Title="@nameof(Category.Description)"/>
+                    <RadzenDataGridColumn TItem="Category"
                                           Width="100px"
                                           Frozen="true"
                                           Filterable="false"
