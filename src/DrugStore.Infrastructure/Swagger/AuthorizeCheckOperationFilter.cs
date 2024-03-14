@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -14,8 +15,12 @@ public sealed class AuthorizeCheckOperationFilter : IOperationFilter
 
         if (!hasAuthorize) return;
 
-        operation.Responses.TryAdd("401", new() { Description = "Unauthorized" });
-        operation.Responses.TryAdd("403", new() { Description = "Forbidden" });
+        operation.Responses.TryAdd(
+            StatusCodes.Status401Unauthorized.ToString(), new() { Description = "Unauthorized" }
+        );
+        operation.Responses.TryAdd(
+            StatusCodes.Status403Forbidden.ToString(), new() { Description = "Forbidden" }
+        );
 
         OpenApiSecurityScheme oAuthScheme = new()
         {

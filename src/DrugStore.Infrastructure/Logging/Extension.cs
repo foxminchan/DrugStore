@@ -21,7 +21,8 @@ public static class Extension
             config
                 .Enrich.WithProperty("Application", builder.Environment.ApplicationName)
                 .Enrich.FromLogContext()
-                .Enrich.WithExceptionDetails();
+                .Enrich.WithExceptionDetails()
+                .Enrich.With<ActivityEnricher>();
 
             config.WriteTo.Async(writeTo =>
                 writeTo.Console(

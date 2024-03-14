@@ -19,8 +19,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                 new()
                 {
                     Title = $"Drug Store API {description.ApiVersion}",
-                    Description =
-                        "A simple drug store API",
+                    Description = "A simple drug store application with Clean Architecture, DDD, CQRS",
                     Version = description.ApiVersion.ToString(),
                     Contact = new() { Name = "Nhan Nguyen", Email = "nguyenxuannhan407@gmail.com" },
                     License = new() { Name = "MIT", Url = new("https://opensource.org/licenses/MIT") }
