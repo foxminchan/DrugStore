@@ -26,7 +26,8 @@ public sealed class CategoryByIdSpecTest
     public void MatchesNoCategoryIfCategoryIdIsNotPresent()
     {
         // Arrange
-        var spec = new CategoryByIdSpec(new(Guid.NewGuid()));
+        var id = new CategoryId(Guid.NewGuid());
+        var spec = new CategoryByIdSpec(id);
 
         // Act
         var result = spec.Evaluate(GetTestCategoryCollection()).FirstOrDefault();

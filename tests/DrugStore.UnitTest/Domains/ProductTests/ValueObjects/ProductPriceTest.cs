@@ -1,7 +1,7 @@
 ﻿using DrugStore.Domain.ProductAggregate.ValueObjects;
 using FluentAssertions;
 
-namespace DrugStore.UnitTest.Domains.ProductTests;
+namespace DrugStore.UnitTest.Domains.ProductTests.ValueObjects;
 
 public sealed class ProductPriceTest
 {
