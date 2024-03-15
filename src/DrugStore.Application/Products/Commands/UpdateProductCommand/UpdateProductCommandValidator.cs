@@ -1,5 +1,4 @@
-﻿using DrugStore.Application.Categories.Validators;
-using DrugStore.Application.Products.Validators;
+﻿using DrugStore.Application.Products.Validators;
 using DrugStore.Persistence.Constants;
 using FluentValidation;
 
@@ -8,8 +7,7 @@ namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
     public UpdateProductCommandValidator(
-        ProductPriceValidator productPriceValidator, 
-        CategoryIdValidator categoryIdValidator)
+        ProductPriceValidator productPriceValidator)
     {
         RuleFor(x => x.Id)
             .NotEmpty();
@@ -30,8 +28,5 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
 
         RuleFor(x => x.ProductPrice)
             .SetValidator(productPriceValidator);
-
-        RuleFor(x => x.CategoryId)
-            .SetValidator(categoryIdValidator);
     }
 }

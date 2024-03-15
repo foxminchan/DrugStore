@@ -3,11 +3,10 @@ using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 
-public sealed class GetListByCategoryIdQueryHandler(Repository<Product> repository)
+public sealed class GetListByCategoryIdQueryHandler(IReadRepository<Product> repository)
     : IQueryHandler<GetListByCategoryIdQuery, PagedResult<List<ProductVm>>>
 {
     public async Task<PagedResult<List<ProductVm>>> Handle(

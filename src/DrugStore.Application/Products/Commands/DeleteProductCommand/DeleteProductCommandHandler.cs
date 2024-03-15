@@ -3,12 +3,11 @@ using Ardalis.Result;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 
 public sealed class DeleteProductCommandHandler(
-    Repository<Product> repository,
+    IRepository<Product> repository,
     ILocalStorage localStorage) : ICommandHandler<DeleteProductCommand, Result>
 {
     public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)

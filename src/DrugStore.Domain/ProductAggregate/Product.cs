@@ -32,7 +32,7 @@ public sealed class Product : EntityBase, IAggregateRoot
         ProductCode = productCode;
         Detail = detail;
         Status = quantity > 0 ? ProductStatus.InStock : ProductStatus.OutOfStock;
-        Quantity = Guard.Against.Negative(quantity);
+        Quantity = Guard.Against.NegativeOrZero(quantity);
         CategoryId = categoryId;
         Price = productPrice;
     }

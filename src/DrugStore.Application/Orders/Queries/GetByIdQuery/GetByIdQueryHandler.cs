@@ -4,11 +4,10 @@ using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Queries.GetByIdQuery;
 
-public sealed class GetByIdQueryHandler(Repository<Order> repository)
+public sealed class GetByIdQueryHandler(IReadRepository<Order> repository)
     : IQueryHandler<GetByIdQuery, Result<OrderDetailVm>>
 {
     public async Task<Result<OrderDetailVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)

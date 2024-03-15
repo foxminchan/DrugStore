@@ -1,12 +1,12 @@
 ﻿using Ardalis.GuardClauses;
 using DrugStore.Domain.BasketAggregate.DomainEvents;
 using DrugStore.Domain.ProductAggregate;
-using DrugStore.Persistence;
+using DrugStore.Domain.SharedKernel;
 using MediatR;
 
 namespace DrugStore.Application.Baskets.EventHandlers;
 
-public sealed class BasketUpdatedEventHandler(Repository<Product> repository)
+public sealed class BasketUpdatedEventHandler(IRepository<Product> repository)
     : INotificationHandler<BasketUpdatedEvent>
 {
     public async Task Handle(BasketUpdatedEvent notification, CancellationToken cancellationToken)

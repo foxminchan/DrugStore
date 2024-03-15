@@ -3,11 +3,10 @@ using Ardalis.Result;
 using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 
-public sealed class UpdateOrderCommandHandler(Repository<Order> repository)
+public sealed class UpdateOrderCommandHandler(IRepository<Order> repository)
     : ICommandHandler<UpdateOrderCommand, Result<OrderDetailVm>>
 {
     public async Task<Result<OrderDetailVm>> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)

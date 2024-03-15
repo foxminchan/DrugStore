@@ -5,12 +5,11 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed class UpdateProductCommandHandler(
-    Repository<Product> repository,
+    IRepository<Product> repository,
     ILocalStorage localStorage) : ICommandHandler<UpdateProductCommand, Result<ProductVm>>
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)

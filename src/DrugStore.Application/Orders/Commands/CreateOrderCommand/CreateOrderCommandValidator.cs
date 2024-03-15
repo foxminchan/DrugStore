@@ -1,15 +1,11 @@
-﻿using DrugStore.Application.Products.Validators;
-using DrugStore.Application.Users.Validators;
-using DrugStore.Persistence.Constants;
+﻿using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Orders.Commands.CreateOrderCommand;
 
 public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {
-    public CreateOrderCommandValidator(
-        UserByIdValidator userByIdValidator,
-        IValidator<OrderItemCreateRequest> orderItemValidator)
+    public CreateOrderCommandValidator(IValidator<OrderItemCreateRequest> orderItemValidator)
     {
         RuleFor(x => x.Code)
             .MaximumLength(DatabaseSchemaLength.SmallLength);
@@ -19,18 +15,16 @@ public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderC
             .ForEach(x => x.SetValidator(orderItemValidator));
 
         RuleFor(x => x.CustomerId)
-            .NotEmpty()
-            .SetValidator(userByIdValidator);
+            .NotEmpty();
     }
 }
 
 public sealed class OrderItemCreateRequestValidator : AbstractValidator<OrderItemCreateRequest>
 {
-    public OrderItemCreateRequestValidator(ProductIdValidator productIdValidator)
+    public OrderItemCreateRequestValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty()
-            .SetValidator(productIdValidator);
+            .NotEmpty();
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0);

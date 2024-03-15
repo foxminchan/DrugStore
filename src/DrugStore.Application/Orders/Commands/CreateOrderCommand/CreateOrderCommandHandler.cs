@@ -2,11 +2,10 @@
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Commands.CreateOrderCommand;
 
-public sealed class CreateOrderCommandHandler(Repository<Order> repository)
+public sealed class CreateOrderCommandHandler(IRepository<Order> repository)
     : IIdempotencyCommandHandler<CreateOrderCommand, Result<OrderId>>
 {
     public async Task<Result<OrderId>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)

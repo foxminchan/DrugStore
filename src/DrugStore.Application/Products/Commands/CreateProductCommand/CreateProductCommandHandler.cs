@@ -2,11 +2,10 @@
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
 
-public sealed class CreateProductCommandHandler(Repository<Product> repository) 
+public sealed class CreateProductCommandHandler(IRepository<Product> repository)
     : IIdempotencyCommandHandler<CreateProductCommand, Result<ProductId>>
 {
     public async Task<Result<ProductId>> Handle(CreateProductCommand request, CancellationToken cancellationToken)

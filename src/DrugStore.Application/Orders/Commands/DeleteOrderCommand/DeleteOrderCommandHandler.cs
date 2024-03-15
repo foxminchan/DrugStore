@@ -2,11 +2,10 @@
 using Ardalis.Result;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Commands.DeleteOrderCommand;
 
-public sealed class DeleteOrderCommandHandler(Repository<Order> repository)
+public sealed class DeleteOrderCommandHandler(IRepository<Order> repository)
     : ICommandHandler<DeleteOrderCommand, Result>
 {
     public async Task<Result> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)

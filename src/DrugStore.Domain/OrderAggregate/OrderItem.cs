@@ -1,9 +1,9 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text.Json.Serialization;
+using Ardalis.GuardClauses;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using System.Text.Json.Serialization;
 
 namespace DrugStore.Domain.OrderAggregate;
 

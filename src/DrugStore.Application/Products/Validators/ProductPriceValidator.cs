@@ -8,7 +8,6 @@ public sealed class ProductPriceValidator : AbstractValidator<ProductPrice>
     public ProductPriceValidator()
     {
         RuleFor(x => x.Price)
-            .NotEmpty()
             .GreaterThanOrEqualTo(0);
 
         RuleFor(x => x.PriceSale)

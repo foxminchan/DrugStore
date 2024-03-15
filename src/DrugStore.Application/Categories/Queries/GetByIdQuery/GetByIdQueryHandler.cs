@@ -5,11 +5,10 @@ using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Categories.Queries.GetByIdQuery;
 
-public sealed class GetByIdQueryHandler(Repository<Category> repository, IRedisService redisService)
+public sealed class GetByIdQueryHandler(IReadRepository<Category> repository, IRedisService redisService)
     : IQueryHandler<GetByIdQuery, Result<CategoryVm>>
 {
     public async Task<Result<CategoryVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)

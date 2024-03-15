@@ -2,11 +2,10 @@
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Categories.Queries.GetListQuery;
 
-public sealed class GetListQueryHandler(Repository<Category> repository)
+public sealed class GetListQueryHandler(IReadRepository<Category> repository)
     : IQueryHandler<GetListQuery, Result<List<CategoryVm>>>
 {
     public async Task<Result<List<CategoryVm>>> Handle(GetListQuery request, CancellationToken cancellationToken)

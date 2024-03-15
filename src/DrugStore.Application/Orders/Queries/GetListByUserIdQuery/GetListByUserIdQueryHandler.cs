@@ -3,11 +3,10 @@ using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Orders.Queries.GetListByUserIdQuery;
 
-public sealed class GetListByUserIdQueryHandler(Repository<Order> repository)
+public sealed class GetListByUserIdQueryHandler(IReadRepository<Order> repository)
     : IQueryHandler<GetListByUserIdQuery, PagedResult<List<OrderDetailVm>>>
 {
     public async Task<PagedResult<List<OrderDetailVm>>> Handle(GetListByUserIdQuery request,

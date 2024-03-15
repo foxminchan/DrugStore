@@ -3,11 +3,10 @@ using Ardalis.Result;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
 
-public sealed class UpdateCategoryCommandHandler(Repository<Category> repository)
+public sealed class UpdateCategoryCommandHandler(IRepository<Category> repository)
     : ICommandHandler<UpdateCategoryCommand, Result<CategoryVm>>
 {
     public async Task<Result<CategoryVm>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)

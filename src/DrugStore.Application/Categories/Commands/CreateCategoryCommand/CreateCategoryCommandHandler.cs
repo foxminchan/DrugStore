@@ -2,11 +2,10 @@
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 
-public sealed class CreateCategoryCommandHandler(Repository<Category> repository)
+public sealed class CreateCategoryCommandHandler(IRepository<Category> repository)
     : IIdempotencyCommandHandler<CreateCategoryCommand, Result<CategoryId>>
 {
     public async Task<Result<CategoryId>> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)

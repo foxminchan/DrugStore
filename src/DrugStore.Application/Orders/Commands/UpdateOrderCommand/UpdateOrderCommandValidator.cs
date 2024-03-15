@@ -1,15 +1,11 @@
-﻿using DrugStore.Application.Products.Validators;
-using DrugStore.Application.Users.Validators;
-using DrugStore.Persistence.Constants;
+﻿using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 
 public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderCommand>
 {
-    public UpdateOrderCommandValidator(
-        UserByIdValidator userByIdValidator,
-        IValidator<OrderItemUpdateRequest> orderItemValidator)
+    public UpdateOrderCommandValidator(IValidator<OrderItemUpdateRequest> orderItemValidator)
     {
         RuleFor(x => x.Id)
             .NotEmpty();
@@ -22,18 +18,16 @@ public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderC
             .ForEach(x => x.SetValidator(orderItemValidator));
 
         RuleFor(x => x.CustomerId)
-            .NotEmpty()
-            .SetValidator(userByIdValidator);
+            .NotEmpty();
     }
 }
 
 public sealed class OrderItemCreateRequestValidator : AbstractValidator<OrderItemUpdateRequest>
 {
-    public OrderItemCreateRequestValidator(ProductIdValidator productIdValidator)
+    public OrderItemCreateRequestValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty()
-            .SetValidator(productIdValidator);
+            .NotEmpty();
 
         RuleFor(x => x.Quantity)
             .GreaterThan(0);

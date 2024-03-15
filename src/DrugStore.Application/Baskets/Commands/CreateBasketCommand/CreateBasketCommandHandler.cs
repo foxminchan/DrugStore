@@ -9,7 +9,8 @@ namespace DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 
 public sealed class CreateBasketCommandHandler(
     IRedisService redisService,
-    IDistributedLockProvider distributedLockProvider) : IIdempotencyCommandHandler<CreateBasketCommand, Result<IdentityId>>
+    IDistributedLockProvider distributedLockProvider)
+    : IIdempotencyCommandHandler<CreateBasketCommand, Result<IdentityId>>
 {
     public async Task<Result<IdentityId>> Handle(CreateBasketCommand request, CancellationToken cancellationToken)
     {

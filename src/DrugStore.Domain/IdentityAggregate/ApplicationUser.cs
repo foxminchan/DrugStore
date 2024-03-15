@@ -9,10 +9,6 @@ namespace DrugStore.Domain.IdentityAggregate;
 
 public sealed class ApplicationUser : IdentityUser<IdentityId>, IAggregateRoot
 {
-    [PersonalData] public string? FullName { get; set; }
-
-    [PersonalData] public Address? Address { get; set; }
-
     /// <summary>
     ///     EF mapping constructor
     /// </summary>
@@ -30,6 +26,10 @@ public sealed class ApplicationUser : IdentityUser<IdentityId>, IAggregateRoot
         PhoneNumber = Guard.Against.NullOrEmpty(phoneNumber);
         Address = address;
     }
+
+    [PersonalData] public string? FullName { get; set; }
+
+    [PersonalData] public Address? Address { get; set; }
 
     public ICollection<Order> Orders { get; set; } = [];
 

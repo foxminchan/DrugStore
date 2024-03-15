@@ -6,4 +6,5 @@ using DrugStore.Persistence.Helpers;
 
 namespace DrugStore.Application.Orders.Queries.GetListByUserIdQuery;
 
-public sealed record GetListByUserIdQuery(IdentityId UserId, PagingHelper Filter) : IQuery<PagedResult<List<OrderDetailVm>>>;
+public sealed record GetListByUserIdQuery(IdentityId UserId, PagingHelper Filter)
+    : IQuery<PagedResult<List<OrderDetailVm>>>;

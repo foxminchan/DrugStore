@@ -4,12 +4,11 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
-using DrugStore.Persistence;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductImageCommand;
 
 public sealed class UpdateProductImageCommandHandler(
-    Repository<Product> repository,
+    IRepository<Product> repository,
     ILocalStorage localStorage) : ICommandHandler<UpdateProductImageCommand, Result<ProductId>>
 {
     public async Task<Result<ProductId>> Handle(UpdateProductImageCommand request, CancellationToken cancellationToken)
