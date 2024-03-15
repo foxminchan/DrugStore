@@ -4,7 +4,7 @@ using FluentAssertions;
 
 namespace DrugStore.UnitTest.Domains.CategoryTests;
 
-public sealed class CategoryAggregateTest(ITestOutputHelper output)
+public sealed class CategoryTest(ITestOutputHelper output)
 {
     private readonly Faker _faker = new();
 
@@ -69,5 +69,4 @@ public sealed class CategoryAggregateTest(ITestOutputHelper output)
         // Assert
         act.Should().Throw<ArgumentException>();
     }
-
 }

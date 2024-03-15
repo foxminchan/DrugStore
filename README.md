@@ -21,6 +21,8 @@ A sample e-commerce application that enables users to buy and oversee pharmaceut
 
 > [!NOTE]
 > If you want to deploy the application to Azure, you need to install the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) and have an [Azure Subscription](https://azure.microsoft.com/en-us/free/).
+>
+> Make sure to have the license for the [Duende IdentityServer](https://duendesoftware.com/products/identityserver).
 
 ## Installation
 

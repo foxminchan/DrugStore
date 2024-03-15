@@ -1,4 +1,4 @@
-﻿using DrugStore.ArchTest.Fixtures;
+﻿using DrugStore.ArchTest.Constants;
 using DrugStore.WebAPI;
 using FluentAssertions;
 using NetArchTest.Rules;
@@ -14,11 +14,11 @@ public sealed class PresentationLayerTest
         var assembly = AssemblyReference.Assembly;
         string[] layers =
         [
-            Namespace.DomainNamespace,
-            Namespace.InfrastructureNamespace,
-            Namespace.ApplicationNamespace,
-            Namespace.PresentationNamespace,
-            Namespace.PersistenceNamespace
+            Namespace.Domain,
+            Namespace.Infrastructure,
+            Namespace.Application,
+            Namespace.Presentation,
+            Namespace.Persistence
         ];
 
         // Act

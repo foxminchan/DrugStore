@@ -28,4 +28,8 @@
 		<ProjectReference Include="..\..\src\DrugStore.WebAPI\DrugStore.WebAPI.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Domains\BasketTests\" />
+	</ItemGroup>
+
 </Project>

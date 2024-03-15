@@ -1,4 +1,4 @@
-﻿using DrugStore.ArchTest.Fixtures;
+﻿using DrugStore.ArchTest.Constants;
 using DrugStore.Persistence;
 using FluentAssertions;
 using NetArchTest.Rules;
@@ -14,11 +14,11 @@ public sealed class PersistenceLayerTest
         var assembly = AssemblyReference.Assembly;
         string[] layers =
         [
-            Namespace.DomainNamespace,
-            Namespace.InfrastructureNamespace,
-            Namespace.ApplicationNamespace,
-            Namespace.PresentationNamespace,
-            Namespace.PersistenceNamespace
+            Namespace.Domain,
+            Namespace.Infrastructure,
+            Namespace.Application,
+            Namespace.Presentation,
+            Namespace.Persistence
         ];
 
         // Act
@@ -42,7 +42,7 @@ public sealed class PersistenceLayerTest
         var result = Types
             .InAssembly(assembly)
             .That()
-            .ResideInNamespace(Namespace.PersistenceNamespace)
+            .ResideInNamespace(Namespace.Persistence)
             .Should()
             .HaveName("ApplicationDbContext")
             .GetResult();

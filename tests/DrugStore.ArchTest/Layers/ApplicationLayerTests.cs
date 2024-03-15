@@ -1,4 +1,4 @@
-﻿using DrugStore.ArchTest.Fixtures;
+﻿using DrugStore.ArchTest.Constants;
 using FluentAssertions;
 using NetArchTest.Rules;
 
@@ -16,7 +16,7 @@ public sealed class ApplicationLayerTests
         var result = Types
             .InAssembly(assembly)
             .ShouldNot()
-            .HaveDependencyOnAny(Namespace.InfrastructureNamespace)
+            .HaveDependencyOnAny(Namespace.Infrastructure)
             .GetResult();
 
         // Assert
@@ -33,7 +33,7 @@ public sealed class ApplicationLayerTests
         var result = Types
             .InAssembly(assembly)
             .ShouldNot()
-            .HaveDependencyOnAny(Namespace.PersistenceNamespace)
+            .HaveDependencyOnAny(Namespace.Persistence)
             .GetResult();
 
         // Assert
