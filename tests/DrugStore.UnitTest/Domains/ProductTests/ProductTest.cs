@@ -2,7 +2,7 @@
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Enums;
-using DrugStore.Domain.ProductAggregate.ValueObjects;
+using DrugStore.UnitTest.Builders;
 using FluentAssertions;
 
 namespace DrugStore.UnitTest.Domains.ProductTests;
@@ -20,7 +20,7 @@ public sealed class ProductTest(ITestOutputHelper output)
         var detail = _faker.Lorem.Paragraph();
         var quantity = _faker.Random.Int(1);
         var categoryId = new CategoryId(_faker.Random.Guid());
-        var price = new ProductPrice(_faker.Random.Decimal(10, 50), _faker.Random.Decimal(1, 10));
+        var price = ProductPriceBuilder.WithDefaultValues();
 
         // Act
         var product = new Product(name, code, detail, quantity, categoryId, price);
@@ -43,7 +43,7 @@ public sealed class ProductTest(ITestOutputHelper output)
             _faker.Lorem.Paragraph(),
             _faker.Random.Int(1),
             new CategoryId(_faker.Random.Guid()),
-            new(_faker.Random.Decimal(10, 50), _faker.Random.Decimal(1, 10))
+            ProductPriceBuilder.WithDefaultValues()
         );
 
         var name = _faker.Commerce.ProductName();
@@ -51,7 +51,7 @@ public sealed class ProductTest(ITestOutputHelper output)
         var detail = _faker.Lorem.Paragraph();
         var quantity = _faker.Random.Int(1);
         var categoryId = new CategoryId(_faker.Random.Guid());
-        var price = new ProductPrice(_faker.Random.Decimal(10, 50), _faker.Random.Decimal(1, 10));
+        var price = ProductPriceBuilder.WithDefaultValues();
 
         // Act
         product.Update(name, code, detail, quantity, categoryId, price);
@@ -74,7 +74,7 @@ public sealed class ProductTest(ITestOutputHelper output)
             _faker.Lorem.Paragraph(),
             1,
             new CategoryId(_faker.Random.Guid()),
-            new(_faker.Random.Decimal(10, 50), _faker.Random.Decimal(1, 10))
+            ProductPriceBuilder.WithDefaultValues()
         );
 
         // Act
@@ -96,7 +96,7 @@ public sealed class ProductTest(ITestOutputHelper output)
             _faker.Lorem.Paragraph(),
             9,
             new CategoryId(_faker.Random.Guid()),
-            new(_faker.Random.Decimal(10, 50), _faker.Random.Decimal(1, 10))
+            ProductPriceBuilder.WithDefaultValues()
         );
 
         // Act

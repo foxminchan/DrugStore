@@ -13,6 +13,7 @@
 		<PackageReference Include="XunitContext" />
 		<PackageReference Include="FluentAssertions" />
 		<PackageReference Include="AutoBogus.NSubstitute" />
+		<PackageReference Include="NSubstitute.Analyzers.CSharp" />
 		<PackageReference Include="ReportGenerator" />
 	</ItemGroup>
 
@@ -26,10 +27,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\DrugStore.WebAPI\DrugStore.WebAPI.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Domains\BasketTests\" />
 	</ItemGroup>
 
 </Project>

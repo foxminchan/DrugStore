@@ -1,9 +1,9 @@
 ﻿using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using FluentAssertions;
 
-namespace DrugStore.UnitTest.Domains.IdentityTests;
+namespace DrugStore.UnitTest.Domains.IdentityTests.ValueObjects;
 
-public sealed class UserAddressTest
+public sealed class AddressTest
 {
     [Fact]
     public void ShouldBeInitializeUserAddressSuccessfully()
