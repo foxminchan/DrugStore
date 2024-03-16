@@ -6,31 +6,36 @@ using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
-namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
+namespace DrugStore.FunctionalTest.Endpoints.ProductsEndpoints;
 
-public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
+public sealed class TestPutProductImageEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
-    private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
+    private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer();
 
-    private readonly CategoryFaker _faker = new();
+    private readonly ProductFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
 
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
+
+    private static byte[] ImageData => [0x00, 0x01, 0x02, 0x03, 0x04];
 
     [Fact]
     public async Task ShouldBeReturnOk()
     {
         // Arrange
         var client = _factory.CreateClient();
-        var category = _faker.Generate(1);
-        var id = category[0].Id;
+        var product = _faker.Generate(1);
+        var id = product[0].Id;
 
         // Act
-        await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        await _factory.EnsureCreatedAndPopulateDataAsync(product);
+        var response = await client.PutAsJsonAsync($"/api/v1/products/image/{id}", new
+        {
+            Image = ImageData,
+            Alt = "New Alt"
+        });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -42,13 +47,16 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
     {
         // Arrange
         var client = _factory.CreateClient();
-        var category = _faker.Generate(1);
-        var id = category[0].Id;
+        var product = _faker.Generate(1);
+        var id = product[0].Id;
 
         // Act
-        await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = string.Empty, Link = string.Empty });
+        await _factory.EnsureCreatedAndPopulateDataAsync(product);
+        var response = await client.PutAsJsonAsync($"/api/v1/products/image/{id}", new
+        {
+            Image = Array.Empty<byte>(),
+            Alt = string.Empty
+        });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -62,8 +70,11 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{Guid.NewGuid()}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        var response = await client.PutAsJsonAsync($"/api/v1/products/image/{Guid.NewGuid()}", new
+        {
+            Image = ImageData,
+            Alt = "New Alt"
+        });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

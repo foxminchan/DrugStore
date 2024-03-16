@@ -3,12 +3,13 @@ using System.Net.Http.Json;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
+using DrugStore.WebAPI.Endpoints.Category;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
-public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
+public sealed class TestGetCategoryByIdEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
@@ -20,7 +21,7 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
 
     [Fact]
-    public async Task ShouldBeReturnOk()
+    public async Task ShouldBeReturnCategoryDetails()
     {
         // Arrange
         var client = _factory.CreateClient();
@@ -29,41 +30,25 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
 
         // Act
         await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        var response = await client.GetAsync($"/api/v1/categories/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        output.WriteLine("Response: {0}", response);
+        var item = await response.Content.ReadFromJsonAsync<CategoryDto>();
+        output.WriteLine("Response: {0}", item);
+        item.Should().NotBeNull().And.Match<CategoryDto>(x => x.Id == id);
     }
 
-    [Fact]
-    public async Task ShouldBeReturnBadRequest()
-    {
-        // Arrange
-        var client = _factory.CreateClient();
-        var category = _faker.Generate(1);
-        var id = category[0].Id;
-
-        // Act
-        await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = string.Empty, Link = string.Empty });
-
-        // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        output.WriteLine("Response: {0}", response);
-    }
-
-    [Fact]
-    public async Task ShouldBeReturnNotFound()
+    [Theory(DisplayName = "Should be return not found")]
+    [InlineData("00000000-0000-0000-0000-000000000000")]
+    [InlineData("00000000-0000-0000-0000-000000000001")]
+    public async Task ShouldBeReturnNotFound(string id)
     {
         // Arrange
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{Guid.NewGuid()}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        var response = await client.GetAsync($"/api/v1/categories/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

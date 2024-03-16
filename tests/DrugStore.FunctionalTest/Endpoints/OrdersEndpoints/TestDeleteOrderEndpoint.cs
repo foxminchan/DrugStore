@@ -5,14 +5,14 @@ using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
-namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
+namespace DrugStore.FunctionalTest.Endpoints.OrdersEndpoints;
 
-public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
+public sealed class TestDeleteOrderEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
-    private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
+    private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer();
 
-    private readonly CategoryFaker _faker = new();
+    private readonly OrderFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
 
@@ -23,12 +23,12 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
     {
         // Arrange
         var client = _factory.CreateClient();
-        var category = _faker.Generate(1);
-        var id = category[0].Id;
+        var order = _faker.Generate(1);
+        var id = order[0].Id;
 
         // Act
-        await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.DeleteAsync($"/api/v1/categories/{id}");
+        await _factory.EnsureCreatedAndPopulateDataAsync(order);
+        var response = await client.DeleteAsync($"/api/v1/orders/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -44,7 +44,7 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.DeleteAsync($"/api/v1/categories/{id}");
+        var response = await client.DeleteAsync($"/api/v1/orders/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

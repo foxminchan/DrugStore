@@ -1,9 +1,8 @@
 ﻿using System.Net.Http.Json;
-using Ardalis.Result;
-using DrugStore.Application.Categories.ViewModels;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
+using DrugStore.WebAPI.Endpoints.Category;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
@@ -13,6 +12,7 @@ public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factor
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
     private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer().WithCacheContainer();
+
     private readonly CategoryFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
@@ -33,11 +33,11 @@ public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factor
         // Assert
         response.EnsureSuccessStatusCode();
         var items =
-            await response.Content.ReadFromJsonAsync<Result<IEnumerable<CategoryVm>>>();
+            await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
         output.WriteLine("Response: {0}", items);
         items.Should()
             .NotBeNull()
             .And
-            .Match<Result<IEnumerable<CategoryVm>>>(x => x.Value.Count() == 10);
+            .Match<List<CategoryDto>>(x => x.Count == 10);
     }
 }

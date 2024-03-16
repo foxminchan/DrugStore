@@ -16,5 +16,5 @@ public sealed class CreateProductPayload
     public string? Detail { get; set; }
     public int Quantity { get; set; } = 0;
     public CategoryId? CategoryId { get; set; }
-    public ProductPrice ProductPrice { get; set; } = new(0, 0);
+    public ProductPrice ProductPrice { get; set; } = new();
 }

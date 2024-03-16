@@ -12,6 +12,6 @@ public sealed class UpdateProductRequest
     public string? Detail { get; set; }
     public int Quantity { get; set; }
     public CategoryId? CategoryId { get; set; }
-    public ProductPrice ProductPrice { get; set; } = new(0, 0);
+    public ProductPrice ProductPrice { get; set; } = new();
     public string? ImageUrl { get; set; }
 }

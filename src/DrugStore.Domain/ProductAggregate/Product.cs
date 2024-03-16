@@ -68,6 +68,8 @@ public sealed class Product : EntityBase, IAggregateRoot
 
     public void RemoveStock(int quantityDesired)
     {
+        if (Status == ProductStatus.OutOfStock) throw new InvalidOperationException("Product out of stock");
+
         Quantity -= Guard.Against.NegativeOrZero(quantityDesired);
 
         if (Status == ProductStatus.InStock && Quantity == 0) Status = ProductStatus.OutOfStock;
