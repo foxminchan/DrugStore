@@ -49,6 +49,7 @@ public sealed class ProductByIdSpecTest
             ProductCode = _faker.Random.AlphaNumeric(10),
             Quantity = _faker.Random.Number(1, 100),
             Price = ProductPriceBuilder.WithDefaultValues(),
+            Image = ProductImageBuilder.WithDefaultValues(),
             Status = ProductStatus.InStock
         },
         new()
@@ -58,6 +59,7 @@ public sealed class ProductByIdSpecTest
             ProductCode = _faker.Random.AlphaNumeric(10),
             Quantity = _faker.Random.Number(1, 100),
             Price = ProductPriceBuilder.WithDefaultValues(),
+            Image = ProductImageBuilder.WithDefaultValues(),
             Status = ProductStatus.OutOfStock
         },
         new()
@@ -67,6 +69,7 @@ public sealed class ProductByIdSpecTest
             ProductCode = _faker.Random.AlphaNumeric(10),
             Quantity = _faker.Random.Number(1, 100),
             Price = ProductPriceBuilder.WithDefaultValues(),
+            Image = ProductImageBuilder.WithDefaultValues(),
             Status = ProductStatus.InStock
         }
     ];

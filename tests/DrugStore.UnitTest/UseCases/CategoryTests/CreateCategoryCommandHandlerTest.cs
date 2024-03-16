@@ -4,17 +4,17 @@ using DrugStore.Domain.SharedKernel;
 using FluentAssertions;
 using NSubstitute;
 
-namespace DrugStore.UnitTest.UseCases.Categories;
+namespace DrugStore.UnitTest.UseCases.CategoryTests;
 
 public sealed class CreateCategoryCommandHandlerTest
 {
-    private readonly IRepository<Category> _categoryRepository = Substitute.For<IRepository<Category>>();
+    private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
 
     private static Category CreateCategory() => new("Category Name", "Category Description");
 
     private readonly CreateCategoryCommandHandler _handler;
 
-    public CreateCategoryCommandHandlerTest() => _handler = new(_categoryRepository);
+    public CreateCategoryCommandHandlerTest() => _handler = new(_repository);
 
     [Fact]
     public async Task ShouldBeCreateCategorySuccessfully()
@@ -25,7 +25,7 @@ public sealed class CreateCategoryCommandHandlerTest
             "Category Name",
             "Category Description"
         );
-        _categoryRepository.AddAsync(Arg.Any<Category>())
+        _repository.AddAsync(Arg.Any<Category>())
             .Returns(Task.FromResult(CreateCategory()));
 
         // Act
