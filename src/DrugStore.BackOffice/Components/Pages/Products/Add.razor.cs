@@ -35,12 +35,12 @@ public sealed partial class Add
             _busy = true;
             var newProduct = await ProductsApi.CreateProductAsync(product.Product, Guid.NewGuid().ToString());
 
-            if (product.Image.File is { }) await ProductsApi.UpdateProductImageAsync(newProduct, product.Image);
+            if (product.Image.File is not null) await ProductsApi.UpdateProductImageAsync(newProduct, product.Image);
         }
         catch (ValidationApiException validationException)
         {
             var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
-            if (errorModel?.ValidationErrors is { })
+            if (errorModel?.ValidationErrors is not null)
                 _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
         }
         catch (Exception)

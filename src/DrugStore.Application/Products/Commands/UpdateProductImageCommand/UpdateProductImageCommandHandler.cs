@@ -16,7 +16,7 @@ public sealed class UpdateProductImageCommandHandler(
         var product = await repository.GetByIdAsync(request.ProductId, cancellationToken);
         Guard.Against.NotFound(request.ProductId, product);
 
-        if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+        if (product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
             await localStorage.RemoveFileAsync(product.Image.ImageUrl, cancellationToken);
 
         var result = await localStorage.UploadFileAsync(request.Image, cancellationToken);

@@ -5,7 +5,7 @@ namespace DrugStore.Infrastructure.Idempotency.Internal;
 
 public sealed class IdempotencyService(IRedisService redisService) : IIdempotencyService
 {
-    public bool RequestExists(Guid id) => redisService.Get<Idempotent>(id.ToString()) is { };
+    public bool RequestExists(Guid id) => redisService.Get<Idempotent>(id.ToString()) is not null;
 
     public void CreateRequestForCommand(Guid id, string name)
     {

@@ -64,7 +64,7 @@ public sealed partial class Edit
         catch (ValidationApiException validationException)
         {
             var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
-            if (errorModel?.ValidationErrors is { })
+            if (errorModel?.ValidationErrors is not null)
                 _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
         }
         catch (Exception)

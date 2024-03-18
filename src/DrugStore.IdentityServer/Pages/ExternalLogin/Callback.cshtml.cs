@@ -96,7 +96,7 @@ public class Callback(
         IEnumerable<Claim> enumerable = claims as Claim[] ?? claims.ToArray();
         var email = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Email)?.Value ??
                     enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
-        if (email is { }) user.Email = email;
+        if (email is not null) user.Email = email;
 
         // create a list of claims that we want to transfer into our store
         List<Claim> filtered = [];
@@ -104,7 +104,7 @@ public class Callback(
         // user's display name
         var name = enumerable.FirstOrDefault(x => x.Type == JwtClaimTypes.Name)?.Value ??
                    enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-        if (name is { })
+        if (name is not null)
         {
             filtered.Add(new(JwtClaimTypes.Name, name));
         }
@@ -116,7 +116,7 @@ public class Callback(
                        enumerable.FirstOrDefault(x => x.Type == ClaimTypes.Surname)?.Value;
             switch (first)
             {
-                case { } when last is { }:
+                case { } when last is not null:
                     filtered.Add(new(JwtClaimTypes.Name, first + " " + last));
                     break;
 
@@ -126,7 +126,7 @@ public class Callback(
 
                 default:
                 {
-                    if (last is { }) filtered.Add(new(JwtClaimTypes.Name, last));
+                    if (last is not null) filtered.Add(new(JwtClaimTypes.Name, last));
 
                     break;
                 }
@@ -160,10 +160,10 @@ public class Callback(
         // if the external system sent a session id claim, copy it over
         // so we can use it for single sign-out
         var sid = externalResult.Principal?.Claims.FirstOrDefault(x => x.Type == JwtClaimTypes.SessionId);
-        if (sid is { }) localClaims.Add(new(JwtClaimTypes.SessionId, sid.Value));
+        if (sid is not null) localClaims.Add(new(JwtClaimTypes.SessionId, sid.Value));
 
         // if the external provider issued an id_token, we'll keep it for signout
         var idToken = externalResult.Properties.GetTokenValue("id_token");
-        if (idToken is { }) localSignInProps.StoreTokens([new() { Name = "id_token", Value = idToken }]);
+        if (idToken is not null) localSignInProps.StoreTokens([new() { Name = "id_token", Value = idToken }]);
     }
 }

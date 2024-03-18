@@ -62,7 +62,7 @@ public sealed class RedisService(IOptions<RedisSettings> options) : IRedisServic
         if (!string.IsNullOrEmpty(cachedValue)) return GetByteToObject<T>(cachedValue);
 
         var newValue = valueFactory();
-        if (newValue is { }) Database.StringSet(keyWithPrefix, JsonSerializer.Serialize(newValue), expiration);
+        if (newValue is not null) Database.StringSet(keyWithPrefix, JsonSerializer.Serialize(newValue), expiration);
 
         return newValue;
     }
@@ -89,7 +89,7 @@ public sealed class RedisService(IOptions<RedisSettings> options) : IRedisServic
 
         if (!string.IsNullOrEmpty(value)) return GetByteToObject<T>(value);
 
-        if (valueFactory() is { })
+        if (valueFactory() is not null)
             Database.HashSet(keyWithPrefix, hashKey.ToLower(),
                 JsonSerializer.Serialize(valueFactory()));
 

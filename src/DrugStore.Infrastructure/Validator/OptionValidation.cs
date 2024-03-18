@@ -10,7 +10,7 @@ public sealed class OptionValidation<TOption>(IServiceProvider serviceProvider)
 {
     public ValidateOptionsResult Validate(string? name, TOption options)
     {
-        if (name is { } && name != Options.DefaultName) return ValidateOptionsResult.Skip;
+        if (name is not null && name != Options.DefaultName) return ValidateOptionsResult.Skip;
 
         Guard.Against.Null(options);
 

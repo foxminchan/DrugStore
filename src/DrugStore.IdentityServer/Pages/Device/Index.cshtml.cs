@@ -63,7 +63,7 @@ public class Index(
                 break;
             // user clicked 'yes' - validate the data
             // if the user consented to some scope, build the response model
-            case "yes" when Input.ScopesConsented is { } && Input.ScopesConsented.Any():
+            case "yes" when Input.ScopesConsented is not null && Input.ScopesConsented.Any():
             {
                 var scopes = Input.ScopesConsented;
                 if (ConsentOptions.EnableOfflineAccess)
@@ -91,7 +91,7 @@ public class Index(
                 break;
         }
 
-        if (grantedConsent is { })
+        if (grantedConsent is not null)
         {
             // communicate outcome of consent back to identityserver
             await interaction.HandleRequestAsync(Input.UserCode, grantedConsent);
@@ -108,7 +108,7 @@ public class Index(
     private async Task<ViewModel> BuildViewModelAsync(string userCode, InputModel model = null)
     {
         var request = await interaction.GetAuthorizationContextAsync(userCode);
-        return request is { } ? CreateConsentViewModel(model, request) : null;
+        return request is not null ? CreateConsentViewModel(model, request) : null;
     }
 
     private ViewModel CreateConsentViewModel(InputModel model, DeviceFlowAuthorizationRequest request)
@@ -126,7 +126,7 @@ public class Index(
         List<ScopeViewModel> apiScopes = [];
         apiScopes.AddRange(from parsedScope in request.ValidatedResources.ParsedScopes
                            let apiScope = request.ValidatedResources.Resources.FindApiScope(parsedScope.ParsedName)
-                           where apiScope is { }
+                           where apiScope is not null
                            select CreateScopeViewModel(parsedScope, apiScope,
                                model is null || model.ScopesConsented?.Contains(parsedScope.RawValue) == true));
 

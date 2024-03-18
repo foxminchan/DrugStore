@@ -5,7 +5,7 @@
 
 <div class="ciba-consent">
     <div class="lead">
-        @if (Model.View.ClientLogoUrl is { })
+        @if (Model.View.ClientLogoUrl is not null)
         {
             <div class="client-logo">
                 <img src="@Model.View.ClientLogoUrl" alt="@Model.View.ClientLogoUrl">
@@ -87,7 +87,7 @@
                 <button name="Input.button" value="no" class="btn btn-secondary">No, Do Not Allow</button>
             </div>
             <div class="col-sm-4 col-lg-auto">
-                @if (Model.View.ClientUrl is { })
+                @if (Model.View.ClientUrl is not null)
                 {
                     <a class="btn btn-outline-info" href="@Model.View.ClientUrl">
                         <span class="glyphicon glyphicon-info-sign"></span>

@@ -15,7 +15,7 @@ public sealed class DeleteProductCommandHandler(
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
-        if (product.Image is { } && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+        if (product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
             await localStorage.RemoveFileAsync(product.Image.ImageUrl, cancellationToken);
 
         await repository.DeleteAsync(product, cancellationToken);

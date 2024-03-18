@@ -31,7 +31,7 @@ public sealed class AuditableEntityInterceptor : SaveChangesInterceptor
         {
             if (entry.State is not (EntityState.Added or EntityState.Modified) &&
                 !entry.References.Any(r =>
-                    r.TargetEntry is { } &&
+                    r.TargetEntry is not null &&
                     r.TargetEntry.Metadata.IsOwned() &&
                     r.TargetEntry.State is EntityState.Added or EntityState.Modified))
                 continue;

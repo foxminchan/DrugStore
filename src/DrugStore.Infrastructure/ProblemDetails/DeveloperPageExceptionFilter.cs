@@ -65,7 +65,7 @@ public sealed class ErrorProblemDetailsResult(System.Exception ex) : IResult
 
         var endpoint = httpContext.GetEndpoint();
 
-        if (endpoint is { })
+        if (endpoint is not null)
         {
             var routeEndpoint = endpoint as RouteEndpoint;
             var httpMethods = endpoint.Metadata.GetMetadata<IHttpMethodMetadata>()?.HttpMethods;
@@ -75,7 +75,7 @@ public sealed class ErrorProblemDetailsResult(System.Exception ex) : IResult
                     endpoint.DisplayName,
                     routePattern = routeEndpoint?.RoutePattern.RawText,
                     routeOrder = routeEndpoint?.Order,
-                    httpMethods = httpMethods is { } ? string.Join(", ", httpMethods) : ""
+                    httpMethods = httpMethods is not null ? string.Join(", ", httpMethods) : ""
                 });
         }
 

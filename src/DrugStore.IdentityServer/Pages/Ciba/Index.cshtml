@@ -5,7 +5,7 @@
 
 <div class="ciba-page">
     <div class="lead">
-        @if (Model.LoginRequest.Client.LogoUri is { })
+        @if (Model.LoginRequest.Client.LogoUri is not null)
         {
             <div class="client-logo">
                 <img src="@Model.LoginRequest.Client.LogoUri">

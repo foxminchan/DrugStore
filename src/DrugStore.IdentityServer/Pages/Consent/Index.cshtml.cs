@@ -52,7 +52,7 @@ public class Index(
                 break;
             // user clicked 'yes' - validate the data
             // if the user consented to some scope, build the response model
-            case "yes" when Input.ScopesConsented is { } && Input.ScopesConsented.Any():
+            case "yes" when Input.ScopesConsented is not null && Input.ScopesConsented.Any():
             {
                 var scopes = Input.ScopesConsented;
                 if (ConsentOptions.EnableOfflineAccess)
@@ -80,7 +80,7 @@ public class Index(
                 break;
         }
 
-        if (grantedConsent is { })
+        if (grantedConsent is not null)
         {
             // communicate outcome of consent back to identityserver
             await interaction.GrantConsentAsync(request, grantedConsent);
@@ -102,7 +102,7 @@ public class Index(
     private async Task<ViewModel> BuildViewModelAsync(string returnUrl, InputModel model = null)
     {
         var request = await interaction.GetAuthorizationContextAsync(returnUrl);
-        if (request is { }) return CreateConsentViewModel(model, returnUrl, request);
+        if (request is not null) return CreateConsentViewModel(model, returnUrl, request);
 
         logger.LogError("No consent request matching request: {ReturnUrl}", returnUrl);
         return null;

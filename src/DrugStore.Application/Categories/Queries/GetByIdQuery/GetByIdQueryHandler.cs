@@ -15,7 +15,7 @@ public sealed class GetByIdQueryHandler(IReadRepository<Category> repository, IR
     {
         var categories = redisService.Get<IEnumerable<CategoryVm>>("categories");
 
-        if (categories is { })
+        if (categories is not null)
         {
             var category = categories.FirstOrDefault(c => c.Id == request.Id);
             Guard.Against.NotFound(request.Id, category);

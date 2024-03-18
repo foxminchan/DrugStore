@@ -19,7 +19,7 @@ public sealed class QueryCachingBehavior<TRequest, TResponse>(
 
         var response = redisService.Get<TResponse>(request.CacheKey);
 
-        if (response is { })
+        if (response is not null)
         {
             logger.LogInformation("{Request} cached query {QueryName} found", request, request.GetType().Name);
             return Result<TResponse>.Success(response);

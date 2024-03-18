@@ -27,7 +27,7 @@
             <em>(required)</em>
         </span>
     }
-    @if (Model.Description is { })
+    @if (Model.Description is not null)
     {
         <div class="consent-description">
             <label for="scopes_@Model.Value">@Model.Description</label>

@@ -55,7 +55,7 @@ public class Consent(
                 break;
             // user clicked 'yes' - validate the data
             // if the user consented to some scope, build the response model
-            case "yes" when Input.ScopesConsented is { } && Input.ScopesConsented.Any():
+            case "yes" when Input.ScopesConsented is not null && Input.ScopesConsented.Any():
             {
                 var scopes = Input.ScopesConsented;
                 if (ConsentOptions.EnableOfflineAccess)
@@ -80,7 +80,7 @@ public class Consent(
                 break;
         }
 
-        if (result is { })
+        if (result is not null)
         {
             // communicate outcome of consent back to identityserver
             await interaction.CompleteLoginRequestAsync(result);
@@ -96,7 +96,7 @@ public class Consent(
     private async Task<ViewModel> BuildViewModelAsync(string id, InputModel model = null)
     {
         var request = await interaction.GetLoginRequestByInternalIdAsync(id);
-        if (request is { } && request.Subject.GetSubjectId() == User.GetSubjectId())
+        if (request is not null && request.Subject.GetSubjectId() == User.GetSubjectId())
             return CreateConsentViewModel(model, id, request);
 
         logger.LogError("No backchannel login request matching id: {Id}", id);

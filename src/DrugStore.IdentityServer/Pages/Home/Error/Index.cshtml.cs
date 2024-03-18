@@ -17,7 +17,7 @@ public class Index(IIdentityServerInteractionService interaction, IWebHostEnviro
 
         // retrieve error details from identityserver
         var message = await interaction.GetErrorContextAsync(errorId);
-        if (message is { })
+        if (message is not null)
         {
             View.Error = message;
 

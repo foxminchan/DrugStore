@@ -32,7 +32,7 @@ public sealed class UpdateUserCommandHandler(UserManager<ApplicationUser> userMa
             await userManager.ResetPasswordAsync(user, token, request.Password);
         }
 
-        if (request.Role is { }) await userManager.AddToRoleAsync(user, request.Role);
+        if (request.Role is not null) await userManager.AddToRoleAsync(user, request.Role);
 
         var result = await userManager.UpdateAsync(user);
 

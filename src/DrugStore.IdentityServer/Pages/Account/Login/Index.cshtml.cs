@@ -74,7 +74,7 @@ public class Index(
                 await events.RaiseAsync(new UserLoginSuccessEvent(user?.UserName, user!.Id.ToString(), user!.UserName,
                     clientId: context?.Client.ClientId));
 
-                if (context is { })
+                if (context is not null)
                     return context.IsNativeClient()
                         ?
                         // The client is native, so this change in how to
@@ -108,7 +108,7 @@ public class Index(
         Input = new() { ReturnUrl = returnUrl };
 
         var context = await interaction.GetAuthorizationContextAsync(returnUrl);
-        if (context?.IdP is { } && await schemeProvider.GetSchemeAsync(context.IdP) is { })
+        if (context?.IdP is not null && await schemeProvider.GetSchemeAsync(context.IdP) is not null)
         {
             var local = context.IdP == IdentityServerConstants.LocalIdentityProvider;
 
@@ -127,7 +127,7 @@ public class Index(
         var schemes = await schemeProvider.GetAllSchemesAsync();
 
         var providers = schemes
-            .Where(x => x.DisplayName is { })
+            .Where(x => x.DisplayName is not null)
             .Select(x => new ViewModel.ExternalProvider
             {
                 DisplayName = x.DisplayName ?? x.Name, AuthenticationScheme = x.Name
@@ -143,7 +143,7 @@ public class Index(
 
         var allowLocal = true;
         var client = context?.Client;
-        if (client is { })
+        if (client is not null)
         {
             allowLocal = client.EnableLocalLogin;
             if (client.IdentityProviderRestrictions.Count != 0)
