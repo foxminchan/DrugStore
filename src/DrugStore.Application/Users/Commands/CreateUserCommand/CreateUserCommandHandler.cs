@@ -3,7 +3,7 @@ using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
@@ -13,23 +13,10 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
 {
     public async Task<Result<IdentityId>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if (userManager.Users.Any(u => string.Equals(
-                u.Email, request.Email, StringComparison.OrdinalIgnoreCase
-            )))
-            return Result.Invalid(new ValidationError(
-                nameof(request.Email),
-                "Email already exists",
-                StatusCodes.Status400BadRequest.ToString(),
-                ValidationSeverity.Error
-            ));
+        if (userManager.Users.Any(u => string.Equals(u.Email, request.Email, StringComparison.OrdinalIgnoreCase)))
+            throw new ValidationException("Email already exists");
 
-        ApplicationUser user = new(
-            request.Email,
-            request.FullName,
-            request.Phone,
-            request.Address
-        );
-
+        ApplicationUser user = new(request.Email, request.FullName, request.Phone, request.Address);
         var result = await userManager.CreateAsync(user, request.ConfirmPassword);
 
         if (!result.Succeeded)
@@ -38,7 +25,6 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
             ));
 
         await userManager.AddToRoleAsync(user, Roles.Customer);
-
         return Result<IdentityId>.Success(user.Id);
     }
 }

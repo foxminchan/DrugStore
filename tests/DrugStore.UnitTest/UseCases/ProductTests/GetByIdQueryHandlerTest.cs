@@ -3,12 +3,14 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.UnitTest.Builders;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class GetByIdQueryHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IReadRepository<Product> _repository = Substitute.For<IReadRepository<Product>>();
 
     private static Product CreateProduct() => new(
@@ -22,7 +24,7 @@ public sealed class GetByIdQueryHandlerTest
 
     private readonly GetByIdQueryHandler _handler;
 
-    public GetByIdQueryHandlerTest() => _handler = new(_repository);
+    public GetByIdQueryHandlerTest() => _handler = new(_mapper, _repository);
 
     [Fact]
     public async Task ShouldBeGetProductSuccessfully()

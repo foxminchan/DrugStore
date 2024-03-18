@@ -3,12 +3,14 @@ using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using FluentAssertions;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.OrderTests;
 
 public sealed class UpdateOrderCommandHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
 
     private readonly List<OrderItemUpdateRequest> _orderItemUpdateRequest;
@@ -35,7 +37,7 @@ public sealed class UpdateOrderCommandHandlerTest
         var command = new UpdateOrderCommand(
             new(Guid.Empty), "Order Name", new(Guid.Empty), _orderItemUpdateRequest
         );
-        var handler = new UpdateOrderCommandHandler(_repository);
+        var handler = new UpdateOrderCommandHandler(_mapper, _repository);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

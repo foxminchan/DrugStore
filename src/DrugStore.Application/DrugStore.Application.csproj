@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <ItemGroup>
-        <ProjectReference Include="..\DrugStore.Persistence\DrugStore.Persistence.csproj" />
-    </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Mapster" />
+		<PackageReference Include="Mapster.DependencyInjection" />
+	</ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Baskets\ViewModels\" />
-    </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DrugStore.Persistence\DrugStore.Persistence.csproj" />
+	</ItemGroup>
 
 </Project>

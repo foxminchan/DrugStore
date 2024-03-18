@@ -2,6 +2,7 @@
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Infrastructure.Cache.Redis;
 using FluentAssertions;
+using MapsterMapper;
 using Medallion.Threading;
 using NSubstitute;
 
@@ -9,6 +10,7 @@ namespace DrugStore.UnitTest.UseCases.BasketTests;
 
 public sealed class UpdateBasketCommandHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRedisService _redisService = Substitute.For<IRedisService>();
     private readonly IDistributedLockProvider _distributedLockProvider = Substitute.For<IDistributedLockProvider>();
 
@@ -18,7 +20,7 @@ public sealed class UpdateBasketCommandHandlerTest
 
     public UpdateBasketCommandHandlerTest()
     {
-        _handler = new(_redisService, _distributedLockProvider);
+        _handler = new(_mapper, _redisService, _distributedLockProvider);
 
         var basket = new CustomerBasket
         {

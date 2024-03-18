@@ -3,19 +3,21 @@ using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using FluentAssertions;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.CategoryTests;
 
 public sealed class UpdateCategoryCommandHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
 
     private static Category CreateCategory() => new("Category Name", "Category Description");
 
     private readonly UpdateCategoryCommandHandler _handler;
 
-    public UpdateCategoryCommandHandlerTest() => _handler = new(_repository);
+    public UpdateCategoryCommandHandlerTest() => _handler = new(_mapper, _repository);
 
     [Fact]
     public async Task ShouldBeUpdateCategorySuccessfully()

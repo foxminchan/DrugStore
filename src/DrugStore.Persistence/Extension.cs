@@ -25,7 +25,7 @@ public static class Extension
         {
             options.UseNpgsql(connectionString, sqlOptions =>
                 {
-                    sqlOptions.MigrationsAssembly(AssemblyReference.DomainAssembly.FullName);
+                    sqlOptions.MigrationsAssembly(AssemblyReference.DbContextAssembly.FullName);
                     sqlOptions.EnableRetryOnFailure(15, TimeSpan.FromSeconds(30),
                         null);
                 })

@@ -5,10 +5,12 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
+using MapsterMapper;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed class UpdateProductCommandHandler(
+    IMapper mapper,
     IRepository<Product> repository,
     ILocalStorage localStorage) : ICommandHandler<UpdateProductCommand, Result<ProductVm>>
 {
@@ -28,18 +30,7 @@ public sealed class UpdateProductCommandHandler(
 
         await RemoveObsoleteImagesAsync(product, request.ImageUrl);
         await repository.UpdateAsync(product, cancellationToken);
-
-        return Result<ProductVm>.Success(new(
-            product.Id,
-            product.Name,
-            product.ProductCode,
-            product.Detail,
-            product.Status,
-            product.Quantity,
-            product.Category,
-            product.Price,
-            product.Image
-        ));
+        return Result<ProductVm>.Success(mapper.Map<ProductVm>(product));
     }
 
     private async Task RemoveObsoleteImagesAsync(Product product, string? imageUrl)

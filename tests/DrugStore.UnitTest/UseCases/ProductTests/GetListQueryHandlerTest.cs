@@ -3,12 +3,14 @@ using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.UnitTest.Builders;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class GetListQueryHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IReadRepository<Product> _repository = Substitute.For<IReadRepository<Product>>();
 
     private readonly List<Product> _products;
@@ -50,7 +52,7 @@ public sealed class GetListQueryHandlerTest
             )
         ];
 
-        _handler = new(_repository);
+        _handler = new(_mapper, _repository);
     }
 
     [Fact]

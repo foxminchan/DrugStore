@@ -2,6 +2,7 @@
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
@@ -18,7 +19,7 @@ public sealed class Delete(ISender sender) : IEndpoint<Unit, DeleteCategoryReque
 
     public async Task<Unit> HandleAsync(DeleteCategoryRequest request, CancellationToken cancellationToken = default)
     {
-        await sender.Send(new DeleteCategoryCommand(request.Id), cancellationToken);
+        await sender.Send(request.Adapt<DeleteCategoryCommand>(), cancellationToken);
         return Unit.Value;
     }
 }

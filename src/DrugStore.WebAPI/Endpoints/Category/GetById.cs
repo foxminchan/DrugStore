@@ -2,6 +2,7 @@
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
@@ -21,6 +22,6 @@ public sealed class GetById(ISender sender) : IEndpoint<CategoryDto, GetCategory
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
-        return new(result.Value.Id, result.Value.Name, result.Value.Description);
+        return result.Value.Adapt<CategoryDto>();
     }
 }

@@ -75,7 +75,7 @@ public sealed class ApplicationFactory<TProgram>
                         break;
 
                     case RedisContainer cacheContainer:
-                        builder.UseSetting("ConnectionStrings:Redis", cacheContainer.GetConnectionString());
+                        builder.UseSetting("Redis:Url", cacheContainer.GetConnectionString());
                         break;
                 }
             }));

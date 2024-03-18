@@ -1,11 +1,11 @@
 ﻿using System.Net.Mime;
-using System.Security.Claims;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
+using Mapster;
+using MapsterMapper;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -17,10 +17,7 @@ public static class HostingExtensions
 {
     public static void AddIdentity(this IHostApplicationBuilder builder)
     {
-        builder.Services.AddAuthentication(option =>
-            {
-                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.Audience = nameof(DrugStore).ToLowerInvariant();
@@ -29,14 +26,11 @@ public static class HostingExtensions
             });
 
         builder.Services.AddAuthorizationBuilder()
-            .AddPolicy(Policies.Admin,
-                policy => policy
-                    .RequireRole(Roles.Admin)
-                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write, Claims.Manage))
-            .AddPolicy(Policies.Customer,
-                policy => policy
-                    .RequireRole(Roles.Customer)
-                    .RequireClaim(ClaimTypes.Role, Claims.Read, Claims.Write));
+            .AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+            {
+                policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                policy.RequireAuthenticatedUser();
+            });
 
         builder.Services.AddIdentityCore<ApplicationUser>()
             .AddRoles<ApplicationRole>()
@@ -122,7 +116,7 @@ public static class HostingExtensions
 
     public static IApplicationBuilder MapSpecialEndpoints(this WebApplication app)
     {
-        app.MapGet("antiforgery/token", (IAntiforgery forgeryService, HttpContext context) =>
+        app.MapGet("anti-forgery/token", (IAntiforgery forgeryService, HttpContext context) =>
         {
             var tokens = forgeryService.GetAndStoreTokens(context);
             var xsrfToken = tokens.RequestToken;
@@ -140,5 +134,14 @@ public static class HostingExtensions
         app.MapPrometheusScrapingEndpoint();
 
         return app;
+    }
+
+    public static IServiceCollection AddMappings(this IHostApplicationBuilder builder)
+    {
+        var config = TypeAdapterConfig.GlobalSettings;
+        config.Scan(Application.AssemblyReference.ExecutingAssembly, AssemblyReference.ExecutingAssembly);
+        builder.Services.AddSingleton(config);
+        builder.Services.AddScoped<IMapper, ServiceMapper>();
+        return builder.Services;
     }
 }

@@ -1,5 +1,7 @@
 ﻿using DrugStore.Application.Categories.Commands.UpdateCategoryCommand;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
@@ -12,15 +14,13 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateCategoryResponse, U
             .WithTags(nameof(Category))
             .WithName("Update Category")
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization();
+            .RequirePerUserRateLimit();
 
     public async Task<UpdateCategoryResponse> HandleAsync(
         UpdateCategoryRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new UpdateCategoryCommand(request.Id, request.Name, request.Description), cancellationToken
-        );
-        return new(new(result.Value.Id, result.Value.Name, result.Value.Description));
+        var result = await sender.Send(request.Adapt<UpdateCategoryCommand>(), cancellationToken);
+        return new(result.Value.Adapt<CategoryDto>());
     }
 }

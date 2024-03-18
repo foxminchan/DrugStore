@@ -2,6 +2,7 @@
 using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.CategoryTests;
@@ -9,6 +10,7 @@ namespace DrugStore.UnitTest.UseCases.CategoryTests;
 public sealed class GetListQueryHandlerTest
 {
     private readonly Faker _faker = new();
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IReadRepository<Category> _repository = Substitute.For<IReadRepository<Category>>();
 
     public GetListQueryHandlerTest()
@@ -29,7 +31,7 @@ public sealed class GetListQueryHandlerTest
     {
         // Arrange
         var query = new GetListQuery();
-        var handler = new GetListQueryHandler(_repository);
+        var handler = new GetListQueryHandler(_mapper, _repository);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

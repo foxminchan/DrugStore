@@ -2,4 +2,8 @@
 
 namespace DrugStore.Application.Baskets.ViewModels;
 
-public sealed record CustomerBasketVm(IdentityId Id, List<BasketItemVm> Items, decimal Total);
+public sealed record CustomerBasketVm(
+    IdentityId Id,
+    List<BasketItemVm> Items,
+    decimal Total
+);

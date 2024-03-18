@@ -3,12 +3,14 @@ using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.CategoryTests;
 
 public sealed class GetByIdQueryHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRedisService _redisService = Substitute.For<IRedisService>();
     private readonly IReadRepository<Category> _repository = Substitute.For<IReadRepository<Category>>();
 
@@ -25,7 +27,7 @@ public sealed class GetByIdQueryHandlerTest
     {
         // Arrange
         var query = new GetByIdQuery(new(Guid.Empty));
-        var handler = new GetByIdQueryHandler(_repository, _redisService);
+        var handler = new GetByIdQueryHandler(_mapper, _repository, _redisService);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

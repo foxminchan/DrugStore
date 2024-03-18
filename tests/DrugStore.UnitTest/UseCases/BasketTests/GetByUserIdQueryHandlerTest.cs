@@ -1,12 +1,14 @@
 ﻿using DrugStore.Application.Baskets.Queries.GetByUserIdQuery;
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Infrastructure.Cache.Redis;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.BasketTests;
 
 public sealed class GetByUserIdQueryHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRedisService _redisService = Substitute.For<IRedisService>();
 
     public GetByUserIdQueryHandlerTest()
@@ -30,7 +32,7 @@ public sealed class GetByUserIdQueryHandlerTest
     public async Task ShouldBeGetBasketSuccessfully()
     {
         // Arrange
-        var handler = new GetByUserIdQueryHandler(_redisService);
+        var handler = new GetByUserIdQueryHandler(_redisService, _mapper);
         var query = new GetByUserIdQuery(new(Guid.NewGuid()));
 
         // Act

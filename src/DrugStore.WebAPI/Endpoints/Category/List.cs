@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
@@ -18,10 +19,6 @@ public sealed class List(ISender sender) : IEndpoint<ListCategoryResponse>
     public async Task<ListCategoryResponse> HandleAsync(CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new GetListQuery(), cancellationToken);
-
-        return new()
-        {
-            Categories = [.. result.Value.Select(x => new CategoryDto(x.Id, x.Name, x.Description))]
-        };
+        return new(result.Value.Adapt<List<CategoryDto>>());
     }
 }

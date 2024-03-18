@@ -5,11 +5,14 @@ using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
+using MapsterMapper;
 
 namespace DrugStore.Application.Categories.Queries.GetByIdQuery;
 
-public sealed class GetByIdQueryHandler(IReadRepository<Category> repository, IRedisService redisService)
-    : IQueryHandler<GetByIdQuery, Result<CategoryVm>>
+public sealed class GetByIdQueryHandler(
+    IMapper mapper,
+    IReadRepository<Category> repository,
+    IRedisService redisService) : IQueryHandler<GetByIdQuery, Result<CategoryVm>>
 {
     public async Task<Result<CategoryVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
@@ -24,6 +27,6 @@ public sealed class GetByIdQueryHandler(IReadRepository<Category> repository, IR
 
         var entity = await repository.FirstOrDefaultAsync(new CategoryByIdSpec(request.Id), cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
-        return Result<CategoryVm>.Success(new(entity.Id, entity.Name, entity.Description));
+        return Result<CategoryVm>.Success(mapper.Map<CategoryVm>(entity));
     }
 }

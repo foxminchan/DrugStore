@@ -2,12 +2,13 @@
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrugStore.Application.Users.Queries.GetListQuery;
 
-public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager)
+public sealed class GetListQueryHandler(IMapper mapper, UserManager<ApplicationUser> userManager)
     : IQueryHandler<GetListQuery, PagedResult<List<UserVm>>>
 {
     public async Task<PagedResult<List<UserVm>>> Handle(GetListQuery request, CancellationToken cancellationToken)
@@ -19,7 +20,7 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
         var users = await query
             .Skip((request.Filter.PageIndex - 1) * request.Filter.PageSize)
             .Take(request.Filter.PageSize)
-            .Select(x => new UserVm(x.Id, x.Email, x.FullName, x.PhoneNumber, x.Address))
+            .Select(x => mapper.Map<UserVm>(x))
             .ToListAsync(cancellationToken);
 
         if (!string.IsNullOrEmpty(request.Filter.Search))
@@ -33,12 +34,7 @@ public sealed class GetListQueryHandler(UserManager<ApplicationUser> userManager
 
         var totalRecords = await userManager.Users.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
-        PagedInfo pagedInfo = new(
-            request.Filter.PageIndex,
-            request.Filter.PageSize,
-            totalPages,
-            totalRecords
-        );
+        PagedInfo pagedInfo = new(request.Filter.PageIndex, request.Filter.PageSize, totalPages, totalRecords);
         return new(pagedInfo, users);
     }
 }

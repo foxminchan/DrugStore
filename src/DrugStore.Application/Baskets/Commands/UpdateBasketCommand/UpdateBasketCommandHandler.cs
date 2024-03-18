@@ -4,11 +4,13 @@ using DrugStore.Application.Baskets.ViewModels;
 using DrugStore.Domain.BasketAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
+using MapsterMapper;
 using Medallion.Threading;
 
 namespace DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 
 public sealed class UpdateBasketCommandHandler(
+    IMapper mapper,
     IRedisService redisService,
     IDistributedLockProvider distributedLockProvider) : ICommandHandler<UpdateBasketCommand, Result<CustomerBasketVm>>
 {
@@ -44,20 +46,6 @@ public sealed class UpdateBasketCommandHandler(
             basket.UpdateItem(basketItem);
         }
 
-        return Result<CustomerBasketVm>.Success(
-            new(
-                basket.Id,
-                [
-                    .. basket.Items
-                        .Select(x => new BasketItemVm(
-                            x.Id,
-                            x.ProductName,
-                            x.Quantity,
-                            x.Price,
-                            x.Price * x.Quantity
-                        ))
-                ],
-                basket.Items.Sum(x => x.Price * x.Quantity)
-            ));
+        return Result<CustomerBasketVm>.Success(mapper.Map<CustomerBasketVm>(basket));
     }
 }

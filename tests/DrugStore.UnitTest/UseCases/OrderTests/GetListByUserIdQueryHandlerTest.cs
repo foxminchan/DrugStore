@@ -2,12 +2,14 @@
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.OrderTests;
 
 public sealed class GetListByUserIdQueryHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IReadRepository<Order> _repository = Substitute.For<IReadRepository<Order>>();
 
     public GetListByUserIdQueryHandlerTest()
@@ -28,7 +30,7 @@ public sealed class GetListByUserIdQueryHandlerTest
     {
         // Arrange
         var query = new GetListByUserIdQuery(new(Guid.Empty), new());
-        var handler = new GetListByUserIdQueryHandler(_repository);
+        var handler = new GetListByUserIdQueryHandler(_mapper, _repository);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);

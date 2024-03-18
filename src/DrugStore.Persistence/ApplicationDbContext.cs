@@ -58,6 +58,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         base.OnModelCreating(builder);
         builder.ConfigureSmartEnum();
         builder.HasPostgresExtension(UniqueId.UuidExtension);
-        builder.ApplyConfigurationsFromAssembly(AssemblyReference.DomainAssembly);
+        builder.ApplyConfigurationsFromAssembly(AssemblyReference.DbContextAssembly);
     }
 }

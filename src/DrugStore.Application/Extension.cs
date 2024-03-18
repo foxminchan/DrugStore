@@ -15,11 +15,13 @@ public static class Extension
     [DebuggerStepThrough]
     public static void AddApplication(this IServiceCollection services)
     {
-        services.AddValidatorsFromAssemblies(AssemblyReference.AppDomainAssemblies);
+        services.AddValidatorsFromAssemblies([AssemblyReference.ExecutingAssembly]);
         services.AddHttpContextAccessor()
             .AddMediatR(cfg =>
             {
-                cfg.RegisterServicesFromAssemblies(AssemblyReference.Assembly, Persistence.AssemblyReference.Assembly);
+                cfg.RegisterServicesFromAssemblies(
+                    AssemblyReference.ExecutingAssembly, Persistence.AssemblyReference.ExecutingAssembly
+                );
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehavior<,>),
                     ServiceLifetime.Scoped);
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>),

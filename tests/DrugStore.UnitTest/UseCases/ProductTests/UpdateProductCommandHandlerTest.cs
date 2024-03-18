@@ -4,19 +4,22 @@ using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.UnitTest.Builders;
 using FluentAssertions;
+using MapsterMapper;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class UpdateProductCommandHandlerTest
 {
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+
     private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
 
     private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
 
     private readonly UpdateProductCommandHandler _handler;
 
-    public UpdateProductCommandHandlerTest() => _handler = new(_repository, _localStorage);
+    public UpdateProductCommandHandlerTest() => _handler = new(_mapper, _repository, _localStorage);
 
     [Fact]
     public async Task ShouldBeUpdateProductSuccessfully()

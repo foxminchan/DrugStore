@@ -6,6 +6,7 @@ using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddIdentity();
+builder.AddMappings();
 builder.AddCustomDbContext();
 builder.AddEndpoints();
 builder.AddCustomCors();

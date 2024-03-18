@@ -3,10 +3,11 @@ using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
+using MapsterMapper;
 
 namespace DrugStore.Application.Orders.Queries.GetListByUserIdQuery;
 
-public sealed class GetListByUserIdQueryHandler(IReadRepository<Order> repository)
+public sealed class GetListByUserIdQueryHandler(IMapper mapper, IReadRepository<Order> repository)
     : IQueryHandler<GetListByUserIdQuery, PagedResult<List<OrderDetailVm>>>
 {
     public async Task<PagedResult<List<OrderDetailVm>>> Handle(GetListByUserIdQuery request,
@@ -17,36 +18,7 @@ public sealed class GetListByUserIdQueryHandler(IReadRepository<Order> repositor
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);
-        PagedInfo pageInfo = new(
-            request.Filter.PageIndex,
-            request.Filter.PageSize,
-            totalPages,
-            totalRecords
-        );
-
-        var orderVms = entities
-            .Select(
-                order => new OrderDetailVm(
-                    new(
-                        order.Id,
-                        order.Code,
-                        order.Customer,
-                        order.OrderItems?.Sum(item => item.Quantity * item.Price) ?? 0
-                    ),
-                    [
-                        .. order.OrderItems?.Select(
-                            item => new OrderItemVm(
-                                item.ProductId,
-                                item.OrderId,
-                                item.Quantity,
-                                item.Price,
-                                item.Price * item.Quantity
-                            )
-                        )
-                    ]
-                )
-            ).ToList();
-
-        return new(pageInfo, orderVms);
+        PagedInfo pageInfo = new(request.Filter.PageIndex, request.Filter.PageSize, totalPages, totalRecords);
+        return new(pageInfo, mapper.Map<List<OrderDetailVm>>(entities));
     }
 }

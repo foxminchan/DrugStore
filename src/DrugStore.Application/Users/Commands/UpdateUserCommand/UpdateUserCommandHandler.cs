@@ -3,12 +3,13 @@ using Ardalis.Result;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
-using Microsoft.AspNetCore.Http;
+using FluentValidation;
+using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Commands.UpdateUserCommand;
 
-public sealed class UpdateUserCommandHandler(UserManager<ApplicationUser> userManager)
+public sealed class UpdateUserCommandHandler(IMapper mapper, UserManager<ApplicationUser> userManager)
     : ICommandHandler<UpdateUserCommand, Result<UserVm>>
 {
     public async Task<Result<UserVm>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
@@ -17,12 +18,7 @@ public sealed class UpdateUserCommandHandler(UserManager<ApplicationUser> userMa
         Guard.Against.NotFound(request.Id, user);
 
         if (userManager.Users.Any(u => u.Email == request.Email))
-            return Result.Invalid(new ValidationError(
-                nameof(request.Email),
-                "Email already exists",
-                StatusCodes.Status400BadRequest.ToString(),
-                ValidationSeverity.Error
-            ));
+            throw new ValidationException("Email already exists");
 
         user.Update(request.Email, request.FullName, request.Phone, request.Address);
 
@@ -40,6 +36,6 @@ public sealed class UpdateUserCommandHandler(UserManager<ApplicationUser> userMa
             ? Result<UserVm>.Invalid(new List<ValidationError>(
                 result.Errors.Select(e => new ValidationError(e.Description))
             ))
-            : Result<UserVm>.Success(new(user.Id, user.Email, user.FullName, user.PhoneNumber, user.Address));
+            : Result<UserVm>.Success(mapper.Map<UserVm>(user));
     }
 }
