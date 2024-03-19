@@ -62,7 +62,7 @@ namespace DrugStore.Persistence.CompiledModels
             IdentityUserTokenEntityType.CreateAnnotations(identityUserToken);
 
             AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-            AddAnnotation("ProductVersion", "8.0.2");
+            AddAnnotation("ProductVersion", "8.0.3");
             AddAnnotation("Relational:MaxIdentifierLength", 63);
             AddRuntimeAnnotation("Relational:RelationalModel", CreateRelationalModel());
         }

@@ -3,7 +3,6 @@
 	<ItemGroup>
 		<PackageReference Include="MediatR" />
 		<PackageReference Include="StronglyTypedId" />
-		<PackageReference Include="SonarAnalyzer.CSharp" />
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 	</ItemGroup>
 

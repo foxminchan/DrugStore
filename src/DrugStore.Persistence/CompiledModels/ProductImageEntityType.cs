@@ -29,6 +29,7 @@ namespace DrugStore.Persistence.CompiledModels
             var productId = runtimeEntityType.AddProperty(
                 "ProductId",
                 typeof(ProductId),
+                valueGenerated: ValueGenerated.OnAdd,
                 afterSaveBehavior: PropertySaveBehavior.Throw);
             productId.TypeMapping = GuidTypeMapping.Default.Clone(
                 comparer: new ValueComparer<ProductId>(

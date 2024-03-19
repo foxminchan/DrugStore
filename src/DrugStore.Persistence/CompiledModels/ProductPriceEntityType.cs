@@ -30,6 +30,7 @@ namespace DrugStore.Persistence.CompiledModels
             var productId = runtimeEntityType.AddProperty(
                 "ProductId",
                 typeof(ProductId),
+                valueGenerated: ValueGenerated.OnAdd,
                 afterSaveBehavior: PropertySaveBehavior.Throw);
             productId.TypeMapping = GuidTypeMapping.Default.Clone(
                 comparer: new ValueComparer<ProductId>(
@@ -80,23 +81,23 @@ namespace DrugStore.Persistence.CompiledModels
 
             var priceSale = runtimeEntityType.AddProperty(
                 "PriceSale",
-                typeof(decimal?),
+                typeof(decimal),
                 propertyInfo: typeof(ProductPrice).GetProperty("PriceSale", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly),
                 fieldInfo: typeof(ProductPrice).GetField("<PriceSale>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly),
-                nullable: true);
+                sentinel: 0m);
             priceSale.TypeMapping = NpgsqlDecimalTypeMapping.Default.Clone(
-                comparer: new ValueComparer<decimal?>(
-                    (Nullable<decimal> v1, Nullable<decimal> v2) => v1.HasValue && v2.HasValue && (decimal)v1 == (decimal)v2 || !v1.HasValue && !v2.HasValue,
-                    (Nullable<decimal> v) => v.HasValue ? ((decimal)v).GetHashCode() : 0,
-                    (Nullable<decimal> v) => v.HasValue ? (Nullable<decimal>)(decimal)v : default(Nullable<decimal>)),
-                keyComparer: new ValueComparer<decimal?>(
-                    (Nullable<decimal> v1, Nullable<decimal> v2) => v1.HasValue && v2.HasValue && (decimal)v1 == (decimal)v2 || !v1.HasValue && !v2.HasValue,
-                    (Nullable<decimal> v) => v.HasValue ? ((decimal)v).GetHashCode() : 0,
-                    (Nullable<decimal> v) => v.HasValue ? (Nullable<decimal>)(decimal)v : default(Nullable<decimal>)),
-                providerValueComparer: new ValueComparer<decimal?>(
-                    (Nullable<decimal> v1, Nullable<decimal> v2) => v1.HasValue && v2.HasValue && (decimal)v1 == (decimal)v2 || !v1.HasValue && !v2.HasValue,
-                    (Nullable<decimal> v) => v.HasValue ? ((decimal)v).GetHashCode() : 0,
-                    (Nullable<decimal> v) => v.HasValue ? (Nullable<decimal>)(decimal)v : default(Nullable<decimal>)));
+                comparer: new ValueComparer<decimal>(
+                    (decimal v1, decimal v2) => v1 == v2,
+                    (decimal v) => v.GetHashCode(),
+                    (decimal v) => v),
+                keyComparer: new ValueComparer<decimal>(
+                    (decimal v1, decimal v2) => v1 == v2,
+                    (decimal v) => v.GetHashCode(),
+                    (decimal v) => v),
+                providerValueComparer: new ValueComparer<decimal>(
+                    (decimal v1, decimal v2) => v1 == v2,
+                    (decimal v) => v.GetHashCode(),
+                    (decimal v) => v));
             priceSale.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
 
             var key = runtimeEntityType.AddKey(

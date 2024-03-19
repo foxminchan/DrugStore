@@ -17,7 +17,7 @@ namespace DrugStore.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "uuid-ossp");
@@ -34,7 +34,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 150, DateTimeKind.Utc).AddTicks(8701))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 759, DateTimeKind.Utc).AddTicks(4385))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Description")
@@ -51,20 +51,182 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 151, DateTimeKind.Utc).AddTicks(6369))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 759, DateTimeKind.Utc).AddTicks(4770))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("6a655ecd-7673-4b91-9503-7151e4bb0397"))
+                        .HasDefaultValue(new Guid("7acc41fc-5235-4bce-a907-95202fdb8c8d"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
                         .HasName("pk_categories");
 
                     b.ToTable("categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7c549a74-7bd3-4983-b8aa-abef758da155"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3095),
+                            Description = "Drugs used to relieve pain without causing loss of consciousness.",
+                            Name = "Analgesics",
+                            Version = new Guid("98abb4e9-a486-45aa-a663-0d6adc5e016c")
+                        },
+                        new
+                        {
+                            Id = new Guid("d4bc8e7b-604c-46cd-8a68-0e2143999de9"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3117),
+                            Description = "Medications used to treat bacterial infections.",
+                            Name = "Antibiotics",
+                            Version = new Guid("dd1fc85f-4780-42ec-9f15-63c3cf63093c")
+                        },
+                        new
+                        {
+                            Id = new Guid("b6b160f2-b2db-46a6-ba25-180dfaa0997e"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3122),
+                            Description = "Medications used to alleviate symptoms of depression.",
+                            Name = "Antidepressants",
+                            Version = new Guid("9de198f6-5a32-4a27-8af4-3d0f955f5217")
+                        },
+                        new
+                        {
+                            Id = new Guid("5e9e5dd9-942f-4f07-adc8-4a34e305cc17"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3125),
+                            Description = "Medications used to treat fungal infections.",
+                            Name = "Antifungals",
+                            Version = new Guid("e40546f5-ef00-4ca5-8670-6eb0b8121046")
+                        },
+                        new
+                        {
+                            Id = new Guid("e5d59b35-afa4-4904-8b66-7f587f3279ab"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3128),
+                            Description = "Drugs used to treat viral infections.",
+                            Name = "Antivirals",
+                            Version = new Guid("c477a9e2-0b97-4e51-8d2e-f83cc072f0d3")
+                        },
+                        new
+                        {
+                            Id = new Guid("95b31ea2-724b-4081-beaa-cb0d363f86d2"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3136),
+                            Description = "Medications used to prevent or alleviate nausea and vomiting.",
+                            Name = "Anti emetics",
+                            Version = new Guid("083c1bb5-73de-499d-b8b7-b6111c407563")
+                        },
+                        new
+                        {
+                            Id = new Guid("de686350-57a5-4cb4-917c-8ace222dc878"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3139),
+                            Description = "Drugs that block the action of histamine and are used to treat allergic conditions.",
+                            Name = "Antihistamines",
+                            Version = new Guid("ff609612-4c31-44ca-b263-ee9c4c1d6a66")
+                        },
+                        new
+                        {
+                            Id = new Guid("4cc2c3ca-1edb-4216-a0e0-69a1cb8cfb6b"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3142),
+                            Description = "Medications used to lower blood pressure.",
+                            Name = "Anti hypertensives",
+                            Version = new Guid("3a8db586-88d2-4250-8f40-6e4250104392")
+                        },
+                        new
+                        {
+                            Id = new Guid("01c8f6c7-0151-44db-83fd-06f0c5ff381e"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3144),
+                            Description = "Medications used to reduce inflammation and alleviate pain.",
+                            Name = "Anti-inflammatory Drugs",
+                            Version = new Guid("9a170908-f7a2-4a2d-ad4c-cf0e0f8c978c")
+                        },
+                        new
+                        {
+                            Id = new Guid("fdbec5f9-05d1-4fc5-81d5-817314a84dec"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3150),
+                            Description = "Medications used to relax the muscles in the airways, making breathing easier.",
+                            Name = "Bronchiectasis",
+                            Version = new Guid("3b1e5ef4-c886-4585-90cf-4bc794531857")
+                        },
+                        new
+                        {
+                            Id = new Guid("044de969-77fd-43e7-a241-a810de292e3c"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3180),
+                            Description = "Medications used to increase urine production and reduce fluid retention.",
+                            Name = "Diuretics",
+                            Version = new Guid("19c359e3-d0cf-42bb-bbc2-a06ab005c939")
+                        },
+                        new
+                        {
+                            Id = new Guid("ccf23f9f-a2e5-4f5f-8a3b-205c27dc7461"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3183),
+                            Description = "Chemical messengers that regulate various bodily functions.",
+                            Name = "Hormones",
+                            Version = new Guid("97c4a7e8-53e9-4a46-968e-8d92ca2976e5")
+                        },
+                        new
+                        {
+                            Id = new Guid("6f3181b3-54ff-4353-8f8a-b80636af085b"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3186),
+                            Description = "Medications used to suppress the immune system, often used in transplant patients.",
+                            Name = "Immunosuppressant",
+                            Version = new Guid("1fe26ac5-6cc9-4c7a-a810-9f3e654dded9")
+                        },
+                        new
+                        {
+                            Id = new Guid("288b5f4c-da89-4e45-adef-77ef3eca356c"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3192),
+                            Description = "Substances that promote bowel movements and relieve constipation.",
+                            Name = "Laxatives",
+                            Version = new Guid("5a1c5847-88b0-4cf5-b3b0-a1939a7f54ef")
+                        },
+                        new
+                        {
+                            Id = new Guid("9dc20a7d-2739-4844-8e7f-90f7ce942748"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3195),
+                            Description = "Medications used to relax muscles and reduce muscle spasms.",
+                            Name = "Muscle Relaxants",
+                            Version = new Guid("9a8553ea-bee1-451c-8cb2-aa4054f778a6")
+                        },
+                        new
+                        {
+                            Id = new Guid("72540ff6-6945-465d-a567-4ddd7a37c16a"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3198),
+                            Description = "Drugs that induce relaxation and sleepiness.",
+                            Name = "Sedatives",
+                            Version = new Guid("2b45948e-7d48-474b-8f9e-1aff0ca124d6")
+                        },
+                        new
+                        {
+                            Id = new Guid("0f27790a-c754-438c-92bb-a3b1d54340b4"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3201),
+                            Description = "Substances that increase alertness, attention, and energy.",
+                            Name = "Stimulants",
+                            Version = new Guid("046ad6cd-0e00-45b4-8e6c-912bd7be32b7")
+                        },
+                        new
+                        {
+                            Id = new Guid("c67b5e61-680d-4e2a-8db4-05d5040d7b37"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3208),
+                            Description = "Medications used to dissolve blood clots.",
+                            Name = "Thrombolytic",
+                            Version = new Guid("5406ddc4-3f6c-4329-a109-f3cafdea6755")
+                        },
+                        new
+                        {
+                            Id = new Guid("d5d4e348-060a-4a73-9462-8ca2841680a0"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3212),
+                            Description = "Preparations that stimulate the immune system to protect against specific diseases.",
+                            Name = "Vaccines",
+                            Version = new Guid("04143c74-de2e-4849-b697-a08f57f1573d")
+                        },
+                        new
+                        {
+                            Id = new Guid("2b4f53b1-add8-4535-9ecb-682f71582cb4"),
+                            CreatedDate = new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(3215),
+                            Description = "Essential nutrients required for various bodily functions.",
+                            Name = "Vitamins and Minerals",
+                            Version = new Guid("b33892dd-0670-4bfe-ab25-fa2b8870fac6")
+                        });
                 });
 
             modelBuilder.Entity("DrugStore.Domain.IdentityAggregate.ApplicationRole", b =>
@@ -205,7 +367,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(984))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(5157))
                         .HasColumnName("created_date");
 
                     b.Property<Guid?>("CustomerId")
@@ -215,14 +377,14 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 153, DateTimeKind.Utc).AddTicks(1469))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 760, DateTimeKind.Utc).AddTicks(5586))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("a39a74de-422f-4132-8415-5d3a261842a6"))
+                        .HasDefaultValue(new Guid("55bd4af7-e338-4953-a6af-54a8d8b37fc5"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
@@ -249,7 +411,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(6679))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 762, DateTimeKind.Utc).AddTicks(4795))
                         .HasColumnName("created_date");
 
                     b.Property<decimal>("Price")
@@ -263,14 +425,14 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 155, DateTimeKind.Utc).AddTicks(7157))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 762, DateTimeKind.Utc).AddTicks(5254))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("6ec0bcc7-fd63-4119-a198-b7720ee48a72"))
+                        .HasDefaultValue(new Guid("f8928b77-58fd-4bb3-8a98-ee3a6348d937"))
                         .HasColumnName("version");
 
                     b.HasKey("OrderId", "ProductId")
@@ -297,7 +459,7 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(3567))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 764, DateTimeKind.Utc).AddTicks(8399))
                         .HasColumnName("created_date");
 
                     b.Property<string>("Detail")
@@ -331,14 +493,14 @@ namespace DrugStore.Persistence.Migrations
                     b.Property<DateTime?>("UpdateDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTime(2024, 3, 8, 15, 12, 32, 158, DateTimeKind.Utc).AddTicks(4031))
+                        .HasDefaultValue(new DateTime(2024, 3, 19, 15, 53, 49, 764, DateTimeKind.Utc).AddTicks(8902))
                         .HasColumnName("update_date");
 
                     b.Property<Guid>("Version")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasDefaultValue(new Guid("f2dfa8c3-58bb-479e-a338-4a3065872405"))
+                        .HasDefaultValue(new Guid("b1758b8b-491d-41bc-822b-7a177175f684"))
                         .HasColumnName("version");
 
                     b.HasKey("Id")
@@ -568,6 +730,7 @@ namespace DrugStore.Persistence.Migrations
                     b.OwnsOne("DrugStore.Domain.ProductAggregate.ValueObjects.ProductImage", "Image", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("Alt")
@@ -593,12 +756,13 @@ namespace DrugStore.Persistence.Migrations
                     b.OwnsOne("DrugStore.Domain.ProductAggregate.ValueObjects.ProductPrice", "Price", b1 =>
                         {
                             b1.Property<Guid>("ProductId")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("uuid");
 
                             b1.Property<decimal>("Price")
                                 .HasColumnType("numeric");
 
-                            b1.Property<decimal?>("PriceSale")
+                            b1.Property<decimal>("PriceSale")
                                 .HasColumnType("numeric");
 
                             b1.HasKey("ProductId");

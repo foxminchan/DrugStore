@@ -121,7 +121,7 @@ namespace DrugStore.Persistence.CompiledModels
                     (DateTime v) => v));
             createdDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
             createdDate.AddAnnotation("Relational:ColumnName", "created_date");
-            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 83, DateTimeKind.Utc).AddTicks(3828));
+            createdDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 19, 15, 39, 59, 223, DateTimeKind.Utc).AddTicks(6476));
 
             var detail = runtimeEntityType.AddProperty(
                 "Detail",
@@ -281,7 +281,7 @@ updateDate.TypeMapping = NpgsqlTimestampTzTypeMapping.Default.Clone(
         (Nullable<DateTime> v) => v.HasValue ? (Nullable<DateTime>)(DateTime)v : default(Nullable<DateTime>)));
 updateDate.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
 updateDate.AddAnnotation("Relational:ColumnName", "update_date");
-updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 8, 15, 12, 1, 83, DateTimeKind.Utc).AddTicks(4161));
+updateDate.AddAnnotation("Relational:DefaultValue", new DateTime(2024, 3, 19, 15, 39, 59, 223, DateTimeKind.Utc).AddTicks(6793));
 
 var version = runtimeEntityType.AddProperty(
     "Version",
@@ -308,7 +308,7 @@ version.TypeMapping = GuidTypeMapping.Default.Clone(
         storeTypeName: "uuid"));
 version.AddAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.None);
 version.AddAnnotation("Relational:ColumnName", "version");
-version.AddAnnotation("Relational:DefaultValue", new Guid("b82e4e6b-5c61-408b-9d40-a7e8c6a74065"));
+version.AddAnnotation("Relational:DefaultValue", new Guid("71d83fd0-ecf9-4480-a2cf-1bc3dfed45a8"));
 
 var key = runtimeEntityType.AddKey(
     new[] { id });
