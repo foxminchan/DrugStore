@@ -28,9 +28,7 @@ public sealed class ApplicationUser : IdentityUser<IdentityId>, IAggregateRoot
     }
 
     [PersonalData] public string? FullName { get; set; }
-
     [PersonalData] public Address? Address { get; set; }
-
     public ICollection<Order> Orders { get; set; } = [];
 
     public void Update(string? email, string? fullName, string? phone, Address? address)

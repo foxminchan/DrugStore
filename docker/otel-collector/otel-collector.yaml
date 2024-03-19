@@ -9,6 +9,8 @@ receivers:
             - "https://*"
 
 exporters:
+  debug:
+    verbosity: detailed
   prometheus:
     endpoint: "0.0.0.0:8889"
     const_labels:
@@ -16,11 +18,24 @@ exporters:
 
   logging:
 
-  otlphttp/jaeger:
-    endpoint: jaeger:14250
+  otlp:
+    endpoint: "tempo:4320"
+    tls:
+      insecure: true
+
+  loki:
+    endpoint: http://loki:3100/loki/api/v1/push
+    default_labels_enabled:
+      exporter: true
+      job: true
 
 processors:
   batch:
+  resource/loki:
+    attributes:
+      - action: insert
+        key: loki.resource.labels
+        value: service.name, service.namespace
 
 extensions:
   health_check: {}
@@ -35,12 +50,15 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging, otlphttp/jaeger]
+      exporters: [logging, otlp]
     metrics:
       receivers: [otlp]
       processors: [batch]
       exporters: [logging, prometheus]
     logs:
       receivers: [otlp]
-      processors: [batch]
-      exporters: [logging]
+      processors: [resource/loki, batch]
+      exporters: [logging, loki]
+  telemetry:
+    logs:
+      level: INFO

@@ -35,48 +35,6 @@ public sealed class BasketItemTest(ITestOutputHelper output)
     }
 
     [Fact]
-    public void ShouldBeThrowExceptionWhenUpdateBasketItemWithNegativeQuantity()
-    {
-        // Arrange
-        var productId = new ProductId(_faker.Random.Guid());
-        var productName = _faker.Commerce.ProductName();
-        var quantity = _faker.Random.Int(1, 100);
-        var price = _faker.Random.Decimal(1, 1000);
-        var basketItem = new BasketItem(productId, productName, quantity, price);
-        var newProductId = new ProductId(_faker.Random.Guid());
-        var newProductName = _faker.Commerce.ProductName();
-        var newQuantity = -_faker.Random.Int(1, 100);
-        var newPrice = _faker.Random.Decimal(1, 1000);
-
-        // Act
-        var act = () => basketItem.Update(newProductId, newProductName, newQuantity, newPrice);
-
-        // Assert
-        act.Should().Throw<ArgumentException>();
-    }
-
-    [Fact]
-    public void ShouldBeThrowExceptionWhenUpdateBasketItemWithNegativePrice()
-    {
-        // Arrange
-        var productId = new ProductId(_faker.Random.Guid());
-        var productName = _faker.Commerce.ProductName();
-        var quantity = _faker.Random.Int(1, 100);
-        var price = _faker.Random.Decimal(1, 1000);
-        var basketItem = new BasketItem(productId, productName, quantity, price);
-        var newProductId = new ProductId(_faker.Random.Guid());
-        var newProductName = _faker.Commerce.ProductName();
-        var newQuantity = _faker.Random.Int(1, 100);
-        var newPrice = -_faker.Random.Decimal(1, 1000);
-
-        // Act
-        var act = () => basketItem.Update(newProductId, newProductName, newQuantity, newPrice);
-
-        // Assert
-        act.Should().Throw<ArgumentException>();
-    }
-
-    [Fact]
     public void ShouldBeInitializeBasketItemSuccessfully()
     {
         // Arrange

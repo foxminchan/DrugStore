@@ -16,10 +16,10 @@ services:
     project: src/Web/DrugStore.BackOffice/DrugStore.BackOffice.csproj
     bindings:
       - protocol: https
-        port: 7040
+        port: 7050
 
   - name: IdentityServer
     project: src/API/DrugStore.IdentityServer/DrugStore.IdentityServer.csproj
     bindings:
       - protocol: https
-        port: 7030
+        port: 7040

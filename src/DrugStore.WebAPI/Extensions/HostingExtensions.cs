@@ -139,7 +139,7 @@ public static class HostingExtensions
     public static IServiceCollection AddMappings(this IHostApplicationBuilder builder)
     {
         var config = TypeAdapterConfig.GlobalSettings;
-        config.Scan(Application.AssemblyReference.ExecutingAssembly, AssemblyReference.ExecutingAssembly);
+        config.Scan(Application.AssemblyReference.Executing, AssemblyReference.Executing);
         builder.Services.AddSingleton(config);
         builder.Services.AddScoped<IMapper, ServiceMapper>();
         return builder.Services;

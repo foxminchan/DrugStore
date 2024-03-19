@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   postgres:
-    image: postgres:16.2
+    image: postgres:16.2-alpine3.19
     container_name: postgres
     ports:
       - "5400:5432"
@@ -17,13 +17,13 @@ services:
       - docker-entrypoint.sh -c config_file=/etc/postgresql/postgres.conf -c hba_file=/etc/postgresql/pg_hba.conf
     volumes:
       - ./vol/postgres:/data/postgres
-      - ./.config/postgresql:/etc/postgresql
+      - ./docker/postgresql:/etc/postgresql
     restart: unless-stopped
     networks:
       - bridge-network
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.4
     container_name: pgadmin
     restart: always
     environment:
@@ -38,7 +38,7 @@ services:
       - bridge-network
 
   redis:
-    image: redis/redis-stack:7.2.0-v8
+    image: redis/redis-stack:7.2.0-v9
     container_name: redis
     ports:
       - 6370:6379
@@ -110,7 +110,7 @@ services:
       - bridge-network
 
   kafka-ui:
-    image: provectuslabs/kafka-ui:latest
+    image: provectuslabs/kafka-ui:v0.7.1
     container_name: kafka-ui
     ports:
       - 8080:8080
@@ -134,4 +134,5 @@ volumes:
 
 networks:
   bridge-network:
+    name: bridge-network
     driver: bridge

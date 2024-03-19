@@ -16,7 +16,7 @@
 
 	<ItemGroup>
 		<ContainerEnvironmentVariable Include="ASPNETCORE_HTTPS_PORTS">
-			<Value>7040</Value>
+			<Value>7050</Value>
 		</ContainerEnvironmentVariable>
 	</ItemGroup>
 

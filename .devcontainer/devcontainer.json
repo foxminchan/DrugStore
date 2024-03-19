@@ -22,10 +22,9 @@
   "forwardPorts": [
     "api:7070",
     "storefont:7060",
-    "webstatus:7050",
-    "backoffice:7040",
-    "identityserver:7030",
-    "db:5432",
+    "backoffice:7050",
+    "identityserver:7040",
+    "postges:5432",
     "redis:6379",
     "pgadmin:5050",
     "kafkaui:8083"
@@ -41,13 +40,9 @@
     },
     "7050": {
       "protocol": "https",
-      "label": "WebStatus"
-    },
-    "7040": {
-      "protocol": "https",
       "label": "BackOffice"
     },
-    "7030": {
+    "7040": {
       "protocol": "https",
       "label": "IdentityServer"
     }

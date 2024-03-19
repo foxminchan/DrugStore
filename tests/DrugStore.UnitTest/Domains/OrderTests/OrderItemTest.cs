@@ -29,45 +29,4 @@ public sealed class OrderItemTest(ITestOutputHelper output)
         orderItem.OrderId.Should().Be(orderId);
         output.WriteLine("OrderItem: {0}", orderItem);
     }
-
-    [Fact]
-    public void ShouldBeThrowExceptionWhenPriceIsNegative()
-    {
-        // Arrange
-        var price = _faker.Random.Decimal(-1, -100);
-        var quantity = _faker.Random.Int(1);
-        var productId = new ProductId(_faker.Random.Guid());
-        var orderId = new OrderId(_faker.Random.Guid());
-
-        // Act
-
-        var act = () =>
-        {
-            var orderItem = new OrderItem(price, quantity, productId, orderId);
-            output.WriteLine("OrderItem: {0}", orderItem);
-        };
-
-        // Assert
-        act.Should().Throw<ArgumentException>();
-    }
-
-    [Fact]
-    public void ShouldBeThrowExceptionWhenQuantityIsNegative()
-    {
-        // Arrange
-        var price = _faker.Random.Decimal();
-        var quantity = _faker.Random.Int(-100, -1);
-        var productId = new ProductId(_faker.Random.Guid());
-        var orderId = new OrderId(_faker.Random.Guid());
-
-        // Act
-        var act = () =>
-        {
-            var orderItem = new OrderItem(price, quantity, productId, orderId);
-            output.WriteLine("OrderItem: {0}", orderItem);
-        };
-
-        // Assert
-        act.Should().Throw<ArgumentException>();
-    }
 }

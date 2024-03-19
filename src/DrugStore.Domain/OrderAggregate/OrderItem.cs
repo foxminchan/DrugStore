@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-using Ardalis.GuardClauses;
 using DrugStore.Domain.OrderAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Primitives;
@@ -18,8 +17,8 @@ public sealed class OrderItem : EntityBase
 
     public OrderItem(decimal price, int quantity, ProductId productId, OrderId orderId)
     {
-        Price = Guard.Against.Negative(price);
-        Quantity = Guard.Against.NegativeOrZero(quantity);
+        Price = price;
+        Quantity = quantity;
         ProductId = productId;
         OrderId = orderId;
     }

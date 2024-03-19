@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:7041",
+      "applicationUrl": "http://localhost:7051",
       "sslPort": 7040
     }
   },
@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:7041"
+      "applicationUrl": "http://localhost:7051"
     },
     "https": {
       "commandName": "Project",
@@ -40,7 +40,7 @@
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
         "ASPNETCORE_HTTPS_PORTS": "7040",
-        "ASPNETCORE_HTTP_PORTS": "7041"
+        "ASPNETCORE_HTTP_PORTS": "7051"
       },
       "publishAllPorts": true,
       "useSSL": true
