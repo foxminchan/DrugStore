@@ -50,14 +50,16 @@ app.UseHttpsRedirection();
 
 try
 {
-    app.Logger.LogInformation("Applying database migration ({ApplicationName})...", builder.Environment.ApplicationName);
+    app.Logger.LogInformation("Applying database migration ({ApplicationName})...",
+        builder.Environment.ApplicationName);
     app.ApplyDatabaseMigration();
     app.Logger.LogInformation("Starting web host ({ApplicationName})...", builder.Environment.ApplicationName);
     app.Run();
 }
 catch (Exception ex)
 {
-    app.Logger.LogCritical(ex, "Host terminated unexpectedly ({ApplicationName})...", builder.Environment.ApplicationName);
+    app.Logger.LogCritical(ex, "Host terminated unexpectedly ({ApplicationName})...",
+        builder.Environment.ApplicationName);
 }
 finally
 {

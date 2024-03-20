@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Products.Commands.DeleteProductCommand;
 using DrugStore.Domain.ProductAggregate.Primitives;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using Mapster;
 using MediatR;

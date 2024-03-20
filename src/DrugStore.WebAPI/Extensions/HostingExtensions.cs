@@ -1,9 +1,9 @@
 ﻿using System.Net.Mime;
 using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
+using DrugStore.WebAPI.Endpoints;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Antiforgery;

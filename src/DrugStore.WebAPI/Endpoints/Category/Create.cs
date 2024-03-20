@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Categories.Commands.CreateCategoryCommand;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Extensions;
 using MediatR;

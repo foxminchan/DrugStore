@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-
-namespace DrugStore.Domain.SharedKernel;
+﻿namespace DrugStore.WebAPI.Endpoints;
 
 public interface IEndpoint
 {

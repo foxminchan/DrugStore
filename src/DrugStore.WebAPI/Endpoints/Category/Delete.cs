@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Categories.Commands.DeleteCategoryCommand;
 using DrugStore.Domain.CategoryAggregate.Primitives;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using Mapster;
 using MediatR;

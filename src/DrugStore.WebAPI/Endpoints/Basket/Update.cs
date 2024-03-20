@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

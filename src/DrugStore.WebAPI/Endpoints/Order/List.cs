@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Orders.Queries.GetListQuery;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

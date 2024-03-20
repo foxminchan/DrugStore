@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Products.Commands.UpdateProductImageCommand;
 using DrugStore.Domain.ProductAggregate.Primitives;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

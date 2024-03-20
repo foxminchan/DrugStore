@@ -1,5 +1,4 @@
-﻿using Ardalis.Result;
-using DrugStore.BackOffice.Components.Pages.Products.Requests;
+﻿using DrugStore.BackOffice.Components.Pages.Products.Requests;
 using DrugStore.BackOffice.Components.Pages.Products.Response;
 using DrugStore.BackOffice.Helpers;
 using Refit;
@@ -22,5 +21,5 @@ public interface IProductsApi
     Task<Guid> UpdateProductImageAsync(Guid id, ImagePayload productImageRequest);
 
     [Delete("/products/{id}")]
-    Task DeleteProductAsync(Guid id);
+    Task DeleteProductAsync(Guid id, [Query] bool? isDeleteImage);
 }

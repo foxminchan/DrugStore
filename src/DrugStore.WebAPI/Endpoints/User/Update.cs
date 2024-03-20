@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Users.Commands.UpdateUserCommand;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

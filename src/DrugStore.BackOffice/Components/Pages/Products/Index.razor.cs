@@ -53,7 +53,7 @@ public sealed partial class Index
         await Task.CompletedTask;
     }
 
-    private async Task DeleteProduct(Guid id)
+    private async Task DeleteProduct(Guid id, string? image)
     {
         var result = await DialogService.Confirm(
             "Are you sure?",
@@ -66,14 +66,26 @@ public sealed partial class Index
 
         try
         {
-            await ProductsApi.DeleteProductAsync(id);
+            var deleteImage = false;
+
+            if (image is not null)
+            {
+                deleteImage = await DialogService.Confirm(
+                    "Do you want to delete the image?",
+                    "Delete Product",
+                    new() { OkButtonText = "Yes", CancelButtonText = "No" }
+                ) ?? false;
+            }
+
+            await ProductsApi.DeleteProductAsync(id, deleteImage);
 
             NotificationService.Notify(new()
             {
-                Severity = NotificationSeverity.Error,
-                Summary = "Error",
-                Detail = "An error occurred while deleting the product. Please try again."
+                Severity = NotificationSeverity.Success,
+                Summary = "Success",
+                Detail = "Product deleted successfully."
             });
+
             await _dataGrid.Reload();
         }
         catch (Exception)

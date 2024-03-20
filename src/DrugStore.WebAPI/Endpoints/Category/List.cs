@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Categories.Queries.GetListQuery;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.WebAPI.Extensions;
 using Mapster;
 using MediatR;

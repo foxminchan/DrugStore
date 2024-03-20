@@ -9,6 +9,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Ardalis.SmartEnum.EFCore" />
+		<PackageReference Include="Ardalis.Result.AspNetCore" />
+		<PackageReference Include="Ardalis.ListStartupServices" />
+		<PackageReference Include="Ardalis.Specification.EntityFrameworkCore" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Serilog.AspNetCore" />
 		<PackageReference Include="Serilog.Exceptions" />
 		<PackageReference Include="Serilog.Sinks.Async" />
@@ -17,11 +24,10 @@
 	<ItemGroup>
 		<PackageReference Include="Polly" />
 		<PackageReference Include="Scrutor" />
+		<PackageReference Include="FluentValidation" />
 		<PackageReference Include="DistributedLock.Redis" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />
-		<PackageReference Include="FluentValidation" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 	</ItemGroup>
 
 	<ItemGroup>

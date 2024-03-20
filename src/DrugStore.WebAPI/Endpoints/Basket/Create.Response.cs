@@ -4,5 +4,5 @@ namespace DrugStore.WebAPI.Endpoints.Basket;
 
 public class CreateBasketResponse(IdentityId id)
 {
-   public IdentityId Id { get; set; } = id;
+    public IdentityId Id { get; set; } = id;
 }

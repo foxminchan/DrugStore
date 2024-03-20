@@ -1,5 +1,4 @@
 ﻿using DrugStore.Application.Users.Queries.GetByRoleQuery;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Extensions;
 using MediatR;

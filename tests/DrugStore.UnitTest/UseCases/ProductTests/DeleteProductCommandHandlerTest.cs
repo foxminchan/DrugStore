@@ -21,7 +21,7 @@ public sealed class DeleteProductCommandHandlerTest
     public async Task ShouldBeDeleteProductSuccessfully()
     {
         // Arrange
-        var command = new DeleteProductCommand(new(Guid.NewGuid()));
+        var command = new DeleteProductCommand(new(Guid.NewGuid()), false);
         _repository.DeleteAsync(Arg.Any<Product>())
             .Returns(Task.CompletedTask);
 
