@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Users.Commands.DeleteUserCommand;
 using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

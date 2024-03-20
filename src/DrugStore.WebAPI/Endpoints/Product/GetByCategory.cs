@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Persistence.Helpers;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

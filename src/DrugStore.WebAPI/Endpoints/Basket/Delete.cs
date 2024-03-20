@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Baskets.Commands.DeleteBasketCommand;
 using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

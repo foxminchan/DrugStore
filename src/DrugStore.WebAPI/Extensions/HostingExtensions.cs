@@ -3,7 +3,7 @@ using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Infrastructure;
 using DrugStore.Persistence;
-using DrugStore.WebAPI.Endpoints;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.Antiforgery;
@@ -82,9 +82,9 @@ public static class HostingExtensions
     {
         var serviceDescriptors = AssemblyReference.Program
             .DefinedTypes
-            .Where(type => type.GetInterfaces().Contains(typeof(IEndpoint)))
+            .Where(type => type.GetInterfaces().Contains(typeof(IEndpointBase)))
             .Where(type => !type.IsInterface)
-            .Select(type => ServiceDescriptor.Scoped(typeof(IEndpoint), type))
+            .Select(type => ServiceDescriptor.Scoped(typeof(IEndpointBase), type))
             .ToArray();
 
         builder.Services.TryAddEnumerable(serviceDescriptors);
@@ -96,7 +96,7 @@ public static class HostingExtensions
     {
         var scope = app.Services.CreateScope();
 
-        var endpoints = scope.ServiceProvider.GetRequiredService<IEnumerable<IEndpoint>>();
+        var endpoints = scope.ServiceProvider.GetRequiredService<IEnumerable<IEndpointBase>>();
 
         var apiVersionSet = app
             .NewApiVersionSet()

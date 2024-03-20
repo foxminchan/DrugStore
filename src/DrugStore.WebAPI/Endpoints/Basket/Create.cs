@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Baskets.Commands.CreateBasketCommand;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

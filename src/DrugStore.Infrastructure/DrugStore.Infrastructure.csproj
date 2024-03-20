@@ -25,6 +25,7 @@
 		<PackageReference Include="Polly" />
 		<PackageReference Include="Scrutor" />
 		<PackageReference Include="FluentValidation" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
 		<PackageReference Include="DistributedLock.Redis" />
 		<PackageReference Include="Swashbuckle.AspNetCore" />
 		<PackageReference Include="MicroElements.Swashbuckle.FluentValidation" />

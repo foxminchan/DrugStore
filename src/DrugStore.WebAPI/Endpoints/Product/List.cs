@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Products.Queries.GetListQuery;
 using DrugStore.Persistence.Helpers;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

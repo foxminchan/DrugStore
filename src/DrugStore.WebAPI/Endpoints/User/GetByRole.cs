@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Users.Queries.GetByRoleQuery;
 using DrugStore.Persistence.Helpers;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 
@@ -8,7 +9,7 @@ namespace DrugStore.WebAPI.Endpoints.User;
 public sealed class GetByRole(ISender sender) : IEndpoint<GetUserByRoleResponse, GetUserByRoleRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/users/staff/{isStaff}", async (
+        app.MapGet("/users/staff/{isStaff:bool}", async (
                 bool isStaff,
                 int pageIndex,
                 int pageSize,

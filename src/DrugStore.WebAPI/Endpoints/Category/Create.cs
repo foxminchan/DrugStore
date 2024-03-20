@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 using DrugStore.Infrastructure.Exception;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

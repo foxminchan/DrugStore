@@ -1,4 +1,5 @@
 ﻿using DrugStore.Application.Products.Commands.UpdateProductCommand;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 

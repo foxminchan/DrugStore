@@ -1,11 +1,12 @@
 ﻿using DrugStore.Application.Categories.Queries.GetListQuery;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class List(ISender sender) : IEndpoint<ListCategoryResponse>
+public sealed class List(ISender sender) : IEndpointBaseWithoutRequest<ListCategoryResponse>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/categories", HandleAsync)

@@ -1,5 +1,6 @@
 ﻿using DrugStore.Application.Baskets.Queries.GetByUserIdQuery;
 using DrugStore.Domain.IdentityAggregate.Primitives;
+using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
 using MediatR;
 
