@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class List(ISender sender) : IEndpointBaseWithoutRequest<ListCategoryResponse>
+public sealed class List(ISender sender) : IEndpointWithoutRequest<ListCategoryResponse>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/categories", HandleAsync)
