@@ -5,7 +5,7 @@
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:7051",
-      "sslPort": 7040
+      "sslPort": 7050
     }
   },
   "profiles": {
@@ -25,7 +25,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7040"
+      "applicationUrl": "https://localhost:7050"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -39,7 +39,7 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
       "environmentVariables": {
-        "ASPNETCORE_HTTPS_PORTS": "7040",
+        "ASPNETCORE_HTTPS_PORTS": "7050",
         "ASPNETCORE_HTTP_PORTS": "7051"
       },
       "publishAllPorts": true,

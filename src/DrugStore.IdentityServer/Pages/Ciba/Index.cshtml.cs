@@ -11,18 +11,23 @@ namespace DrugStore.IdentityServer.Pages.Ciba;
 
 [AllowAnonymous]
 [SecurityHeaders]
-public class IndexModel(
+public sealed class IndexModel(
     IBackchannelAuthenticationInteractionService backchannelAuthenticationInteractionService,
     ILogger<IndexModel> logger) : PageModel
 {
-    public BackchannelUserLoginRequest LoginRequest { get; set; }
+    public BackchannelUserLoginRequest LoginRequest { get; set; } = default!;
 
     public async Task<IActionResult> OnGet(string id)
     {
-        LoginRequest = await backchannelAuthenticationInteractionService.GetLoginRequestByInternalIdAsync(id);
-        if (LoginRequest is not null) return Page();
+        var result = await backchannelAuthenticationInteractionService.GetLoginRequestByInternalIdAsync(id);
+        if (result is null)
+        {
+            logger.InvalidBackchannelLoginId(id);
+            return RedirectToPage("/Home/Error/Index");
+        }
 
-        logger.LogWarning("Invalid backchannel login id {Id}", id);
-        return RedirectToPage("/Home/Error/Index");
+        LoginRequest = result;
+
+        return Page();
     }
 }

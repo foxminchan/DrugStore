@@ -1,3 +1,6 @@
+// Copyright (c) Duende Software. All rights reserved.
+// See LICENSE in the project root for license information.
+
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,13 +9,13 @@ namespace DrugStore.IdentityServer.Pages.Account.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
-public class LoggedOut(IIdentityServerInteractionService interactionService) : PageModel
+public sealed class LoggedOut(IIdentityServerInteractionService interactionService) : PageModel
 {
-    public LoggedOutViewModel View { get; set; }
+    public LoggedOutViewModel View { get; set; } = default!;
 
-    public async Task OnGet(string logoutId)
+    public async Task OnGet(string? logoutId)
     {
-        // get context information (client name, post logout redirect URI and iframe for federated signout)
+        // get context information (client name, post logout redirect URI and iframe for federated sign out)
         var logout = await interactionService.GetLogoutContextAsync(logoutId);
 
         View = new()

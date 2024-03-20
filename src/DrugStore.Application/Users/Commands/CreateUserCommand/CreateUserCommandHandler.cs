@@ -4,6 +4,7 @@ using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.SharedKernel;
 using FluentValidation;
+using IdentityModel;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Commands.CreateUserCommand;
@@ -25,6 +26,14 @@ public sealed class CreateUserCommandHandler(UserManager<ApplicationUser> userMa
             ));
 
         await userManager.AddToRoleAsync(user, Roles.Customer);
+
+        await userManager.AddClaimsAsync(user,
+        [
+            new(JwtClaimTypes.Name, user.FullName!),
+            new(JwtClaimTypes.Email, user.Email!),
+            new(JwtClaimTypes.PhoneNumber, user.PhoneNumber!)
+        ]);
+
         return Result<IdentityId>.Success(user.Id);
     }
 }

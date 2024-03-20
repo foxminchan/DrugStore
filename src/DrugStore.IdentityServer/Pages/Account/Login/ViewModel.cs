@@ -3,7 +3,7 @@
 
 namespace DrugStore.IdentityServer.Pages.Account.Login;
 
-public class ViewModel
+public sealed class ViewModel
 {
     public bool AllowRememberLogin { get; set; } = true;
     public bool EnableLocalLogin { get; set; } = true;
@@ -15,12 +15,12 @@ public class ViewModel
 
     public bool IsExternalLoginOnly => EnableLocalLogin && ExternalProviders?.Count() == 1;
 
-    public string ExternalLoginScheme =>
+    public string? ExternalLoginScheme =>
         IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
 
-    public class ExternalProvider
+    public sealed class ExternalProvider(string authenticationScheme, string? displayName = null)
     {
-        public string DisplayName { get; set; }
-        public string AuthenticationScheme { get; set; }
+        public string? DisplayName { get; set; } = displayName;
+        public string AuthenticationScheme { get; set; } = authenticationScheme;
     }
 }

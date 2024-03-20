@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Constants;
+using FluentValidation;
+using IdentityModel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -45,8 +47,6 @@ public sealed class ApplicationDbContextInitializer(
     {
         ApplicationRole admin = new(Roles.Admin);
 
-        logger.LogInformation("Admin role: {Admin}", admin.Name);
-
         if (!await roleManager.RoleExistsAsync(Roles.Admin))
         {
             await roleManager.CreateAsync(admin);
@@ -54,16 +54,22 @@ public sealed class ApplicationDbContextInitializer(
             await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Read));
             await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));
         }
+        else
+        {
+            logger.LogDebug("admin already exists");
+        }
 
         ApplicationRole customer = new(Roles.Customer);
-
-        logger.LogInformation("Customer role: {Customer}", customer.Name);
 
         if (!await roleManager.RoleExistsAsync(Roles.Customer))
         {
             await roleManager.CreateAsync(customer);
             await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Read));
             await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Write));
+        }
+        else
+        {
+            logger.LogDebug("customer already exists");
         }
 
         const string password = "P@ssw0rd";
@@ -75,12 +81,30 @@ public sealed class ApplicationDbContextInitializer(
             new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh")
         );
 
-        logger.LogInformation("Admin user: {Admin}", administrator.UserName);
-
         if (userManager.Users.All(u => u.UserName != administrator.UserName))
         {
-            await userManager.CreateAsync(administrator, password);
+            var result = userManager.CreateAsync(administrator, password).Result;
+
+            if (!result.Succeeded)
+                throw new ValidationException(result.Errors.First().Description);
+
+            result = userManager.AddClaimsAsync(administrator,
+            [
+                new(JwtClaimTypes.Name, administrator.FullName!),
+                new(JwtClaimTypes.Email, administrator.Email!),
+                new(JwtClaimTypes.PhoneNumber, administrator.PhoneNumber!),
+            ]).Result;
+
+            if (!result.Succeeded)
+                throw new ValidationException(result.Errors.First().Description);
+
             await userManager.AddToRoleAsync(administrator, admin.Name!);
+
+            logger.LogDebug("administrator created");
+        }
+        else
+        {
+            logger.LogDebug("administrator already exists");
         }
 
         ApplicationUser user = new(
@@ -90,12 +114,30 @@ public sealed class ApplicationDbContextInitializer(
             new("Xa Lo Ha Noi", "Thu Duc", "Ho Chi Minh")
         );
 
-        logger.LogInformation("Customer user: {Customer}", user.UserName);
-
         if (userManager.Users.All(u => u.UserName != user.UserName))
         {
-            await userManager.CreateAsync(user, password);
+            var result = userManager.CreateAsync(user, password).Result;
+
+            if (!result.Succeeded)
+                throw new ValidationException(result.Errors.First().Description);
+
+            result = userManager.AddClaimsAsync(user,
+            [
+                new(JwtClaimTypes.Name, user.FullName!),
+                new(JwtClaimTypes.Email, user.Email!),
+                new(JwtClaimTypes.PhoneNumber, user.PhoneNumber!),
+            ]).Result;
+
+            if (!result.Succeeded)
+                throw new ValidationException(result.Errors.First().Description);
+
             await userManager.AddToRoleAsync(user, customer.Name!);
+
+            logger.LogDebug("user created");
+        }
+        else
+        {
+            logger.LogDebug("user already exists");
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.Diagnostics;
 using DrugStore.Infrastructure.Cache;
+using DrugStore.Infrastructure.DataProtection;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.Infrastructure.HealthCheck;
 using DrugStore.Infrastructure.Idempotency;
 using DrugStore.Infrastructure.Kestrel;
+using DrugStore.Infrastructure.Lock;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
 using DrugStore.Infrastructure.ProblemDetails;
@@ -33,6 +35,8 @@ public static class Extension
         builder.AddLocalStorage();
         builder.AddHealthCheck();
         builder.AddOpenTelemetry();
+        builder.AddRedisDataProtection();
+        builder.AddRedisDistributedLock();
         builder.AddSerilog(builder.Environment.ApplicationName);
     }
 

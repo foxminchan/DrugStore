@@ -1,7 +1,5 @@
 @page
 @model DrugStore.IdentityServer.Pages.Ciba.AllModel
-@{
-}
 
 <div class="ciba-page">
     <div class="row">
@@ -11,7 +9,7 @@
                     <h2>Pending Backchannel Login Requests</h2>
                 </div>
                 <div class="card-body">
-                    @if (Model.Logins?.Any() == true)
+                    @if (Model.Logins.Any())
                     {
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
@@ -39,7 +37,7 @@
                     }
                     else
                     {
-                        <div>No Pending Login Requests</div>
+                        <div>No, Pending Login Requests</div>
                     }
                 </div>
             </div>

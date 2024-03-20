@@ -1,10 +1,10 @@
-using System.Transactions;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Transactions;
+using DrugStore.IdentityServer.Constants;
 
 namespace DrugStore.IdentityServer.Pages.Account.Register;
 
@@ -12,14 +12,14 @@ namespace DrugStore.IdentityServer.Pages.Account.Register;
 [AllowAnonymous]
 public class IndexModel(UserManager<ApplicationUser> userManager) : PageModel
 {
-    [BindProperty] public RegisterViewModel Input { get; set; }
+    [BindProperty] public ViewModel Input { get; set; } = default!;
 
     public void OnGet(string returnUrl) => Input = new() { ReturnUrl = returnUrl };
 
     public async Task<IActionResult> OnPost()
     {
         if (Input.Button != "register")
-            return Redirect("~/Account/Login?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl));
+            return Redirect("~/Account/Login?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl!));
 
         if (!ModelState.IsValid) return Page();
 
@@ -29,19 +29,19 @@ public class IndexModel(UserManager<ApplicationUser> userManager) : PageModel
             Email = Input.Email,
             FullName = Input.FullName,
             PhoneNumber = Input.PhoneNumber,
-            Address = new(Input.Street, Input.City, Input.Province)
+            Address = new(Input.Street!, Input.City!, Input.Province!)
         };
 
         using TransactionScope scope = new(TransactionScopeAsyncFlowOption.Enabled);
         try
         {
-            var result = await userManager.CreateAsync(user, Input.Password);
+            var result = await userManager.CreateAsync(user, Input.Password!);
 
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(user, Roles.Customer);
                 scope.Complete();
-                return Redirect("~/Account/Login?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl));
+                return Redirect("~/Account/Login?ReturnUrl=" + Uri.EscapeDataString(Input.ReturnUrl!));
             }
 
             foreach (var error in result.Errors) ModelState.AddModelError(string.Empty, error.Description);

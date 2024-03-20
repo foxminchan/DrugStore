@@ -1,7 +1,5 @@
 @page
 @model DrugStore.IdentityServer.Pages.Device.Index
-@{
-}
 
 @if (Model.Input.UserCode is null)
 {
@@ -40,7 +38,7 @@ else
             @if (Model.View.ClientLogoUrl is not null)
             {
                 <div class="client-logo">
-                    <img src="@Model.View.ClientLogoUrl" alt="@Model.View.ClientLogoUrl">
+                    <img loading="lazy" src="@Model.View.ClientLogoUrl" alt="@Model.View.ClientLogoUrl">
                 </div>
             }
             <h1>

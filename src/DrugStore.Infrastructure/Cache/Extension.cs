@@ -1,8 +1,5 @@
 ﻿using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Infrastructure.Cache.Redis.Internal;
-using Medallion.Threading;
-using Medallion.Threading.Redis;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,18 +29,6 @@ public static class Extension
         });
 
         builder.Services.AddSingleton<IRedisService, RedisService>();
-
-        builder.Services.AddDataProtection()
-            .SetDefaultKeyLifetime(TimeSpan.FromDays(14))
-            .SetApplicationName(builder.Configuration[redisSettings.Prefix] ?? nameof(DrugStore))
-            .PersistKeysToStackExchangeRedis(
-                ConnectionMultiplexer.Connect(redisSettings.Url), "DataProtectionKeys"
-            );
-
-        builder.Services.AddSingleton<IDistributedLockProvider>(
-            _ => new RedisDistributedSynchronizationProvider(
-                ConnectionMultiplexer.Connect(redisSettings.Url).GetDatabase()
-            ));
 
         return builder.Services;
     }

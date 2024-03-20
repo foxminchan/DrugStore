@@ -4,6 +4,7 @@ using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
 using FluentValidation;
+using IdentityModel;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 
@@ -31,6 +32,15 @@ public sealed class UpdateUserCommandHandler(IMapper mapper, UserManager<Applica
         if (request.Role is not null) await userManager.AddToRoleAsync(user, request.Role);
 
         var result = await userManager.UpdateAsync(user);
+
+        var claims = await userManager.GetClaimsAsync(user);
+        await userManager.RemoveClaimsAsync(user, claims);
+        await userManager.AddClaimsAsync(user,
+        [
+            new(JwtClaimTypes.Name, user.FullName!),
+            new(JwtClaimTypes.Email, user.Email!),
+            new(JwtClaimTypes.PhoneNumber, user.PhoneNumber!)
+        ]);
 
         return !result.Succeeded
             ? Result<UserVm>.Invalid(new List<ValidationError>(

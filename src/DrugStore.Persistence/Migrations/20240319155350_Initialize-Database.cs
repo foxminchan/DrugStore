@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -267,7 +266,7 @@ public partial class InitializeDatabase : Migration
 
         migrationBuilder.InsertData(
             table: "categories",
-            columns: new[] { "id", "created_date", "description", "name", "version" },
+            columns: ["id", "created_date", "description", "name", "version"],
             values: new object[,]
             {
                 {

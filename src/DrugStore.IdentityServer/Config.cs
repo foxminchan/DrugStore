@@ -1,4 +1,4 @@
-﻿using DrugStore.Domain.IdentityAggregate.Constants;
+﻿using DrugStore.IdentityServer.Constants;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 

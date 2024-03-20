@@ -1,14 +1,12 @@
 @page
 @model DrugStore.IdentityServer.Pages.Ciba.IndexModel
-@{
-}
 
 <div class="ciba-page">
     <div class="lead">
         @if (Model.LoginRequest.Client.LogoUri is not null)
         {
             <div class="client-logo">
-                <img src="@Model.LoginRequest.Client.LogoUri">
+                <img loading="lazy" src="@Model.LoginRequest.Client.LogoUri" alt="@Model.LoginRequest.Client.LogoUri">
             </div>
         }
         <h1>

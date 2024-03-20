@@ -33,7 +33,7 @@
             <label for="scopes_@Model.Value">@Model.Description</label>
         </div>
     }
-    @if (Model.Resources?.Any() == true)
+    @if (Model.Resources.Any())
     {
         <div class="consent-description">
             <label>Will be available to these resource servers:</label>

@@ -5,7 +5,7 @@ using Duende.IdentityServer.Models;
 
 namespace DrugStore.IdentityServer.Pages.Home.Error;
 
-public class ViewModel
+public sealed class ViewModel
 {
     public ViewModel()
     {
@@ -13,5 +13,5 @@ public class ViewModel
 
     public ViewModel(string error) => Error = new() { Error = error };
 
-    public ErrorMessage Error { get; set; }
+    public ErrorMessage? Error { get; set; }
 }

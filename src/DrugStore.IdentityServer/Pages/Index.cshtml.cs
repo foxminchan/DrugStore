@@ -1,4 +1,8 @@
+// Copyright (c) Duende Software. All rights reserved.
+// See LICENSE in the project root for license information.
+
 using System.Reflection;
+using Duende.IdentityServer;
 using Duende.IdentityServer.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -6,11 +10,13 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 namespace DrugStore.IdentityServer.Pages;
 
 [AllowAnonymous]
-public class Index : PageModel
+public sealed class Index(IdentityServerLicense? license = null) : PageModel
 {
-    public string Version { get; private set; } = string.Empty;
+    public string Version =>
+        typeof(IdentityServerMiddleware).Assembly
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
+            ?.InformationalVersion.Split('+')[0]
+        ?? "unavailable";
 
-    public void OnGet() 
-        => Version = typeof(IdentityServerMiddleware).Assembly
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0];
+    public IdentityServerLicense? License { get; } = license;
 }

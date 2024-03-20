@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using DrugStore.Application.Orders.Commands.CreateOrderCommand;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
@@ -99,7 +100,25 @@ internal sealed class InvalidData : TheoryData<object>
     public InvalidData()
     {
         Add(new { Code = string.Empty });
-        Add(new { Code = "123", CustomerId = Guid.Empty });
         Add(new { Code = string.Empty, CustomerId = Guid.Empty });
+        Add(new { Code = "123", CustomerId = Guid.Empty });
+        Add(new { Code = "123", Items = new List<OrderItemCreateRequest>(), CustomerId = Guid.Empty });
+        Add(new
+        {
+            Code = "12345678910111213141516",
+            Items = new List<OrderItemCreateRequest>(),
+            CustomerId = Guid.Empty
+        });
+        Add(new
+        {
+            Code = "12345678910111213141516",
+            Items = new List<OrderItemCreateRequest>()
+            {
+                new(new(Guid.Empty), 0, -1),
+                new(new(Guid.Empty), -1, -1),
+                new(new(Guid.Empty), 0, 0)
+            },
+            CustomerId = Guid.Empty
+        });
     }
 }
