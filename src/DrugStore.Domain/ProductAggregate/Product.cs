@@ -79,5 +79,7 @@ public sealed class Product : EntityBase, IAggregateRoot
         if (Status == ProductStatus.OutOfStock && Quantity > 0) Status = ProductStatus.InStock;
     }
 
+    public void SetDiscontinued() => Status = ProductStatus.Discontinued;
+
     public void DisableProduct(ProductId productId) => RegisterDomainEvent(new ProductDisabledEvent(productId));
 }

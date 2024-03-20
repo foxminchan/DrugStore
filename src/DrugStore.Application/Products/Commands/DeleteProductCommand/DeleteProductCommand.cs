@@ -4,4 +4,4 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 
-public sealed record DeleteProductCommand(ProductId Id) : ICommand<Result>;
+public sealed record DeleteProductCommand(ProductId Id, bool IsRemoveImage) : ICommand<Result>;

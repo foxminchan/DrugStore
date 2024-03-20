@@ -14,7 +14,7 @@ public sealed class List(ISender sender) : IEndpoint<ListProductResponse, ListPr
                 int pageSize,
                 string? search,
                 string? orderBy,
-                bool isAscending) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)
+                bool isAscending = true) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)
             ))
             .Produces<ListProductResponse>()
             .WithTags(nameof(Product))

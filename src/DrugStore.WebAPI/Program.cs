@@ -2,6 +2,7 @@ using Ardalis.ListStartupServices;
 using DrugStore.Persistence;
 using DrugStore.WebAPI.Extensions;
 using Microsoft.Extensions.FileProviders;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,4 +48,18 @@ app.MapEndpoints();
 app.MapSpecialEndpoints();
 app.UseHttpsRedirection();
 
-app.Run();
+try
+{
+    app.Logger.LogInformation("Applying database migration ({ApplicationName})...", builder.Environment.ApplicationName);
+    app.ApplyDatabaseMigration();
+    app.Logger.LogInformation("Starting web host ({ApplicationName})...", builder.Environment.ApplicationName);
+    app.Run();
+}
+catch (Exception ex)
+{
+    app.Logger.LogCritical(ex, "Host terminated unexpectedly ({ApplicationName})...", builder.Environment.ApplicationName);
+}
+finally
+{
+    Log.CloseAndFlush();
+}

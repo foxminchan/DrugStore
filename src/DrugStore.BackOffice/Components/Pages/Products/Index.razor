@@ -99,7 +99,7 @@
                                          Shade="Shade.Lighter"
                                          Variant="Variant.Flat"
                                          Text="@product.Status"
-                                         BadgeStyle="@(string.Equals(product.Status, "InStock", StringComparison.OrdinalIgnoreCase) ? BadgeStyle.Success : BadgeStyle.Danger)"/>
+                                         BadgeStyle="@(product.Status switch { "InStock" => BadgeStyle.Success, "OutOfStock" => BadgeStyle.Warning, _ => BadgeStyle.Danger })" />
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="Product"

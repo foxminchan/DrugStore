@@ -57,7 +57,7 @@ public sealed class Index(
         logger.LogInformation("Consent request: {Request}", request);
         logger.LogInformation("Options: {Options}", options);
 
-    switch (Input.Button)
+        switch (Input.Button)
         {
             // user clicked 'no' - send back the standard 'access_denied' response
             case "no":
@@ -142,8 +142,11 @@ public sealed class Index(
             ClientUrl = request.Client.ClientUri,
             ClientLogoUrl = request.Client.LogoUri,
             AllowRememberConsent = request.Client.AllowRememberConsent,
-            IdentityScopes = request.ValidatedResources.Resources.IdentityResources.Select(x =>
-                CreateScopeViewModel(x, Input.ScopesConsented.Contains(x.Name))).ToArray()
+            IdentityScopes =
+            [
+                .. request.ValidatedResources.Resources.IdentityResources.Select(x =>
+                    CreateScopeViewModel(x, Input.ScopesConsented.Contains(x.Name)))
+            ]
         };
 
         var apiScopes = new List<ScopeViewModel>();

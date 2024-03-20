@@ -145,12 +145,15 @@ public sealed class Consent(
             if (apiScope is null) continue;
             var scopeVm = CreateScopeViewModel(parsedScope, apiScope,
                 Input is null || Input.ScopesConsented.Contains(parsedScope.RawValue));
-            scopeVm.Resources = apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
-                .Select(x => new ResourceViewModel
-                {
-                    Name = x.Name,
-                    DisplayName = x.DisplayName ?? x.Name
-                }).ToArray();
+            scopeVm.Resources =
+            [
+                ..apiResources.Where(x => x.Scopes.Contains(parsedScope.ParsedName))
+                    .Select(x => new ResourceViewModel
+                    {
+                        Name = x.Name,
+                        DisplayName = x.DisplayName ?? x.Name
+                    })
+            ];
             apiScopes.Add(scopeVm);
         }
 

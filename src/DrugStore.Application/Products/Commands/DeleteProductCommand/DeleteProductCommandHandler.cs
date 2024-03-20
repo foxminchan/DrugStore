@@ -15,10 +15,12 @@ public sealed class DeleteProductCommandHandler(
         var product = await repository.GetByIdAsync(request.Id, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
-        if (product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+        if (request.IsRemoveImage && product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
             await localStorage.RemoveFileAsync(product.Image.ImageUrl, cancellationToken);
 
-        await repository.DeleteAsync(product, cancellationToken);
+        product.SetDiscontinued();
+        await repository.UpdateAsync(product, cancellationToken);
+
         product.DisableProduct(product.Id);
         return Result.Success();
     }
