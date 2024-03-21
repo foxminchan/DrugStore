@@ -2,6 +2,7 @@
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Basket;
@@ -21,19 +22,6 @@ public sealed class GetById(ISender sender) : IEndpoint<CustomerBasketDto, GetBa
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new GetByUserIdQuery(request.Id), cancellationToken);
-
-        return new(
-            result.Value.Id,
-            [
-                ..result.Value.Items.Select(x => new BasketItemDto(
-                    x.ProductId,
-                    x.ProductName,
-                    x.Quantity,
-                    x.Price,
-                    x.Price * x.Quantity
-                ))
-            ],
-            result.Value.Items.Sum(x => x.Price * x.Quantity)
-        );
+        return result.Value.Adapt<CustomerBasketDto>();
     }
 }

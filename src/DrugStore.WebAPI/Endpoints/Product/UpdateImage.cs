@@ -2,6 +2,7 @@
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,10 +26,7 @@ public sealed class UpdateImage(ISender sender) : IEndpoint<UpdateProductImageRe
         UpdateProductImageRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new UpdateProductImageCommand(request.Id, request.Alt, request.Image), cancellationToken
-        );
-
+        var result = await sender.Send(request.Adapt<UpdateProductImageCommand>(), cancellationToken);
         return new(result.Value);
     }
 }

@@ -2,6 +2,7 @@
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
@@ -24,22 +25,13 @@ public sealed class GetByCustomer(ISender sender) : IEndpoint<GetOrderByCustomer
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(
-            new GetListByUserIdQuery(request.Id, new(request.PageIndex, request.PageSize)
-            ), cancellationToken);
+            new GetListByUserIdQuery(request.Id, new(request.PageIndex, request.PageSize)), cancellationToken
+        );
 
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Orders = result.Value.Select(
-                x => new OrderDetailDto(
-                    new(x.Order.Id, x.Order.Code, x.Order.Customer?.FullName, x.Order.Total),
-                    [
-                        ..x.Items.Select(
-                            y => new OrderItemDto(y.ProductId, y.OrderId, y.Quantity, y.Price, y.Total)
-                        )
-                    ]
-                )
-            ).ToList()
+            Orders = result.Value.Adapt<List<OrderDetailDto>>()
         };
     }
 }

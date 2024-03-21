@@ -2,6 +2,7 @@
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
@@ -22,7 +23,6 @@ public sealed class GetById(ISender sender) : IEndpoint<UserDto, GetUserByIdRequ
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
-        var user = result.Value;
-        return new(user.Id, user.Email, user.FullName, user.Phone, user.Address);
+        return result.Value.Adapt<UserDto>();
     }
 }

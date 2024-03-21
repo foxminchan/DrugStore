@@ -2,6 +2,7 @@
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
@@ -21,17 +22,6 @@ public sealed class GetById(ISender sender) : IEndpoint<ProductDto, GetProductBy
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
-        var product = result.Value;
-        return new(
-            product.Id,
-            product.Name,
-            product.ProductCode,
-            product.Detail,
-            product.Status?.Name,
-            product.Quantity,
-            product.Category?.Name,
-            product.Price,
-            product.Image
-        );
+        return result.Value.Adapt<ProductDto>();
     }
 }

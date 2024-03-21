@@ -2,7 +2,6 @@
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
-using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
@@ -22,7 +21,7 @@ public sealed class Delete(ISender sender) : IEndpoint<Unit, DeleteProductReques
         DeleteProductRequest request,
         CancellationToken cancellationToken = default)
     {
-        await sender.Send(request.Adapt<DeleteProductCommand>(), cancellationToken);
+        await sender.Send(new DeleteProductCommand(request.Id, request.IsRemoveImage), cancellationToken);
         return Unit.Value;
     }
 }

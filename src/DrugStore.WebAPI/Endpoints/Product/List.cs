@@ -2,6 +2,7 @@
 using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
@@ -26,33 +27,11 @@ public sealed class List(ISender sender) : IEndpoint<ListProductResponse, ListPr
         ListProductRequest request,
         CancellationToken cancellationToken = default)
     {
-        FilterHelper filter = new(
-            request.Search,
-            request.IsAscending,
-            request.OrderBy,
-            request.PageIndex,
-            request.PageSize
-        );
-
-        var result = await sender.Send(new GetListQuery(filter), cancellationToken);
-
+        var result = await sender.Send(new GetListQuery(request.Adapt<FilterHelper>()), cancellationToken);
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Products =
-            [
-                ..result.Value.Select(x => new ProductDto(
-                    x.Id,
-                    x.Name,
-                    x.ProductCode,
-                    x.Detail,
-                    x.Status?.Name,
-                    x.Quantity,
-                    x.Category?.Name,
-                    x.Price,
-                    x.Image
-                ))
-            ]
+            Products = result.Value.Adapt<List<ProductDto>>()
         };
     }
 }

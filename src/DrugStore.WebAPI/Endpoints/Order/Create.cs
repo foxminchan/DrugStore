@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Orders.Commands.CreateOrderCommand;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Endpoints.Abstractions;
+using DrugStore.WebAPI.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ public sealed class Create(ISender sender) : IEndpoint<CreateOrderResponse, Crea
             .WithTags(nameof(Order))
             .WithName("Create Order")
             .MapToApiVersion(new(1, 0))
-            .RequireAuthorization();
+            .RequirePerUserRateLimit();
 
     public async Task<CreateOrderResponse> HandleAsync(
         CreateOrderRequest request,

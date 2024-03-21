@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Products.Commands.UpdateProductCommand;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
@@ -19,31 +20,7 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateProductResponse, Up
         UpdateProductRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new UpdateProductCommand(
-                request.Id,
-                request.Name,
-                request.ProductCode,
-                request.Detail,
-                request.Quantity,
-                request.CategoryId,
-                request.ProductPrice,
-                request.ImageUrl
-            ), cancellationToken
-        );
-
-        var product = result.Value;
-
-        return new(new(
-            product.Id,
-            product.Name,
-            product.ProductCode,
-            product.Detail,
-            product.Status?.Name,
-            product.Quantity,
-            product.Category?.Name,
-            product.Price,
-            product.Image
-        ));
+        var result = await sender.Send(request.Adapt<UpdateProductCommand>(), cancellationToken);
+        return new(result.Value.Adapt<ProductDto>());
     }
 }

@@ -3,6 +3,7 @@ using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
@@ -32,20 +33,7 @@ public sealed class GetByCategory(ISender sender) : IEndpoint<GetProductByCatego
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Products =
-            [
-                ..result.Value.Select(x => new ProductDto(
-                    x.Id,
-                    x.Name,
-                    x.ProductCode,
-                    x.Detail,
-                    x.Status?.Name,
-                    x.Quantity,
-                    x.Category?.Name,
-                    x.Price,
-                    x.Image
-                ))
-            ]
+            Products = result.Value.Adapt<List<ProductDto>>()
         };
     }
 }

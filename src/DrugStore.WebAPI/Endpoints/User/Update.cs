@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Users.Commands.UpdateUserCommand;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
@@ -19,27 +20,7 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateUserResponse, Updat
         UpdateUserRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new UpdateUserCommand(
-                request.Id,
-                request.Email,
-                request.Password,
-                request.ConfirmPassword,
-                request.Role,
-                request.FullName,
-                request.Phone,
-                request.Address
-            ), cancellationToken
-        );
-
-        var user = result.Value;
-
-        return new(new(
-            user.Id,
-            user.Email,
-            user.FullName,
-            user.Phone,
-            user.Address
-        ));
+        var result = await sender.Send(request.Adapt<UpdateUserCommand>(), cancellationToken);
+        return new(result.Adapt<UserDto>());
     }
 }

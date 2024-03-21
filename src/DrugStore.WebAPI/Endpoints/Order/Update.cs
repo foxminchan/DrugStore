@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
@@ -26,15 +27,6 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateOrderResponse, Upda
             request.Items
         ), cancellationToken);
 
-        var order = result.Value.Order;
-
-        return new(new(
-            new(order.Id, order.Code, order.Customer?.FullName, order.Total),
-            [
-                .. result.Value.Items.Select(x
-                    => new OrderItemDto(x.ProductId, x.OrderId, x.Quantity, x.Price, x.Total)
-                )
-            ]
-        ));
+        return new(result.Value.Adapt<OrderDetailDto>());
     }
 }

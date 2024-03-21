@@ -2,6 +2,7 @@
 using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
@@ -37,16 +38,7 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Users =
-            [
-                ..result.Value.Select(x => new UserDto(
-                    x.Id,
-                    x.Email,
-                    x.FullName,
-                    x.Phone,
-                    x.Address
-                ))
-            ]
+            Users = result.Value.Adapt<List<UserDto>>()
         };
     }
 }

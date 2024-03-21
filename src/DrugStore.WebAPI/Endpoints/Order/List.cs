@@ -1,6 +1,8 @@
 ﻿using DrugStore.Application.Orders.Queries.GetListQuery;
+using DrugStore.Persistence.Helpers;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
@@ -24,30 +26,12 @@ public sealed class List(ISender sender) : IEndpoint<ListOrderResponse, ListOrde
         ListOrderRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new GetListQuery(
-                new(
-                    request.Search,
-                    request.IsAscending,
-                    request.OrderBy,
-                    request.PageIndex,
-                    request.PageSize
-                )
-            ), cancellationToken);
+        var result = await sender.Send(new GetListQuery(request.Adapt<FilterHelper>()), cancellationToken);
 
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Orders =
-            [
-                .. result.Value.Select(
-                    x => new OrderDto(
-                        x.Id,
-                        x.Code,
-                        x.Customer?.FullName,
-                        x.Total
-                    ))
-            ]
+            Orders = result.Value.Adapt<List<OrderDto>>()
         };
     }
 }

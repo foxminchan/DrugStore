@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
+using Mapster;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Basket;
@@ -20,19 +21,6 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateBasketResponse, Upd
         CancellationToken cancellationToken = default)
     {
         var result = await sender.Send(new UpdateBasketCommand(request.CustomerId, request.Item), cancellationToken);
-
-        return new(new(
-            result.Value.Id,
-            [
-                ..result.Value.Items.Select(x => new BasketItemDto(
-                    x.ProductId,
-                    x.ProductName,
-                    x.Quantity,
-                    x.Price,
-                    x.Price * x.Quantity
-                ))
-            ],
-            result.Value.Items.Sum(x => x.Price * x.Quantity)
-        ));
+        return new(result.Value.Adapt<CustomerBasketDto>());
     }
 }
