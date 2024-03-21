@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.IntegrationTest.Fixtures;
 using DrugStore.Persistence;
@@ -28,10 +29,11 @@ public sealed class GetProductByIdTest : BaseEfRepoTestFixture
         ProductPrice price = new(100, 90);
         var product = new Product(name, code, detail, quantity, null, price);
         await _repository.AddAsync(product);
+        var spec = new ProductByIdSpec(product.Id);
         _output.WriteLine("Product: " + JsonSerializer.Serialize(product));
 
         // Act
-        var getProduct = await _repository.GetByIdAsync(product.Id);
+        var getProduct = await _repository.FirstOrDefaultAsync(spec);
 
         // Assert
         Assert.NotNull(getProduct);

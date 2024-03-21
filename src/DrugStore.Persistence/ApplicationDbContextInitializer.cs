@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Constants;
+using DrugStore.Infrastructure.Exception;
 using FluentValidation;
 using IdentityModel;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,7 @@ public sealed class ApplicationDbContextInitializer(
         catch (Exception ex)
         {
             logger.LogError(ex, "Migration error");
-            throw;
+            throw new DatabaseInitializationException("An error occurred while initializing the database", ex);
         }
     }
 
@@ -39,7 +40,7 @@ public sealed class ApplicationDbContextInitializer(
         catch (Exception ex)
         {
             logger.LogError(ex, "Seeding error");
-            throw;
+            throw new DatabaseInitializationException("An error occurred while initializing the database", ex);
         }
     }
 

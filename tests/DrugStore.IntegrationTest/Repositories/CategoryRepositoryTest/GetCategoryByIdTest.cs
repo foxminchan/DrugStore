@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.IntegrationTest.Fixtures;
 using DrugStore.Persistence;
 
@@ -24,10 +25,11 @@ public sealed class GetCategoryByIdTest : BaseEfRepoTestFixture
         const string description = "Category 1 Description";
         var category = new Category(name, description);
         await _repository.AddAsync(category);
+        var spec = new CategoryByIdSpec(category.Id);
         _output.WriteLine("Category: " + JsonSerializer.Serialize(category));
 
         // Act
-        var getCategory = await _repository.GetByIdAsync(category.Id);
+        var getCategory = await _repository.FirstOrDefaultAsync(spec);
 
         // Assert
         Assert.NotNull(getCategory);

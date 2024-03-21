@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Enums;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.IntegrationTest.Fixtures;
 using DrugStore.Persistence;
@@ -28,13 +29,13 @@ public sealed class DeleteProductTest : BaseEfRepoTestFixture
         ProductPrice price = new(100, 90);
         var product = new Product(name, code, detail, quantity, null, price);
         await _repository.AddAsync(product);
-        var createdProduct = await _repository.GetByIdAsync(product.Id) ?? throw new NullReferenceException();
         _output.WriteLine("Product: " + JsonSerializer.Serialize(product));
 
         // Act
-        await _repository.DeleteAsync(createdProduct);
+        product.SetDiscontinued();
+        await _repository.UpdateAsync(product);
 
         // Assert
-        Assert.DoesNotContain(await _repository.ListAsync(), c => c.Id == createdProduct.Id);
+        Assert.DoesNotContain(await _repository.ListAsync(), c => c.Status == ProductStatus.Discontinued);
     }
 }

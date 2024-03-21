@@ -14,11 +14,11 @@ public sealed class LoggingDelegate(ILogger<LoggingDelegate> logger) : Delegatin
                 request.RequestUri, response);
             return response;
         }
-        catch (Exception e)
+        catch (HttpRequestException ex)
         {
-            logger.LogError(e, "[{RequestMethod}] {RequestUri} has error: {ErrorMessage}", request.Method,
-                request.RequestUri, e.Message);
-            throw;
+            logger.LogError(ex, "[{RequestMethod}] {RequestUri} has error: {ErrorMessage}", request.Method,
+                request.RequestUri, ex.Message);
+            throw new HttpRequestException(ex.Message);
         }
     }
 }
