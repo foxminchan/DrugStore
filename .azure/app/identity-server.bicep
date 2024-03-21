@@ -8,7 +8,7 @@ param containerRegistry string
 @description('Tag of container to use')
 param containerTag string = 'latest'
 
-provider 'kubernetes@1.0.0' with {
+provider kubernetes with {
   kubeConfig: kubeConfig
   namespace: 'default'
 }
@@ -63,8 +63,8 @@ resource backOfficeService 'core/Service@v1' = {
     }
     ports: [
       {
-        port: 7030
-        targetPort: '7030'
+        port: 7040
+        targetPort: '7040'
         protocol: 'TCP'
       }
     ]

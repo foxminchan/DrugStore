@@ -9,7 +9,7 @@
 A sample e-commerce application that enables users to buy and oversee pharmaceuticals and other health-related items. The application will be constructed with a clean architecture and domain-driven design, utilizing .NET 8.0, and runs on Azure AKS 🛞.
 </p>
 
-<img src="./assets/DrugStore.png" alt="Drug Store" width="100%">
+<img loading="lazy" src="./assets/DrugStore.png" alt="Drug Store" width="100%">
 
 ## Prerequisites
 
@@ -113,7 +113,6 @@ docker compose build
 docker compose push "acr_name".azurecr.io/drug-store-api:latest
 docker compose push "acr_name".azurecr.io/drug-store-storefront:latest
 docker compose push "acr_name".azurecr.io/drug-store-backoffice:latest
-docker compose push "acr_name".azurecr.io/drug-store-webstatus:latest
 docker compose push "acr_name".azurecr.io/drug-store-identityserver:latest
 ```
 

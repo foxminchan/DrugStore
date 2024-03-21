@@ -1,6 +1,6 @@
 {
   "name": "drug-store",
-  "description": "A simple drug store management system",
+  "description": "A simple drug store application with Clean Architecture, DDD, CQRS, REPR",
   "author": "Nguyen Xuan Nhan",
   "license": "MIT",
   "scripts": {

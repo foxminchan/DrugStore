@@ -17,6 +17,7 @@
 		<PackageReference Include="Testcontainers.Redis" />
 		<PackageReference Include="FluentAssertions" />
 		<PackageReference Include="AutoBogus.NSubstitute" />
+		<PackageReference Include="NSubstitute.Analyzers.CSharp" />
 		<PackageReference Include="Polly" />
 	</ItemGroup>
 
@@ -33,10 +34,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Update="SonarAnalyzer.CSharp">
-	    <PrivateAssets>all</PrivateAssets>
-	    <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-	  </PackageReference>
+		<PackageReference Update="SonarAnalyzer.CSharp">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 </Project>
