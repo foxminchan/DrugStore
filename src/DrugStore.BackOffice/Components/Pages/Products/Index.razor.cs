@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Products.Response;
+﻿using System.Text.Encodings.Web;
+using DrugStore.BackOffice.Components.Pages.Products.Response;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
@@ -116,5 +117,14 @@ public sealed partial class Index
         {
             _loading = false;
         }
+    }
+
+    private async Task ExportClick()
+    {
+        NavigationManager.NavigateTo(
+            $"/export/products/fileName={UrlEncoder.Default.Encode(nameof(Product))}",
+            true
+        );
+        await Task.CompletedTask;
     }
 }

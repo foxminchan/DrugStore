@@ -11,57 +11,53 @@
 
 <RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
 
-<RadzenAlert Shade="Shade.Lighter"Variant="Variant.Flat"Size="AlertSize.Small"AlertStyle="AlertStyle.Danger"
-             Visible="_errors.Any()">
-    @foreach (var error in _errors)
-    {
-        <RadzenText TextStyle="TextStyle.Body1" TextAlign="TextAlign.Justify">
-            <strong>@error.Key:</strong> @error.Value
-        </RadzenText>
-    }
-</RadzenAlert>
-
-<RadzenTemplateForm TItem="CreateCategory" Data="_category" Submit="OnSubmit">
-    <RadzenFieldset Text="Category information">
-        <RadzenStack Gap="1rem">
-            <RadzenLabel Text="Name" Component="Name"/>
-            <RadzenTextBox Style="display: block"
-                           Name="Name"
-                           ReadOnly="_busy"
-                           @bind-Value="_category.Name"
-                           class="w-100"
-                           Placeholder="Enter category name"/>
-            <RadzenCustomValidator Component="Name"
-                                   Text="Name is required and has 50 characters maximum"
-                                   Validator="() => ValidateCategoryName(_category.Name)"/>
-            <RadzenLabel Text="Description" Component="Description"/>
-            <RadzenTextArea Style="display: block"
-                            Name="Description"
-                            ReadOnly="_busy"
-                            @bind-Value="_category.Description"
-                            class="w-100"
-                            Placeholder="Enter category description"/>
-            <RadzenCustomValidator Component="Description"
-                                   Text="Description has 500 characters maximum"
-                                   Validator="() => ValidateCategoryDescription(_category.Description)"/>
+<RadzenColumn SizeMD="12">
+    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger"
+                 Visible="_errors.Any()">
+        Cannot save Category
+    </RadzenAlert>
+    <RadzenTemplateForm TItem="CreateCategory" Data="_category" Submit="OnSubmit">
+        <RadzenFieldset Text="Category information">
+            <RadzenStack Gap="1rem">
+                <RadzenLabel Text="Name" Component="Name"/>
+                <RadzenTextBox Style="display: block"
+                               Name="Name"
+                               ReadOnly="_busy"
+                               @bind-Value="_category.Name"
+                               class="w-100"
+                               Placeholder="Enter category name"/>
+                <RadzenCustomValidator Component="Name"
+                                       Text="Name is required and has 50 characters maximum"
+                                       Validator="() => ValidateCategoryName(_category.Name)"/>
+                <RadzenLabel Text="Description" Component="Description"/>
+                <RadzenTextArea Style="display: block"
+                                Name="Description"
+                                ReadOnly="_busy"
+                                @bind-Value="_category.Description"
+                                class="w-100"
+                                Placeholder="Enter category description"/>
+                <RadzenCustomValidator Component="Description"
+                                       Text="Description has 500 characters maximum"
+                                       Validator="() => ValidateCategoryDescription(_category.Description)"/>
+            </RadzenStack>
+        </RadzenFieldset>
+        <RadzenStack Style="margin-top:1rem;"
+                     Orientation="Orientation.Horizontal"
+                     AlignItems="AlignItems.Center"
+                     JustifyContent="JustifyContent.Center"
+                     Gap="0.5rem">
+            <RadzenButton ButtonStyle="ButtonStyle.Primary"
+                          ButtonType="ButtonType.Submit"
+                          Icon="save"
+                          Text="Save"
+                          Variant="Variant.Flat"
+                          IsBusy="_busy"/>
+            <RadzenButton ButtonStyle="ButtonStyle.Light"
+                          Icon="cancel"
+                          Text="Cancel"
+                          Variant="Variant.Flat"
+                          IsBusy="_busy"
+                          Click="CancelButtonClick"/>
         </RadzenStack>
-    </RadzenFieldset>
-    <RadzenStack Style="margin-top:1rem;"
-                 Orientation="Orientation.Horizontal"
-                 AlignItems="AlignItems.Center"
-                 JustifyContent="JustifyContent.Center"
-                 Gap="0.5rem">
-        <RadzenButton ButtonStyle="ButtonStyle.Primary"
-                      ButtonType="ButtonType.Submit"
-                      Icon="save"
-                      Text="Save"
-                      Variant="Variant.Flat"
-                      IsBusy="_busy"/>
-        <RadzenButton ButtonStyle="ButtonStyle.Light"
-                      Icon="cancel"
-                      Text="Cancel"
-                      Variant="Variant.Flat"
-                      IsBusy="_busy"
-                      Click="CancelButtonClick"/>
-    </RadzenStack>
-</RadzenTemplateForm>
+    </RadzenTemplateForm>
+</RadzenColumn>

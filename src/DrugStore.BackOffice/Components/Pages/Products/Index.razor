@@ -13,13 +13,19 @@
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
-            <RadzenText Text="Products" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
+            <RadzenText Text="Products" TextStyle="TextStyle.H3" TagName="TagName.H1" Style="margin: 0"/>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal"
                          AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End"
                          Gap="0.5rem">
+                <RadzenButton Icon="get_app"
+                              Text="Export CSV"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Shade="Shade.Lighter"
+                              Variant="Variant.Flat"
+                              Click="ExportClick" />
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
@@ -45,7 +51,10 @@
                             FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
                             Count="_count">
                 <EmptyTemplate>
-                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No products found</p>
+                    <RadzenText Style="color: lightgrey; font-size: 24px; margin: 2rem;"
+                                TagName="TagName.P" TextAlign="TextAlign.Center">
+                        No products found
+                    </RadzenText>
                 </EmptyTemplate>
                 <LoadingTemplate>
                     <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
@@ -99,7 +108,7 @@
                                          Shade="Shade.Lighter"
                                          Variant="Variant.Flat"
                                          Text="@product.Status"
-                                         BadgeStyle="@(product.Status switch { "InStock" => BadgeStyle.Success, "OutOfStock" => BadgeStyle.Warning, _ => BadgeStyle.Danger })" />
+                                         BadgeStyle="@(product.Status switch { "InStock" => BadgeStyle.Success, "OutOfStock" => BadgeStyle.Warning, _ => BadgeStyle.Danger })"/>
                         </Template>
                     </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="Product"
@@ -155,7 +164,7 @@
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
                                           class="my-1 ms-1"
-                                          Click="() => DeleteProduct(product.Id, product.Image?.ImageUrl)" />
+                                          Click="() => DeleteProduct(product.Id, product.Image?.ImageUrl)"/>
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>

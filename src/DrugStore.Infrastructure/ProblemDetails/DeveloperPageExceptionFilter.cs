@@ -8,13 +8,13 @@ namespace DrugStore.Infrastructure.ProblemDetails;
 
 public sealed class DeveloperPageExceptionFilter : IDeveloperPageExceptionFilter
 {
-    private static readonly object ErrorContextItemsKey = new();
-    private static readonly MediaTypeHeaderValue JsonMediaType = new(MediaTypeNames.Application.Json);
+    private static readonly object _errorContextItemsKey = new();
+    private static readonly MediaTypeHeaderValue _jsonMediaType = new(MediaTypeNames.Application.Json);
 
-    private static readonly RequestDelegate RespondWithProblemDetails
+    private static readonly RequestDelegate _respondWithProblemDetails
         = RequestDelegateFactory.Create(
             (HttpContext context)
-                => context.Items.TryGetValue(ErrorContextItemsKey, out var errorContextItem) &&
+                => context.Items.TryGetValue(_errorContextItemsKey, out var errorContextItem) &&
                    errorContextItem is ErrorContext errorContext
                     ? new ErrorProblemDetailsResult(errorContext.Exception)
                     : null
@@ -25,10 +25,10 @@ public sealed class DeveloperPageExceptionFilter : IDeveloperPageExceptionFilter
         var headers = errorContext.HttpContext.Request.GetTypedHeaders();
         var acceptHeader = headers.Accept;
 
-        if (acceptHeader.Any(h => h.IsSubsetOf(JsonMediaType)))
+        if (acceptHeader.Any(h => h.IsSubsetOf(_jsonMediaType)))
         {
-            errorContext.HttpContext.Items.Add(ErrorContextItemsKey, errorContext);
-            await RespondWithProblemDetails(errorContext.HttpContext);
+            errorContext.HttpContext.Items.Add(_errorContextItemsKey, errorContext);
+            await _respondWithProblemDetails(errorContext.HttpContext);
         }
         else
         {

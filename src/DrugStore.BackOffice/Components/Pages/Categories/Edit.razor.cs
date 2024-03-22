@@ -23,13 +23,14 @@ public sealed partial class Edit
 
     [Parameter] public required string Id { get; set; }
 
-    private Dictionary<string, string> _errors = [];
+    private bool _error;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             _busy = true;
+            _error = false;
             var category = await CategoriesApi.GetCategoryAsync(new(Id));
             _category.Id = category.Id.ToString();
             _category.Name = category.Name;
@@ -64,13 +65,13 @@ public sealed partial class Edit
         catch (ValidationApiException validationException)
         {
             var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
-            if (errorModel?.ValidationErrors is not null)
-                _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
+            _error = errorModel?.ValidationErrors is not null;
         }
         catch (Exception)
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to add Category" });
+            _error = true;
         }
         finally
         {

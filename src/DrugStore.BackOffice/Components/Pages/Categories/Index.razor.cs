@@ -3,6 +3,7 @@ using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
+using System.Text.Encodings.Web;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -86,5 +87,14 @@ public sealed partial class Index
                 Detail = "Unable to delete Category"
             });
         }
+    }
+
+    private async Task ExportClick()
+    {
+        NavigationManager.NavigateTo(
+            $"/export/categories/fileName={UrlEncoder.Default.Encode(nameof(Category))}",
+            true
+        );
+        await Task.CompletedTask;
     }
 }

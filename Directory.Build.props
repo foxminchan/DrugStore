@@ -4,7 +4,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<InvariantGlobalization>true</InvariantGlobalization>
-		<NoWarn>1591</NoWarn>
+		<NoWarn>1591,CS0168,CS1998,BL9993,CS0649,CS0436,0436</NoWarn>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="SonarAnalyzer.CSharp">

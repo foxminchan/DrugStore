@@ -10,9 +10,11 @@ using Radzen;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+    .AddInteractiveServerComponents()
+    .AddHubOptions(options => options.MaximumReceiveMessageSize = 10 * 1024 * 1024);
 
 builder.Services.AddRadzenComponents();
+builder.Services.AddControllers();
 
 builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);
@@ -51,6 +53,8 @@ app.UseAntiforgery();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

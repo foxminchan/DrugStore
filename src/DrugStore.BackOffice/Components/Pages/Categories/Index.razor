@@ -11,13 +11,19 @@
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
-            <RadzenText Text="Categories" TextStyle="TextStyle.H3" TagName="TagName.H1" style="margin: 0"/>
+            <RadzenText Text="Categories" TextStyle="TextStyle.H3" TagName="TagName.H1" Style="margin: 0"/>
         </RadzenColumn>
         <RadzenColumn Size="12" SizeMD="6">
             <RadzenStack Orientation="Orientation.Horizontal"
                          AlignItems="AlignItems.Center"
                          JustifyContent="JustifyContent.End"
                          Gap="0.5rem">
+                <RadzenButton Icon="get_app"
+                              Text="Export CSV"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Shade="Shade.Lighter"
+                              Variant="Variant.Flat"
+                              Click="ExportClick" />
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
@@ -35,7 +41,10 @@
                             AllowFiltering="true"
                             AllowSorting="true">
                 <EmptyTemplate>
-                    <p style="color: lightgrey; font-size: 24px; text-align: center; margin: 2rem;">No categories found</p>
+                    <RadzenText Style="color: lightgrey; font-size: 24px; margin: 2rem;"
+                                TagName="TagName.P" TextAlign="TextAlign.Center">
+                        No categories found
+                    </RadzenText>
                 </EmptyTemplate>
                 <LoadingTemplate>
                     <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
