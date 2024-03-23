@@ -1,5 +1,4 @@
-﻿using System.Text.Encodings.Web;
-using DrugStore.BackOffice.Components.Pages.Products.Response;
+﻿using DrugStore.BackOffice.Components.Pages.Products.Response;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
@@ -18,16 +17,22 @@ public sealed partial class Index
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     private RadzenDataGrid<Product> _dataGrid = default!;
+
     private List<Product> _products = [];
+
     private bool _loading;
+
     private int _count;
+
+    private bool _error;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _error = false;
             _loading = true;
-            var result = await ProductsApi.GetProductsAsync(new());
+            var result = await ProductsApi.ListProductsAsync(new());
             _products = result.Products;
             _count = (int)result.PagedInfo.TotalRecords;
         }
@@ -35,6 +40,7 @@ public sealed partial class Index
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+            _error = true;
         }
         finally
         {
@@ -42,52 +48,26 @@ public sealed partial class Index
         }
     }
 
-    private async Task AddProducts()
-    {
-        NavigationManager.NavigateTo("/products/add");
-        await Task.CompletedTask;
-    }
-
-    private async Task EditProduct(Guid id)
-    {
-        NavigationManager.NavigateTo($"/products/edit/{id}");
-        await Task.CompletedTask;
-    }
-
     private async Task DeleteProduct(Guid id, string? image)
     {
-        var result = await DialogService.Confirm(
-            "Are you sure?",
-            "Delete Product",
-            new() { OkButtonText = "Yes", CancelButtonText = "No" }
-        ) ?? false;
-
-        if (!result)
-            return;
-
         try
         {
-            var deleteImage = false;
-
-            if (image is not null)
+            if (await DialogService.Confirm("Are you sure you want to delete this product?") == true)
             {
-                deleteImage = await DialogService.Confirm(
-                    "Do you want to delete the image?",
-                    "Delete Product",
-                    new() { OkButtonText = "Yes", CancelButtonText = "No" }
-                ) ?? false;
+                var deleteImage = false;
+
+                if (!string.IsNullOrEmpty(image)) 
+                    deleteImage = await DialogService.Confirm("Do you want to delete the image?") ?? false;
+
+                await ProductsApi.DeleteProductAsync(id, deleteImage);
+                await _dataGrid.Reload();
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Product deleted successfully."
+                });
             }
-
-            await ProductsApi.DeleteProductAsync(id, deleteImage);
-
-            NotificationService.Notify(new()
-            {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Product deleted successfully."
-            });
-
-            await _dataGrid.Reload();
         }
         catch (Exception)
         {
@@ -105,13 +85,15 @@ public sealed partial class Index
         try
         {
             _loading = true;
-            var result = await ProductsApi.GetProductsAsync(new() { Search = args.Value?.ToString() });
+            var result = await ProductsApi.ListProductsAsync(new() { Search = args.Value?.ToString() });
             _products = result.Products;
+            await _dataGrid.GoToPage(0);
         }
         catch (Exception)
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+            _error = true;
         }
         finally
         {
@@ -119,12 +101,9 @@ public sealed partial class Index
         }
     }
 
-    private async Task ExportClick()
-    {
-        NavigationManager.NavigateTo(
-            $"/export/products/fileName={UrlEncoder.Default.Encode(nameof(Product))}",
-            true
-        );
-        await Task.CompletedTask;
-    }
+    private async Task AddProducts() => NavigationManager.NavigateTo("/products/add");
+
+    private async Task EditProduct(Guid id) => NavigationManager.NavigateTo($"/products/edit/{id}");
+
+    private async Task ExportClick() => NavigationManager.NavigateTo("/export/products", true);
 }

@@ -1,4 +1,5 @@
 ﻿using DrugStore.Application.Products.Validators;
+using DrugStore.Application.Shared;
 using DrugStore.Persistence.Constants;
 using FluentValidation;
 
@@ -6,8 +7,7 @@ namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
 {
-    public UpdateProductCommandValidator(
-        ProductPriceValidator productPriceValidator)
+    public UpdateProductCommandValidator(ProductPriceValidator productPriceValidator, FileValidator fileValidator)
     {
         RuleFor(x => x.Id)
             .NotEmpty();
@@ -28,5 +28,11 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
 
         RuleFor(x => x.ProductPrice)
             .SetValidator(productPriceValidator);
+
+        RuleFor(x => x.Alt)
+            .MaximumLength(DatabaseSchemaLength.DefaultLength);
+
+        RuleFor(x => x.Image)
+            .SetValidator(fileValidator!);
     }
 }

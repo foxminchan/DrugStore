@@ -3,17 +3,9 @@
 
 <PageTitle>Add Category</PageTitle>
 
-<RadzenBreadCrumb>
-    <RadzenBreadCrumbItem Path="/" Text="Home"/>
-    <RadzenBreadCrumbItem Path="/categories" Text="Categories"/>
-    <RadzenBreadCrumbItem Text="Add"/>
-</RadzenBreadCrumb>
-
-<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
-
 <RadzenColumn SizeMD="12">
     <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" Size="AlertSize.Small" AlertStyle="AlertStyle.Danger"
-                 Visible="_errors.Any()">
+                 Visible="_error">
         Cannot save Category
     </RadzenAlert>
     <RadzenTemplateForm TItem="CreateCategory" Data="_category" Submit="OnSubmit">

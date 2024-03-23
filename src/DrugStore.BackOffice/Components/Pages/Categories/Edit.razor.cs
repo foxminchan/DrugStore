@@ -1,11 +1,9 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Constants;
-using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
-using Refit;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -17,13 +15,15 @@ public sealed partial class Edit
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    [Inject] private DialogService DialogService { get; set; } = default!;
+
+    [Parameter] public required Guid Id { get; set; }
+
     private bool _busy;
 
-    private readonly UpdateCategory _category = new();
-
-    [Parameter] public required string Id { get; set; }
-
     private bool _error;
+
+    private readonly UpdateCategory _category = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,7 +31,7 @@ public sealed partial class Edit
         {
             _busy = true;
             _error = false;
-            var category = await CategoriesApi.GetCategoryAsync(new(Id));
+            var category = await CategoriesApi.GetCategoryAsync(Id);
             _category.Id = category.Id.ToString();
             _category.Name = category.Name;
             _category.Description = category.Description;
@@ -62,22 +62,17 @@ public sealed partial class Edit
             });
             NavigationManager.NavigateTo("/categories");
         }
-        catch (ValidationApiException validationException)
-        {
-            var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
-            _error = errorModel?.ValidationErrors is not null;
-        }
         catch (Exception)
         {
             NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to add Category" });
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to add Category" }
+            );
             _error = true;
         }
         finally
         {
             _busy = false;
         }
-       
     }
 
     private static bool ValidateCategoryName(string? name)
@@ -89,9 +84,5 @@ public sealed partial class Edit
         return description.Length <= DataTypeLength.LongLength;
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg)
-    {
-        NavigationManager.NavigateTo("/categories");
-        await Task.CompletedTask;
-    }
+    private async Task CancelButtonClick(MouseEventArgs arg) => DialogService.Close();
 }

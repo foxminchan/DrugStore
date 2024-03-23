@@ -19,26 +19,31 @@ public sealed class UpdateProductCommandHandler(
         var product = await repository.GetByIdAsync(new ProductByIdSpec(request.Id), cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
+        if (request.IsDeleteImage || request.Image is not null)
+            await RemoveObsoleteImagesAsync(product);
+
+        var result = string.Empty;
+
+        if (request.Image is not null)
+            result = await localStorage.UploadFileAsync(request.Image, cancellationToken);
+
         product.Update(
             request.Name,
             request.ProductCode,
             request.Detail,
             request.Quantity,
             request.CategoryId,
-            request.ProductPrice
+            request.ProductPrice,
+            string.IsNullOrWhiteSpace(result) ? null : new(result, request.Alt ?? request.Name, request.Name)
         );
 
-        await RemoveObsoleteImagesAsync(product, request.ImageUrl);
         await repository.UpdateAsync(product, cancellationToken);
         return Result<ProductVm>.Success(mapper.Map<ProductVm>(product));
     }
 
-    private async Task RemoveObsoleteImagesAsync(Product product, string? imageUrl)
+    private async Task RemoveObsoleteImagesAsync(Product product)
     {
-        if (imageUrl is null || product.Image is null)
-            return;
-
-        if (!string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+        if (product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
             await localStorage.RemoveFileAsync(product.Image.ImageUrl);
     }
 }

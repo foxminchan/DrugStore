@@ -7,7 +7,7 @@ namespace DrugStore.BackOffice.Components.Pages.Categories.Services;
 public interface ICategoriesApi
 {
     [Get("/categories")]
-    Task<ListCategories> GetCategoriesAsync();
+    Task<ListCategories> ListCategoriesAsync();
 
     [Get("/categories/{id}")]
     Task<Category> GetCategoryAsync(Guid id);
@@ -16,7 +16,7 @@ public interface ICategoriesApi
     Task DeleteCategoryAsync(Guid id);
 
     [Post("/categories")]
-    Task<Guid> AddCategoryAsync(CreateCategory category, [Header("X-Idempotency-Key")] Guid key);
+    Task AddCategoryAsync(CreateCategory category, [Header("X-Idempotency-Key")] Guid key);
 
     [Put("/categories")]
     Task UpdateCategoryAsync(UpdateCategory category);

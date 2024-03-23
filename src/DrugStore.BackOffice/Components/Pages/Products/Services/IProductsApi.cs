@@ -8,17 +8,14 @@ namespace DrugStore.BackOffice.Components.Pages.Products.Services;
 public interface IProductsApi
 {
     [Get("/products")]
-    Task<ListProducts> GetProductsAsync([Query] FilterHelper filter);
+    Task<ListProducts> ListProductsAsync([Query] FilterHelper filter);
 
     [Get("/products/{id}")]
     Task<Product> GetProductAsync(Guid id);
 
-    [Post("/products")]
-    Task<Guid> CreateProductAsync(ProductPayload productInfoRequest, [Header("X-Idempotency-Key")] string key);
-
     [Multipart]
-    [Put("/products/images/{id}")]
-    Task<Guid> UpdateProductImageAsync(Guid id, ImagePayload productImageRequest);
+    [Post("/products")]
+    Task CreateProductAsync(CreateProduct product, [Header("X-Idempotency-Key")] Guid key);
 
     [Delete("/products/{id}")]
     Task DeleteProductAsync(Guid id, [Query] bool? isDeleteImage);

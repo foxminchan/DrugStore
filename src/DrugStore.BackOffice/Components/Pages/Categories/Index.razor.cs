@@ -3,7 +3,6 @@ using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
-using System.Text.Encodings.Web;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -18,21 +17,27 @@ public sealed partial class Index
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     private RadzenDataGrid<Category> _dataGrid = default!;
+
     private List<Category> _categories = [];
+
     private bool _loading;
+
+    private bool _error;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            _error = false;
             _loading = true;
-            var result = await CategoriesApi.GetCategoriesAsync();
+            var result = await CategoriesApi.ListCategoriesAsync();
             _categories = result.Categories;
         }
         catch (Exception)
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Category" });
+            _error = true;
         }
         finally
         {
@@ -42,41 +47,31 @@ public sealed partial class Index
 
     private async Task EditCategory(Guid id)
     {
-        NavigationManager.NavigateTo($"/categories/edit/{id}");
-        await Task.CompletedTask;
+        await DialogService.OpenAsync<Edit>("Edit Category", new() { { "Id", id}});
+        await _dataGrid.Reload();
     }
 
     private async Task AddCategory()
     {
-        NavigationManager.NavigateTo("/categories/add");
-        await Task.CompletedTask;
+        await DialogService.OpenAsync<Add>("Add Category");
+        await _dataGrid.Reload();
     }
 
     private async Task DeleteCategory(Guid id)
     {
-        var result = await DialogService.Confirm(
-            message: "Are you sure?",
-            title: "Delete Category",
-            options: new()
-            {
-                OkButtonText = "Yes",
-                CancelButtonText = "No"
-            }
-        ) ?? false;
-
-        if (!result)
-            return;
-
         try
         {
-            await CategoriesApi.DeleteCategoryAsync(id);
-            NotificationService.Notify(new()
+            if (await DialogService.Confirm("Are you sure you want to delete this category?") == true)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Category deleted successfully!"
-            });
-            await _dataGrid.Reload();
+                await CategoriesApi.DeleteCategoryAsync(id);
+                await _dataGrid.Reload();
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Category deleted successfully!"
+                });
+            }
         }
         catch (Exception)
         {
@@ -89,12 +84,5 @@ public sealed partial class Index
         }
     }
 
-    private async Task ExportClick()
-    {
-        NavigationManager.NavigateTo(
-            $"/export/categories/fileName={UrlEncoder.Default.Encode(nameof(Category))}",
-            true
-        );
-        await Task.CompletedTask;
-    }
+    private async Task ExportClick() => NavigationManager.NavigateTo("/export/categories", true);
 }

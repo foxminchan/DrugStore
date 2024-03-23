@@ -1,4 +1,5 @@
 ﻿using DrugStore.Application.Products.Commands.CreateProductCommand;
+using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Infrastructure.Exception;
 using DrugStore.WebAPI.Endpoints.Abstractions;
 using DrugStore.WebAPI.Extensions;
@@ -12,13 +13,24 @@ public sealed class Create(ISender sender) : IEndpoint<CreateProductResponse, Cr
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/products", async (
                 [FromHeader(Name = "X-Idempotency-Key")]
-                string idempotencyKey,
-                CreateProductPayload payload
-            ) => await HandleAsync(new(idempotencyKey, payload)))
+                string idempotency,
+                [FromForm] string name,
+                [FromForm] string? productCode,
+                [FromForm] string? detail,
+                [FromForm] int quantity,
+                [FromForm] CategoryId? categoryId,
+                [FromForm] decimal price,
+                [FromForm] decimal priceSale,
+                [FromForm] IFormFile? image,
+                [FromForm] string? alt
+            ) => await HandleAsync(new(
+                idempotency, name, productCode, detail, quantity, categoryId, price, priceSale, image, alt)
+            ))
             .Produces<CreateProductResponse>()
             .WithTags(nameof(Product))
             .WithName("Create Product")
             .MapToApiVersion(new(1, 0))
+            .DisableAntiforgery()
             .RequirePerUserRateLimit();
 
     public async Task<CreateProductResponse> HandleAsync(
@@ -30,12 +42,14 @@ public sealed class Create(ISender sender) : IEndpoint<CreateProductResponse, Cr
         var result = await sender.Send(
             new CreateProductCommand(
                 requestId,
-                request.Product.Name,
-                request.Product.ProductCode,
-                request.Product.Detail,
-                request.Product.Quantity,
-                request.Product.CategoryId,
-                request.Product.ProductPrice
+                request.ProductName,
+                request.ProductCode,
+                request.Detail,
+                request.Quantity,
+                request.CategoryId,
+                new(request.Price, request.PriceSale),
+                request.Image,
+                request.Alt
             ), cancellationToken);
 
         return new(result.Value);

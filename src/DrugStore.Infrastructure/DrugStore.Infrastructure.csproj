@@ -5,7 +5,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
 		<PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" />
-		<PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" />
 	</ItemGroup>
 
 	<ItemGroup>

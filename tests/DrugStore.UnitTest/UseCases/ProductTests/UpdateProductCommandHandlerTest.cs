@@ -33,7 +33,9 @@ public sealed class UpdateProductCommandHandlerTest
             10,
             new(Guid.NewGuid()),
             ProductPriceBuilder.WithDefaultValues(),
-            Guid.NewGuid().ToString()
+            false,
+            null,
+            null
         );
         _repository.UpdateAsync(Arg.Any<Product>())
             .Returns(Task.CompletedTask);

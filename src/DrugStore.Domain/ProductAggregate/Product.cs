@@ -25,7 +25,8 @@ public sealed class Product : EntityBase, IAggregateRoot
         string? detail,
         int quantity,
         CategoryId? categoryId,
-        ProductPrice productPrice)
+        ProductPrice productPrice,
+        ProductImage? image = null)
     {
         Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
@@ -34,6 +35,7 @@ public sealed class Product : EntityBase, IAggregateRoot
         Quantity = quantity;
         CategoryId = categoryId;
         Price = productPrice;
+        Image = image;
     }
 
     public ProductId Id { get; set; } = new(Guid.NewGuid());
@@ -54,7 +56,8 @@ public sealed class Product : EntityBase, IAggregateRoot
         string? detail,
         int quantity,
         CategoryId? categoryId,
-        ProductPrice productPrice)
+        ProductPrice productPrice,
+        ProductImage? image = null)
     {
         Name = Guard.Against.NullOrEmpty(name);
         ProductCode = productCode;
@@ -63,6 +66,7 @@ public sealed class Product : EntityBase, IAggregateRoot
         Quantity = quantity;
         CategoryId = categoryId;
         Price = productPrice;
+        Image = image;
     }
 
     public void RemoveStock(int quantityDesired)

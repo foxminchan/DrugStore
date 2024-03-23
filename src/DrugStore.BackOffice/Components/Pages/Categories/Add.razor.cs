@@ -1,11 +1,9 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Constants;
-using DrugStore.BackOffice.Helpers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
-using Refit;
 
 namespace DrugStore.BackOffice.Components.Pages.Categories;
 
@@ -17,11 +15,13 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    [Inject] private DialogService DialogService { get; set; } = default!;
+
     private bool _busy;
 
-    private readonly CreateCategory _category = new();
+    private bool _error;
 
-    private Dictionary<string, string> _errors = [];
+    private readonly CreateCategory _category = new();
 
     private async Task OnSubmit(CreateCategory category)
     {
@@ -37,16 +37,11 @@ public sealed partial class Add
             });
             NavigationManager.NavigateTo("/categories");
         }
-        catch (ValidationApiException validationException)
-        {
-            var errorModel = await validationException.GetContentAsAsync<ValidationHelper>();
-            if (errorModel?.ValidationErrors is not null)
-                _errors = errorModel.ValidationErrors.ToDictionary(error => error.Identifier, error => error.Message);
-        }
         catch (Exception)
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to add Category" });
+            _error = true;
         }
         finally
         {
@@ -63,9 +58,5 @@ public sealed partial class Add
         return description.Length <= DataTypeLength.LongLength;
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg)
-    {
-        NavigationManager.NavigateTo("/categories");
-        await Task.CompletedTask;
-    }
+    private async Task CancelButtonClick(MouseEventArgs arg) => DialogService.Close();
 }

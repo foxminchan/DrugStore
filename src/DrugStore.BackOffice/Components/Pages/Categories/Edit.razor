@@ -1,15 +1,7 @@
-﻿@page "/categories/edit/{Id}"
+﻿@page "/categories/edit"
 @using DrugStore.BackOffice.Components.Pages.Categories.Requests
 
 <PageTitle>Edit Category</PageTitle>
-
-<RadzenBreadCrumb>
-    <RadzenBreadCrumbItem Path="/" Text="Home"/>
-    <RadzenBreadCrumbItem Path="/categories" Text="Categories"/>
-    <RadzenBreadCrumbItem Text="Edit"/>
-</RadzenBreadCrumb>
-
-<RadzenText TextStyle="TextStyle.H3">Categories</RadzenText>
 
 @if (_busy)
 {

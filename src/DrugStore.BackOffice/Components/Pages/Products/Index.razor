@@ -1,6 +1,5 @@
 ﻿@page "/products"
 @using DrugStore.BackOffice.Components.Pages.Products.Response
-@using System.Globalization
 @inject IConfiguration Configuration
 
 <PageTitle>Products List</PageTitle>
@@ -10,6 +9,21 @@
     <RadzenBreadCrumbItem Text="Products"/>
 </RadzenBreadCrumb>
 
+<RadzenRow>
+    <RadzenColumn SizeMD="9">
+        <RadzenLabel Style="font-weight: bold"
+                     Text="Loading data was failed. Please reload."
+                     Visible="_error" />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                      Icon="autorenew"
+                      Style="margin-bottom: 20px"
+                      Text="Reload"
+                      Visible="_error"
+                      Click="OnInitializedAsync" />
+    </RadzenColumn>
+</RadzenRow>
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
@@ -29,11 +43,15 @@
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
+                              Variant="Variant.Flat"
                               Click="AddProducts"/>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenTextBox Placeholder="Search ..." Style="display: block; width: 100%" @oninput="Search"/>
+    <RadzenTextBox Placeholder="Search ..." 
+                   Style="display: block; width: 100%" 
+                   @oninput="Search"
+                   aria-label="Search by product name" />
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenDataGrid @ref="_dataGrid"
@@ -132,7 +150,7 @@
                                                   Property="@nameof(Product.Price.Price)"
                                                   Title="@nameof(Product.Price.Price)">
                                 <Template Context="product">
-                                    @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.Price)
+                                    @product.Price?.Price.ToString("C")
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="Product"
@@ -140,7 +158,7 @@
                                                   Property="@nameof(Product.Price.PriceSale)"
                                                   Title="Price Sale">
                                 <Template Context="product">
-                                    @string.Format(new CultureInfo("en-US"), "{0:C}", product.Price?.PriceSale)
+                                    @product.Price?.PriceSale.ToString("C")
                                 </Template>
                             </RadzenDataGridColumn>
                         </Columns>

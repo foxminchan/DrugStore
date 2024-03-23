@@ -3,7 +3,7 @@ using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Domain.ProductAggregate.ValueObjects;
 
-public sealed class ProductImage(string imageUrl, string? alt, string? title) : ValueObject
+public sealed class ProductImage(string? imageUrl, string? alt, string? title) : ValueObject
 {
     public string? ImageUrl { get; set; } = Guard.Against.NullOrEmpty(imageUrl);
     public string? Alt { get; set; } = alt;

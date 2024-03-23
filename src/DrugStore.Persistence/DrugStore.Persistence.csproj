@@ -7,6 +7,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
 		<PackageReference Include="EFCore.NamingConventions" />
+		<PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" />
 	</ItemGroup>
 
 	<ItemGroup>

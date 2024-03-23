@@ -8,7 +8,7 @@
             <RadzenSidebarToggle Click="() => _sidebarExpanded = !_sidebarExpanded"/>
             <RadzenProfileMenu Style="margin-left: auto;">
                 <Template>
-                    <RadzenGravatar Email="user@example.com"></RadzenGravatar>
+                    <RadzenGravatar Email="user@example.com"/>
                 </Template>
                 <ChildContent>
                     <RadzenProfileMenuItem Text="Profile" Path="profile" Icon="account_circle"/>
@@ -58,6 +58,10 @@
                      Gap="0"
                      class="rz-py-4 rz-py-lg-6"
                      Style="padding: var(--rz-panel-menu-item-padding);">
+            <RadzenText Text="Drug Store v1.0.0"
+                        TextStyle="TextStyle.Caption"
+                        TagName="TagName.P"
+                        TextAlign="TextAlign.Center"/>
             <RadzenText Text="@string.Concat("© ", DateTime.Now.Year, " Drug Store CMS")"
                         TextStyle="TextStyle.Caption"
                         class="rz-mb-0"

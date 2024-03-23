@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using EntityFramework.Exceptions.Common;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
@@ -31,18 +30,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 await HandleUnauthorizedAccessException(httpContext, unauthorizedAccessException, cancellationToken);
                 break;
 
-            case InvalidIdempotencyException invalidIdempotencyException:
-                await HandleInvalidIdempotencyException(httpContext, invalidIdempotencyException, cancellationToken);
-                break;
-
-            case ReferenceConstraintException referenceConstraintException:
-                await HandleReferenceConstraintException(httpContext, referenceConstraintException, cancellationToken);
-                break;
-
-            case UniqueConstraintException uniqueConstraintException:
-                await HandleUniqueConstraintException(httpContext, uniqueConstraintException, cancellationToken);
-                break;
-
             default:
                 await HandleDefaultException(httpContext, exception, cancellationToken);
                 break;
@@ -68,16 +55,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         await httpContext.Response.WriteAsJsonAsync(validationErrorModel, cancellationToken);
     }
 
-    private static async Task HandleInvalidIdempotencyException(
-        HttpContext httpContext,
-        System.Exception invalidIdempotencyException,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, invalidIdempotencyException,
-            StatusCodes.Status400BadRequest,
-            "Invalid Idempotency Key",
-            invalidIdempotencyException.Message,
-            cancellationToken);
-
     private static async Task HandleNotFoundException(
         HttpContext httpContext,
         System.Exception notFoundException,
@@ -96,26 +73,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
             StatusCodes.Status401Unauthorized,
             "Unauthorized",
             unauthorizedAccessException.Message,
-            cancellationToken);
-
-    private static async Task HandleReferenceConstraintException(
-        HttpContext httpContext,
-        System.Exception referenceConstraintException,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, referenceConstraintException,
-            StatusCodes.Status409Conflict,
-            "Foreign key is not valid",
-            referenceConstraintException.Message,
-            cancellationToken);
-
-    private static async Task HandleUniqueConstraintException(
-        HttpContext httpContext,
-        System.Exception uniqueConstraintException,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, uniqueConstraintException,
-            StatusCodes.Status409Conflict,
-            "Primary key is not unique",
-            uniqueConstraintException.Message,
             cancellationToken);
 
     private static async Task HandleDefaultException(

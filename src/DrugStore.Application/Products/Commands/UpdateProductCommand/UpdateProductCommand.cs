@@ -4,6 +4,7 @@ using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
+using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
@@ -15,5 +16,6 @@ public sealed record UpdateProductCommand(
     int Quantity,
     CategoryId? CategoryId,
     ProductPrice ProductPrice,
-    string? ImageUrl
-) : ICommand<Result<ProductVm>>;
+    bool IsDeleteImage,
+    IFormFile? Image,
+    string? Alt) : ICommand<Result<ProductVm>>;

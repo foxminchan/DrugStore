@@ -8,6 +8,21 @@
     <RadzenBreadCrumbItem Text="Categories"/>
 </RadzenBreadCrumb>
 
+<RadzenRow>
+    <RadzenColumn SizeMD="9">
+        <RadzenLabel Style="font-weight: bold" 
+                     Text="Loading data was failed. Please reload."
+                     Visible="_error" />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary" 
+                      Icon="autorenew" 
+                      Style="margin-bottom: 20px" 
+                      Text="Reload" 
+                      Visible="_error"
+                      Click="OnInitializedAsync" />
+    </RadzenColumn>
+</RadzenRow>
 <RadzenStack>
     <RadzenRow AlignItems="AlignItems.Center">
         <RadzenColumn Size="12" SizeMD="6">
