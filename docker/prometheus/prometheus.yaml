@@ -7,11 +7,6 @@ scrape_configs:
     static_configs:
       - targets: ["otel-collector:8889"]
       - targets: ["otel-collector:8888"]
-  - job_name: otel
-    honor_labels: true
-    static_configs:
-      - targets:
-          - "otelcol:9464"
   - job_name: prometheus
     honor_timestamps: true
     scrape_interval: 15s
@@ -19,5 +14,5 @@ scrape_configs:
     metrics_path: /metrics
     scheme: http
     static_configs:
-    - targets:
-      - localhost:9090
+      - targets:
+          - localhost:9090

@@ -113,6 +113,9 @@ public sealed partial class Add
         return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MaxFileSize;
     }
 
-    private bool ValidateProductImageAlt(string? alt)
-        => _product.File is null || (!string.IsNullOrEmpty(alt) && alt.Length <= DataTypeLength.DefaultLength);
+    private static bool ValidateProductImageAlt(string? alt)
+    {
+        if (string.IsNullOrEmpty(alt)) return true;
+        return alt.Length <= DataTypeLength.DefaultLength;
+    }
 }
