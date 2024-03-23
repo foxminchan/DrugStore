@@ -71,6 +71,8 @@ services:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
       - prometheus
     healthcheck:
@@ -103,7 +105,8 @@ services:
       - ./vol/tempo:/tmp/tempo
     ports:
       - "3200:3200"
-      - "4320:4317"
+      - "4417:4317"
+      - "4418:4318"
     healthcheck:
       interval: 5s
       retries: 10

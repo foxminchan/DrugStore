@@ -82,6 +82,35 @@ For test the tests, run the following command:
 dotnet stryker
 ```
 
+## Observability
+
+<img loading="lazy" src="./assets/LGTM.png" alt="LGTM" width="100%">
+
+### Overview
+
+<p align="justify">
+The application is instrumented with OpenTelemetry and uses <b>LGTM</b> as the observability platform. LGTM is a lightweight, open-source observability platform that enables you to monitor and troubleshoot applications. It provides a dashboard that displays traces, metrics, and logs. The dashboard is accessible at <a href="http://localhost:3000">http://localhost:3000</a>. The default credentials are <b>admin</b> for both the username and password.
+</p>
+
+### Viewing the dashboard
+
+1. Open the LGTM dashboard
+
+```bash
+open http://localhost:3000
+```
+
+2. Login with the following credentials:
+
+```bash
+Username: admin
+Password: admin
+```
+
+3. View the traces, metrics, and logs
+
+<img loading="lazy" src="./assets/dashboard.png" alt="Dashboard" width="100%">
+
 ## Deployment
 
 To deploy the application to **Azure**, follow the steps below:

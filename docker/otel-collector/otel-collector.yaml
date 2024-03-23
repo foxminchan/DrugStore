@@ -19,7 +19,7 @@ exporters:
   logging:
 
   otlp:
-    endpoint: "tempo:4320"
+    endpoint: http://tempo:4417
     tls:
       insecure: true
 
