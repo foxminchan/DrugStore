@@ -56,7 +56,7 @@ public sealed class Callback(
         // this might be where you might initiate a custom workflow for user registration
         // in this sample we don't show how that would be done, as our sample implementation
         // simply auto-provisions new external user
-        var user = await userManager.FindByLoginAsync(provider, providerUserId) 
+        var user = await userManager.FindByLoginAsync(provider, providerUserId)
                    ?? await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims);
 
         // this allows us to collect any additional claims or properties
@@ -77,15 +77,18 @@ public sealed class Callback(
 
         // check if external login is in the context of an OIDC request
         var context = await interaction.GetAuthorizationContextAsync(returnUrl);
-        await events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id.ToString(), user.UserName, true,
+        await events.RaiseAsync(new UserLoginSuccessEvent(provider, providerUserId, user.Id.ToString(), user.UserName,
+            true,
             context?.Client.ClientId));
         Telemetry.Metrics.UserLogin(context?.Client.ClientId, provider);
 
         if (context is null) return Redirect(returnUrl);
-        return context.IsNativeClient() ?
+        return context.IsNativeClient()
+            ?
             // The client is native, so this change in how to
             // return the response is for better UX for the end user.
-            this.LoadingPage(returnUrl) : Redirect(returnUrl);
+            this.LoadingPage(returnUrl)
+            : Redirect(returnUrl);
     }
 
     private async Task<ApplicationUser> AutoProvisionUserAsync(string provider, string providerUserId,
@@ -96,7 +99,8 @@ public sealed class Callback(
         var user = new ApplicationUser
         {
             Id = new(sub),
-            UserName = sub.ToString() // don't need a username, since the user will be using an external provider to login
+            UserName = sub
+                .ToString() // don't need a username, since the user will be using an external provider to login
         };
 
         // email

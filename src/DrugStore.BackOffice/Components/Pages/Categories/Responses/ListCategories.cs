@@ -4,6 +4,5 @@ namespace DrugStore.BackOffice.Components.Pages.Categories.Responses;
 
 public sealed class ListCategories
 {
-    [JsonPropertyName("categories")]
-    public List<Category> Categories { get; set; } = [];
+    [JsonPropertyName("categories")] public List<Category> Categories { get; set; } = [];
 }

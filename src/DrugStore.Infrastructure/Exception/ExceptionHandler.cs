@@ -14,11 +14,12 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         System.Exception exception,
         CancellationToken cancellationToken)
     {
-        logger.LogError(exception, "[{Handler}] Exception occurred: {ExceptionMessage}", nameof(ExceptionHandler), exception.Message);
+        logger.LogError(exception, "[{Handler}] Exception occurred: {ExceptionMessage}", nameof(ExceptionHandler),
+            exception.Message);
 
         switch (exception)
         {
-            case ValidationException { Errors: { } } validationException:
+            case ValidationException { Errors: not null } validationException:
                 await HandleValidationException(httpContext, validationException, cancellationToken);
                 break;
 

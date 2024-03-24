@@ -1,5 +1,4 @@
 ﻿@using DrugStore.BackOffice.Components.Layout
-
 <Router AppAssembly="typeof(Program).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
@@ -9,9 +8,9 @@
         <LayoutView Layout="@typeof(MainLayout)">
             <RadzenRow>
                 <RadzenColumn Size="12" Style="margin-top: 5rem; margin-bottom: 5rem">
-                    <RadzenText Text="Page not found" TextStyle="TextStyle.DisplayH1" Style="margin: 0; margin-bottom: 2rem" 
+                    <RadzenText Text="Page not found" TextStyle="TextStyle.DisplayH1" Style="margin: 0; margin-bottom: 2rem"
                                 TextAlign="TextAlign.Center"/>
-                    <RadzenText Text="Sorry, but there's nothing here!" TextStyle="TextStyle.H6" Style="margin: 0" 
+                    <RadzenText Text="Sorry, but there's nothing here!" TextStyle="TextStyle.H6" Style="margin: 0"
                                 TextAlign="TextAlign.Center" TagName="TagName.P"/>
                 </RadzenColumn>
             </RadzenRow>

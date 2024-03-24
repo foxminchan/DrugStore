@@ -24,8 +24,10 @@ public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior
             var myType = request.GetType();
             var props = new List<PropertyInfo>(myType.GetProperties());
             foreach (var prop in props)
+            {
                 logger.LogInformation("[{Behavior}] Property {Property}={Value}", behavior,
                     prop.Name, prop.GetValue(request));
+            }
         }
 
         var sw = Stopwatch.StartNew();

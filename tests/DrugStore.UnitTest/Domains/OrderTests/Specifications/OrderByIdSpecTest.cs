@@ -9,8 +9,8 @@ namespace DrugStore.UnitTest.Domains.OrderTests.Specifications;
 
 public sealed class OrderByIdSpecTest
 {
-    private readonly OrderId _orderId = new(Guid.NewGuid());
     private readonly Faker _faker = new();
+    private readonly OrderId _orderId = new(Guid.NewGuid());
 
     [Fact]
     public void MatchesOrderWithGivenOrderId()

@@ -6,11 +6,11 @@ namespace DrugStore.Infrastructure.ProblemDetails;
 
 public static class Extension
 {
-    public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services) 
+    public static IServiceCollection AddCustomProblemDetails(this IServiceCollection services)
         => services
             .AddProblemDetails()
             .AddSingleton<IDeveloperPageExceptionFilter, DeveloperPageExceptionFilter>();
 
-    public static IApplicationBuilder UseCustomProblemDetails(this IApplicationBuilder app) 
+    public static IApplicationBuilder UseCustomProblemDetails(this IApplicationBuilder app)
         => app.UseDeveloperExceptionPage().UseStatusCodePages();
 }

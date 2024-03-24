@@ -95,7 +95,7 @@ public sealed class ApplicationDbContextInitializer(
             [
                 new(JwtClaimTypes.Name, administrator.FullName!),
                 new(JwtClaimTypes.Email, administrator.Email!),
-                new(JwtClaimTypes.PhoneNumber, administrator.PhoneNumber!),
+                new(JwtClaimTypes.PhoneNumber, administrator.PhoneNumber!)
             ]).Result;
 
             if (!result.Succeeded)
@@ -128,7 +128,7 @@ public sealed class ApplicationDbContextInitializer(
             [
                 new(JwtClaimTypes.Name, user.FullName!),
                 new(JwtClaimTypes.Email, user.Email!),
-                new(JwtClaimTypes.PhoneNumber, user.PhoneNumber!),
+                new(JwtClaimTypes.PhoneNumber, user.PhoneNumber!)
             ]).Result;
 
             if (!result.Succeeded)

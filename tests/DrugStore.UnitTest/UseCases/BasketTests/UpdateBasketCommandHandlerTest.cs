@@ -11,14 +11,16 @@ namespace DrugStore.UnitTest.UseCases.BasketTests;
 
 public sealed class UpdateBasketCommandHandlerTest
 {
-    private readonly IMapper _mapper = Substitute.For<IMapper>();
-    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
+    private readonly BasketItem _basketItem = new(new(Guid.NewGuid()), "Product Name", 1, 10);
     private readonly IDistributedLockProvider _distributedLockProvider = Substitute.For<IDistributedLockProvider>();
-    private readonly ILogger<UpdateBasketCommandHandler> _logger = Substitute.For<ILogger<UpdateBasketCommandHandler>>();
 
     private readonly UpdateBasketCommandHandler _handler;
 
-    private readonly BasketItem _basketItem = new(new(Guid.NewGuid()), "Product Name", 1, 10);
+    private readonly ILogger<UpdateBasketCommandHandler>
+        _logger = Substitute.For<ILogger<UpdateBasketCommandHandler>>();
+
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
 
     public UpdateBasketCommandHandlerTest()
     {

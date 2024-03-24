@@ -11,10 +11,10 @@ public sealed class ProductDisabledEventTest
     {
         // Arrange
         var id = new ProductId(Guid.NewGuid());
-        
+
         // Act
         var productDisabledEvent = new ProductDisabledEvent(id);
-        
+
         // Assert
         productDisabledEvent.ProductId.Should().Be(id);
     }

@@ -9,11 +9,10 @@ namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class DeleteProductCommandHandlerTest
 {
-    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
+    private readonly DeleteProductCommandHandler _handler;
 
     private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
-
-    private readonly DeleteProductCommandHandler _handler;
+    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
 
     public DeleteProductCommandHandlerTest() => _handler = new(_repository, _localStorage);
 

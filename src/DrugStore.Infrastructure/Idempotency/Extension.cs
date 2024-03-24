@@ -7,6 +7,6 @@ namespace DrugStore.Infrastructure.Idempotency;
 public static class Extension
 {
     [DebuggerStepThrough]
-    public static void AddIdempotency(this IServiceCollection services) 
+    public static void AddIdempotency(this IServiceCollection services)
         => services.AddScoped<IIdempotencyService, IdempotencyService>();
 }

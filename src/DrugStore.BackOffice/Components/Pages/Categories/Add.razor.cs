@@ -9,6 +9,11 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Add
 {
+    private readonly CreateCategory _category = new();
+
+    private bool _busy;
+
+    private bool _error;
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
@@ -16,12 +21,6 @@ public sealed partial class Add
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
-
-    private bool _busy;
-
-    private bool _error;
-
-    private readonly CreateCategory _category = new();
 
     private async Task OnSubmit(CreateCategory category)
     {

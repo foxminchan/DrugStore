@@ -36,16 +36,16 @@ internal static class Log
 
     public static void InvalidId(this ILogger logger, string? id) => _invalidId(logger, id, null);
 
-    public static void InvalidBackchannelLoginId(this ILogger logger, string? id) 
+    public static void InvalidBackchannelLoginId(this ILogger logger, string? id)
         => _invalidBackchannelLoginId(logger, id, null);
 
-    public static void ExternalClaims(this ILogger logger, IEnumerable<string> claims) 
+    public static void ExternalClaims(this ILogger logger, IEnumerable<string> claims)
         => _externalClaims(logger, claims, null);
 
-    public static void NoMatchingBackchannelLoginRequest(this ILogger logger, string id) 
+    public static void NoMatchingBackchannelLoginRequest(this ILogger logger, string id)
         => _noMatchingBackchannelLoginRequest(logger, id, null);
 
-    public static void NoConsentMatchingRequest(this ILogger logger, string returnUrl) 
+    public static void NoConsentMatchingRequest(this ILogger logger, string returnUrl)
         => _noConsentMatchingRequest(logger, returnUrl, null);
 }
 

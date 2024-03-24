@@ -9,14 +9,16 @@ namespace DrugStore.UnitTest.UseCases.CategoryTests;
 
 public sealed class CreateCategoryCommandHandlerTest
 {
-    private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
-    private readonly ILogger<CreateCategoryCommandHandler> _logger = Substitute.For<ILogger<CreateCategoryCommandHandler>>();
-
-    private static Category CreateCategory() => new("Category Name", "Category Description");
-
     private readonly CreateCategoryCommandHandler _handler;
 
+    private readonly ILogger<CreateCategoryCommandHandler> _logger =
+        Substitute.For<ILogger<CreateCategoryCommandHandler>>();
+
+    private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
+
     public CreateCategoryCommandHandlerTest() => _handler = new(_repository, _logger);
+
+    private static Category CreateCategory() => new("Category Name", "Category Description");
 
     [Fact]
     public async Task ShouldBeCreateCategorySuccessfully()

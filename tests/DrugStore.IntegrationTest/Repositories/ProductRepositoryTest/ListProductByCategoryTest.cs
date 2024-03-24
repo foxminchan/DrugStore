@@ -9,9 +9,9 @@ namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 
 public sealed class ListProductByCategoryTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Product> _productRepository;
     private readonly Repository<Category> _categoryRepository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Product> _productRepository;
 
     public ListProductByCategoryTest(ITestOutputHelper output)
     {
@@ -28,9 +28,9 @@ public sealed class ListProductByCategoryTest : BaseEfRepoTestFixture
         var newCategory = await _categoryRepository.AddAsync(category);
         var products = new List<Product>
         {
-            new("Product 1", "P001", "Product 1 Description", 10, newCategory.Id, new (100, 90)),
-            new("Product 2", "P002", "Product 2 Description", 20, newCategory.Id, new (200, 190)),
-            new("Product 3", "P003", "Product 3 Description", 30, newCategory.Id, new (300, 290))
+            new("Product 1", "P001", "Product 1 Description", 10, newCategory.Id, new(100, 90)),
+            new("Product 2", "P002", "Product 2 Description", 20, newCategory.Id, new(200, 190)),
+            new("Product 3", "P003", "Product 3 Description", 30, newCategory.Id, new(300, 290))
         };
         await _productRepository.AddRangeAsync(products);
         var spec = new ProductsByCategoryIdSpec(newCategory.Id, 1, 10);

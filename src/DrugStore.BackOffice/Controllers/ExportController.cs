@@ -45,11 +45,13 @@ public class ExportController : Controller
         var keyValuePairs = columns.ToList();
 
         foreach (var item in query)
+        {
             sb.AppendLine(
                 string.Join(
                     ",",
                     keyValuePairs.Select(column => $"{GetValue(item, column.Key)}".Trim()).ToArray()
                 ));
+        }
 
         var result =
             new FileStreamResult(
@@ -85,7 +87,9 @@ public class ExportController : Controller
 
         return typeCode switch
         {
-            TypeCode.Boolean or TypeCode.Byte or TypeCode.Char or TypeCode.DateTime or TypeCode.Decimal or TypeCode.Double or TypeCode.Int16 or TypeCode.Int32 or TypeCode.Int64 or TypeCode.SByte or TypeCode.Single or TypeCode.String or TypeCode.UInt16 or TypeCode.UInt32 or TypeCode.UInt64 => true,
+            TypeCode.Boolean or TypeCode.Byte or TypeCode.Char or TypeCode.DateTime or TypeCode.Decimal
+                or TypeCode.Double or TypeCode.Int16 or TypeCode.Int32 or TypeCode.Int64 or TypeCode.SByte
+                or TypeCode.Single or TypeCode.String or TypeCode.UInt16 or TypeCode.UInt32 or TypeCode.UInt64 => true,
             _ => false
         };
     }

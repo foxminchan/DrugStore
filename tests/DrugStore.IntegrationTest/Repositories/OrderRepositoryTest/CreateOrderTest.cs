@@ -7,8 +7,8 @@ namespace DrugStore.IntegrationTest.Repositories.OrderRepositoryTest;
 
 public sealed class CreateOrderTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Order> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Order> _repository;
 
     public CreateOrderTest(ITestOutputHelper output)
     {

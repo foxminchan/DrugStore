@@ -10,11 +10,14 @@ namespace DrugStore.UnitTest.UseCases.BasketTests;
 
 public sealed class CreateBasketCommandHandlerTest
 {
-    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
     private readonly IDistributedLockProvider _distributedLockProvider = Substitute.For<IDistributedLockProvider>();
-    private readonly ILogger<CreateBasketCommandHandler> _logger = Substitute.For<ILogger<CreateBasketCommandHandler>>();
 
     private readonly CreateBasketCommandHandler _handler;
+
+    private readonly ILogger<CreateBasketCommandHandler>
+        _logger = Substitute.For<ILogger<CreateBasketCommandHandler>>();
+
+    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
 
     public CreateBasketCommandHandlerTest() => _handler = new(_redisService, _logger, _distributedLockProvider);
 

@@ -9,6 +9,11 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Edit
 {
+    private readonly UpdateCategory _category = new();
+
+    private bool _busy;
+
+    private bool _error;
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
@@ -18,12 +23,6 @@ public sealed partial class Edit
     [Inject] private DialogService DialogService { get; set; } = default!;
 
     [Parameter] public required Guid Id { get; set; }
-
-    private bool _busy;
-
-    private bool _error;
-
-    private readonly UpdateCategory _category = new();
 
     protected override async Task OnInitializedAsync()
     {

@@ -1,5 +1,5 @@
-﻿using Ardalis.Result;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using Ardalis.Result;
 
 namespace DrugStore.BackOffice.Components.Pages.Users.Shared.Response;
 

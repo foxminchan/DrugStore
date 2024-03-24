@@ -9,14 +9,13 @@ namespace DrugStore.UnitTest.UseCases.OrderTests;
 
 public sealed class CreateOrderCommandHandlerTest
 {
-    private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
-    private readonly ILogger<CreateOrderCommandHandler> _logger = Substitute.For<ILogger<CreateOrderCommandHandler>>();
-
-    private static Order CreateOrder() => new("Order Name", new(Guid.NewGuid()));
-
     private readonly CreateOrderCommandHandler _handler;
+    private readonly ILogger<CreateOrderCommandHandler> _logger = Substitute.For<ILogger<CreateOrderCommandHandler>>();
+    private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
 
     public CreateOrderCommandHandlerTest() => _handler = new(_repository, _logger);
+
+    private static Order CreateOrder() => new("Order Name", new(Guid.NewGuid()));
 
     [Fact]
     public async Task ShouldBeCreateOrderSuccessfully()

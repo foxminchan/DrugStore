@@ -10,8 +10,11 @@ namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class GetByIdQueryHandlerTest
 {
+    private readonly GetByIdQueryHandler _handler;
     private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IReadRepository<Product> _repository = Substitute.For<IReadRepository<Product>>();
+
+    public GetByIdQueryHandlerTest() => _handler = new(_mapper, _repository);
 
     private static Product CreateProduct() => new(
         "Product Name",
@@ -21,10 +24,6 @@ public sealed class GetByIdQueryHandlerTest
         new(Guid.NewGuid()),
         ProductPriceBuilder.WithDefaultValues()
     );
-
-    private readonly GetByIdQueryHandler _handler;
-
-    public GetByIdQueryHandlerTest() => _handler = new(_mapper, _repository);
 
     [Fact]
     public async Task ShouldBeGetProductSuccessfully()

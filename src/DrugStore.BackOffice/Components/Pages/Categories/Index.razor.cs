@@ -8,6 +8,13 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Index
 {
+    private List<Category> _categories = [];
+
+    private RadzenDataGrid<Category> _dataGrid = default!;
+
+    private bool _error;
+
+    private bool _loading;
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
@@ -15,14 +22,6 @@ public sealed partial class Index
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
-    private RadzenDataGrid<Category> _dataGrid = default!;
-
-    private List<Category> _categories = [];
-
-    private bool _loading;
-
-    private bool _error;
 
     protected override async Task OnInitializedAsync()
     {
@@ -47,7 +46,7 @@ public sealed partial class Index
 
     private async Task EditCategory(Guid id)
     {
-        await DialogService.OpenAsync<Edit>("Edit Category", new() { { "Id", id}});
+        await DialogService.OpenAsync<Edit>("Edit Category", new() { { "Id", id } });
         await _dataGrid.Reload();
     }
 

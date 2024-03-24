@@ -15,11 +15,11 @@ public sealed class TestPutProductImageEndpoint(ApplicationFactory<Program> fact
 
     private readonly ProductFaker _faker = new();
 
+    private static byte[] ImageData => [0x00, 0x01, 0x02, 0x03, 0x04];
+
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
 
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
-
-    private static byte[] ImageData => [0x00, 0x01, 0x02, 0x03, 0x04];
 
     [Fact]
     public async Task ShouldBeReturnOk()

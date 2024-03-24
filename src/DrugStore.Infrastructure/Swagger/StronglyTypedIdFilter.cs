@@ -1,8 +1,8 @@
-﻿using Microsoft.OpenApi.Any;
+﻿using System.ComponentModel;
+using System.Reflection;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.ComponentModel;
-using System.Reflection;
 
 namespace DrugStore.Infrastructure.Swagger;
 
@@ -10,9 +10,9 @@ public class StronglyTypedIdFilter : ISchemaFilter
 {
     public void Apply(OpenApiSchema schema, SchemaFilterContext context)
     {
-        if (!context.Type.Name.EndsWith("Id") || 
+        if (!context.Type.Name.EndsWith("Id") ||
             !context.Type.IsValueType ||
-            context.Type.GetCustomAttribute(typeof(TypeConverterAttribute)) is not TypeConverterAttribute attr || 
+            context.Type.GetCustomAttribute(typeof(TypeConverterAttribute)) is not TypeConverterAttribute attr ||
             Type.GetType(attr.ConverterTypeName) is not { } type)
             return;
 

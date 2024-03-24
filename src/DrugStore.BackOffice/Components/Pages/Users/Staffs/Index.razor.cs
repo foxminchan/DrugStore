@@ -2,5 +2,4 @@
 
 public partial class Index
 {
-
 }

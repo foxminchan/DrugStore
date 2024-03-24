@@ -92,6 +92,7 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
       - ./docker/loki/loki.yaml:/etc/loki/local-config.yaml:ro
+    restart: unless-stopped
     logging: *logging
     networks:
       - bridge-network
@@ -111,6 +112,7 @@ services:
       interval: 5s
       retries: 10
       test: wget --no-verbose --tries=1 --spider http://localhost:3200/status || exit 1
+    restart: unless-stopped
     logging: *logging
     networks:
       - bridge-network

@@ -10,12 +10,11 @@ namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class GetListQueryHandlerTest
 {
+    private readonly GetListQueryHandler _handler;
     private readonly IMapper _mapper = Substitute.For<IMapper>();
-    private readonly IReadRepository<Product> _repository = Substitute.For<IReadRepository<Product>>();
 
     private readonly List<Product> _products;
-
-    private readonly GetListQueryHandler _handler;
+    private readonly IReadRepository<Product> _repository = Substitute.For<IReadRepository<Product>>();
 
     public GetListQueryHandlerTest()
     {

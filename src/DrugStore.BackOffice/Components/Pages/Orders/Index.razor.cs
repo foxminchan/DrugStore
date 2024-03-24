@@ -2,5 +2,4 @@
 
 public sealed partial class Index
 {
-    
 }

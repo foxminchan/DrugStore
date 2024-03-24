@@ -13,7 +13,7 @@
     <RadzenColumn SizeMD="9">
         <RadzenLabel Style="font-weight: bold"
                      Text="Loading data was failed. Please reload."
-                     Visible="_error" />
+                     Visible="_error"/>
     </RadzenColumn>
     <RadzenColumn SizeMD="3">
         <RadzenButton ButtonStyle="ButtonStyle.Secondary"
@@ -21,7 +21,7 @@
                       Style="margin-bottom: 20px"
                       Text="Reload"
                       Visible="_error"
-                      Click="OnInitializedAsync" />
+                      Click="OnInitializedAsync"/>
     </RadzenColumn>
 </RadzenRow>
 <RadzenStack>
@@ -39,7 +39,7 @@
                               ButtonStyle="ButtonStyle.Primary"
                               Shade="Shade.Lighter"
                               Variant="Variant.Flat"
-                              Click="ExportClick" />
+                              Click="ExportClick"/>
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"
@@ -48,10 +48,10 @@
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
-    <RadzenTextBox Placeholder="Search ..." 
-                   Style="display: block; width: 100%" 
+    <RadzenTextBox Placeholder="Search ..."
+                   Style="display: block; width: 100%"
                    @oninput="Search"
-                   aria-label="Search by product name" />
+                   aria-label="Search by product name"/>
     <RadzenRow>
         <RadzenColumn SizeMD="12">
             <RadzenDataGrid @ref="_dataGrid"

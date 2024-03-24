@@ -30,7 +30,7 @@ public sealed class GetByRoleQueryHandler(IMapper mapper, UserManager<Applicatio
             .ToList();
 
         if (!string.IsNullOrEmpty(request.Filter.Search))
-            customers = customers.Where(x => x is { FullName: { }, Email: { } } &&
+            customers = customers.Where(x => x is { FullName: not null, Email: not null } &&
                                              (
                                                  x.Email.Contains(request.Filter.Search) ||
                                                  x.FullName.Contains(request.Filter.Search)

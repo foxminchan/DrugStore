@@ -47,12 +47,14 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
             ).Where(prop => prop.PropertyType == typeof(IdentityId));
 
             foreach (var prop in properties)
+            {
                 builder.Entity(entityType.Name).Property(prop.Name)
                     .HasConversion(new ValueConverter<IdentityId, Guid>(
                         id => id.Value,
                         value => new(value)
                     ))
                     .HasDefaultValueSql(UniqueId.UuidAlgorithm);
+            }
         }
 
         base.OnModelCreating(builder);

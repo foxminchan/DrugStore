@@ -8,8 +8,8 @@ namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 
 public sealed class UpdateProductTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Product> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Product> _repository;
 
     public UpdateProductTest(ITestOutputHelper output)
     {

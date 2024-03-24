@@ -15,6 +15,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
     public void Configure(SwaggerGenOptions options)
     {
         foreach (var description in provider.ApiVersionDescriptions)
+        {
             options.SwaggerDoc(description.GroupName,
                 new()
                 {
@@ -24,6 +25,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                     Contact = new() { Name = "Nhan Nguyen", Email = "nguyenxuannhan407@gmail.com" },
                     License = new() { Name = "MIT", Url = new("https://opensource.org/licenses/MIT") }
                 });
+        }
 
         var identityUrlExternal = config.GetValue<string>("IdentityUrlExternal");
 
@@ -44,7 +46,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         {
                             { Claims.Read, "Read Access to API" },
                             { Claims.Write, "Write Access to API" },
-                            { Claims.Manage, "Manage Access to API" },
+                            { Claims.Manage, "Manage Access to API" }
                         }
                     }
                 }

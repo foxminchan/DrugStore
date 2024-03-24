@@ -1,6 +1,5 @@
 ﻿using System.Text.Json;
 using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.IntegrationTest.Fixtures;
 using DrugStore.Persistence;
 
@@ -8,8 +7,8 @@ namespace DrugStore.IntegrationTest.Repositories.CategoryRepositoryTest;
 
 public sealed class UpdateCategoryTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Category> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Category> _repository;
 
     public UpdateCategoryTest(ITestOutputHelper output)
     {

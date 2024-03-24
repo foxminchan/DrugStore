@@ -11,6 +11,17 @@ namespace DrugStore.BackOffice.Components.Pages.Products;
 
 public sealed partial class Add
 {
+    private readonly CreateProduct _product = new();
+
+    private bool _busy;
+
+    private List<Category> _categories = [];
+
+    private int _count;
+
+    private bool _error;
+
+    private Category _selectedCategory = new();
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
@@ -18,18 +29,6 @@ public sealed partial class Add
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
-    private int _count;
-
-    private bool _busy;
-
-    private bool _error;
-
-    private List<Category> _categories = [];
-
-    private Category _selectedCategory = new();
-
-    private readonly CreateProduct _product = new();
 
     private async Task OnSubmit(CreateProduct product)
     {

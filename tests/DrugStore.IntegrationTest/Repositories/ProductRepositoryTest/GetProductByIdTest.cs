@@ -9,8 +9,8 @@ namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 
 public sealed class GetProductByIdTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Product> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Product> _repository;
 
     public GetProductByIdTest(ITestOutputHelper output)
     {

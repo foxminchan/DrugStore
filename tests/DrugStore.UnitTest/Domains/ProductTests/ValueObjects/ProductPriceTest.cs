@@ -5,6 +5,46 @@ namespace DrugStore.UnitTest.Domains.ProductTests.ValueObjects;
 
 public sealed class ProductPriceTest
 {
+    private static readonly ProductPrice Price = new(15.7m, 8.6m);
+
+    public static readonly TheoryData<ProductPrice?, ProductPrice?, string> EqualPriceData = new()
+    {
+        {
+            Price,
+            Price,
+            "Two prices are equal because they are the same object"
+        },
+        {
+            new(15.7m, 8.6m),
+            Price,
+            "Two prices are equal because they have the same properties"
+        },
+        {
+            null,
+            null,
+            "Two prices are equal because they are null"
+        }
+    };
+
+    public static readonly TheoryData<ProductPrice?, ProductPrice?, string> NonEqualPriceData = new()
+    {
+        {
+            new(15.7m, 8.6m),
+            new(15.7m, 18.6m),
+            "Two prices are non-equal because they are the same object"
+        },
+        {
+            new(15.7m, 84.6m),
+            Price,
+            "Two prices are non-equal because they have different properties"
+        },
+        {
+            new(15.7m, 8.6m),
+            null,
+            "Two prices are non-equal because one of them is null"
+        }
+    };
+
     [Fact]
     public void ShouldBeInitializeProductPriceSuccessfully()
     {
@@ -69,44 +109,4 @@ public sealed class ProductPriceTest
         // Assert
         Assert.False(result, reason);
     }
-
-    private static readonly ProductPrice Price = new(15.7m, 8.6m);
-
-    public static readonly TheoryData<ProductPrice?, ProductPrice?, string> EqualPriceData = new()
-    {
-        {
-            Price,
-            Price,
-            "Two prices are equal because they are the same object"
-        },
-        {
-            new(15.7m, 8.6m),
-            Price,
-            "Two prices are equal because they have the same properties"
-        },
-        {
-            null,
-            null,
-            "Two prices are equal because they are null"
-        }
-    };
-
-    public static readonly TheoryData<ProductPrice?, ProductPrice?, string> NonEqualPriceData = new()
-    {
-        {
-            new(15.7m, 8.6m),
-            new(15.7m, 18.6m),
-            "Two prices are non-equal because they are the same object"
-        },
-        {
-            new(15.7m, 84.6m),
-            Price,
-            "Two prices are non-equal because they have different properties"
-        },
-        {
-            new(15.7m, 8.6m),
-            null,
-            "Two prices are non-equal because one of them is null"
-        }
-    };
 }

@@ -8,9 +8,9 @@ namespace DrugStore.IntegrationTest.Repositories.OrderRepositoryTest;
 
 public sealed class ListOrderTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Order> _repository;
-    private readonly ITestOutputHelper _output;
     private readonly List<Order> _orders;
+    private readonly ITestOutputHelper _output;
+    private readonly Repository<Order> _repository;
 
     public ListOrderTest(ITestOutputHelper output)
     {
@@ -58,7 +58,7 @@ public sealed class ListOrderTest : BaseEfRepoTestFixture
                     new(50.9m, 2, new(), new())
                 }
             },
-            new ("OD127", null)
+            new("OD127", null)
             {
                 OrderItems =
                 {

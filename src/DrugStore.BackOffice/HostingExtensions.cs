@@ -29,10 +29,12 @@ public static class HostingExtensions
         };
 
         foreach (var apiType in apis)
+        {
             services.AddRefitClient(apiType)
                 .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute))
                 .AddHttpMessageHandler<LoggingDelegate>()
                 .AddHttpMessageHandler<RetryDelegate>();
+        }
     }
 
     public static void AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)

@@ -1,4 +1,5 @@
-﻿using DrugStore.ArchTest.Constants;
+﻿using DrugStore.Application;
+using DrugStore.ArchTest.Constants;
 using FluentAssertions;
 using NetArchTest.Rules;
 
@@ -10,7 +11,7 @@ public sealed class ApplicationLayerTests
     public void ApplicationShouldNotHaveDependencyOnInfrastructure()
     {
         // Arrange
-        var assembly = Application.AssemblyReference.Assembly;
+        var assembly = AssemblyReference.Assembly;
 
         // Act
         var result = Types
@@ -27,7 +28,7 @@ public sealed class ApplicationLayerTests
     public void ApplicationShouldNotHaveDependencyOnPersistence()
     {
         // Arrange
-        var assembly = Application.AssemblyReference.Assembly;
+        var assembly = AssemblyReference.Assembly;
 
         // Act
         var result = Types

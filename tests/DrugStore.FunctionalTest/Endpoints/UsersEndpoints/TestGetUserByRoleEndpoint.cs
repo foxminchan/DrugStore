@@ -26,7 +26,7 @@ public sealed class TestGetUserByRoleEndpoint(ApplicationFactory<Program> factor
 
         // Act
         await _factory.EnsureCreatedAndPopulateDataAsync(users);
-        var response = await client.GetAsync($"/api/v1/users/isStaff/true");
+        var response = await client.GetAsync("/api/v1/users/isStaff/true");
 
         // Assert
         response.EnsureSuccessStatusCode();

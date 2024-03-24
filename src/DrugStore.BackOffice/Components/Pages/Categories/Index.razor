@@ -10,17 +10,17 @@
 
 <RadzenRow>
     <RadzenColumn SizeMD="9">
-        <RadzenLabel Style="font-weight: bold" 
+        <RadzenLabel Style="font-weight: bold"
                      Text="Loading data was failed. Please reload."
-                     Visible="_error" />
+                     Visible="_error"/>
     </RadzenColumn>
     <RadzenColumn SizeMD="3">
-        <RadzenButton ButtonStyle="ButtonStyle.Secondary" 
-                      Icon="autorenew" 
-                      Style="margin-bottom: 20px" 
-                      Text="Reload" 
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                      Icon="autorenew"
+                      Style="margin-bottom: 20px"
+                      Text="Reload"
                       Visible="_error"
-                      Click="OnInitializedAsync" />
+                      Click="OnInitializedAsync"/>
     </RadzenColumn>
 </RadzenRow>
 <RadzenStack>
@@ -38,7 +38,7 @@
                               ButtonStyle="ButtonStyle.Primary"
                               Shade="Shade.Lighter"
                               Variant="Variant.Flat"
-                              Click="ExportClick" />
+                              Click="ExportClick"/>
                 <RadzenButton Icon="add_circle_outline"
                               Text="Add category"
                               ButtonStyle="ButtonStyle.Primary"

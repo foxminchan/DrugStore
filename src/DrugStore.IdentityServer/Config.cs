@@ -30,7 +30,8 @@ public static class Config
     ];
 
     public static IEnumerable<Client> Clients(IConfiguration configuration) =>
-    [  new()
+    [
+        new()
         {
             ClientId = "ro.client",
             ClientName = "Resource Owner Client",

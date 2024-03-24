@@ -5,6 +5,46 @@ namespace DrugStore.UnitTest.Domains.ProductTests.ValueObjects;
 
 public sealed class ProductImageTest
 {
+    private static readonly ProductImage ProductImage = new(Guid.Empty.ToString(), "Mock Image", "Mock Title");
+
+    public static readonly TheoryData<ProductImage?, ProductImage?, string> EqualImage = new()
+    {
+        {
+            ProductImage,
+            ProductImage,
+            "Two images are equal because they are the same object"
+        },
+        {
+            null,
+            null,
+            "Two images are equal because they are null"
+        },
+        {
+            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
+            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
+            "Two images are equal because they have the same properties"
+        }
+    };
+
+    public static readonly TheoryData<ProductImage?, ProductImage?, string> NonEqualImage = new()
+    {
+        {
+            ProductImage,
+            new(Guid.NewGuid().ToString(), "Mock Image", "Mock Title"),
+            "Two images are non-equal because they are different objects"
+        },
+        {
+            new(Guid.NewGuid().ToString(), "Mock Image", "Mock Title"),
+            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
+            "Two images are non-equal because they have different properties"
+        },
+        {
+            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
+            null,
+            "Two images are non-equal because they are different objects"
+        }
+    };
+
     [Fact]
     public void ShouldBeInitializeProductImageSuccessfully()
     {
@@ -58,44 +98,4 @@ public sealed class ProductImageTest
         // Assert
         Assert.False(result, reason);
     }
-
-    private static readonly ProductImage ProductImage = new(Guid.Empty.ToString(), "Mock Image", "Mock Title");
-
-    public static readonly TheoryData<ProductImage?, ProductImage?, string> EqualImage = new()
-    {
-        {
-            ProductImage,
-            ProductImage,
-            "Two images are equal because they are the same object"
-        },
-        {
-            null,
-            null,
-            "Two images are equal because they are null"
-        },
-        {
-            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
-            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
-            "Two images are equal because they have the same properties"
-        }
-    };
-
-    public static readonly TheoryData<ProductImage?, ProductImage?, string> NonEqualImage = new()
-    {
-        {
-            ProductImage,
-            new(Guid.NewGuid().ToString(), "Mock Image", "Mock Title"),
-            "Two images are non-equal because they are different objects"
-        },
-        {
-            new(Guid.NewGuid().ToString(), "Mock Image", "Mock Title"),
-            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
-            "Two images are non-equal because they have different properties"
-        },
-        {
-            new(Guid.Empty.ToString(), "Mock Image", "Mock Title"),
-            null,
-            "Two images are non-equal because they are different objects"
-        }
-    };
 }

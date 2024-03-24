@@ -1,10 +1,10 @@
+using System.Transactions;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.IdentityServer.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Transactions;
-using DrugStore.IdentityServer.Constants;
 
 namespace DrugStore.IdentityServer.Pages.Account.Register;
 

@@ -44,11 +44,13 @@ public static class Extension
         app.UseSwaggerUI(c =>
         {
             foreach (var (url, name) in from ApiVersionDescription desc
-                                            in app.DescribeApiVersions()
-                                        let url = $"/swagger/{desc.GroupName}/swagger.json"
-                                        let name = desc.GroupName.ToUpperInvariant()
-                                        select (url, name))
+                         in app.DescribeApiVersions()
+                     let url = $"/swagger/{desc.GroupName}/swagger.json"
+                     let name = desc.GroupName.ToUpperInvariant()
+                     select (url, name))
+            {
                 c.SwaggerEndpoint(url, name);
+            }
 
             c.DocumentTitle = "Drug Store API";
             c.OAuthClientId("apiswaggerui");

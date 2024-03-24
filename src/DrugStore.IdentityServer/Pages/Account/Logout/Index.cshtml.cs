@@ -83,6 +83,5 @@ public sealed class Index(
 
         // this triggers a redirect to the external provider for sign-out
         return SignOut(new AuthenticationProperties { RedirectUri = url }, idp);
-
     }
 }

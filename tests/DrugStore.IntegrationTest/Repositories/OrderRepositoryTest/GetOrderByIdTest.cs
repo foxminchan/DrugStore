@@ -8,8 +8,8 @@ namespace DrugStore.IntegrationTest.Repositories.OrderRepositoryTest;
 
 public sealed class GetOrderByIdTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Order> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Order> _repository;
 
     public GetOrderByIdTest(ITestOutputHelper output)
     {

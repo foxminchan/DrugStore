@@ -8,8 +8,8 @@ namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 
 public sealed class CreateProductTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Product> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Product> _repository;
 
     public CreateProductTest(ITestOutputHelper output)
     {
@@ -29,7 +29,7 @@ public sealed class CreateProductTest : BaseEfRepoTestFixture
         var product = new Product(name, code, detail, quantity, null, price);
 
         // Act
-         var created =await _repository.AddAsync(product);
+        var created = await _repository.AddAsync(product);
         _output.WriteLine("Product: " + JsonSerializer.Serialize(product));
 
         // Assert

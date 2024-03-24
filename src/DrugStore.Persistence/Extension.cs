@@ -70,10 +70,9 @@ public static class Extension
     private static Policy CreateRetryPolicy(IConfiguration configuration, ILogger logger)
     {
         if (bool.TryParse(configuration["RetryMigrations"], out _))
-        {
             return Policy.Handle<Exception>().WaitAndRetryForever(
-                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
-                onRetry: (exception, retry, _) =>
+                _ => TimeSpan.FromSeconds(5),
+                (exception, retry, _) =>
                 {
                     logger.Warning(
                         exception,
@@ -85,7 +84,6 @@ public static class Extension
                         configuration.GetConnectionString("Postgres"));
                 }
             );
-        }
 
         return Policy.NoOp();
     }

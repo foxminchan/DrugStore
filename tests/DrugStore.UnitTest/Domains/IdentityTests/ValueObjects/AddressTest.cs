@@ -5,45 +5,6 @@ namespace DrugStore.UnitTest.Domains.IdentityTests.ValueObjects;
 
 public sealed class AddressTest
 {
-    [Fact]
-    public void ShouldBeInitializeUserAddressSuccessfully()
-    {
-        // Arrange
-        const string street = "Nam Ky Khoi Nghia";
-        const string city = "District 3";
-        const string province = "Ho Chi Minh";
-
-        // Act
-        var address = new Address(street, city, province);
-
-        // Assert
-        address.Street.Should().Be(street);
-        address.City.Should().Be(city);
-        address.Province.Should().Be(province);
-    }
-
-    [Theory]
-    [MemberData(nameof(EqualAddressData))]
-    public void ShouldBeEqualAddress(Address? address1, Address? address2, string reason)
-    {
-        // Act
-        var result = EqualityComparer<Address>.Default.Equals(address1, address2);
-
-        // Assert
-        Assert.True(result, reason);
-    }
-
-    [Theory]
-    [MemberData(nameof(NonEqualAddressData))]
-    public void ShouldBeNonEqualAddress(Address? address1, Address? address2, string reason)
-    {
-        // Act
-        var result = EqualityComparer<Address>.Default.Equals(address1, address2);
-
-        // Assert
-        Assert.False(result, reason);
-    }
-
     private static readonly Address Address = new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh");
 
     public static readonly TheoryData<Address?, Address?, string> EqualAddressData = new()
@@ -93,4 +54,43 @@ public sealed class AddressTest
             "An address is not equal to null"
         }
     };
+
+    [Fact]
+    public void ShouldBeInitializeUserAddressSuccessfully()
+    {
+        // Arrange
+        const string street = "Nam Ky Khoi Nghia";
+        const string city = "District 3";
+        const string province = "Ho Chi Minh";
+
+        // Act
+        var address = new Address(street, city, province);
+
+        // Assert
+        address.Street.Should().Be(street);
+        address.City.Should().Be(city);
+        address.Province.Should().Be(province);
+    }
+
+    [Theory]
+    [MemberData(nameof(EqualAddressData))]
+    public void ShouldBeEqualAddress(Address? address1, Address? address2, string reason)
+    {
+        // Act
+        var result = EqualityComparer<Address>.Default.Equals(address1, address2);
+
+        // Assert
+        Assert.True(result, reason);
+    }
+
+    [Theory]
+    [MemberData(nameof(NonEqualAddressData))]
+    public void ShouldBeNonEqualAddress(Address? address1, Address? address2, string reason)
+    {
+        // Act
+        var result = EqualityComparer<Address>.Default.Equals(address1, address2);
+
+        // Assert
+        Assert.False(result, reason);
+    }
 }

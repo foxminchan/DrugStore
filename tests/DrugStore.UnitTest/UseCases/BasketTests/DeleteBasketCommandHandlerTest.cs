@@ -8,9 +8,8 @@ namespace DrugStore.UnitTest.UseCases.BasketTests;
 
 public sealed class DeleteBasketCommandHandlerTest
 {
-    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
-
     private readonly DeleteBasketCommandHandler _handler;
+    private readonly IRedisService _redisService = Substitute.For<IRedisService>();
 
     public DeleteBasketCommandHandlerTest()
     {

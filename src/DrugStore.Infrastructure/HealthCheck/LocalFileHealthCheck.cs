@@ -9,8 +9,8 @@ public sealed class LocalFileHealthCheck : IHealthCheck
         CancellationToken cancellationToken = new())
     {
         var directory = Path.Combine(Directory.GetCurrentDirectory(), "Pics");
-        return Task.FromResult(!Directory.Exists(directory) 
-            ? HealthCheckResult.Unhealthy("Pics directory does not exist") 
+        return Task.FromResult(!Directory.Exists(directory)
+            ? HealthCheckResult.Unhealthy("Pics directory does not exist")
             : HealthCheckResult.Healthy());
     }
 }

@@ -1,6 +1,6 @@
-﻿using Serilog.Core;
+﻿using System.Diagnostics;
+using Serilog.Core;
 using Serilog.Events;
-using System.Diagnostics;
 
 namespace DrugStore.Infrastructure.Logging;
 

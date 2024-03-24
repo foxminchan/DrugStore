@@ -15,6 +15,6 @@ public sealed class AllModel(IBackchannelAuthenticationInteractionService backch
 {
     public IEnumerable<BackchannelUserLoginRequest> Logins { get; set; } = default!;
 
-    public async Task OnGet() 
+    public async Task OnGet()
         => Logins = await backchannelAuthenticationInteractionService.GetPendingLoginRequestsForCurrentUserAsync();
 }

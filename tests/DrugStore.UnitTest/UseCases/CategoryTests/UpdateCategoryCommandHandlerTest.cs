@@ -11,15 +11,17 @@ namespace DrugStore.UnitTest.UseCases.CategoryTests;
 
 public sealed class UpdateCategoryCommandHandlerTest
 {
-    private readonly IMapper _mapper = Substitute.For<IMapper>();
-    private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
-    private readonly ILogger<UpdateCategoryCommandHandler> _logger = Substitute.For<ILogger<UpdateCategoryCommandHandler>>();
-
-    private static Category CreateCategory() => new("Category Name", "Category Description");
-
     private readonly UpdateCategoryCommandHandler _handler;
 
+    private readonly ILogger<UpdateCategoryCommandHandler> _logger =
+        Substitute.For<ILogger<UpdateCategoryCommandHandler>>();
+
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+    private readonly IRepository<Category> _repository = Substitute.For<IRepository<Category>>();
+
     public UpdateCategoryCommandHandlerTest() => _handler = new(_mapper, _repository, _logger);
+
+    private static Category CreateCategory() => new("Category Name", "Category Description");
 
     [Fact]
     public async Task ShouldBeUpdateCategorySuccessfully()

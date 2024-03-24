@@ -25,7 +25,7 @@ public sealed class GetListQueryHandler(IMapper mapper, UserManager<ApplicationU
 
         if (!string.IsNullOrEmpty(request.Filter.Search))
             users = users.AsEnumerable()
-                .Where(x => x is { FullName: { }, Email: { } } &&
+                .Where(x => x is { FullName: not null, Email: not null } &&
                             (
                                 x.Email.Contains(request.Filter.Search) ||
                                 x.FullName.Contains(request.Filter.Search)

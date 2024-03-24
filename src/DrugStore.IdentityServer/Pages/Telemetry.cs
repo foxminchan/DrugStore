@@ -35,7 +35,8 @@ public static class Telemetry
 
         private static readonly Counter<long> _userLoginCounter = _meter.CreateCounter<long>(Counters.UserLoginCounter);
 
-        private static readonly Counter<long> _userLogoutCounter = _meter.CreateCounter<long>(Counters.UserLogoutCounter);
+        private static readonly Counter<long> _userLogoutCounter =
+            _meter.CreateCounter<long>(Counters.UserLogoutCounter);
 
         /// <summary>
         ///     Helper method to increase <see cref="Counters.Consent" /> counter. The scopes
@@ -49,15 +50,17 @@ public static class Telemetry
             ArgumentNullException.ThrowIfNull(scopes);
 
             foreach (var scope in scopes)
+            {
                 _consentCounter.Add(1,
                     new(Tags.Client, clientId),
                     new(Tags.Scope, scope),
                     new(Tags.Remember, remember),
                     new(Tags.Consent, TagValues.Granted));
+            }
         }
 
         /// <summary>
-        ///     Helper method to increase <see cref="Counters.ConsentDenied"/> counter. The scopes
+        ///     Helper method to increase <see cref="Counters.ConsentDenied" /> counter. The scopes
         ///     are expanded and called one by one to not cause a combinator explosion of scopes.
         /// </summary>
         /// <param name="clientId">Client id</param>
@@ -66,8 +69,10 @@ public static class Telemetry
         {
             ArgumentNullException.ThrowIfNull(scopes);
             foreach (var scope in scopes)
+            {
                 _consentCounter.Add(1, new(Tags.Client, clientId), new(Tags.Scope, scope),
                     new(Tags.Consent, TagValues.Denied));
+            }
         }
 
         /// <summary>

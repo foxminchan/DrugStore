@@ -1,4 +1,5 @@
 ﻿using DrugStore.ArchTest.Constants;
+using DrugStore.Infrastructure;
 using FluentAssertions;
 using NetArchTest.Rules;
 
@@ -10,7 +11,7 @@ public sealed class InfrastructureLayerTest
     public void InfrastructureLayerShouldNotHaveDependencyOnAnyLayer()
     {
         // Arrange
-        var assembly = Infrastructure.AssemblyReference.Assembly;
+        var assembly = AssemblyReference.Assembly;
         string[] layers =
         [
             Namespace.Domain,

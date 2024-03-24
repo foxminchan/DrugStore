@@ -11,11 +11,11 @@ namespace DrugStore.UnitTest.UseCases.OrderTests;
 
 public sealed class UpdateOrderCommandHandlerTest
 {
-    private readonly IMapper _mapper = Substitute.For<IMapper>();
-    private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
     private readonly ILogger<UpdateOrderCommandHandler> _logger = Substitute.For<ILogger<UpdateOrderCommandHandler>>();
-        
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+
     private readonly List<OrderItemUpdateRequest> _orderItemUpdateRequest;
+    private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
 
     public UpdateOrderCommandHandlerTest()
     {

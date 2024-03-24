@@ -7,8 +7,8 @@ namespace DrugStore.IntegrationTest.Repositories.CategoryRepositoryTest;
 
 public sealed class DeleteCategoryTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Category> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Category> _repository;
 
     public DeleteCategoryTest(ITestOutputHelper output)
     {

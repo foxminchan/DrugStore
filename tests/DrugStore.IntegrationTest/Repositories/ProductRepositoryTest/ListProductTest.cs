@@ -8,8 +8,8 @@ namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 
 public sealed class ListProductTest : BaseEfRepoTestFixture
 {
-    private readonly Repository<Product> _repository;
     private readonly ITestOutputHelper _output;
+    private readonly Repository<Product> _repository;
 
     public ListProductTest(ITestOutputHelper output)
     {
@@ -23,9 +23,9 @@ public sealed class ListProductTest : BaseEfRepoTestFixture
         // Arrange
         var products = new List<Product>
         {
-            new("Product 1", "P001", "Product 1 Description", 10, null, new (100, 90)),
-            new("Product 2", "P002", "Product 2 Description", 20, null, new (200, 190)),
-            new("Product 3", "P003", "Product 3 Description", 30, null, new (300, 290))
+            new("Product 1", "P001", "Product 1 Description", 10, null, new(100, 90)),
+            new("Product 2", "P002", "Product 2 Description", 20, null, new(200, 190)),
+            new("Product 3", "P003", "Product 3 Description", 30, null, new(300, 290))
         };
         await _repository.AddRangeAsync(products);
         _output.WriteLine("Product: " + JsonSerializer.Serialize(products));
@@ -60,9 +60,9 @@ public sealed class ListProductTest : BaseEfRepoTestFixture
         // Arrange
         var products = new List<Product>
         {
-            new("Product 1", "P001", "Product 1 Description", 10, null, new (100, 90)),
-            new("Product 2", "P002", "Product 2 Description", 20, null, new (200, 190)),
-            new("Product 3", "P003", "Product 3 Description", 30, null, new (300, 290))
+            new("Product 1", "P001", "Product 1 Description", 10, null, new(100, 90)),
+            new("Product 2", "P002", "Product 2 Description", 20, null, new(200, 190)),
+            new("Product 3", "P003", "Product 3 Description", 30, null, new(300, 290))
         };
         var spec = new ProductsFilterSpec(1, 2, true, "Id", "Product 1");
         await _repository.AddRangeAsync(products);

@@ -19,7 +19,7 @@ public sealed class GetListQueryHandlerTest
         {
             new(_faker.Commerce.Categories(1)[0], _faker.Lorem.Sentence()),
             new(_faker.Commerce.Categories(1)[0], _faker.Lorem.Sentence()),
-            new(_faker.Commerce.Categories(1)[0], _faker.Lorem.Sentence()),
+            new(_faker.Commerce.Categories(1)[0], _faker.Lorem.Sentence())
         };
 
         _repository.ListAsync(Arg.Any<CancellationToken>())

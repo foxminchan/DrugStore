@@ -12,15 +12,16 @@ namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class UpdateProductCommandHandlerTest
 {
-    private readonly IMapper _mapper = Substitute.For<IMapper>();
-
-    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
+    private readonly UpdateProductCommandHandler _handler;
 
     private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
 
-    private readonly ILogger<UpdateProductCommandHandler> _logger = Substitute.For<ILogger<UpdateProductCommandHandler>>();
+    private readonly ILogger<UpdateProductCommandHandler> _logger =
+        Substitute.For<ILogger<UpdateProductCommandHandler>>();
 
-    private readonly UpdateProductCommandHandler _handler;
+    private readonly IMapper _mapper = Substitute.For<IMapper>();
+
+    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
 
     public UpdateProductCommandHandlerTest() => _handler = new(_mapper, _repository, _logger, _localStorage);
 

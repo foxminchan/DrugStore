@@ -8,6 +8,15 @@ namespace DrugStore.BackOffice.Components.Pages.Products;
 
 public sealed partial class Index
 {
+    private int _count;
+
+    private RadzenDataGrid<Product> _dataGrid = default!;
+
+    private bool _error;
+
+    private bool _loading;
+
+    private List<Product> _products = [];
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
@@ -15,16 +24,6 @@ public sealed partial class Index
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
-
-    private RadzenDataGrid<Product> _dataGrid = default!;
-
-    private List<Product> _products = [];
-
-    private bool _loading;
-
-    private int _count;
-
-    private bool _error;
 
     protected override async Task OnInitializedAsync()
     {
@@ -56,7 +55,7 @@ public sealed partial class Index
             {
                 var deleteImage = false;
 
-                if (!string.IsNullOrEmpty(image)) 
+                if (!string.IsNullOrEmpty(image))
                     deleteImage = await DialogService.Confirm("Do you want to delete the image?") ?? false;
 
                 await ProductsApi.DeleteProductAsync(id, deleteImage);
