@@ -5,6 +5,7 @@ using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.UnitTest.Builders;
 using FluentAssertions;
 using MapsterMapper;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.ProductTests;
@@ -17,9 +18,11 @@ public sealed class UpdateProductCommandHandlerTest
 
     private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
 
+    private readonly ILogger<UpdateProductCommandHandler> _logger = Substitute.For<ILogger<UpdateProductCommandHandler>>();
+
     private readonly UpdateProductCommandHandler _handler;
 
-    public UpdateProductCommandHandlerTest() => _handler = new(_mapper, _repository, _localStorage);
+    public UpdateProductCommandHandlerTest() => _handler = new(_mapper, _repository, _logger, _localStorage);
 
     [Fact]
     public async Task ShouldBeUpdateProductSuccessfully()

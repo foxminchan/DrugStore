@@ -2,6 +2,7 @@
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.SharedKernel;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.OrderTests;
@@ -9,12 +10,13 @@ namespace DrugStore.UnitTest.UseCases.OrderTests;
 public sealed class CreateOrderCommandHandlerTest
 {
     private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
+    private readonly ILogger<CreateOrderCommandHandler> _logger = Substitute.For<ILogger<CreateOrderCommandHandler>>();
 
     private static Order CreateOrder() => new("Order Name", new(Guid.NewGuid()));
 
     private readonly CreateOrderCommandHandler _handler;
 
-    public CreateOrderCommandHandlerTest() => _handler = new(_repository);
+    public CreateOrderCommandHandlerTest() => _handler = new(_repository, _logger);
 
     [Fact]
     public async Task ShouldBeCreateOrderSuccessfully()

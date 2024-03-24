@@ -1,4 +1,5 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text.Json;
+using Ardalis.GuardClauses;
 using Ardalis.Result;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
@@ -6,12 +7,14 @@ using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
 using MapsterMapper;
+using Microsoft.Extensions.Logging;
 
 namespace DrugStore.Application.Products.Commands.UpdateProductCommand;
 
 public sealed class UpdateProductCommandHandler(
     IMapper mapper,
     IRepository<Product> repository,
+    ILogger<UpdateProductCommandHandler> logger,
     ILocalStorage localStorage) : ICommandHandler<UpdateProductCommand, Result<ProductVm>>
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -36,6 +39,9 @@ public sealed class UpdateProductCommandHandler(
             request.ProductPrice,
             string.IsNullOrWhiteSpace(result) ? null : new(result, request.Alt ?? request.Name, request.Name)
         );
+
+        logger.LogInformation("[{Command}] Product information: {Product}", nameof(UpdateProductCommand),
+            JsonSerializer.Serialize(product));
 
         await repository.UpdateAsync(product, cancellationToken);
         return Result<ProductVm>.Success(mapper.Map<ProductVm>(product));

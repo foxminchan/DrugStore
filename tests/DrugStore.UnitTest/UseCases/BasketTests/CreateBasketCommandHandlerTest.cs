@@ -3,6 +3,7 @@ using DrugStore.Domain.BasketAggregate;
 using DrugStore.Infrastructure.Cache.Redis;
 using FluentAssertions;
 using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.BasketTests;
@@ -11,10 +12,11 @@ public sealed class CreateBasketCommandHandlerTest
 {
     private readonly IRedisService _redisService = Substitute.For<IRedisService>();
     private readonly IDistributedLockProvider _distributedLockProvider = Substitute.For<IDistributedLockProvider>();
+    private readonly ILogger<CreateBasketCommandHandler> _logger = Substitute.For<ILogger<CreateBasketCommandHandler>>();
 
     private readonly CreateBasketCommandHandler _handler;
 
-    public CreateBasketCommandHandlerTest() => _handler = new(_redisService, _distributedLockProvider);
+    public CreateBasketCommandHandlerTest() => _handler = new(_redisService, _logger, _distributedLockProvider);
 
     [Fact]
     public async Task ShouldBeCreateBasketSuccessfully()

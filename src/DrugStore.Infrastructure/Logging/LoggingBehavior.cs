@@ -14,21 +14,27 @@ public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior
     {
         Guard.Against.Null(request);
 
+        const string behavior = nameof(LoggingBehavior<TRequest, TResponse>);
+
         if (logger.IsEnabled(LogLevel.Information))
         {
-            logger.LogInformation("Handling {RequestName}", typeof(TRequest).Name);
+            logger.LogInformation("[{Behavior}] Handle request={Request} and response={Response}",
+                behavior, typeof(TRequest).FullName, typeof(TResponse).FullName);
 
             var myType = request.GetType();
             var props = new List<PropertyInfo>(myType.GetProperties());
             foreach (var prop in props)
-                logger.LogInformation("Property {Property} : {@Value}", prop.Name, prop.GetValue(request, null));
+                logger.LogInformation("[{Behavior}] Property {Property}={Value}", behavior,
+                    prop.Name, prop.GetValue(request));
         }
 
         var sw = Stopwatch.StartNew();
         var response = await next();
 
-        logger.LogInformation("Handled {RequestName} with {Response} in {ElapsedMilliseconds} ms",
-            typeof(TRequest).Name, response,
+        logger.LogInformation(
+            "[{Behavior}] The request handled {RequestName} with {Response} in {ElapsedMilliseconds} ms",
+            behavior,
+            typeof(TRequest).FullName, response,
             sw.ElapsedMilliseconds);
 
         sw.Stop();
@@ -36,7 +42,8 @@ public sealed class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior
         var timeTaken = sw.Elapsed;
 
         if (timeTaken.Seconds > 3)
-            logger.LogWarning("Request {RequestName} took {TimeTaken} to complete", typeof(TRequest).Name, timeTaken);
+            logger.LogWarning("[{Behavior}] The request {Request} took {TimeTaken} seconds.",
+                behavior, typeof(TRequest).FullName, timeTaken.Seconds);
 
         return response;
     }

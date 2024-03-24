@@ -4,6 +4,7 @@ using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
 using FluentAssertions;
 using MapsterMapper;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.OrderTests;
@@ -12,7 +13,8 @@ public sealed class UpdateOrderCommandHandlerTest
 {
     private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRepository<Order> _repository = Substitute.For<IRepository<Order>>();
-
+    private readonly ILogger<UpdateOrderCommandHandler> _logger = Substitute.For<ILogger<UpdateOrderCommandHandler>>();
+        
     private readonly List<OrderItemUpdateRequest> _orderItemUpdateRequest;
 
     public UpdateOrderCommandHandlerTest()
@@ -37,7 +39,7 @@ public sealed class UpdateOrderCommandHandlerTest
         var command = new UpdateOrderCommand(
             new(Guid.Empty), "Order Name", new(Guid.Empty), _orderItemUpdateRequest
         );
-        var handler = new UpdateOrderCommandHandler(_mapper, _repository);
+        var handler = new UpdateOrderCommandHandler(_mapper, _repository, _logger);
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

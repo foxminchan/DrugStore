@@ -14,7 +14,7 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         System.Exception exception,
         CancellationToken cancellationToken)
     {
-        logger.LogError(exception, "Exception occurred: {ExceptionMessage}", exception.Message);
+        logger.LogError(exception, "[{Handler}] Exception occurred: {ExceptionMessage}", nameof(ExceptionHandler), exception.Message);
 
         switch (exception)
         {

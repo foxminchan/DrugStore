@@ -1,4 +1,5 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Text.Json;
+using Ardalis.GuardClauses;
 using Ardalis.Result;
 using DrugStore.Application.Baskets.ViewModels;
 using DrugStore.Domain.BasketAggregate;
@@ -6,12 +7,14 @@ using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using MapsterMapper;
 using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 
 namespace DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
 
 public sealed class UpdateBasketCommandHandler(
     IMapper mapper,
     IRedisService redisService,
+    ILogger<UpdateBasketCommandHandler> logger,
     IDistributedLockProvider distributedLockProvider) : ICommandHandler<UpdateBasketCommand, Result<CustomerBasketVm>>
 {
     public async Task<Result<CustomerBasketVm>> Handle(UpdateBasketCommand request, CancellationToken cancellationToken)
@@ -40,8 +43,12 @@ public sealed class UpdateBasketCommandHandler(
                 basketItem.Price
             );
 
+        logger.LogInformation("[{Command}] Basket information: {Basket}", nameof(UpdateBasketCommand),
+            JsonSerializer.Serialize(basket));
+
         await using (await distributedLockProvider.TryAcquireLockAsync(key, cancellationToken: cancellationToken))
         {
+            logger.LogInformation("[{Command}] Lock acquired for key: {Key}", nameof(UpdateBasketCommand), key);
             redisService.HashGetOrSet(key, request.CustomerId.ToString(), () => basket);
             basket.UpdateItem(basketItem);
         }

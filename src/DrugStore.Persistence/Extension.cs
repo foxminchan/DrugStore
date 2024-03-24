@@ -71,20 +71,20 @@ public static class Extension
     {
         if (bool.TryParse(configuration["RetryMigrations"], out _))
         {
-            return Policy.Handle<Exception>().
-                WaitAndRetryForever(
-                    sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
-                    onRetry: (exception, retry, _) =>
-                    {
-                        logger.Warning(
-                            exception,
-                            "Exception {ExceptionType} with message {Message} detected during database migration (retry attempt {Retry}, connection {Connection})",
-                            exception.GetType().Name,
-                            exception.Message,
-                            retry,
-                            configuration.GetConnectionString("Postgres"));
-                    }
-                );
+            return Policy.Handle<Exception>().WaitAndRetryForever(
+                sleepDurationProvider: _ => TimeSpan.FromSeconds(5),
+                onRetry: (exception, retry, _) =>
+                {
+                    logger.Warning(
+                        exception,
+                        "[{Prefix}] Exception {ExceptionType} with message {Message} detected during database migration (retry attempt {Retry}, connection {Connection})",
+                        nameof(ApplyDatabaseMigration),
+                        exception.GetType().Name,
+                        exception.Message,
+                        retry,
+                        configuration.GetConnectionString("Postgres"));
+                }
+            );
         }
 
         return Policy.NoOp();

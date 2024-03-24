@@ -4,14 +4,16 @@ using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.UnitTest.Builders;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.ProductTests;
 
 public sealed class CreateProductCommandHandlerTest
 {
-    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
     private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
+    private readonly IRepository<Product> _repository = Substitute.For<IRepository<Product>>();
+    private readonly ILogger<CreateProductCommandHandler> _logger = Substitute.For<ILogger<CreateProductCommandHandler>>();
 
     private static Product CreateProduct() => new(
         "Product Name",
@@ -24,7 +26,7 @@ public sealed class CreateProductCommandHandlerTest
 
     private readonly CreateProductCommandHandler _handler;
 
-    public CreateProductCommandHandlerTest() => _handler = new(_repository, _localStorage);
+    public CreateProductCommandHandlerTest() => _handler = new(_repository, _logger, _localStorage);
 
     [Fact]
     public async Task ShouldBeCreateProductSuccessfully()

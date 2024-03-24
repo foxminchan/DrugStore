@@ -4,6 +4,7 @@ using DrugStore.Infrastructure.Cache.Redis;
 using FluentAssertions;
 using MapsterMapper;
 using Medallion.Threading;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace DrugStore.UnitTest.UseCases.BasketTests;
@@ -13,6 +14,7 @@ public sealed class UpdateBasketCommandHandlerTest
     private readonly IMapper _mapper = Substitute.For<IMapper>();
     private readonly IRedisService _redisService = Substitute.For<IRedisService>();
     private readonly IDistributedLockProvider _distributedLockProvider = Substitute.For<IDistributedLockProvider>();
+    private readonly ILogger<UpdateBasketCommandHandler> _logger = Substitute.For<ILogger<UpdateBasketCommandHandler>>();
 
     private readonly UpdateBasketCommandHandler _handler;
 
@@ -20,7 +22,7 @@ public sealed class UpdateBasketCommandHandlerTest
 
     public UpdateBasketCommandHandlerTest()
     {
-        _handler = new(_mapper, _redisService, _distributedLockProvider);
+        _handler = new(_mapper, _redisService, _logger, _distributedLockProvider);
 
         var basket = new CustomerBasket
         {

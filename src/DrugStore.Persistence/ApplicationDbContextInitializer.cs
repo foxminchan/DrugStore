@@ -26,7 +26,8 @@ public sealed class ApplicationDbContextInitializer(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Migration error");
+            logger.LogError(ex, "[{Prefix}] Migration error with message: {Message}",
+                nameof(ApplicationDbContextInitializer), ex.Message);
             throw new DatabaseInitializationException("An error occurred while initializing the database", ex);
         }
     }
@@ -39,7 +40,8 @@ public sealed class ApplicationDbContextInitializer(
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Seeding error");
+            logger.LogError(ex, "[{Prefix}] Seeding error with message: {Message}",
+                nameof(ApplicationDbContextInitializer), ex.Message);
             throw new DatabaseInitializationException("An error occurred while initializing the database", ex);
         }
     }
@@ -57,7 +59,7 @@ public sealed class ApplicationDbContextInitializer(
         }
         else
         {
-            logger.LogDebug("admin already exists");
+            logger.LogDebug("[{Prefix}] admin already exists", nameof(ApplicationDbContextInitializer));
         }
 
         ApplicationRole customer = new(Roles.Customer);
@@ -70,7 +72,7 @@ public sealed class ApplicationDbContextInitializer(
         }
         else
         {
-            logger.LogDebug("customer already exists");
+            logger.LogDebug("[{Prefix}] customer already exists", nameof(ApplicationDbContextInitializer));
         }
 
         const string password = "P@ssw0rd";
@@ -101,11 +103,11 @@ public sealed class ApplicationDbContextInitializer(
 
             await userManager.AddToRoleAsync(administrator, admin.Name!);
 
-            logger.LogDebug("administrator created");
+            logger.LogDebug("[{Prefix}] administrator created", nameof(ApplicationDbContextInitializer));
         }
         else
         {
-            logger.LogDebug("administrator already exists");
+            logger.LogDebug("[{Prefix}] administrator already exists", nameof(ApplicationDbContextInitializer));
         }
 
         ApplicationUser user = new(
@@ -134,11 +136,11 @@ public sealed class ApplicationDbContextInitializer(
 
             await userManager.AddToRoleAsync(user, customer.Name!);
 
-            logger.LogDebug("user created");
+            logger.LogDebug("[{Prefix}] user created", nameof(ApplicationDbContextInitializer));
         }
         else
         {
-            logger.LogDebug("user already exists");
+            logger.LogDebug("[{Prefix}] user already exists", nameof(ApplicationDbContextInitializer));
         }
     }
 }

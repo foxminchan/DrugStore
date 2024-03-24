@@ -20,13 +20,15 @@ public sealed class RequestValidationBehavior<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        const string behavior = nameof(RequestValidationBehavior<TRequest, TResponse>);
+
         logger.LogInformation(
-            "[{Pipeline}] handle request={RequestData} and response={ResponseData}",
-            nameof(RequestValidationBehavior<TRequest, TResponse>), typeof(TRequest).Name, typeof(TResponse).Name);
+            "[{Behavior}] handle request={RequestData} and response={ResponseData}",
+            behavior, typeof(TRequest).FullName, typeof(TResponse).FullName);
 
         logger.LogDebug(
-            "Handled {Request} with content {RequestData}",
-            typeof(TRequest).FullName, JsonSerializer.Serialize(request));
+            "[{Behavior}] handle request={Request} with content={RequestData}",
+            behavior, typeof(TRequest).FullName, JsonSerializer.Serialize(request));
 
         var validators = serviceProvider
                              .GetService<IEnumerable<IValidator<TRequest>>>()?.ToList()
@@ -40,8 +42,8 @@ public sealed class RequestValidationBehavior<TRequest, TResponse>(
         var response = await next();
 
         logger.LogInformation(
-            "Handled {FullName} with content {Response}",
-            typeof(TResponse).FullName, JsonSerializer.Serialize(response));
+            "[{Behavior}] handled response={Response} with content={ResponseData}",
+            behavior, typeof(TResponse).FullName, JsonSerializer.Serialize(response));
 
         return response;
     }

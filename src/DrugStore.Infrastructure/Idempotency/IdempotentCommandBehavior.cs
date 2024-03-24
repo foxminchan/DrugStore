@@ -15,17 +15,21 @@ public sealed class IdempotentCommandBehavior<TRequest, TResponse>(
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("Handling idempotent command {CommandName} ({@Command})", request.GetType().Name,
-            request);
+        const string behavior = nameof(IdempotentCommandBehavior<TRequest, TResponse>);
+
+        logger.LogInformation("[{Behavior}] Handling request={Request} and response={Response}",
+            behavior, typeof(TRequest).FullName, typeof(TResponse).FullName);
+
         if (idempotencyService.RequestExists(request.RequestId))
         {
-            logger.LogWarning("Command {CommandName} was already handled", request.GetType().Name);
+            logger.LogInformation("[{Behavior}] Request {RequestId} already exists", behavior, request.RequestId);
             return default!;
         }
 
         var response = await next();
         idempotencyService.CreateRequestForCommand(request.RequestId, request.GetType().Name);
-        logger.LogInformation("Handled idempotent command {CommandName}", request.GetType().Name);
+        logger.LogInformation("[{Behavior}] Handled idempotent command {CommandName}", behavior,
+            request.GetType().FullName);
 
         return response;
     }
