@@ -13,15 +13,24 @@ public sealed class GetListQueryHandler(IMapper mapper, UserManager<ApplicationU
 {
     public async Task<PagedResult<List<UserVm>>> Handle(GetListQuery request, CancellationToken cancellationToken)
     {
-        var query = userManager.Users.OrderBy(x => x.Id);
+        var query = userManager.Users.ToList();
 
-        if (!request.Filter.IsAscending) query = query.OrderByDescending(x => x.Id);
+        if (!string.IsNullOrEmpty(request.Role))
+        {
+            var usersInRole = await userManager.GetUsersInRoleAsync(request.Role);
+            query = [.. usersInRole.OrderBy(x => x.Id)];
+        }
 
-        var users = await query
+        if (request.Filter.IsAscending)
+            query = [.. query.OrderBy(x => x.Id)];
+        else
+            query = [.. query.OrderByDescending(x => x.Id)];
+
+        var users = query
             .Skip((request.Filter.PageIndex - 1) * request.Filter.PageSize)
             .Take(request.Filter.PageSize)
-            .Select(x => mapper.Map<UserVm>(x))
-            .ToListAsync(cancellationToken);
+            .Select(mapper.Map<UserVm>)
+            .ToList();
 
         if (!string.IsNullOrEmpty(request.Filter.Search))
             users = users.AsEnumerable()

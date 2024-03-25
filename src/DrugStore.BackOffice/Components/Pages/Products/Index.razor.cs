@@ -10,13 +10,14 @@ public sealed partial class Index
 {
     private int _count;
 
-    private RadzenDataGrid<Product> _dataGrid = default!;
-
     private bool _error;
 
     private bool _loading;
 
     private List<Product> _products = [];
+
+    private RadzenDataGrid<Product> _dataGrid = default!;
+
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
@@ -59,6 +60,8 @@ public sealed partial class Index
                     deleteImage = await DialogService.Confirm("Do you want to delete the image?") ?? false;
 
                 await ProductsApi.DeleteProductAsync(id, deleteImage);
+                _products.RemoveAll(x => x.Id == id);
+                _count = _products.Count;
                 await _dataGrid.Reload();
                 NotificationService.Notify(new()
                 {

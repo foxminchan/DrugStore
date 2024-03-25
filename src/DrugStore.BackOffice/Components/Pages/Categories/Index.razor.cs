@@ -8,13 +8,14 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Index
 {
+    private bool _error;
+
+    private bool _loading;
+
     private List<Category> _categories = [];
 
     private RadzenDataGrid<Category> _dataGrid = default!;
 
-    private bool _error;
-
-    private bool _loading;
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;

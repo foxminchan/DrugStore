@@ -5,4 +5,4 @@ using DrugStore.Persistence.Helpers;
 
 namespace DrugStore.Application.Users.Queries.GetListQuery;
 
-public sealed record GetListQuery(FilterHelper Filter) : IQuery<PagedResult<List<UserVm>>>;
+public sealed record GetListQuery(FilterHelper Filter, string? Role = null) : IQuery<PagedResult<List<UserVm>>>;

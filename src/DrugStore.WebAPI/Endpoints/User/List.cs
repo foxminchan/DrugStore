@@ -13,8 +13,9 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
         app.MapGet("/users", async (
                 int pageIndex,
                 int pageSize,
+                string? role,
                 string? search,
-                bool isAscending) => await HandleAsync(new(pageIndex, pageSize, search, isAscending)))
+                bool isAscending = true) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
             .WithTags(nameof(User))
             .WithName("List Users")
             .Produces<ListUserResponse>()
@@ -33,7 +34,7 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
             request.PageSize
         );
 
-        var result = await sender.Send(new GetListQuery(filter), cancellationToken);
+        var result = await sender.Send(new GetListQuery(filter, request.Role), cancellationToken);
 
         return new()
         {

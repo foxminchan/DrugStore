@@ -17,6 +17,9 @@ public sealed class UpdateUserCommandValidator : AbstractValidator<UpdateUserCom
             .EmailAddress()
             .MaximumLength(DatabaseSchemaLength.ShortLength);
 
+        RuleFor(x => x.OldPassword)
+            .NotEmpty();
+
         RuleFor(x => x.Password)
             .NotEmpty()
             .Matches(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$")

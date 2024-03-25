@@ -9,6 +9,7 @@ namespace DrugStore.Application.Users.Commands.UpdateUserCommand;
 public sealed record UpdateUserCommand(
     IdentityId Id,
     string Email,
+    string OldPassword,
     string Password,
     string ConfirmPassword,
     string? Role,

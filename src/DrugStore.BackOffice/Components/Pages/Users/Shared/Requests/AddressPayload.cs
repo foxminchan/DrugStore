@@ -2,7 +2,7 @@
 
 namespace DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
 
-public class AddressPayload
+public sealed class AddressPayload
 {
     [AliasAs("street")] public string? Street { get; set; }
 

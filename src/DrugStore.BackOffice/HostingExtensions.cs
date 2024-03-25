@@ -1,8 +1,7 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Components.Pages.Orders.Services;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
-using DrugStore.BackOffice.Components.Pages.Users.Customers.Services;
-using DrugStore.BackOffice.Components.Pages.Users.Staffs.Services;
+using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
 using DrugStore.BackOffice.Delegates;
 using DrugStore.Domain.IdentityAggregate.Constants;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -23,9 +22,8 @@ public static class HostingExtensions
         {
             typeof(ICategoriesApi),
             typeof(IProductsApi),
-            typeof(ICustomersApi),
             typeof(IOrdersApi),
-            typeof(IStaffApi)
+            typeof(IUserApi)
         };
 
         foreach (var apiType in apis)

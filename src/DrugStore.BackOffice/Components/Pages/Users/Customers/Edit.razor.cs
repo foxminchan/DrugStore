@@ -1,4 +1,4 @@
-﻿namespace DrugStore.BackOffice.Components.Pages.Users.Staffs;
+﻿namespace DrugStore.BackOffice.Components.Pages.Users.Customers;
 
 public partial class Edit
 {

@@ -40,11 +40,7 @@ public static class Extension
 
             options.AddInterceptors(sp.GetRequiredService<AuditableEntityInterceptor>());
 
-            if (string.Equals(
-                    Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
-                    Environments.Development,
-                    StringComparison.OrdinalIgnoreCase
-                ))
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development)
                 options
                     .EnableDetailedErrors()
                     .EnableSensitiveDataLogging();
