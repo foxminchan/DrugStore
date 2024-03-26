@@ -4,14 +4,12 @@ using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.IdentityAggregate.ValueObjects;
 using DrugStore.Domain.SharedKernel;
 
-namespace DrugStore.Application.Users.Commands.UpdateUserCommand;
+namespace DrugStore.Application.Users.Commands.UpdateUserInfoCommand;
 
-public sealed record UpdateUserCommand(
+public sealed record UpdateUserInfoCommand(
     IdentityId Id,
     string Email,
-    string OldPassword,
-    string Password,
-    string ConfirmPassword,
     string? FullName,
     string? Phone,
-    Address? Address) : ICommand<Result<UserVm>>;
+    Address? Address,
+    string? Role) : ICommand<Result<UserVm>>;

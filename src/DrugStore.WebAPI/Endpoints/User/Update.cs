@@ -9,7 +9,7 @@ namespace DrugStore.WebAPI.Endpoints.User;
 public sealed class Update(ISender sender) : IEndpoint<UpdateUserResponse, UpdateUserRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapPut("/user", async (UpdateUserRequest request) => await HandleAsync(request))
+        app.MapPut("/users", async (UpdateUserRequest request) => await HandleAsync(request))
             .Produces<UpdateUserResponse>()
             .WithTags(nameof(User))
             .WithName("Update User")
