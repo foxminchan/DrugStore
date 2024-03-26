@@ -1,5 +1,6 @@
 ﻿@page "/categories/add"
 @using DrugStore.BackOffice.Components.Pages.Categories.Requests
+@using DrugStore.BackOffice.Constants
 
 <PageTitle>Add Category</PageTitle>
 
@@ -18,9 +19,11 @@
                                @bind-Value="_category.Name"
                                class="w-100"
                                Placeholder="Enter category name"/>
-                <RadzenCustomValidator Component="Name"
-                                       Text="Name is required and has 50 characters maximum"
-                                       Validator="() => ValidateCategoryName(_category.Name)"/>
+                <RadzenRequiredValidator Component="Name"
+                                         Text="Name is required"/>
+                <RadzenLengthValidator Component="Name"
+                                       Text="@($"Name has {DataTypeLength.ShortLength} characters maximum")"
+                                       Max="DataTypeLength.ShortLength"/>
                 <RadzenLabel Text="Description" Component="Description"/>
                 <RadzenTextArea Style="display: block"
                                 Name="Description"
@@ -28,9 +31,9 @@
                                 @bind-Value="_category.Description"
                                 class="w-100"
                                 Placeholder="Enter category description"/>
-                <RadzenCustomValidator Component="Description"
-                                       Text="Description has 500 characters maximum"
-                                       Validator="() => ValidateCategoryDescription(_category.Description)"/>
+                <RadzenLengthValidator Component="Description"
+                                       Text="@($"Description has {DataTypeLength.LongLength} characters maximum")"
+                                       Max="DataTypeLength.LongLength"/>
             </RadzenStack>
         </RadzenFieldset>
         <RadzenStack Style="margin-top:1rem;"

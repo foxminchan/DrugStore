@@ -14,5 +14,7 @@ public class CreateUser
 
     [AliasAs("phone")] public string? Phone { get; set; }
 
-    [AliasAs("address")] public AddressPayload? Address { get; set; }
+    [AliasAs("address")] public AddressPayload Address { get; set; } = new();
+
+    [AliasAs("isAdmin")] public bool IsAdmin { get; set; } = false;
 }

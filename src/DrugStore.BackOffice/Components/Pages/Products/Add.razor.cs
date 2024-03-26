@@ -11,17 +11,18 @@ namespace DrugStore.BackOffice.Components.Pages.Products;
 
 public sealed partial class Add
 {
-    private readonly CreateProduct _product = new();
-
     private bool _busy;
-
-    private List<Category> _categories = [];
 
     private int _count;
 
     private bool _error;
 
+    private List<Category> _categories = [];
+
     private Category _selectedCategory = new();
+
+    private readonly CreateProduct _product = new();
+
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
@@ -82,39 +83,9 @@ public sealed partial class Add
 
     private async Task CancelButtonClick(MouseEventArgs arg) => NavigationManager.NavigateTo("/products");
 
-    private static bool ValidateProductName(string? name)
-        => !string.IsNullOrEmpty(name) && name.Length <= DataTypeLength.DefaultLength;
-
-    private static bool ValidateProductCode(string? code)
-    {
-        if (string.IsNullOrEmpty(code)) return true;
-        return code.Length <= DataTypeLength.SmallLength;
-    }
-
-    private static bool ValidateProductDetail(string? detail)
-    {
-        if (string.IsNullOrEmpty(detail)) return true;
-        return detail.Length <= DataTypeLength.MaxLength;
-    }
-
-    private static bool ValidateProductQuantity(int productQuantity) => productQuantity >= 0;
-
-    private static bool ValidateProductCategory(Guid? categoryId) => categoryId is null;
-
-    private static bool ValidateProductPrice(decimal productPrice) => productPrice >= 0;
-
-    private bool ValidateProductPriceSale(decimal productPriceSale)
-        => productPriceSale >= 0 && productPriceSale <= _product.Price;
-
     private static bool ValidateProductImage(IFormFile? image)
     {
         if (image is null) return true;
         return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MaxFileSize;
-    }
-
-    private static bool ValidateProductImageAlt(string? alt)
-    {
-        if (string.IsNullOrEmpty(alt)) return true;
-        return alt.Length <= DataTypeLength.DefaultLength;
     }
 }

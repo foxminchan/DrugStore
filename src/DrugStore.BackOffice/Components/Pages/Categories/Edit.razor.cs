@@ -1,6 +1,5 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
-using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -72,15 +71,6 @@ public sealed partial class Edit
         {
             _busy = false;
         }
-    }
-
-    private static bool ValidateCategoryName(string? name)
-        => !string.IsNullOrEmpty(name) && name.Length <= DataTypeLength.ShortLength;
-
-    private static bool ValidateCategoryDescription(string? description)
-    {
-        if (string.IsNullOrEmpty(description)) return true;
-        return description.Length <= DataTypeLength.LongLength;
     }
 
     private async Task CancelButtonClick(MouseEventArgs arg) => DialogService.Close();
