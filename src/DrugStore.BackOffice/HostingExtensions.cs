@@ -58,9 +58,9 @@ public static class HostingExtensions
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("offline_access");
-                options.Scope.Add(Claims.Read);
-                options.Scope.Add(Claims.Write);
-                options.Scope.Add(Claims.Manage);
+                options.Scope.Add(Claims.READ);
+                options.Scope.Add(Claims.WRITE);
+                options.Scope.Add(Claims.MANAGE);
 
                 options.TokenValidationParameters = new()
                 {

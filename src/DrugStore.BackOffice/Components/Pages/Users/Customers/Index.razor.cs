@@ -1,5 +1,6 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Users.Shared.Response;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
+using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
@@ -22,9 +23,9 @@ public sealed partial class Index
 
     [Inject] private DialogService DialogService { get; set; } = default!;
 
-    [Inject] private NotificationService NotificationService { get; set; } = default!;
-
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -52,7 +53,7 @@ public sealed partial class Index
     {
         try
         {
-            if (await DialogService.Confirm("Are you sure you want to delete this customer?") == true)
+            if (await DialogService.Confirm(MessageContent.DELETE_ITEM) == true)
             {
                 await UserApi.DeleteUserAsync(id);
                 _customers.RemoveAll(x => x.Id == id);
@@ -69,11 +70,9 @@ public sealed partial class Index
         catch (Exception)
         {
             NotificationService.Notify(new()
-            { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to delete Customer" });
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to delete Customer" });
         }
     }
-
-    private async Task EditCustomer(Guid id) => NavigationManager.NavigateTo($"/customers/edit/{id}");
 
     private async Task Search(ChangeEventArgs args)
     {
@@ -98,5 +97,7 @@ public sealed partial class Index
 
     private async Task AddCustomers() => NavigationManager.NavigateTo("/customers/add");
 
-    private async Task ExportClick() => NavigationManager.NavigateTo("/export/customers", true);
+    private async Task EditCustomer(Guid id) => NavigationManager.NavigateTo($"/customers/edit/{id}");
+
+    private async Task ExportClick() => NavigationManager.NavigateTo("/export/users/Customer", true);
 }

@@ -103,21 +103,21 @@
                                                   Property="@nameof(User.Address.Street)"
                                                   Title="@nameof(User.Address.Street)">
                                 <Template Context="user">
-                                    @user.Address?.Street
+                                    @user.Address.Street
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="User"
                                                   Property="@nameof(User.Address.City)"
                                                   Title="@nameof(User.Address.City)">
                                 <Template Context="user">
-                                    @user.Address?.City
+                                    @user.Address.City
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="User"
                                                   Property="@nameof(User.Address.Province)"
                                                   Title="@nameof(User.Address.Province)">
                                 <Template Context="user">
-                                    @user.Address?.Province
+                                    @user.Address.Province
                                 </Template>
                             </RadzenDataGridColumn>
                         </Columns>

@@ -16,8 +16,8 @@ public interface ICategoriesApi
     Task DeleteCategoryAsync(Guid id);
 
     [Post("/categories")]
-    Task AddCategoryAsync(CreateCategory category, [Header("X-Idempotency-Key")] Guid key);
+    Task AddCategoryAsync([Body] CreateCategory category, [Header("X-Idempotency-Key")] Guid key);
 
     [Put("/categories")]
-    Task UpdateCategoryAsync(UpdateCategory category);
+    Task UpdateCategoryAsync([Body] UpdateCategory category);
 }

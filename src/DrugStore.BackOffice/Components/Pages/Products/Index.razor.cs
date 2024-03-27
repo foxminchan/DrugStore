@@ -1,5 +1,6 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Products.Response;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
+using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Radzen;
 using Radzen.Blazor;
@@ -52,7 +53,7 @@ public sealed partial class Index
     {
         try
         {
-            if (await DialogService.Confirm("Are you sure you want to delete this product?") == true)
+            if (await DialogService.Confirm(MessageContent.DELETE_ITEM) == true)
             {
                 var deleteImage = false;
 

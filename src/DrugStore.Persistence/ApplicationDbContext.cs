@@ -53,13 +53,13 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
                         id => id.Value,
                         value => new(value)
                     ))
-                    .HasDefaultValueSql(UniqueId.UuidAlgorithm);
+                    .HasDefaultValueSql(UniqueId.UUID_ALGORITHM);
             }
         }
 
         base.OnModelCreating(builder);
         builder.ConfigureSmartEnum();
-        builder.HasPostgresExtension(UniqueId.UuidExtension);
+        builder.HasPostgresExtension(UniqueId.UUID_EXTENSION);
         builder.ApplyConfigurationsFromAssembly(AssemblyReference.DbContextAssembly);
     }
 }

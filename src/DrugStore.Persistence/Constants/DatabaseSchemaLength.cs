@@ -2,10 +2,10 @@
 
 public static class DatabaseSchemaLength
 {
-    public const int TinyLength = 10;
-    public const int SmallLength = 16;
-    public const int ShortLength = 50;
-    public const int DefaultLength = 100;
-    public const int LongLength = 500;
-    public const int MaxLength = 1000;
+    public const int TINY_LENGTH = 10;
+    public const int SMALL_LENGTH = 16;
+    public const int SHORT_LENGTH = 50;
+    public const int DEFAULT_LENGTH = 100;
+    public const int LONG_LENGTH = 500;
+    public const int MAX_LENGTH = 1000;
 }

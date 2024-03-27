@@ -11,7 +11,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
-            .MaximumLength(DatabaseSchemaLength.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH);
 
         RuleFor(x => x.Password)
             .NotEmpty()
@@ -25,7 +25,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 
         RuleFor(x => x.FullName)
             .NotEmpty()
-            .MaximumLength(DatabaseSchemaLength.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH);
 
         RuleFor(x => x.Phone)
             .NotEmpty()

@@ -1,5 +1,6 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
+using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -26,15 +27,18 @@ public sealed partial class Add
     {
         try
         {
-            _busy = true;
-            await CategoriesApi.AddCategoryAsync(category, Guid.NewGuid());
-            NotificationService.Notify(new()
+            if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Category added successfully!"
-            });
-            NavigationManager.NavigateTo("/categories");
+                _busy = true;
+                await CategoriesApi.AddCategoryAsync(category, Guid.NewGuid());
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Category added successfully!"
+                });
+                NavigationManager.NavigateTo("/categories");
+            }
         }
         catch (Exception)
         {
@@ -48,5 +52,8 @@ public sealed partial class Add
         }
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg) => DialogService.Close();
+    private async Task CancelButtonClick(MouseEventArgs arg)
+    {
+        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true) DialogService.Close();
+    }
 }

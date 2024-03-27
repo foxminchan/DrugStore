@@ -9,9 +9,9 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Exceptions" Version="8.4.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="1.5.0" />
-    <PackageVersion Include="Asp.Versioning.Http" Version="8.0.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.0.0" />
-    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.0.0" />
+    <PackageVersion Include="Asp.Versioning.Http" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc" Version="8.1.0" />
+    <PackageVersion Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.0" />
     <PackageVersion Include="AspNetCore.HealthChecks.OpenIdConnectServer" Version="8.0.0" />
@@ -73,7 +73,7 @@
     <PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.23.0.88079" />
-    <PackageVersion Include="Radzen.Blazor" Version="4.28.6" />
+    <PackageVersion Include="Radzen.Blazor" Version="4.28.8" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 </Project>

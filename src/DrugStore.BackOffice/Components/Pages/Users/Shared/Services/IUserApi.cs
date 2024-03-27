@@ -10,8 +10,14 @@ public interface IUserApi
     [Get("/users")]
     Task<ListUser> ListUsersAsync([Query] FilterHelper filter, [Query] string? role);
 
+    [Get("/users/{id}")]
+    Task<User> GetUserAsync(Guid id);
+
+    [Put("/users/info")]
+    Task UpdateUserInfoAsync([Body] UpdateUserInfo user);
+
     [Post("/users")]
-    Task CreateUserAsync(CreateUser user, [Header("X-Idempotency-Key")] Guid key);
+    Task CreateUserAsync([Body] CreateUser user, [Header("X-Idempotency-Key")] Guid key);
 
     [Delete("/users/{id}")]
     Task DeleteUserAsync(Guid id);

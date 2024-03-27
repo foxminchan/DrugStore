@@ -18,11 +18,11 @@ public sealed class OrderConfiguration : BaseConfiguration<Order>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UUID_ALGORITHM)
             .ValueGeneratedOnAdd();
 
         builder.Property(o => o.Code)
-            .HasMaxLength(DatabaseSchemaLength.SmallLength);
+            .HasMaxLength(DatabaseSchemaLength.SMALL_LENGTH);
 
         builder.HasOne(o => o.Customer)
             .WithMany(c => c.Orders)

@@ -1,8 +1,129 @@
 ﻿@page "/users"
+@using DrugStore.BackOffice.Components.Pages.Users.Shared.Response
 
 <PageTitle>Users List</PageTitle>
 
 <RadzenBreadCrumb>
     <RadzenBreadCrumbItem Path="/" Text="Home" />
-    <RadzenBreadCrumbItem Text="Customers" />
+    <RadzenBreadCrumbItem Text="Users" />
 </RadzenBreadCrumb>
+
+<RadzenRow>
+    <RadzenColumn SizeMD="9">
+        <RadzenLabel Style="font-weight: bold"
+                     Text="Loading data was failed. Please reload."
+                     Visible="_error" />
+    </RadzenColumn>
+    <RadzenColumn SizeMD="3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                      Icon="autorenew"
+                      Style="margin-bottom: 20px"
+                      Text="Reload"
+                      Visible="_error"
+                      Click="OnInitializedAsync" />
+    </RadzenColumn>
+</RadzenRow>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Users" TextStyle="TextStyle.H3" TagName="TagName.H1" Style="margin: 0" />
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.End"
+                         Gap="0.5rem">
+                <RadzenButton Icon="get_app"
+                              Text="Export CSV"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Shade="Shade.Lighter"
+                              Variant="Variant.Flat"
+                              Click="ExportClick" />
+                <RadzenButton Icon="add_circle_outline"
+                              Text="Add user"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Variant="Variant.Flat"
+                              Click="AddUser" />
+            </RadzenStack>
+        </RadzenColumn>
+    </RadzenRow>
+    <RadzenTextBox Placeholder="Search ..."
+                   Style="display: block; width: 100%"
+                   @oninput="Search"
+                   aria-label="Search by user name or email" />
+    <RadzenRow>
+        <RadzenColumn SizeMD="12">
+            <RadzenDataGrid @ref="_dataGrid"
+                            Data="_users"
+                            IsLoading="_loading"
+                            TItem="User"
+                            AllowPaging="true"
+                            AllowFiltering="true"
+                            AllowSorting="true"
+                            AllowColumnResize="true"
+                            AllowAlternatingRows="false"
+                            PageSize="20"
+                            ColumnWidth="300px"
+                            ShowPagingSummary="true"
+                            FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                            Count="_count">
+                <EmptyTemplate>
+                    <RadzenText Style="color: lightgrey; font-size: 24px; margin: 2rem;"
+                                TagName="TagName.P" TextAlign="TextAlign.Center">
+                        No users found
+                    </RadzenText>
+                </EmptyTemplate>
+                <LoadingTemplate>
+                    <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
+                                               Value="100"
+                                               ShowValue="false"
+                                               Mode="ProgressBarMode.Indeterminate" />
+                </LoadingTemplate>
+                <Columns>
+                    <RadzenDataGridColumn TItem="User"
+                                          Width="100px"
+                                          Property="@nameof(User.FullName)"
+                                          Title="Fullname" />
+                    <RadzenDataGridColumn TItem="User"
+                                          Width="130px"
+                                          Property="@nameof(User.Email)"
+                                          Title="@nameof(User.Email)" />
+                    <RadzenDataGridColumn TItem="User"
+                                          Width="70px"
+                                          Property="@nameof(User.Phone)"
+                                          Title="@nameof(User.Phone)" />
+                    <RadzenDataGridColumn TItem="User"
+                                          Filterable="false"
+                                          Sortable="false"
+                                          TextAlign="TextAlign.Center"
+                                          Property="@nameof(User.Address)"
+                                          Title="@nameof(User.Address)">
+                        <Columns>
+                            <RadzenDataGridColumn TItem="User"
+                                                  Property="@nameof(User.Address.Street)"
+                                                  Title="@nameof(User.Address.Street)">
+                                <Template Context="user">
+                                    @user.Address.Street
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="User"
+                                                  Property="@nameof(User.Address.City)"
+                                                  Title="@nameof(User.Address.City)">
+                                <Template Context="user">
+                                    @user.Address.City
+                                </Template>
+                            </RadzenDataGridColumn>
+                            <RadzenDataGridColumn TItem="User"
+                                                  Property="@nameof(User.Address.Province)"
+                                                  Title="@nameof(User.Address.Province)">
+                                <Template Context="user">
+                                    @user.Address.Province
+                                </Template>
+                            </RadzenDataGridColumn>
+                        </Columns>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </RadzenColumn>
+    </RadzenRow>
+</RadzenStack>

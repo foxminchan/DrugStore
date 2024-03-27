@@ -26,28 +26,32 @@ else
             <RadzenFieldset Text="Category information">
                 <RadzenStack Gap="1rem">
                     <RadzenTextBox @bind-Value="_category.Id" Name="Id" Style="display: none"/>
-                    <RadzenLabel Text="Name" Component="Name"/>
-                    <RadzenTextBox Style="display: block"
-                                   Name="Name"
-                                   ReadOnly="_busy"
-                                   @bind-Value="_category.Name"
-                                   class="w-100"
-                                   Placeholder="Enter category name"/>
-                    <RadzenRequiredValidator Component="Name"
-                                             Text="Name is required"/>
-                    <RadzenLengthValidator Component="Name"
-                                           Text="@($"Name has {DataTypeLength.ShortLength} characters maximum")"
-                                           Max="DataTypeLength.ShortLength"/>
-                    <RadzenLabel Text="Description" Component="Description"/>
-                    <RadzenTextArea Style="display: block"
-                                    Name="Description"
-                                    ReadOnly="_busy"
-                                    @bind-Value="_category.Description"
-                                    class="w-100"
-                                    Placeholder="Enter category description"/>
-                    <RadzenLengthValidator Component="Description"
-                                           Text="@($"Description has {DataTypeLength.LongLength} characters maximum")"
-                                           Max="DataTypeLength.LongLength"/>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Name" Component="Name"/>
+                        <RadzenTextBox Style="display: block"
+                                       Name="Name"
+                                       ReadOnly="_busy"
+                                       @bind-Value="_category.Name"
+                                       class="w-100"
+                                       Placeholder="Enter category name"/>
+                        <RadzenRequiredValidator Component="Name"
+                                                 Text="Name is required"/>
+                        <RadzenLengthValidator Component="Name"
+                                               Text="@($"Name has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                               Max="DataTypeLength.SHORT_LENGTH"/>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Description" Component="Description"/>
+                        <RadzenTextArea Style="display: block"
+                                        Name="Description"
+                                        ReadOnly="_busy"
+                                        @bind-Value="_category.Description"
+                                        class="w-100"
+                                        Placeholder="Enter category description"/>
+                        <RadzenLengthValidator Component="Description"
+                                               Text="@($"Description has {DataTypeLength.LONG_LENGTH} characters maximum")"
+                                               Max="DataTypeLength.LONG_LENGTH"/>
+                    </RadzenRow>
                 </RadzenStack>
             </RadzenFieldset>
             <RadzenStack Style="margin-top:1rem;"

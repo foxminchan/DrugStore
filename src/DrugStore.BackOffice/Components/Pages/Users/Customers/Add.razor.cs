@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
+using DrugStore.BackOffice.Constants;
 using Radzen;
 
 namespace DrugStore.BackOffice.Components.Pages.Users.Customers;
@@ -12,9 +13,13 @@ public sealed partial class Add
 
     private bool _error;
 
+    private bool _isDefaultPassword;
+
     private readonly CreateUser _customer = new();
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
+
+    [Inject] private DialogService DialogService { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
@@ -24,15 +29,18 @@ public sealed partial class Add
     {
         try
         {
-            _busy = true;
-            await UserApi.CreateUserAsync(customer, Guid.NewGuid());
-            NotificationService.Notify(new()
+            if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Customer created successfully"
-            });
-            NavigationManager.NavigateTo("/customers");
+                _busy = true;
+                await UserApi.CreateUserAsync(customer, Guid.NewGuid());
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Customer created successfully"
+                });
+                NavigationManager.NavigateTo("/customers");
+            }
         }
         catch (Exception)
         {
@@ -46,5 +54,16 @@ public sealed partial class Add
         }
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg) => NavigationManager.NavigateTo("/customers");
+    private async Task CancelButtonClick(MouseEventArgs arg)
+    {
+        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true)
+            NavigationManager.NavigateTo("/customers");
+    }
+
+    private void SetDefaultPassword(bool isDefaultPassword)
+    {
+        _isDefaultPassword = isDefaultPassword;
+        _customer.Password = "P@ssw0rd";
+        _customer.ConfirmPassword = "P@ssw0rd";
+    }
 }

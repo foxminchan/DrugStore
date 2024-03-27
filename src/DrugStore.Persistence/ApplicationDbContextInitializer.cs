@@ -48,27 +48,27 @@ public sealed class ApplicationDbContextInitializer(
 
     private async Task TrySeedAsync()
     {
-        ApplicationRole admin = new(Roles.Admin);
+        ApplicationRole admin = new(Roles.ADMIN);
 
-        if (!await roleManager.RoleExistsAsync(Roles.Admin))
+        if (!await roleManager.RoleExistsAsync(Roles.ADMIN))
         {
             await roleManager.CreateAsync(admin);
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Manage));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Read));
-            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.Write));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.MANAGE));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.READ));
+            await roleManager.AddClaimAsync(admin, new(ClaimTypes.Role, Claims.WRITE));
         }
         else
         {
             logger.LogDebug("[{Prefix}] admin already exists", nameof(ApplicationDbContextInitializer));
         }
 
-        ApplicationRole customer = new(Roles.Customer);
+        ApplicationRole customer = new(Roles.CUSTOMER);
 
-        if (!await roleManager.RoleExistsAsync(Roles.Customer))
+        if (!await roleManager.RoleExistsAsync(Roles.CUSTOMER))
         {
             await roleManager.CreateAsync(customer);
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Read));
-            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.Write));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.READ));
+            await roleManager.AddClaimAsync(customer, new(ClaimTypes.Role, Claims.WRITE));
         }
         else
         {

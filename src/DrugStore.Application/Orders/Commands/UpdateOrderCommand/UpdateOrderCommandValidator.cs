@@ -11,7 +11,7 @@ public sealed class UpdateOrderCommandValidator : AbstractValidator<UpdateOrderC
             .NotEmpty();
 
         RuleFor(x => x.Code)
-            .MaximumLength(DatabaseSchemaLength.SmallLength);
+            .MaximumLength(DatabaseSchemaLength.SMALL_LENGTH);
 
         RuleFor(x => x.Items)
             .NotEmpty()

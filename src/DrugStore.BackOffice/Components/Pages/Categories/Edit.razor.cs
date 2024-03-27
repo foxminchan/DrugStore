@@ -1,5 +1,6 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
+using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Radzen;
@@ -8,11 +9,12 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Edit
 {
-    private readonly UpdateCategory _category = new();
-
     private bool _busy;
 
     private bool _error;
+
+    private readonly UpdateCategory _category = new();
+
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
@@ -50,15 +52,18 @@ public sealed partial class Edit
     {
         try
         {
-            _busy = true;
-            await CategoriesApi.UpdateCategoryAsync(category);
-            NotificationService.Notify(new()
+            if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Category updated successfully!"
-            });
-            NavigationManager.NavigateTo("/categories");
+                _busy = true;
+                await CategoriesApi.UpdateCategoryAsync(category);
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Category updated successfully!"
+                });
+                NavigationManager.NavigateTo("/categories");
+            }
         }
         catch (Exception)
         {
@@ -73,5 +78,9 @@ public sealed partial class Edit
         }
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg) => DialogService.Close();
+    private async Task CancelButtonClick(MouseEventArgs arg)
+    {
+        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true)
+            DialogService.Close();
+    }
 }

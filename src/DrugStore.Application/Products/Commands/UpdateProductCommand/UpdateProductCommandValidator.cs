@@ -14,13 +14,13 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
 
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(DatabaseSchemaLength.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.ProductCode)
-            .MaximumLength(DatabaseSchemaLength.SmallLength);
+            .MaximumLength(DatabaseSchemaLength.SMALL_LENGTH);
 
         RuleFor(x => x.Detail)
-            .MaximumLength(DatabaseSchemaLength.MaxLength);
+            .MaximumLength(DatabaseSchemaLength.MAX_LENGTH);
 
         RuleFor(x => x.Quantity)
             .NotEmpty()
@@ -30,7 +30,7 @@ public sealed class UpdateProductCommandValidator : AbstractValidator<UpdateProd
             .SetValidator(productPriceValidator);
 
         RuleFor(x => x.Alt)
-            .MaximumLength(DatabaseSchemaLength.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.Image)
             .SetValidator(fileValidator!);

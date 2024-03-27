@@ -18,15 +18,15 @@ public sealed class CategoryConfiguration : BaseConfiguration<Category>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UUID_ALGORITHM)
             .ValueGeneratedOnAdd();
 
         builder.Property(c => c.Name)
-            .HasMaxLength(DatabaseSchemaLength.DefaultLength)
+            .HasMaxLength(DatabaseSchemaLength.DEFAULT_LENGTH)
             .IsRequired();
 
         builder.Property(c => c.Description)
-            .HasMaxLength(DatabaseSchemaLength.LongLength);
+            .HasMaxLength(DatabaseSchemaLength.LONG_LENGTH);
 
         builder.HasData(GetSampleCategoryData());
     }

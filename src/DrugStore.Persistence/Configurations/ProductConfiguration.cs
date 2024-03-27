@@ -18,11 +18,11 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
                 id => id.Value,
                 value => new(value)
             )
-            .HasDefaultValueSql(UniqueId.UuidAlgorithm)
+            .HasDefaultValueSql(UniqueId.UUID_ALGORITHM)
             .ValueGeneratedOnAdd();
 
         builder.Property(p => p.Name)
-            .HasMaxLength(DatabaseSchemaLength.DefaultLength)
+            .HasMaxLength(DatabaseSchemaLength.DEFAULT_LENGTH)
             .IsRequired();
 
         builder.OwnsOne(
@@ -40,11 +40,11 @@ public sealed class ProductConfiguration : BaseConfiguration<Product>
             .IsRequired();
 
         builder.Property(p => p.ProductCode)
-            .HasMaxLength(DatabaseSchemaLength.SmallLength)
+            .HasMaxLength(DatabaseSchemaLength.SMALL_LENGTH)
             .IsRequired();
 
         builder.Property(p => p.Detail)
-            .HasMaxLength(DatabaseSchemaLength.MaxLength)
+            .HasMaxLength(DatabaseSchemaLength.MAX_LENGTH)
             .IsRequired();
 
         builder.HasOne(p => p.Category)

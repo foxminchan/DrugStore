@@ -12,5 +12,5 @@ public sealed class User
 
     [JsonPropertyName("phone")] public string? Phone { get; set; }
 
-    [JsonPropertyName("address")] public Address? Address { get; set; }
+    [JsonPropertyName("address")] public Address Address { get; set; } = new();
 }

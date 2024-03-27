@@ -17,7 +17,7 @@ public sealed class CreateUserCommandHandler(
 {
     public async Task<Result<IdentityId>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        if (userManager.Users.Any(u => string.Equals(u.Email, request.Email, StringComparison.OrdinalIgnoreCase)))
+        if (userManager.Users.Any(u => u.Email == request.Email))
         {
             logger.LogWarning("[{Command}] Email already exists: {Email}", nameof(CreateUserCommand), request.Email);
             throw new ValidationException("Email already exists");
@@ -39,9 +39,9 @@ public sealed class CreateUserCommandHandler(
             JsonSerializer.Serialize(user));
 
         if (request.IsAdmin)
-            await userManager.AddToRoleAsync(user, Roles.Admin);
+            await userManager.AddToRoleAsync(user, Roles.ADMIN);
         else
-            await userManager.AddToRoleAsync(user, Roles.Customer);
+            await userManager.AddToRoleAsync(user, Roles.CUSTOMER);
 
         await userManager.AddClaimsAsync(user,
         [

@@ -12,9 +12,9 @@ public sealed class CreateCategoryCommandValidator : AbstractValidator<CreateCat
 
         RuleFor(x => x.Name)
             .NotEmpty()
-            .MaximumLength(DatabaseSchemaLength.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.Description)
-            .MaximumLength(DatabaseSchemaLength.LongLength);
+            .MaximumLength(DatabaseSchemaLength.LONG_LENGTH);
     }
 }

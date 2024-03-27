@@ -27,6 +27,8 @@ public sealed partial class Add
 
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
 
+    [Inject] private DialogService DialogService { get; set; } = default!;
+
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
@@ -35,15 +37,18 @@ public sealed partial class Add
     {
         try
         {
-            _busy = true;
-            await ProductsApi.CreateProductAsync(product, Guid.NewGuid());
-            NotificationService.Notify(new()
+            if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
-                Severity = NotificationSeverity.Success,
-                Summary = "Success",
-                Detail = "Product created successfully"
-            });
-            NavigationManager.NavigateTo("/products");
+                _busy = true;
+                await ProductsApi.CreateProductAsync(product, Guid.NewGuid());
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Product created successfully"
+                });
+                NavigationManager.NavigateTo("/products");
+            }
         }
         catch (Exception)
         {
@@ -81,11 +86,15 @@ public sealed partial class Add
         }
     }
 
-    private async Task CancelButtonClick(MouseEventArgs arg) => NavigationManager.NavigateTo("/products");
+    private async Task CancelButtonClick(MouseEventArgs arg)
+    {
+        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true)
+            NavigationManager.NavigateTo("/products");
+    }
 
     private static bool ValidateProductImage(IFormFile? image)
     {
         if (image is null) return true;
-        return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MaxFileSize;
+        return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MAX_FILE_SIZE;
     }
 }

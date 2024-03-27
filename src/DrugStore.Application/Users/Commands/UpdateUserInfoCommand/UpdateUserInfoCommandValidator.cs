@@ -15,11 +15,11 @@ public sealed class UpdateUserInfoCommandValidator : AbstractValidator<UpdateUse
         RuleFor(x => x.Email)
             .NotEmpty()
             .EmailAddress()
-            .MaximumLength(DatabaseSchemaLength.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH);
 
         RuleFor(x => x.FullName)
             .NotEmpty()
-            .MaximumLength(DatabaseSchemaLength.ShortLength);
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH);
 
         RuleFor(x => x.Phone)
             .NotEmpty()
@@ -27,7 +27,7 @@ public sealed class UpdateUserInfoCommandValidator : AbstractValidator<UpdateUse
             .WithMessage("Phone number must be 10 digits");
 
         RuleFor(x => x.Role)
-            .Must(x => x is Roles.Admin or Roles.Customer)
+            .Must(x => x is Roles.ADMIN or Roles.CUSTOMER)
             .WithMessage("Role must be one of Admin or Customer");
 
         RuleFor(x => x.Address)

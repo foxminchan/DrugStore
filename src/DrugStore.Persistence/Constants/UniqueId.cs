@@ -2,6 +2,6 @@
 
 public static class UniqueId
 {
-    public const string UuidExtension = "uuid-ossp";
-    public const string UuidAlgorithm = "uuid_generate_v4()";
+    public const string UUID_EXTENSION = "uuid-ossp";
+    public const string UUID_ALGORITHM = "uuid_generate_v4()";
 }

@@ -8,7 +8,7 @@ public sealed class CreateOrderCommandValidator : AbstractValidator<CreateOrderC
     public CreateOrderCommandValidator(IValidator<OrderItemCreateRequest> orderItemValidator)
     {
         RuleFor(x => x.Code)
-            .MaximumLength(DatabaseSchemaLength.SmallLength);
+            .MaximumLength(DatabaseSchemaLength.SMALL_LENGTH);
 
         RuleFor(x => x.Items)
             .NotEmpty()

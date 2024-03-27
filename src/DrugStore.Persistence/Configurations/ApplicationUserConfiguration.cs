@@ -10,11 +10,11 @@ public sealed class ApplicationUserConfiguration : IEntityTypeConfiguration<Appl
     public void Configure(EntityTypeBuilder<ApplicationUser> builder)
     {
         builder.Property(u => u.FullName)
-            .HasMaxLength(DatabaseSchemaLength.ShortLength)
+            .HasMaxLength(DatabaseSchemaLength.SHORT_LENGTH)
             .IsRequired();
 
         builder.Property(u => u.PhoneNumber)
-            .HasMaxLength(DatabaseSchemaLength.TinyLength);
+            .HasMaxLength(DatabaseSchemaLength.TINY_LENGTH);
 
         builder.OwnsOne(
             u => u.Address,

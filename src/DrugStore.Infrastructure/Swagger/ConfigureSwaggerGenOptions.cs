@@ -44,9 +44,9 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         TokenUrl = new($"{identityUrlExternal}/connect/token"),
                         Scopes = new Dictionary<string, string>
                         {
-                            { Claims.Read, "Read Access to API" },
-                            { Claims.Write, "Write Access to API" },
-                            { Claims.Manage, "Manage Access to API" }
+                            { Claims.READ, "Read Access to API" },
+                            { Claims.WRITE, "Write Access to API" },
+                            { Claims.MANAGE, "Manage Access to API" }
                         }
                     }
                 }
@@ -63,7 +63,7 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                         Type = ReferenceType.SecurityScheme
                     }
                 },
-                new List<string>([Claims.Read, Claims.Write, Claims.Manage])
+                new List<string>([Claims.READ, Claims.WRITE, Claims.MANAGE])
             }
         });
 

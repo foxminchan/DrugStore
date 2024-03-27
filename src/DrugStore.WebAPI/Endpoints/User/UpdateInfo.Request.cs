@@ -11,5 +11,5 @@ public sealed class UpdateUserInfoRequest
     public string? FullName { get; set; }
     public string? Phone { get; set; }
     public Address? Address { get; set; }
-    public string Role { get; set; } = Roles.Customer;
+    public string Role { get; set; } = Roles.CUSTOMER;
 }

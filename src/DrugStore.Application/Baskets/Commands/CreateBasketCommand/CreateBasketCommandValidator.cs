@@ -17,7 +17,7 @@ public sealed class CreateBasketCommandValidator : AbstractValidator<CreateBaske
             .NotEmpty();
 
         RuleFor(x => x.Item.ProductName)
-            .MaximumLength(DatabaseSchemaLength.DefaultLength);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.Item.Quantity)
             .GreaterThan(0);
