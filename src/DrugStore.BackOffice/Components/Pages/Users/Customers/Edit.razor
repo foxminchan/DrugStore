@@ -43,7 +43,7 @@ else
                                                ReadOnly="_busy"
                                                @bind-Value="_customer.FullName"
                                                class="w-100"
-                                               Placeholder="Enter customer fullname"/>
+                                               Placeholder="Nguyen Van A"/>
                                 <RadzenRequiredValidator Component="FullName"
                                                          Text="Fullname is required"/>
                                 <RadzenLengthValidator Component="FullName"
@@ -52,12 +52,14 @@ else
                             </RadzenRow>
                             <RadzenRow Style="margin-bottom: 1rem">
                                 <RadzenLabel Text="Phone" Component="Phone"/>
-                                <RadzenTextBox Style="display: block"
-                                               Name="Phone"
-                                               ReadOnly="_busy"
-                                               @bind-Value="_customer.Phone"
-                                               class="w-100"
-                                               Placeholder="Enter customer phone number"/>
+                                <RadzenMask Style="display: block"
+                                            Name="Phone"
+                                            Mask="**********"
+                                            CharacterPattern="[0-9]"
+                                            Placeholder="00000000000"
+                                            ReadOnly="_busy"
+                                            @bind-Value="_customer.Phone"
+                                            class="w-100"/>
                                 <RadzenRequiredValidator Component="Phone"
                                                          Text="Phone number is required"/>
                                 <RadzenRegexValidator Component="Phone"
@@ -72,7 +74,7 @@ else
                                                ReadOnly="_busy"
                                                @bind-Value="_customer.Email"
                                                class="w-100"
-                                               Placeholder="Enter customer email"/>
+                                               Placeholder="example@email.com"/>
                                 <RadzenRequiredValidator Component="Email"
                                                          Text="Email is required"/>
                                 <RadzenEmailValidator Component="Email"
@@ -94,7 +96,7 @@ else
                                                ReadOnly="_busy"
                                                @bind-Value="_customer.Address.Street"
                                                class="w-100"
-                                               Placeholder="Enter customer street"/>
+                                               Placeholder="Nam Ky Khoi Nghia"/>
                                 <RadzenRequiredValidator Component="Street"
                                                          Text="Street is required"/>
                                 <RadzenLengthValidator Component="Street"
@@ -108,7 +110,7 @@ else
                                                ReadOnly="_busy"
                                                @bind-Value="_customer.Address.City"
                                                class="w-100"
-                                               Placeholder="Enter customer city"/>
+                                               Placeholder="District 3"/>
                                 <RadzenRequiredValidator Component="City"
                                                          Text="City is required"/>
                                 <RadzenLengthValidator Component="City"
@@ -122,7 +124,7 @@ else
                                                ReadOnly="_busy"
                                                @bind-Value="_customer.Address.Province"
                                                class="w-100"
-                                               Placeholder="Enter customer province"/>
+                                               Placeholder="Ho Chi Minh"/>
                                 <RadzenRequiredValidator Component="Province"
                                                          Text="Province is required"/>
                                 <RadzenLengthValidator Component="Province"

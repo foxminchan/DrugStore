@@ -15,7 +15,7 @@ public interface IProductsApi
 
     [Multipart]
     [Post("/products")]
-    Task CreateProductAsync([Body(buffered: true)] CreateProduct product, [Header("X-Idempotency-Key")] Guid key);
+    Task CreateProductAsync(CreateProduct product, [Header("X-Idempotency-Key")] Guid key);
 
     [Delete("/products/{id}")]
     Task DeleteProductAsync(Guid id, [Query] bool? isDeleteImage);

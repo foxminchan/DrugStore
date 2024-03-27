@@ -27,7 +27,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.Name"
                                    class="w-100"
-                                   Placeholder="Enter product name"/>
+                                   Placeholder="Aspirin" />
                     <RadzenRequiredValidator Component="Name"
                                              Text="Name is required"/>
                     <RadzenLengthValidator Component="Name"
@@ -41,7 +41,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.ProductCode"
                                    class="w-100"
-                                   Placeholder="Enter product code"/>
+                                   Placeholder="AP123"/>
                     <RadzenLengthValidator Component="Code"
                                            Text="@($"Product code has {DataTypeLength.SMALL_LENGTH} characters maximum")"
                                            Max="DataTypeLength.SMALL_LENGTH"/>
@@ -52,7 +52,7 @@
                                       Name="Detail"
                                       @bind-Value="_product.Detail"
                                       class="w-100"
-                                      Placeholder="Enter product detail">
+                                      Placeholder="A description of Aspirin">
                         <RadzenHtmlEditorUndo/>
                         <RadzenHtmlEditorRedo/>
                         <RadzenHtmlEditorSeparator/>
@@ -83,7 +83,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.Quantity"
                                    class="w-100"
-                                   Placeholder="Enter product quantity"/>
+                                   Placeholder="20"/>
                     <RadzenRequiredValidator Component="Quantity"
                                              Text="Quantity is required"/>
                     <RadzenNumericRangeValidator Component="Quantity"
@@ -124,7 +124,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.Price"
                                            class="w-100"
-                                           Placeholder="Enter product price"/>
+                                           Placeholder="19.99"/>
                             <RadzenRequiredValidator Component="Price"
                                                      Text="Price is required"/>
                             <RadzenNumericRangeValidator Component="Price"
@@ -141,7 +141,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.PriceSale"
                                            class="w-100"
-                                           Placeholder="Enter product price sale"/>
+                                           Placeholder="10.99"/>
                             <RadzenCompareValidator Component="PriceSale"
                                                     Text="Price sale must be greater than 0"
                                                     Operator="CompareOperator.GreaterThan"
@@ -157,7 +157,6 @@
             <RadzenColumn Size="12" SizeMD="6">
                 <RadzenFieldset Text="Product image">
                     <RadzenStack Gap="1rem">
-                        <RadzenRow Style="margin-bottom: 1rem">
                             <RadzenLabel Text="Image" Component="Image"/>
                             <RadzenUpload Name="Image"
                                           Accept="image/*"
@@ -166,7 +165,6 @@
                             <RadzenCustomValidator Component="Image"
                                                    Text="File must be an image and less than 2MB"
                                                    Validator="() => ValidateProductImage(_product.File)"/>
-                        </RadzenRow>
                         <RadzenRow Style="margin-bottom: 1rem">
                             <RadzenLabel Text="Alt" Component="Alt"/>
                             <RadzenTextBox Style="display: block"
@@ -174,7 +172,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.Alt"
                                            class="w-100"
-                                           Placeholder="Enter product image alt"/>
+                                           Placeholder="A description of image"/>
                             <RadzenLengthValidator Component="Alt"
                                                    Text="@($"Alt has {DataTypeLength.DEFAULT_LENGTH} characters maximum")"
                                                    Max="DataTypeLength.DEFAULT_LENGTH"/>

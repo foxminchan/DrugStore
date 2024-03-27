@@ -14,10 +14,10 @@ public interface IUserApi
     Task<User> GetUserAsync(Guid id);
 
     [Put("/users/info")]
-    Task UpdateUserInfoAsync([Body] UpdateUserInfo user);
+    Task UpdateUserInfoAsync(UpdateUserInfo user);
 
     [Post("/users")]
-    Task CreateUserAsync([Body] CreateUser user, [Header("X-Idempotency-Key")] Guid key);
+    Task CreateUserAsync(CreateUser user, [Header("X-Idempotency-Key")] Guid key);
 
     [Delete("/users/{id}")]
     Task DeleteUserAsync(Guid id);
