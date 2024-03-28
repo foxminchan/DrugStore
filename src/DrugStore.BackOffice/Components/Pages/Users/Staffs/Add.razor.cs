@@ -17,6 +17,8 @@ public sealed partial class Add
 
     private readonly CreateUser _user = new();
 
+    private const string DEFAULT_PASSWORD = "P@ssw0rd";
+
     [Inject] private IUserApi UserApi { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
@@ -64,7 +66,7 @@ public sealed partial class Add
     private void SetDefaultPassword(bool isDefaultPassword)
     {
         _isDefaultPassword = isDefaultPassword;
-        _user.Password = "P@ssw0rd";
-        _user.ConfirmPassword = "P@ssw0rd";
+        _user.Password = DEFAULT_PASSWORD;
+        _user.ConfirmPassword = DEFAULT_PASSWORD;
     }
 }

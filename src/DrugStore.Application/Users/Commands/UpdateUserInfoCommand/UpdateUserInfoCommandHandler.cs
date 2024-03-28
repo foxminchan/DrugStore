@@ -4,6 +4,7 @@ using Ardalis.Result;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
+using FluentValidation;
 using IdentityModel;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +21,12 @@ public sealed class UpdateUserInfoCommandHandler(
     {
         var user = await userManager.FindByIdAsync(request.Id.ToString());
         Guard.Against.NotFound(request.Id, user);
+
+        if (!userManager.Users.Any(u => u.Email == request.Email))
+        {
+            logger.LogWarning("[{Command}] Email is not exists: {Email}", nameof(UpdateUserInfoCommandHandler), request.Email);
+            throw new ValidationException("Email is not exists");
+        }
 
         user.Update(request.Email, request.FullName, request.Phone, request.Address);
 

@@ -86,6 +86,35 @@ public sealed partial class Edit
 
     private async Task CancelButtonClick(MouseEventArgs arg)
     {
-        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true) NavigationManager.NavigateTo("/customers");
+        if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true)
+            NavigationManager.NavigateTo("/customers");
+    }
+
+    private async Task ResetPasswordButtonClick(MouseEventArgs arg)
+    {
+        try
+        {
+            if (await DialogService.Confirm("Reset password?") == true)
+            {
+                _busy = true;
+                await UserApi.ResetPasswordAsync(new(Id));
+                NotificationService.Notify(new()
+                {
+                    Severity = NotificationSeverity.Success,
+                    Summary = "Success",
+                    Detail = "Password reset successfully"
+                });
+                NavigationManager.NavigateTo("/customers");
+            }
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to reset password" });
+        }
+        finally
+        {
+            _busy = false;
+        }
     }
 }

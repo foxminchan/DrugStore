@@ -13,6 +13,9 @@ public interface IUserApi
     [Get("/users/{id}")]
     Task<User> GetUserAsync(Guid id);
 
+    [Get("/users/reset-password/{id}")]
+    Task ResetPasswordAsync(Guid id);
+
     [Put("/users/info")]
     Task UpdateUserInfoAsync(UpdateUserInfo user);
 

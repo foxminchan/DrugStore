@@ -1,11 +1,11 @@
 ﻿using System.Text.Json;
 using Ardalis.GuardClauses;
 using Ardalis.Result;
+using DrugStore.Application.Users.Commands.UpdateUserInfoCommand;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.SharedKernel;
 using FluentValidation;
-using IdentityModel;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -22,11 +22,19 @@ public sealed class UpdateUserCommandHandler(
         var user = await userManager.FindByIdAsync(request.Id.ToString());
         Guard.Against.NotFound(request.Id, user);
 
-        if (!await userManager.CheckPasswordAsync(user, request.OldPassword))
-            throw new ValidationException("Old password is incorrect");
+        if (!userManager.Users.Any(u => u.Email == request.Email))
+        {
+            logger.LogWarning("[{Command}] Email is not exists: {Email}", nameof(UpdateUserInfoCommandHandler),
+                request.Email);
+            throw new ValidationException("Email is not exists");
+        }
 
-        if (userManager.Users.Any(u => u.Email == request.Email))
-            throw new ValidationException("Email already exists");
+        if (!await userManager.CheckPasswordAsync(user, request.OldPassword))
+        {
+            logger.LogWarning("[{Command}] Old password is incorrect: {Password}", nameof(UpdateUserInfoCommandHandler),
+                request.OldPassword);
+            throw new ValidationException("Old password is incorrect");
+        }
 
         user.Update(request.Email, request.FullName, request.Phone, request.Address);
         var token = await userManager.GeneratePasswordResetTokenAsync(user);
