@@ -2,7 +2,6 @@
 
 public static class DataTypeLength
 {
-    public const int MAX_FILE_SIZE = 2097152;
     public const int SMALL_LENGTH = 16;
     public const int SHORT_LENGTH = 50;
     public const int DEFAULT_LENGTH = 100;

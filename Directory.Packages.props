@@ -73,7 +73,7 @@
     <PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.23.0.88079" />
-    <PackageVersion Include="Radzen.Blazor" Version="4.28.8" />
+    <PackageVersion Include="Radzen.Blazor" Version="4.29.1" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 </Project>

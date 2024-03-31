@@ -1,24 +1,22 @@
-﻿using Refit;
-
-namespace DrugStore.BackOffice.Components.Pages.Products.Requests;
+﻿namespace DrugStore.BackOffice.Components.Pages.Products.Requests;
 
 public class CreateProduct
 {
-    [AliasAs("name")] public string? Name { get; set; }
+    public string? Name { get; set; }
 
-    [AliasAs("productCode")] public string? ProductCode { get; set; }
+    public string? ProductCode { get; set; }
 
-    [AliasAs("detail")] public string? Detail { get; set; }
+    public string? Detail { get; set; }
 
-    [AliasAs("quantity")] public int Quantity { get; set; }
+    public int Quantity { get; set; }
 
-    [AliasAs("categoryId")] public Guid? CategoryId { get; set; }
+    public Guid? CategoryId { get; set; }
 
-    [AliasAs("price")] public decimal Price { get; set; } = 0;
+    public decimal Price { get; set; } = 0;
 
-    [AliasAs("priceSale")] public decimal PriceSale { get; set; } = 0;
+    public decimal PriceSale { get; set; } = 0;
 
-    [AliasAs("image")] public IFormFile? File { get; set; }
+    public IFormFile? File { get; set; }
 
-    [AliasAs("alt")] public string? Alt { get; set; }
+    public string? Alt { get; set; }
 }

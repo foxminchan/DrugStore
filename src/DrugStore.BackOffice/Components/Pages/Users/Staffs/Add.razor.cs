@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
+﻿using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
 using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
@@ -21,6 +22,8 @@ public sealed partial class Add
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
 
+    [Inject] private ILogger<Add> Logger { get; set; } = default!;
+
     [Inject] private DialogService DialogService { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
@@ -35,6 +38,10 @@ public sealed partial class Add
             {
                 _busy = true;
                 customer.IsAdmin = true;
+
+                Logger.LogInformation("[{Page}] Customer information: {Requets}", nameof(Add),
+                    JsonSerializer.Serialize(customer));
+
                 await UserApi.CreateUserAsync(customer, Guid.NewGuid());
                 NotificationService.Notify(new()
                 {

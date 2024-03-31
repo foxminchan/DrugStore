@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
+﻿using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
@@ -15,13 +16,15 @@ public sealed partial class Add
 
     private readonly CreateCategory _category = new();
 
+    [Inject] private ILogger<Add> Logger { get; set; } = default!;
+
+    [Inject] private DialogService DialogService { get; set; } = default!;
+
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
-    [Inject] private DialogService DialogService { get; set; } = default!;
 
     private async Task OnSubmit(CreateCategory category)
     {
@@ -30,6 +33,10 @@ public sealed partial class Add
             if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
                 _busy = true;
+
+                Logger.LogInformation("[{Page}] Category information: {Requets}", nameof(Add),
+                    JsonSerializer.Serialize(category));
+
                 await CategoriesApi.AddCategoryAsync(category, Guid.NewGuid());
                 NotificationService.Notify(new()
                 {

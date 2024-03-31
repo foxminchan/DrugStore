@@ -106,8 +106,6 @@
                                             SelectedValue="_selectedCategory"
                                             @bind-Value="_product.CategoryId"
                                             Placeholder="Select category"/>
-                    <RadzenRequiredValidator Component="Category"
-                                             Text="Category is required"/>
                 </RadzenRow>
             </RadzenStack>
         </RadzenFieldset>
@@ -144,7 +142,7 @@
                                            Placeholder="10.99"/>
                             <RadzenCompareValidator Component="PriceSale"
                                                     Text="Price sale must be greater than 0"
-                                                    Operator="CompareOperator.GreaterThan"
+                                                    Operator="CompareOperator.LessThanEqual"
                                                     Value="_product.Price"/>
                             <RadzenNumericRangeValidator Component="PriceSale"
                                                          Text="Price sale must be less than or equal to price"
@@ -162,9 +160,6 @@
                                           Accept="image/*"
                                           Multiple="false"
                                           @bind-Value="_product.File"/>
-                            <RadzenCustomValidator Component="Image"
-                                                   Text="File must be an image and less than 2MB"
-                                                   Validator="() => ValidateProductImage(_product.File)"/>
                         <RadzenRow Style="margin-bottom: 1rem">
                             <RadzenLabel Text="Alt" Component="Alt"/>
                             <RadzenTextBox Style="display: block"
@@ -181,7 +176,7 @@
                 </RadzenFieldset>
             </RadzenColumn>
         </RadzenRow>
-        <RadzenStack Style="margin-top:1rem;"
+        <RadzenStack Style="margin-top: 1rem;"
                      Orientation="Orientation.Horizontal"
                      AlignItems="AlignItems.Center"
                      JustifyContent="JustifyContent.Center"

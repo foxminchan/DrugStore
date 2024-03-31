@@ -18,7 +18,7 @@ public sealed class Product
 
     [JsonPropertyName("category")] public string? Category { get; set; }
 
-    [JsonPropertyName("price")] public ProductPrice? Price { get; set; }
+    [JsonPropertyName("price")] public ProductPrice Price { get; set; } = new();
 
-    [JsonPropertyName("image")] public ProductImage? Image { get; set; }
+    [JsonPropertyName("image")] public ProductImage Image { get; set; } = new();
 }

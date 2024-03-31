@@ -94,11 +94,11 @@
                                           Filterable="false"
                                           Width="100px">
                         <Template Context="product">
-                            @if (product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+                            @if (!string.IsNullOrWhiteSpace(product.Image.ImageUrl))
                             {
-                                <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image?.ImageUrl))"
+                                <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image.ImageUrl))"
                                              class="rz-gravatar"
-                                             AlternateText="@product.Image?.Alt"/>
+                                             AlternateText="@product.Image.Alt"/>
                             }
                             else
                             {
@@ -150,7 +150,7 @@
                                                   Property="@nameof(Product.Price.Price)"
                                                   Title="@nameof(Product.Price.Price)">
                                 <Template Context="product">
-                                    @product.Price?.Price.ToString("C")
+                                    @product.Price.Price.ToString("C")
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="Product"
@@ -158,7 +158,7 @@
                                                   Property="@nameof(Product.Price.PriceSale)"
                                                   Title="Price Sale">
                                 <Template Context="product">
-                                    @product.Price?.PriceSale.ToString("C")
+                                    @product.Price.PriceSale.ToString("C")
                                 </Template>
                             </RadzenDataGridColumn>
                         </Columns>
@@ -182,7 +182,7 @@
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
                                           class="my-1 ms-1"
-                                          Click="() => DeleteProduct(product.Id, product.Image?.ImageUrl)"/>
+                                          Click="() => DeleteProduct(product.Id, product.Image.ImageUrl)"/>
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>

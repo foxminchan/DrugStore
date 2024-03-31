@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
+﻿using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
 using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +17,8 @@ public sealed partial class Edit
     private readonly UpdateUserInfo _customer = new();
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
+
+    [Inject] private ILogger<Edit> Logger { get; set; } = default!;
 
     [Inject] private DialogService DialogService { get; set; } = default!;
 
@@ -63,6 +66,10 @@ public sealed partial class Edit
             if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
                 _busy = true;
+
+                Logger.LogInformation("[{Page}] Customer information: {Requets}", nameof(Edit),
+                    JsonSerializer.Serialize(customer));
+
                 await UserApi.UpdateUserInfoAsync(customer);
                 NotificationService.Notify(new()
                 {

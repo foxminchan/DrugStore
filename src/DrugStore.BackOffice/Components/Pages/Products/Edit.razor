@@ -1,4 +1,6 @@
 ﻿@page "/products/edit/{Id}"
+@using DrugStore.BackOffice.Components.Pages.Products.Requests
+@using DrugStore.BackOffice.Constants
 
 <PageTitle>Edit Product</PageTitle>
 
@@ -9,3 +11,217 @@
 </RadzenBreadCrumb>
 
 <RadzenText TextStyle="TextStyle.H3">Edit Product</RadzenText>
+
+@if (_busy)
+{
+    <RadzenPanel>
+        <RadzenProgressBar Style="height: 4px"/>
+    </RadzenPanel>
+}
+else
+{
+    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" AlertStyle="AlertStyle.Danger" Visible="_error">
+        <RadzenColumn SizeMD="9">
+            <RadzenLabel Style="font-weight: bold" Text="Cannot save Product. Please reload."/>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="autorenew" Style="margin-bottom: 20px" Text="Reload"
+                          Click="OnInitializedAsync"/>
+        </RadzenColumn>
+    </RadzenAlert>
+    <RadzenColumn SizeMD="12">
+        <RadzenTemplateForm TItem="UpdateProduct" Data="_product" Submit="OnSubmit">
+            <RadzenFieldset Text="Product information">
+                <RadzenStack Gap="1rem">
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Name" Component="Name"/>
+                        <RadzenTextBox Style="display: block"
+                                       Name="Name"
+                                       ReadOnly="_busy"
+                                       @bind-Value="_product.Name"
+                                       class="w-100"
+                                       Placeholder="Aspirin"/>
+                        <RadzenRequiredValidator Component="Name"
+                                                 Text="Name is required"/>
+                        <RadzenLengthValidator Component="Name"
+                                               Text="@($"Name has {DataTypeLength.DEFAULT_LENGTH} characters maximum")"
+                                               Max="DataTypeLength.DEFAULT_LENGTH"/>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Code" Component="Code"/>
+                        <RadzenTextBox Style="display: block"
+                                       Name="Code"
+                                       ReadOnly="_busy"
+                                       @bind-Value="_product.ProductCode"
+                                       class="w-100"
+                                       Placeholder="AP123"/>
+                        <RadzenLengthValidator Component="Code"
+                                               Text="@($"Product code has {DataTypeLength.SMALL_LENGTH} characters maximum")"
+                                               Max="DataTypeLength.SMALL_LENGTH"/>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Detail" Component="Detail"/>
+                        <RadzenHtmlEditor Style="height: 300px"
+                                          Name="Detail"
+                                          @bind-Value="_product.Detail"
+                                          class="w-100"
+                                          Placeholder="A description of Aspirin">
+                            <RadzenHtmlEditorUndo/>
+                            <RadzenHtmlEditorRedo/>
+                            <RadzenHtmlEditorSeparator/>
+                            <RadzenHtmlEditorBold/>
+                            <RadzenHtmlEditorItalic/>
+                            <RadzenHtmlEditorUnderline/>
+                            <RadzenHtmlEditorStrikeThrough/>
+                            <RadzenHtmlEditorSeparator/>
+                            <RadzenHtmlEditorColor/>
+                            <RadzenHtmlEditorBackground/>
+                            <RadzenHtmlEditorRemoveFormat/>
+                            <RadzenHtmlEditorFontSize/>
+                            <RadzenHtmlEditorFontName/>
+                            <RadzenHtmlEditorLink/>
+                            <RadzenHtmlEditorUnlink/>
+                            <RadzenHtmlEditorFormatBlock/>
+                        </RadzenHtmlEditor>
+                        <RadzenLengthValidator Component="Detail"
+                                               Text="@($"Detail has {DataTypeLength.MAX_LENGTH} characters maximum")"
+                                               Max="DataTypeLength.MAX_LENGTH"/>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Quantity" Component="Quantity"/>
+                        <RadzenNumeric Min="0"
+                                       Max="int.MaxValue"
+                                       Style="display: block"
+                                       Name="Quantity"
+                                       ReadOnly="_busy"
+                                       @bind-Value="_product.Quantity"
+                                       class="w-100"
+                                       Placeholder="20"/>
+                        <RadzenRequiredValidator Component="Quantity"
+                                                 Text="Quantity is required"/>
+                        <RadzenNumericRangeValidator Component="Quantity"
+                                                     Text="Quantity must be greater than 0 and less than or equal to 10000"
+                                                     Min="1"
+                                                     Max="10000"/>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenLabel Text="Category" Component="Category"/>
+                        <RadzenDropDownDataGrid Data="_categories"
+                                                TextProperty="Name"
+                                                ValueProperty="Id"
+                                                Style="display: block; width: 100%"
+                                                Name="Category"
+                                                AllowClear="true"
+                                                AllowFiltering="true"
+                                                IsLoading="_busy"
+                                                LoadData="LoadData"
+                                                Count="_count"
+                                                SelectedValue="_selectedCategory"
+                                                @bind-Value="_product.CategoryId"
+                                                Placeholder="Select category"/>
+                    </RadzenRow>
+                </RadzenStack>
+            </RadzenFieldset>
+            <RadzenRow Gap="2rem" class="rz-p-0 rz-p-lg-4">
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFieldset Text="Product price">
+                        <RadzenStack Gap="1rem">
+                            <RadzenRow Style="margin-bottom: 1rem">
+                                <RadzenLabel Text="Price" Component="Price"/>
+                                <RadzenNumeric Min="0"
+                                               Max="decimal.MaxValue"
+                                               Style="display: block"
+                                               Name="Price"
+                                               ReadOnly="_busy"
+                                               @bind-Value="_product.Price"
+                                               class="w-100"
+                                               Placeholder="19.99"/>
+                                <RadzenRequiredValidator Component="Price"
+                                                         Text="Price is required"/>
+                                <RadzenNumericRangeValidator Component="Price"
+                                                             Text="Price must be greater than 0"
+                                                             Min="1"
+                                                             Max="decimal.MaxValue"/>
+                            </RadzenRow>
+                            <RadzenRow Style="margin-bottom: 1rem">
+                                <RadzenLabel Text="Price sale" Component="PriceSale"/>
+                                <RadzenNumeric Min="0"
+                                               Max="decimal.MaxValue"
+                                               Style="display: block"
+                                               Name="PriceSale"
+                                               ReadOnly="_busy"
+                                               @bind-Value="_product.PriceSale"
+                                               class="w-100"
+                                               Placeholder="10.99"/>
+                                <RadzenCompareValidator Component="PriceSale"
+                                                        Text="Price sale must be greater than 0"
+                                                        Operator="CompareOperator.LessThanEqual"
+                                                        Value="_product.Price"/>
+                                <RadzenNumericRangeValidator Component="PriceSale"
+                                                             Text="Price sale must be less than or equal to price"
+                                                             Min="1"
+                                                             Max="decimal.MaxValue"/>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenColumn>
+                <RadzenColumn Size="12" SizeMD="6">
+                    <RadzenFieldset Text="Product image">
+                        <RadzenStack Gap="1rem">
+                            @if (!string.IsNullOrEmpty(_product.ImageUrl))
+                            {
+                                <RadzenRow Style="margin-bottom: 1rem">
+                                    <RadzenLabel Text="Current image" Component="CurrentImage"/>
+                                    <RadzenImage Style="width: 100%"
+                                                 Path="@_product.ImageUrl"
+                                                 AlternateText="@_product.Alt"
+                                                 @onerror="OnImageError"/>
+                                    <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                  Icon="delete"
+                                                  Text="Delete"
+                                                  Click="DeleteImage"
+                                                  Disabled="_busy"/>
+                                </RadzenRow>
+                            }
+                            <RadzenLabel Text="Image" Component="Image"/>
+                            <RadzenUpload Name="Image"
+                                          Accept="image/*"
+                                          Multiple="false"
+                                          @bind-Value="_product.File"/>
+                            <RadzenRow Style="margin-bottom: 1rem">
+                                <RadzenLabel Text="Alt" Component="Alt"/>
+                                <RadzenTextBox Style="display: block"
+                                               Name="Alt"
+                                               ReadOnly="_busy"
+                                               @bind-Value="_product.Alt"
+                                               class="w-100"
+                                               Placeholder="A description of image"/>
+                                <RadzenLengthValidator Component="Alt"
+                                                       Text="@($"Alt has {DataTypeLength.DEFAULT_LENGTH} characters maximum")"
+                                                       Max="DataTypeLength.DEFAULT_LENGTH"/>
+                            </RadzenRow>
+                        </RadzenStack>
+                    </RadzenFieldset>
+                </RadzenColumn>
+            </RadzenRow>
+            <RadzenStack Style="margin-top: 1rem;"
+                         Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.Center"
+                         Gap="0.5rem">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary"
+                              ButtonType="ButtonType.Submit"
+                              Icon="save"
+                              Text="Save"
+                              Variant="Variant.Flat"
+                              IsBusy="_busy" />
+                <RadzenButton ButtonStyle="ButtonStyle.Light"
+                              Icon="cancel"
+                              Text="Cancel"
+                              Variant="Variant.Flat"
+                              IsBusy="_busy"
+                              Click="CancelButtonClick" />
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+}

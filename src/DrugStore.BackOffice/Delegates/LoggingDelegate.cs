@@ -10,13 +10,17 @@ public sealed class LoggingDelegate(ILogger<LoggingDelegate> logger) : Delegatin
         {
             var response = await base.SendAsync(request, cancellationToken);
             response.EnsureSuccessStatusCode();
-            logger.LogInformation("Request: {RequestMethod} {RequestUri} {RequestContent}", request.Method,
-                request.RequestUri, response);
+            logger.LogInformation("[{Delegate}] Request: {RequestMethod} {RequestUri}", nameof(LoggingDelegate),
+                request.Method, request.RequestUri);
+            logger.LogInformation("[{Delegate}] Response: {ResponseStatusCode} {ResponseContent}",
+                nameof(LoggingDelegate), response.StatusCode,
+                await response.Content.ReadAsStringAsync(cancellationToken));
             return response;
         }
         catch (HttpRequestException ex)
         {
-            logger.LogError(ex, "[{RequestMethod}] {RequestUri} has error: {ErrorMessage}", request.Method,
+            logger.LogError(ex, "[{Delegate}] {RequestMethod} - {RequestUri} has error: {ErrorMessage}",
+                nameof(LoggingDelegate), request.Method,
                 request.RequestUri, ex.Message);
             throw new HttpRequestException(ex.Message);
         }

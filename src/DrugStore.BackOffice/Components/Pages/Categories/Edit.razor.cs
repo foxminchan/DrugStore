@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Categories.Requests;
+﻿using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Categories.Requests;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
@@ -15,13 +16,15 @@ public sealed partial class Edit
 
     private readonly UpdateCategory _category = new();
 
+    [Inject] private ILogger<Edit> Logger { get; set; } = default!;
+
+    [Inject] private DialogService DialogService { get; set; } = default!;
+
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 
     [Inject] private NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
-
-    [Inject] private DialogService DialogService { get; set; } = default!;
 
     [Parameter] public required Guid Id { get; set; }
 
@@ -55,6 +58,10 @@ public sealed partial class Edit
             if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
                 _busy = true;
+
+                Logger.LogInformation("[{Page}] Category information: {Requets}", nameof(Edit),
+                    JsonSerializer.Serialize(category));
+
                 await CategoriesApi.UpdateCategoryAsync(category);
                 NotificationService.Notify(new()
                 {

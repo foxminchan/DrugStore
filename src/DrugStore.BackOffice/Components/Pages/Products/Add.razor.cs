@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Categories.Responses;
+﻿using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Categories.Responses;
 using DrugStore.BackOffice.Components.Pages.Categories.Services;
 using DrugStore.BackOffice.Components.Pages.Products.Requests;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
@@ -33,6 +34,8 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    [Inject] private ILogger<Add> Logger { get; set; } = default!;
+
     private async Task OnSubmit(CreateProduct product)
     {
         try
@@ -40,7 +43,22 @@ public sealed partial class Add
             if (await DialogService.Confirm(MessageContent.SAVE_CHANGES) == true)
             {
                 _busy = true;
-                await ProductsApi.CreateProductAsync(product, Guid.NewGuid());
+
+                Logger.LogInformation("[{Page}] Product information: {Product}", nameof(Add),
+                    JsonSerializer.Serialize(product));
+
+                await ProductsApi.CreateProductAsync(
+                    product.Name,
+                    product.ProductCode,
+                    product.Detail,
+                    product.Quantity,
+                    product.CategoryId!.Value,
+                    product.Price,
+                    product.PriceSale,
+                    product.File,
+                    product.Alt,
+                    Guid.NewGuid()
+                );
                 NotificationService.Notify(new()
                 {
                     Severity = NotificationSeverity.Success,
@@ -90,11 +108,5 @@ public sealed partial class Add
     {
         if (await DialogService.Confirm(MessageContent.DISCARD_CHANGES) == true)
             NavigationManager.NavigateTo("/products");
-    }
-
-    private static bool ValidateProductImage(IFormFile? image)
-    {
-        if (image is null) return true;
-        return image.ContentType.Contains("image") && image.Length <= DataTypeLength.MAX_FILE_SIZE;
     }
 }
