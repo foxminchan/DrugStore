@@ -104,7 +104,7 @@ public sealed partial class Index
         }
     }
 
-    private async Task AddProducts() => NavigationManager.NavigateTo("/products/add");
+    private async Task AddProduct() => NavigationManager.NavigateTo("/products/add");
 
     private async Task EditProduct(Guid id) => NavigationManager.NavigateTo($"/products/edit/{id}");
 

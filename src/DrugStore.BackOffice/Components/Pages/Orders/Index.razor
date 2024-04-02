@@ -1,8 +1,121 @@
 ﻿@page "/orders"
+@using DrugStore.BackOffice.Components.Pages.Orders.Response
 
 <PageTitle>Orders List</PageTitle>
 
 <RadzenBreadCrumb>
-    <RadzenBreadCrumbItem Path="/" Text="Home" />
-    <RadzenBreadCrumbItem Text="Orders" />
+    <RadzenBreadCrumbItem Path="/" Text="Home"/>
+    <RadzenBreadCrumbItem Text="Orders"/>
 </RadzenBreadCrumb>
+
+<RadzenRow>
+    <RadzenColumn SizeMD="9">
+        <RadzenLabel Style="font-weight: bold"
+                     Text="Loading data was failed. Please reload."
+                     Visible="_error"/>
+    </RadzenColumn>
+    <RadzenColumn SizeMD="3">
+        <RadzenButton ButtonStyle="ButtonStyle.Secondary"
+                      Icon="autorenew"
+                      Style="margin-bottom: 20px"
+                      Text="Reload"
+                      Visible="_error"
+                      Click="OnInitializedAsync"/>
+    </RadzenColumn>
+</RadzenRow>
+<RadzenStack>
+    <RadzenRow AlignItems="AlignItems.Center">
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenText Text="Orders" TextStyle="TextStyle.H3" TagName="TagName.H1" Style="margin: 0"/>
+        </RadzenColumn>
+        <RadzenColumn Size="12" SizeMD="6">
+            <RadzenStack Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.End"
+                         Gap="0.5rem">
+                <RadzenButton Icon="get_app"
+                              Text="Export CSV"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Shade="Shade.Lighter"
+                              Variant="Variant.Flat"
+                              Click="ExportClick"/>
+                <RadzenButton Icon="add_circle_outline"
+                              Text="Add order"
+                              ButtonStyle="ButtonStyle.Primary"
+                              Variant="Variant.Flat"
+                              Click="AddOrder"/>
+            </RadzenStack>
+        </RadzenColumn>
+        <RadzenTextBox Placeholder="Search ..."
+                       Style="display: block; width: 100%"
+                       @oninput="Search"
+                       aria-label="Search by order name"/>
+        <RadzenRow>
+            <RadzenColumn SizeMD="12">
+                <RadzenDataGrid @ref="_dataGrid"
+                                Data="_orders"
+                                IsLoading="_loading"
+                                TItem="Order"
+                                AllowPaging="true"
+                                AllowFiltering="true"
+                                AllowSorting="true"
+                                AllowColumnResize="true"
+                                AllowAlternatingRows="false"
+                                PageSize="20"
+                                ColumnWidth="300px"
+                                ShowPagingSummary="true"
+                                FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive"
+                                Count="_count">
+                    <EmptyTemplate>
+                        <RadzenText Style="color: lightgrey; font-size: 24px; margin: 2rem;"
+                                    TagName="TagName.P" TextAlign="TextAlign.Center">
+                            No orders found
+                        </RadzenText>
+                    </EmptyTemplate>
+                    <LoadingTemplate>
+                        <RadzenProgressBarCircular ProgressBarStyle="ProgressBarStyle.Primary"
+                                                   Value="100"
+                                                   ShowValue="false"
+                                                   Mode="ProgressBarMode.Indeterminate"/>
+                    </LoadingTemplate>
+                    <Columns>
+                        <RadzenDataGridColumn TItem="Order"
+                                              Width="250px"
+                                              Property="@nameof(Order.Code)"
+                                              Title="@nameof(Order.Code)"/>
+                        <RadzenDataGridColumn TItem="Order"
+                                              Width="250px"
+                                              Property="@nameof(Order.CustomerName)"
+                                              Title="Customer Name"/>
+                        <RadzenDataGridColumn TItem="Order"
+                                              Width="250px"
+                                              Property="@nameof(Order.Total)"
+                                              Title="@nameof(Order.Total)"/>
+                        <RadzenDataGridColumn TItem="Order"
+                                              Width="100px"
+                                              Frozen="true"
+                                              Filterable="false"
+                                              FrozenPosition="FrozenColumnPosition.Right"
+                                              Sortable="false">
+                            <Template Context="order">
+                                <RadzenButton Icon="edit"
+                                              ButtonStyle="ButtonStyle.Warning"
+                                              Variant="Variant.Flat"
+                                              Shade="Shade.Lighter"
+                                              Size="ButtonSize.Medium"
+                                              Click="() => EditOrder(order.Id)"/>
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                              Icon="delete"
+                                              Variant="Variant.Flat"
+                                              Shade="Shade.Lighter"
+                                              Size="ButtonSize.Medium"
+                                              class="my-1 ms-1"
+                                              Click="() => DeleteOrder(order.Id)"/>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
+            </RadzenColumn>
+        </RadzenRow>
+    </RadzenRow>
+</RadzenStack>

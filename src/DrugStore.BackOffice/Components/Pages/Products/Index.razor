@@ -44,7 +44,7 @@
                               Text="Add product"
                               ButtonStyle="ButtonStyle.Primary"
                               Variant="Variant.Flat"
-                              Click="AddProducts"/>
+                              Click="AddProduct"/>
             </RadzenStack>
         </RadzenColumn>
     </RadzenRow>
@@ -94,7 +94,7 @@
                                           Filterable="false"
                                           Width="100px">
                         <Template Context="product">
-                            @if (!string.IsNullOrWhiteSpace(product.Image.ImageUrl))
+                            @if (!string.IsNullOrWhiteSpace(product.Image?.ImageUrl))
                             {
                                 <RadzenImage Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, product.Image.ImageUrl))"
                                              class="rz-gravatar"
@@ -182,7 +182,7 @@
                                           Shade="Shade.Lighter"
                                           Size="ButtonSize.Medium"
                                           class="my-1 ms-1"
-                                          Click="() => DeleteProduct(product.Id, product.Image.ImageUrl)"/>
+                                          Click="() => DeleteProduct(product.Id, product.Image?.ImageUrl)"/>
                         </Template>
                     </RadzenDataGridColumn>
                 </Columns>

@@ -52,8 +52,8 @@ public partial class Edit
             _product.CategoryId = Guid.TryParse(product.Category, out var categoryId) ? categoryId : null;
             _product.Price = product.Price.Price;
             _product.PriceSale = product.Price.PriceSale;
-            _product.ImageUrl = product.Image.ImageUrl;
-            _product.Alt = product.Image.Alt;
+            _product.ImageUrl = product.Image?.ImageUrl;
+            _product.Alt = product.Image?.Alt;
         }
         catch (Exception)
         {
@@ -132,8 +132,6 @@ public partial class Edit
             _busy = false;
         }
     }
-
-    private void OnImageError() => _product.ImageUrl = MessageContent.ERROR_IMAGE_URL;
 
     private async Task DeleteImage()
     {

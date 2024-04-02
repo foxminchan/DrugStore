@@ -1,6 +1,7 @@
 ﻿@page "/products/edit/{Id}"
 @using DrugStore.BackOffice.Components.Pages.Products.Requests
 @using DrugStore.BackOffice.Constants
+@inject IConfiguration Configuration
 
 <PageTitle>Edit Product</PageTitle>
 
@@ -170,18 +171,16 @@ else
                         <RadzenStack Gap="1rem">
                             @if (!string.IsNullOrEmpty(_product.ImageUrl))
                             {
-                                <RadzenRow Style="margin-bottom: 1rem">
-                                    <RadzenLabel Text="Current image" Component="CurrentImage"/>
-                                    <RadzenImage Style="width: 100%"
-                                                 Path="@_product.ImageUrl"
-                                                 AlternateText="@_product.Alt"
-                                                 @onerror="OnImageError"/>
-                                    <RadzenButton ButtonStyle="ButtonStyle.Danger"
-                                                  Icon="delete"
-                                                  Text="Delete"
-                                                  Click="DeleteImage"
-                                                  Disabled="_busy"/>
-                                </RadzenRow>
+                                <RadzenLabel Text="Current image" Component="CurrentImage"/>
+                                <RadzenImage Style="width: 50%; height: auto"
+                                             Path="@(string.Concat(Configuration.GetSection(nameof(Settings)).Get<Settings>()?.StaticFileEndpoint, _product.ImageUrl))"
+                                             AlternateText="@_product.Alt"/>
+                                <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                              Icon="delete"
+                                              Text="Delete"
+                                              Style="width: 50%;"
+                                              Click="DeleteImage"
+                                              Disabled="_busy"/>
                             }
                             <RadzenLabel Text="Image" Component="Image"/>
                             <RadzenUpload Name="Image"
@@ -214,13 +213,13 @@ else
                               Icon="save"
                               Text="Save"
                               Variant="Variant.Flat"
-                              IsBusy="_busy" />
+                              IsBusy="_busy"/>
                 <RadzenButton ButtonStyle="ButtonStyle.Light"
                               Icon="cancel"
                               Text="Cancel"
                               Variant="Variant.Flat"
                               IsBusy="_busy"
-                              Click="CancelButtonClick" />
+                              Click="CancelButtonClick"/>
             </RadzenStack>
         </RadzenTemplateForm>
     </RadzenColumn>

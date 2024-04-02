@@ -12,6 +12,9 @@
 		<PackageReference Include="NUnit.Analyzers" />
 		<PackageReference Include="NUnit3TestAdapter" />
 		<PackageReference Include="Microsoft.Playwright.NUnit" />
+		<PackageReference Include="FluentAssertions" />
+		<PackageReference Include="SpecFlow.NUnit" />
+		<PackageReference Include="SpecFlow.Plus.LivingDocPlugin" />
 	</ItemGroup>
 
 	<ItemGroup>
