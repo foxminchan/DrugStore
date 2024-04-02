@@ -1,4 +1,5 @@
-﻿using DrugStore.BackOffice.Components.Pages.Orders.Response;
+﻿using DrugStore.BackOffice.Components.Pages.Orders.Requets;
+using DrugStore.BackOffice.Components.Pages.Orders.Response;
 using DrugStore.BackOffice.Helpers;
 using Refit;
 
@@ -11,6 +12,9 @@ public interface IOrdersApi
 
     [Get("/orders/{orderId}")]
     Task<OrderDetail> GetOrderAsync(Guid orderId);
+
+    [Post("/orders")]
+    Task CreateOrderAsync(CreateOrder request, [Header("X-Idempotency-Key")] Guid key);
 
     [Delete("/orders/{orderId}")]
     Task DeleteOrderAsync(Guid orderId);

@@ -1,4 +1,5 @@
 ﻿using DrugStore.BackOffice.Components.Pages.Categories.Services;
+using DrugStore.BackOffice.Components.Pages.Orders.Services;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ namespace DrugStore.BackOffice.Controllers;
 public sealed class ExportDataController(
     IProductsApi productsApi,
     ICategoriesApi categoriesApi,
+    IOrdersApi ordersApi,
     IUserApi usersApi) : ExportController
 {
     [HttpGet("categories")]
@@ -25,6 +27,14 @@ public sealed class ExportDataController(
     {
         var products = await productsApi.ListProductsAsync(new());
         return ToCsv(ApplyQuery(products.Products.AsQueryable(), Request.Query), fileName);
+    }
+
+    [HttpGet("orders")]
+    [HttpGet("orders/fileName={fileName}")]
+    public async Task<FileStreamResult> ExportOrdersToCsv(string? fileName = null)
+    {
+        var orders = await ordersApi.ListOrdersAsync(new());
+        return ToCsv(ApplyQuery(orders.Orders.AsQueryable(), Request.Query), fileName);
     }
 
     [HttpGet("users/{role}")]
