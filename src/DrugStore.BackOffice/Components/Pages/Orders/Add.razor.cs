@@ -27,10 +27,6 @@ public sealed partial class Add
 
     private List<Product> _products = [];
 
-    private User _selectedCustomer = new();
-
-    private Product _selectedProduct = new();
-
     private readonly CreateOrder _order = new();
 
     private readonly List<OrderItemPayload> _items = [];
@@ -51,6 +47,30 @@ public sealed partial class Add
 
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _busy = true;
+            var users = await UserApi.ListUsersAsync(new(), null);
+            _users = users.Users;
+            _customerCount = _users.Count;
+
+            var products = await ProductsApi.ListProductsAsync(new());
+            _products = products.Products;
+            _productCount = _products.Count;
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Data" });
+            NavigationManager.NavigateTo("/orders");
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
 
     private async Task OnSubmit(CreateOrder order)
     {
@@ -80,52 +100,6 @@ public sealed partial class Add
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to create Order" });
             _error = true;
-        }
-        finally
-        {
-            _busy = false;
-        }
-    }
-
-    private async Task LoadCustomers()
-    {
-        try
-        {
-            _busy = true;
-            var users = await UserApi.ListUsersAsync(new(), null);
-            _users = users.Users;
-            _customerCount = _users.Count;
-            _selectedCustomer = _users[0];
-            await InvokeAsync(StateHasChanged);
-        }
-        catch (Exception e)
-        {
-            NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Customers" });
-            NavigationManager.NavigateTo("/orders");
-        }
-        finally
-        {
-            _busy = false;
-        }
-    }
-
-    private async Task LoadProducts()
-    {
-        try
-        {
-            _busy = true;
-            var products = await ProductsApi.ListProductsAsync(new());
-            _products = products.Products;
-            _productCount = _products.Count;
-            _selectedProduct = _products[0];
-            await InvokeAsync(StateHasChanged);
-        }
-        catch (Exception e)
-        {
-            NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Products" });
-            NavigationManager.NavigateTo("/orders");
         }
         finally
         {

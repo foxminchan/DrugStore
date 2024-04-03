@@ -2,7 +2,7 @@
 
 public sealed class UpdateProduct : CreateProduct
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; } = string.Empty;
 
     public string? ImageUrl { get; set; }
 }

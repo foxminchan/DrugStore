@@ -14,13 +14,11 @@ public sealed partial class Add
 {
     private bool _busy;
 
-    private int _count;
-
     private bool _error;
 
-    private List<Category> _categories = [];
+    private int _categoriesCount;
 
-    private Category _selectedCategory = new();
+    private List<Category> _categories = [];
 
     private readonly CreateProduct _product = new();
 
@@ -35,6 +33,29 @@ public sealed partial class Add
     [Inject] private NotificationService NotificationService { get; set; } = default!;
 
     [Inject] private ILogger<Add> Logger { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _busy = true;
+            _error = false;
+
+            var categories = await CategoriesApi.ListCategoriesAsync();
+            _categories = categories.Categories;
+            _categoriesCount = _categories.Count;
+        }
+        catch (Exception)
+        {
+            NotificationService.Notify(new()
+                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Categories" });
+            NavigationManager.NavigateTo("/products");
+        }
+        finally
+        {
+            _busy = false;
+        }
+    }
 
     private async Task OnSubmit(CreateProduct product)
     {
@@ -59,6 +80,7 @@ public sealed partial class Add
                     product.Alt,
                     Guid.NewGuid()
                 );
+
                 NotificationService.Notify(new()
                 {
                     Severity = NotificationSeverity.Success,
@@ -73,30 +95,6 @@ public sealed partial class Add
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to create Product" });
             _error = true;
-        }
-        finally
-        {
-            _busy = false;
-        }
-    }
-
-
-    private async Task LoadData()
-    {
-        try
-        {
-            _busy = true;
-            var result = await CategoriesApi.ListCategoriesAsync();
-            _categories = result.Categories;
-            _count = _categories.Count;
-            _selectedCategory = _categories[0];
-            await InvokeAsync(StateHasChanged);
-        }
-        catch (Exception)
-        {
-            NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Categories" });
-            NavigationManager.NavigateTo("/products");
         }
         finally
         {

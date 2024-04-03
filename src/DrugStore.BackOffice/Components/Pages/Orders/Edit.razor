@@ -1,5 +1,219 @@
-﻿<h3>Edit</h3>
+﻿@page "/orders/edit/{Id}"
+@using DrugStore.BackOffice.Components.Pages.Orders.Requets
+@using DrugStore.BackOffice.Constants
 
-@code {
+<PageTitle>Edit Orders</PageTitle>
 
+<RadzenBreadCrumb>
+    <RadzenBreadCrumbItem Path="/" Text="Home"/>
+    <RadzenBreadCrumbItem Path="orders" Text="Orders"/>
+    <RadzenBreadCrumbItem Text="Edit"/>
+</RadzenBreadCrumb>
+
+<RadzenText TextStyle="TextStyle.H3">Orders</RadzenText>
+
+@if (_busy)
+{
+    <RadzenPanel>
+        <RadzenProgressBar Style="height: 4px"/>
+    </RadzenPanel>
+}
+else
+{
+    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" AlertStyle="AlertStyle.Danger" Visible="_error">
+        <RadzenColumn SizeMD="9">
+            <RadzenLabel Style="font-weight: bold" Text="Cannot save Order. Please reload."/>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="autorenew" Style="margin-bottom: 20px" Text="Reload"
+                          Click="OnInitializedAsync"/>
+        </RadzenColumn>
+    </RadzenAlert>
+    <RadzenColumn SizeMD="12">
+        <RadzenTemplateForm TItem="UpdateOrder" Data="_order" Submit="OnSubmit">
+            <RadzenStack Gap="1rem">
+                <RadzenTextBox Name="Id"@bind-Value="_order.Id" Style="display: none"/>
+                <RadzenRow Style="margin-bottom: 1rem">
+                    <RadzenLabel Text="Name" Component="Name"/>
+                    <RadzenTextBox Style="display: block"
+                                   Name="Name"
+                                   ReadOnly="_busy"
+                                   @bind-Value="_order.Code"
+                                   class="w-100"
+                                   Placeholder="OD123"/>
+                    <RadzenLengthValidator Component="Name"
+                                           Text="@($"Name has {DataTypeLength.SMALL_LENGTH} characters maximum")"
+                                           Max="DataTypeLength.SMALL_LENGTH"/>
+                </RadzenRow>
+                <RadzenRow Style="margin-bottom: 1rem">
+                    <RadzenLabel Text="Customer" Component="Customer"/>
+                    <RadzenTextBox Style="display: block"
+                                   Name="Customer"
+                                   ReadOnly="true"
+                                   @bind-Value="_order.CustomerId"
+                                   class="w-100"
+                                   Placeholder="Select Customer"/>
+                    <RadzenRequiredValidator Component="Customer"
+                                             Text="Customer is required"/>
+                </RadzenRow>
+                <RadzenRow AlignItems="AlignItems.Center">
+                    <RadzenColumn Size="12" SizeMD="6">
+                        <RadzenText Text="Order Items" TextStyle="TextStyle.H3" TagName="TagName.H1" Style="margin: 0"/>
+                    </RadzenColumn>
+                    <RadzenColumn Size="12" SizeMD="6">
+                        <RadzenStack Orientation="Orientation.Horizontal"
+                                     AlignItems="AlignItems.Center"
+                                     JustifyContent="JustifyContent.End"
+                                     Gap="0.5rem">
+                            <RadzenButton Icon="add_circle_outline"
+                                          Text="Add item"
+                                          ButtonStyle="ButtonStyle.Primary"
+                                          Variant="Variant.Flat"
+                                          Click="AddItem"/>
+                        </RadzenStack>
+                    </RadzenColumn>
+                </RadzenRow>
+                <RadzenRow>
+                    <RadzenColumn SizeMD="12">
+                        <RadzenDataGrid @ref="_dataGrid"
+                                        Data="_items"
+                                        TItem="OrderItemPayload"
+                                        AllowPaging="true"
+                                        AllowFiltering="true"
+                                        AllowSorting="true"
+                                        AllowColumnResize="true"
+                                        AllowAlternatingRows="false"
+                                        EditMode="DataGridEditMode.Multiple"
+                                        RowUpdate="UpdateItem"
+                                        RowCreate="AddItem"
+                                        PageSize="20"
+                                        ColumnWidth="300px"
+                                        ShowPagingSummary="true"
+                                        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive">
+                            <EmptyTemplate>
+                                <RadzenText Style="color: lightgrey; font-size: 24px; margin: 2rem;"
+                                            TagName="TagName.P" TextAlign="TextAlign.Center">
+                                    No item was added
+                                </RadzenText>
+                            </EmptyTemplate>
+                            <Columns>
+                                <RadzenDataGridColumn TItem="OrderItemPayload"
+                                                      Property="@nameof(OrderItemPayload.Id)"
+                                                      Title="Product"
+                                                      Width="280px">
+                                    <EditTemplate Context="order">
+                                        <RadzenDropDown Data="_products"
+                                                        TextProperty="Name"
+                                                        ValueProperty="Id"
+                                                        Style="width:100%; display: block;"
+                                                        Name="Product"
+                                                        AllowClear="true"
+                                                        AllowFiltering="true"
+                                                        Disabled="_busy"
+                                                        Count="_productCount"
+                                                        @bind-Value="order.Id"
+                                                        Placeholder="Select product"/>
+                                        <RadzenRequiredValidator Component="Product"
+                                                                 Text="Product is required"/>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="OrderItemPayload"
+                                                      Property="@nameof(OrderItemPayload.Quantity)"
+                                                      Title="Quantity"
+                                                      Width="100px">
+                                    <EditTemplate Context="order">
+                                        <RadzenNumeric Style="width:100%; display: block;"
+                                                       Name="Quantity"
+                                                       @bind-Value="order.Quantity"
+                                                       Min="1"/>
+                                        <RadzenRequiredValidator Component="Quantity"
+                                                                 Text="Quantity is required"/>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="OrderItemPayload"
+                                                      Property="@nameof(OrderItemPayload.Price)"
+                                                      Title="Price"
+                                                      Width="100px">
+                                    <Template Context="order">
+                                        @order.Price.ToString("C")
+                                    </Template>
+                                    <EditTemplate Context="order">
+                                        <RadzenNumeric Style="width:100%; display: block;"
+                                                       Name="Price"
+                                                       @bind-Value="order.Price"
+                                                       Min="1"/>
+                                        <RadzenRequiredValidator Component="Price"
+                                                                 Text="Price is required"/>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                                <RadzenDataGridColumn TItem="OrderItemPayload"
+                                                      Context="order"
+                                                      Width="100px"
+                                                      Filterable="false"
+                                                      Sortable="false"
+                                                      TextAlign="TextAlign.Right"
+                                                      Frozen="true"
+                                                      FrozenPosition="FrozenColumnPosition.Right">
+                                    <Template Context="item">
+                                        <RadzenButton Icon="edit"
+                                                      ButtonStyle="ButtonStyle.Light"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      Click="@(_ => UpdateItem(item))"
+                                                      @onclick:stopPropagation="true"/>
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                      Icon="delete"
+                                                      Variant="Variant.Flat"
+                                                      Shade="Shade.Lighter"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@(_ => DeleteItem(item))"
+                                                      @onclick:stopPropagation="true"/>
+                                    </Template>
+                                    <EditTemplate Context="item">
+                                        <RadzenButton Icon="check"
+                                                      ButtonStyle="ButtonStyle.Success"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      Click="@(_ => SaveRow(item))"/>
+                                        <RadzenButton Icon="close"
+                                                      ButtonStyle="ButtonStyle.Light"
+                                                      Variant="Variant.Flat"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@(_ => CancelEdit(item))"/>
+                                        <RadzenButton ButtonStyle="ButtonStyle.Danger"
+                                                      Icon="delete"
+                                                      Variant="Variant.Flat"
+                                                      Shade="Shade.Lighter"
+                                                      Size="ButtonSize.Medium"
+                                                      class="my-1 ms-1"
+                                                      Click="@(_ => DeleteItem(item))"/>
+                                    </EditTemplate>
+                                </RadzenDataGridColumn>
+                            </Columns>
+                        </RadzenDataGrid>
+                    </RadzenColumn>
+                </RadzenRow>
+            </RadzenStack>
+            <RadzenStack Style="margin-top: 1rem"
+                         Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.Center"
+                         Gap="0.5rem">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary"
+                              ButtonType="ButtonType.Submit"
+                              Icon="save"
+                              Text="Save"
+                              Variant="Variant.Flat"
+                              IsBusy="_busy"/>
+                <RadzenButton ButtonStyle="ButtonStyle.Light"
+                              Icon="cancel"
+                              Text="Cancel"
+                              Variant="Variant.Flat"
+                              IsBusy="_busy"
+                              Click="CancelButtonClick"/>
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
 }

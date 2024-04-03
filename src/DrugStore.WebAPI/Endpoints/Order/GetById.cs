@@ -23,7 +23,7 @@ public sealed class GetById(ISender sender) : IEndpoint<OrderDetailDto, GetOrder
         var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
         var order = result.Value.Order;
         return new(
-            new(order.Id, order.Code, order.Customer?.FullName, order.Total),
+            new(order.Id, order.Code, order.Customer?.FullName, order.Customer!.Id, order.Total),
             [
                 .. result.Value.Items.Select(x
                     => new OrderItemDto(x.ProductId, x.OrderId, x.Quantity, x.Price, x.Total)

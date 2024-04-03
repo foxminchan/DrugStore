@@ -34,6 +34,7 @@ else
         <RadzenTemplateForm TItem="UpdateProduct" Data="_product" Submit="OnSubmit">
             <RadzenFieldset Text="Product information">
                 <RadzenStack Gap="1rem">
+                    <RadzenTextBox @bind-Value="_product.Id" Name="Id" Style="display: none"/>
                     <RadzenRow Style="margin-bottom: 1rem">
                         <RadzenLabel Text="Name" Component="Name"/>
                         <RadzenTextBox Style="display: block"
@@ -107,19 +108,17 @@ else
                     </RadzenRow>
                     <RadzenRow Style="margin-bottom: 1rem">
                         <RadzenLabel Text="Category" Component="Category"/>
-                        <RadzenDropDownDataGrid Data="_categories"
-                                                TextProperty="Name"
-                                                ValueProperty="Id"
-                                                Style="display: block; width: 100%"
-                                                Name="Category"
-                                                AllowClear="true"
-                                                AllowFiltering="true"
-                                                IsLoading="_busy"
-                                                LoadData="LoadData"
-                                                Count="_count"
-                                                SelectedValue="_selectedCategory"
-                                                @bind-Value="_product.CategoryId"
-                                                Placeholder="Select category"/>
+                        <RadzenDropDown Data="_categories"
+                                        TextProperty="Name"
+                                        ValueProperty="Id"
+                                        Style="display: block; width: 100%"
+                                        Name="Category"
+                                        AllowClear="true"
+                                        AllowFiltering="true"
+                                        Disabled="_busy"
+                                        Count="_categoriesCount"
+                                        @bind-Value="_product.CategoryId"
+                                        Placeholder="Select category"/>
                     </RadzenRow>
                 </RadzenStack>
             </RadzenFieldset>

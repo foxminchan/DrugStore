@@ -16,6 +16,9 @@ public interface IOrdersApi
     [Post("/orders")]
     Task CreateOrderAsync(CreateOrder request, [Header("X-Idempotency-Key")] Guid key);
 
+    [Put("/orders")]
+    Task UpdateOrderAsync(UpdateOrder request);
+
     [Delete("/orders/{orderId}")]
     Task DeleteOrderAsync(Guid orderId);
 }

@@ -33,19 +33,17 @@
             </RadzenRow>
             <RadzenRow Style="margin-bottom: 1rem">
                 <RadzenLabel Text="Customer" Component="Customer"/>
-                <RadzenDropDownDataGrid Data="_users"
-                                        TextProperty="FullName"
-                                        ValueProperty="Id"
-                                        Style="display: block; width: 100%"
-                                        Name="Customer"
-                                        AllowClear="true"
-                                        AllowFiltering="true"
-                                        IsLoading="_busy"
-                                        LoadData="LoadCustomers"
-                                        Count="_customerCount"
-                                        SelectedValue="_selectedCustomer"
-                                        @bind-Value="_order.CustomerId"
-                                        Placeholder="Select Customer"/>
+                <RadzenDropDown Data="_users"
+                                TextProperty="FullName"
+                                ValueProperty="Id"
+                                Style="display: block; width: 100%"
+                                Name="Customer"
+                                AllowClear="true"
+                                AllowFiltering="true"
+                                Disabled="_busy"
+                                Count="_customerCount"
+                                @bind-Value="_order.CustomerId"
+                                Placeholder="Select Customer"/>
                 <RadzenRequiredValidator Component="Customer"
                                          Text="Customer is required"/>
             </RadzenRow>
@@ -95,19 +93,17 @@
                                                   Title="Product"
                                                   Width="280px">
                                 <EditTemplate Context="order">
-                                    <RadzenDropDownDataGrid Data="_products"
-                                                            TextProperty="Name"
-                                                            ValueProperty="Id"
-                                                            Style="width:100%; display: block;"
-                                                            Name="Product"
-                                                            AllowClear="true"
-                                                            AllowFiltering="true"
-                                                            IsLoading="_busy"
-                                                            LoadData="LoadProducts"
-                                                            Count="_productCount"
-                                                            SelectedValue="_selectedProduct"
-                                                            @bind-Value="order.Id"
-                                                            Placeholder="Select product"/>
+                                    <RadzenDropDown Data="_products"
+                                                    TextProperty="Name"
+                                                    ValueProperty="Id"
+                                                    Style="width:100%; display: block;"
+                                                    Name="Product"
+                                                    AllowClear="true"
+                                                    AllowFiltering="true"
+                                                    Disabled="_busy"
+                                                    Count="_productCount"
+                                                    @bind-Value="order.Id"
+                                                    Placeholder="Select product"/>
                                     <RadzenRequiredValidator Component="Product"
                                                              Text="Product is required"/>
                                 </EditTemplate>
@@ -183,7 +179,7 @@
                                                   Shade="Shade.Lighter"
                                                   Size="ButtonSize.Medium"
                                                   class="my-1 ms-1"
-                                                  Click="@(_ => DeleteItem(item))" />
+                                                  Click="@(_ => DeleteItem(item))"/>
                                 </EditTemplate>
                             </RadzenDataGridColumn>
                         </Columns>

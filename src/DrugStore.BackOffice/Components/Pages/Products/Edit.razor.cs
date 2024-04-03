@@ -13,13 +13,11 @@ public partial class Edit
 {
     private bool _busy;
 
-    private int _count;
-
     private bool _error;
 
-    private List<Category> _categories = [];
+    private int _categoriesCount;
 
-    private Category _selectedCategory = new();
+    private List<Category> _categories = [];
 
     private readonly UpdateProduct _product = new();
 
@@ -43,8 +41,13 @@ public partial class Edit
         {
             _busy = true;
             _error = false;
+
+            var categories = await CategoriesApi.ListCategoriesAsync();
+            _categories = categories.Categories;
+            _categoriesCount = _categories.Count;
+
             var product = await ProductsApi.GetProductAsync(Guid.Parse(Id));
-            _product.Id = product.Id;
+            _product.Id = product.Id.ToString();
             _product.Name = product.Name;
             _product.ProductCode = product.ProductCode;
             _product.Detail = product.Detail;
@@ -79,7 +82,7 @@ public partial class Edit
                     JsonSerializer.Serialize(product));
 
                 await ProductsApi.UpdateProductAsync(
-                    product.Id,
+                    Guid.Parse(product.Id), 
                     product.Name,
                     product.ProductCode,
                     product.Detail,
@@ -91,6 +94,7 @@ public partial class Edit
                     product.File,
                     product.Alt
                 );
+
                 NotificationService.Notify(new()
                 {
                     Severity = NotificationSeverity.Success,
@@ -104,28 +108,6 @@ public partial class Edit
         {
             NotificationService.Notify(new()
                 { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to update Product" });
-        }
-        finally
-        {
-            _busy = false;
-        }
-    }
-
-    private async Task LoadData()
-    {
-        try
-        {
-            _busy = true;
-            var result = await CategoriesApi.ListCategoriesAsync();
-            _categories = result.Categories;
-            _selectedCategory = _categories.Find(x => x.Id == _product.CategoryId) ?? new();
-            _count = _categories.Count;
-        }
-        catch (Exception)
-        {
-            NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Error, Summary = "Error", Detail = "Unable to load Categories" });
-            NavigationManager.NavigateTo("/products");
         }
         finally
         {

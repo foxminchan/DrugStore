@@ -10,5 +10,7 @@ public sealed class Order
 
     [JsonPropertyName("customerName")] public string? CustomerName { get; set; }
 
+    [JsonPropertyName("customerId")] public Guid CustomerId { get; set; }
+
     [JsonPropertyName("total")] public decimal Total { get; set; }
 }
