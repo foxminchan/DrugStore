@@ -45,7 +45,10 @@
                             }
 
                             <button class="btn btn-primary" name="Input.Button" value="login">Login</button>
-                            <button class="btn btn-info" name="Input.Button" value="register">Register</button>
+                            @if (Model.View.EnableRegister)
+                            {
+                                <button class="btn btn-info" name="Input.Button" value="register">Register</button>
+                            }
                             <button class="btn btn-danger" name="Input.Button" value="cancel">Cancel</button>
                         </form>
                     </div>

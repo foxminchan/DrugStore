@@ -14,7 +14,6 @@ public sealed class GetListByUserIdQueryHandler(IMapper mapper, IReadRepository<
         CancellationToken cancellationToken)
     {
         OrdersByUserIdSpec spec = new(request.UserId, request.Filter.PageIndex, request.Filter.PageSize);
-
         var entities = await repository.ListAsync(spec, cancellationToken);
         var totalRecords = await repository.CountAsync(cancellationToken);
         var totalPages = (int)Math.Ceiling(totalRecords / (double)request.Filter.PageSize);

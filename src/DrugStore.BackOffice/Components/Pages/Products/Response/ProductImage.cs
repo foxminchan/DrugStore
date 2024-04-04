@@ -4,7 +4,7 @@ namespace DrugStore.BackOffice.Components.Pages.Products.Response;
 
 public sealed class ProductImage
 {
-    [JsonPropertyName("imageUrl")] public string ImageUrl { get; set; }
+    [JsonPropertyName("imageUrl")] public string ImageUrl { get; set; } = string.Empty;
 
     [JsonPropertyName("alt")] public string? Alt { get; set; }
 

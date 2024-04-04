@@ -37,6 +37,9 @@ public sealed class Index(
             // we only have one option for logging in and it's an external provider
             return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
 
+        if (!string.IsNullOrEmpty(returnUrl) && returnUrl.Contains("backoffice"))
+            View.EnableRegister = false;
+
         return Page();
     }
 

@@ -32,7 +32,7 @@ else
     <RadzenColumn SizeMD="12">
         <RadzenTemplateForm TItem="UpdateOrder" Data="_order" Submit="OnSubmit">
             <RadzenStack Gap="1rem">
-                <RadzenTextBox Name="Id"@bind-Value="_order.Id" Style="display: none"/>
+                <RadzenTextBox Name="Id" @bind-Value="_order.Id" Style="display: none"/>
                 <RadzenRow Style="margin-bottom: 1rem">
                     <RadzenLabel Text="Name" Component="Name"/>
                     <RadzenTextBox Style="display: block"

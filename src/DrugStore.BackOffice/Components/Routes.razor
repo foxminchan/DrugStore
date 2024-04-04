@@ -1,9 +1,16 @@
 ﻿@using DrugStore.BackOffice.Components.Layout
+@using DrugStore.BackOffice.Components.Pages
+@using Microsoft.AspNetCore.Components.Authorization
 
 <CascadingAuthenticationState>
     <Router AppAssembly="typeof(Program).Assembly">
         <Found Context="routeData">
-            <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
+            <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)">
+                <NotAuthorized>
+                    <RedirectToLogin />
+                </NotAuthorized>
+            </AuthorizeRouteView>
+            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>

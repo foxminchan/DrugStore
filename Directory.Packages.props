@@ -15,6 +15,7 @@
     <PackageVersion Include="AspNetCore.HealthChecks.Redis" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.OpenIdConnectServer" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.3" />
     <PackageVersion Include="AspNetCore.HealthChecks.Kafka" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI" Version="8.0.1" />
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
@@ -75,7 +76,7 @@
     <PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
     <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.23.1.88495" />
-    <PackageVersion Include="Radzen.Blazor" Version="4.29.1" />
+    <PackageVersion Include="Radzen.Blazor" Version="4.29.2" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 </Project>

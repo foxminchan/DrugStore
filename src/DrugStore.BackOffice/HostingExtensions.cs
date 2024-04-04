@@ -45,6 +45,9 @@ public static class HostingExtensions
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
                 options.Authority = configuration["IdentityServer:Authority"];
                 options.RequireHttpsMetadata = false;
                 options.GetClaimsFromUserInfoEndpoint = true;

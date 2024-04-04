@@ -1,23 +1,8 @@
-﻿@inject NavigationManager NavigationManager
+﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
 
 @code {
-    [Parameter] public bool IsAuthenticated { get; set; }
+    [Inject] public NavigationManager Navigation { get; set; } = default!;
 
-    protected override Task OnInitializedAsync()
-    {
-        if (!IsAuthenticated)
-        {
-            var redirectUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
-            NavigationManager.NavigateTo(!string.IsNullOrEmpty(redirectUrl)
-                ? $"login?redirectUrl={Uri.EscapeDataString(redirectUrl)}"
-                : "login", true);
-        }
-        else
-        {
-            NavigationManager.NavigateTo("Unauthorized");
-        }
-
-        return Task.CompletedTask;
-    }
-
+    protected override async Task OnInitializedAsync()
+        => Navigation.NavigateTo($"/login?redirectUri={Uri.EscapeDataString(Navigation.Uri)}", true);
 }

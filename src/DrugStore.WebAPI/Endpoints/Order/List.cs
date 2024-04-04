@@ -11,11 +11,11 @@ public sealed class List(ISender sender) : IEndpoint<ListOrderResponse, ListOrde
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/orders", async (
-                int pageIndex,
-                int pageSize,
                 string? search,
                 string? orderBy,
-                bool isAscending) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)))
+                bool isAscending = true,
+                int pageIndex = 1, 
+                int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)))
             .WithTags(nameof(Order))
             .WithName("List Order")
             .Produces<ListOrderResponse>()
@@ -31,7 +31,9 @@ public sealed class List(ISender sender) : IEndpoint<ListOrderResponse, ListOrde
         return new()
         {
             PagedInfo = result.PagedInfo,
-            Orders = result.Value.Adapt<List<OrderDto>>()
+            Orders = result.Value
+                .Select(x => new OrderDto(x.Id, x.Code, x.Customer?.FullName, x.Customer!.Id, x.Total))
+                .ToList()
         };
     }
 }

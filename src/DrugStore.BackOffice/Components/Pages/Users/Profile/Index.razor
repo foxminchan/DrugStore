@@ -1,8 +1,217 @@
 ﻿@page "/profile"
+@using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests
+@using DrugStore.BackOffice.Constants
 
 <PageTitle>My profile</PageTitle>
 
 <RadzenBreadCrumb>
-    <RadzenBreadCrumbItem Path="/" Text="Home" />
-    <RadzenBreadCrumbItem Text="Profile" />
+    <RadzenBreadCrumbItem Path="/" Text="Home"/>
+    <RadzenBreadCrumbItem Text="Profile"/>
 </RadzenBreadCrumb>
+
+<RadzenText TextStyle="TextStyle.H3">Profile</RadzenText>
+
+@if (_busy)
+{
+    <RadzenPanel>
+        <RadzenProgressBar Style="height: 4px"/>
+    </RadzenPanel>
+}
+else
+{
+    <RadzenAlert Shade="Shade.Lighter" Variant="Variant.Flat" AlertStyle="AlertStyle.Danger" Visible="_error">
+        <RadzenColumn SizeMD="9">
+            <RadzenLabel Style="font-weight: bold" Text="Cannot save your information. Please reload."/>
+        </RadzenColumn>
+        <RadzenColumn SizeMD="3">
+            <RadzenButton ButtonStyle="ButtonStyle.Secondary" Icon="autorenew" Style="margin-bottom: 20px" Text="Reload"
+                          Click="OnInitializedAsync"/>
+        </RadzenColumn>
+    </RadzenAlert>
+    <RadzenColumn SizeMD="12">
+        <RadzenTemplateForm TItem="UpdateUser" Data="_user" Submit="OnSubmit">
+            <RadzenFieldset Text="User information">
+                <RadzenTextBox Name="Id" @bind-Value="_user.Id" Style="display: none"/>
+                <RadzenStack Gap="1rem">
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Fullname" Component="FullName"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenTextBox Style="display: block"
+                                           Name="FullName"
+                                           ReadOnly="_busy"
+                                           @bind-Value="_user.FullName"
+                                           class="w-100"
+                                           Placeholder="Nguyen Van A"/>
+                            <RadzenRequiredValidator Component="FullName"
+                                                     Text="Fullname is required"/>
+                            <RadzenLengthValidator Component="FullName"
+                                                   Text="@($"Fullname has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Phone" Component="Phone"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenMask Style="display: block"
+                                        Name="Phone"
+                                        Mask="**********"
+                                        CharacterPattern="[0-9]"
+                                        Placeholder="00000000000"
+                                        ReadOnly="_busy"
+                                        @bind-Value="_user.Phone"
+                                        class="w-100"/>
+                            <RadzenRequiredValidator Component="Phone"
+                                                     Text="Phone number is required"/>
+                            <RadzenRegexValidator Component="Phone"
+                                                  Text="Phone number has 10 characters maximum"
+                                                  Pattern="^\d{10}$"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Email" Component="Email"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenTextBox Style="display: block"
+                                           Name="Email"
+                                           Disabled="true"
+                                           @bind-Value="_user.Email"
+                                           class="w-100"
+                                           Placeholder="example@email.com"/>
+                            <RadzenRequiredValidator Component="Email"
+                                                     Text="Email is required"/>
+                            <RadzenEmailValidator Component="Email"
+                                                  Text="Email is invalid"/>
+                            <RadzenLengthValidator Component="Email"
+                                                   Text="@($"Email has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Street" Component="Street"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenTextBox Style="display: block"
+                                           Name="Street"
+                                           ReadOnly="_busy"
+                                           @bind-Value="_user.Address.Street"
+                                           class="w-100"
+                                           Placeholder="Nam Ky Khoi Nghia"/>
+                            <RadzenRequiredValidator Component="Street"
+                                                     Text="Street is required"/>
+                            <RadzenLengthValidator Component="Street"
+                                                   Text="@($"Street has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="City" Component="City"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenTextBox Style="display: block"
+                                           Name="City"
+                                           ReadOnly="_busy"
+                                           @bind-Value="_user.Address.City"
+                                           class="w-100"
+                                           Placeholder="District 3"/>
+                            <RadzenRequiredValidator Component="City"
+                                                     Text="City is required"/>
+                            <RadzenLengthValidator Component="City"
+                                                   Text="@($"City has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Province" Component="Province"/>
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenTextBox Style="display: block"
+                                           Name="Province"
+                                           ReadOnly="_busy"
+                                           @bind-Value="_user.Address.Province"
+                                           class="w-100"
+                                           Placeholder="Ho Chi Minh"/>
+                            <RadzenRequiredValidator Component="Province"
+                                                     Text="Province is required"/>
+                            <RadzenLengthValidator Component="Province"
+                                                   Text="@($"Province has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenStack>
+            </RadzenFieldset>
+            <RadzenFieldset Text="User authentication">
+                <RadzenStack Gap="1rem">
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Old Password" Component="OldPassword" />
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenPassword Style="display: block"
+                                            Name="Password"
+                                            ReadOnly="_busy"
+                                            @bind-Value="_user.OldPassword"
+                                            class="w-100"
+                                            Placeholder="P@ssw0rd"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="New Password" Component="Password" />
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenPassword Style="display: block"
+                                            Name="Password"
+                                            ReadOnly="_busy"
+                                            @bind-Value="_user.Password"
+                                            class="w-100"
+                                            Placeholder="P@ssw0rd"/>
+                            <RadzenRequiredValidator Component="Password"
+                                                     Text="Password is required"/>
+                            <RadzenLengthValidator Component="Password"
+                                                   Text="@($"Password has {DataTypeLength.SHORT_LENGTH} characters maximum")"
+                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                    <RadzenRow Style="margin-bottom: 1rem">
+                        <RadzenColumn SizeMD="3">
+                            <RadzenLabel Text="Confirm Password" Component="ConfirmPassword" />
+                        </RadzenColumn>
+                        <RadzenColumn SizeMD="9">
+                            <RadzenPassword Style="display: block"
+                                            Name="ConfirmPassword"
+                                            ReadOnly="_busy"
+                                            @bind-Value="_user.ConfirmPassword"
+                                            class="w-100"
+                                            Placeholder="P@ssw0rd"/>
+                            <RadzenRequiredValidator Component="ConfirmPassword"
+                                                     Text="Confirm password is required"/>
+                            <RadzenCompareValidator Component="ConfirmPassword"
+                                                    Text="Password and confirm password must be the same"
+                                                    Value="_user.Password"/>
+                        </RadzenColumn>
+                    </RadzenRow>
+                </RadzenStack>
+            </RadzenFieldset>
+            <RadzenStack Style="margin-top:1rem;"
+                         Orientation="Orientation.Horizontal"
+                         AlignItems="AlignItems.Center"
+                         JustifyContent="JustifyContent.Center"
+                         Gap="0.5rem">
+                <RadzenButton ButtonStyle="ButtonStyle.Primary"
+                              ButtonType="ButtonType.Submit"
+                              Icon="save"
+                              Text="Save"
+                              Variant="Variant.Flat"
+                              IsBusy="_busy" />
+            </RadzenStack>
+        </RadzenTemplateForm>
+    </RadzenColumn>
+}

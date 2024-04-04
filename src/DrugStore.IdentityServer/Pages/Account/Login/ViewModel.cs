@@ -18,6 +18,8 @@ public sealed class ViewModel
     public string? ExternalLoginScheme =>
         IsExternalLoginOnly ? ExternalProviders?.SingleOrDefault()?.AuthenticationScheme : null;
 
+    public bool EnableRegister { get; set; } = true;
+
     public sealed class ExternalProvider(string authenticationScheme, string? displayName = null)
     {
         public string? DisplayName { get; set; } = displayName;
