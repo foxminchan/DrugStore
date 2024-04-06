@@ -29,6 +29,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_customer.FullName"
                                            class="w-100"
+                                           id="InputFullName"
                                            Placeholder="Nguyen Van A"/>
                             <RadzenRequiredValidator Component="FullName"
                                                      Text="Fullname is required"/>
@@ -45,6 +46,7 @@
                                         Placeholder="00000000000"
                                         ReadOnly="_busy"
                                         @bind-Value="_customer.Phone"
+                                        id="InputPhone"
                                         class="w-100"/>
                             <RadzenRequiredValidator Component="Phone"
                                                      Text="Phone number is required"/>
@@ -58,6 +60,7 @@
                                            Name="Email"
                                            ReadOnly="_busy"
                                            @bind-Value="_customer.Email"
+                                           id="InputEmail"
                                            class="w-100"
                                            Placeholder="example@email.com"/>
                             <RadzenRequiredValidator Component="Email"
@@ -81,6 +84,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_customer.Address.Street"
                                            class="w-100"
+                                           id="InputStreet"
                                            Placeholder="Nam Ky Khoi Nghia"/>
                             <RadzenRequiredValidator Component="Street"
                                                      Text="Street is required"/>
@@ -95,6 +99,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_customer.Address.City"
                                            class="w-100"
+                                           id="InputCity"
                                            Placeholder="District 3"/>
                             <RadzenRequiredValidator Component="City"
                                                      Text="City is required"/>
@@ -109,6 +114,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_customer.Address.Province"
                                            class="w-100"
+                                           id="InputProvince"
                                            Placeholder="Ho Chi Minh"/>
                             <RadzenRequiredValidator Component="Province"
                                                      Text="Province is required"/>
@@ -137,6 +143,7 @@
                                     ReadOnly="_busy"
                                     @bind-Value="_customer.Password"
                                     class="w-100"
+                                    id="InputPassword"
                                     Placeholder="P@ssw0rd"/>
                     <RadzenRequiredValidator Component="Password"
                                              Text="Password is required"/>
@@ -152,6 +159,7 @@
                                     ReadOnly="_busy"
                                     @bind-Value="_customer.ConfirmPassword"
                                     class="w-100"
+                                    id="InputConfirmPassword"
                                     Placeholder="P@ssw0rd"/>
                     <RadzenRequiredValidator Component="ConfirmPassword"
                                              Text="Confirm password is required"/>

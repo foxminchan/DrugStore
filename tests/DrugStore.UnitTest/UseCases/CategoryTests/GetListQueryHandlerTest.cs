@@ -2,6 +2,7 @@
 using DrugStore.Application.Categories.Queries.GetListQuery;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 using NSubstitute;
 

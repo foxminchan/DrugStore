@@ -27,6 +27,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.Name"
                                    class="w-100"
+                                   id="InputName"
                                    Placeholder="Aspirin" />
                     <RadzenRequiredValidator Component="Name"
                                              Text="Name is required"/>
@@ -41,6 +42,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.ProductCode"
                                    class="w-100"
+                                   id="InputCode"
                                    Placeholder="AP123"/>
                     <RadzenLengthValidator Component="Code"
                                            Text="@($"Product code has {DataTypeLength.SMALL_LENGTH} characters maximum")"
@@ -52,6 +54,7 @@
                                       Name="Detail"
                                       @bind-Value="_product.Detail"
                                       class="w-100"
+                                      id="InputDetail"
                                       Placeholder="A description of Aspirin">
                         <RadzenHtmlEditorUndo/>
                         <RadzenHtmlEditorRedo/>
@@ -83,6 +86,7 @@
                                    ReadOnly="_busy"
                                    @bind-Value="_product.Quantity"
                                    class="w-100"
+                                   id="InputQuantity"
                                    Placeholder="20"/>
                     <RadzenRequiredValidator Component="Quantity"
                                              Text="Quantity is required"/>
@@ -102,6 +106,7 @@
                                     AllowFiltering="true"
                                     Disabled="_busy"
                                     Count="_categoriesCount"
+                                    id="InputCategory"
                                     @bind-Value="_product.CategoryId"
                                     Placeholder="Select category"/>
                 </RadzenRow>
@@ -120,6 +125,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.Price"
                                            class="w-100"
+                                           id="InputPrice"
                                            Placeholder="19.99"/>
                             <RadzenRequiredValidator Component="Price"
                                                      Text="Price is required"/>
@@ -137,6 +143,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.PriceSale"
                                            class="w-100"
+                                           id="InputPriceSale"
                                            Placeholder="10.99"/>
                             <RadzenCompareValidator Component="PriceSale"
                                                     Text="Price sale must be greater than 0"
@@ -157,6 +164,7 @@
                             <RadzenUpload Name="Image"
                                           Accept="image/*"
                                           Multiple="false"
+                                          id="InputImage"
                                           @bind-Value="_product.File"/>
                         <RadzenRow Style="margin-bottom: 1rem">
                             <RadzenLabel Text="Alt" Component="Alt"/>
@@ -165,6 +173,7 @@
                                            ReadOnly="_busy"
                                            @bind-Value="_product.Alt"
                                            class="w-100"
+                                           id="InputAlt"
                                            Placeholder="A description of image"/>
                             <RadzenLengthValidator Component="Alt"
                                                    Text="@($"Alt has {DataTypeLength.DEFAULT_LENGTH} characters maximum")"

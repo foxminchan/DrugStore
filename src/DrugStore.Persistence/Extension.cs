@@ -2,6 +2,7 @@
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.CompiledModels;
 using DrugStore.Persistence.Interceptors;
+using DrugStore.Persistence.Repositories;
 using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;

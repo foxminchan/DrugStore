@@ -11,11 +11,11 @@ public sealed class List(ISender sender) : IEndpoint<ListProductResponse, ListPr
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/products", async (
-                int pageIndex,
-                int pageSize,
                 string? search,
                 string? orderBy,
-                bool isAscending = true) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)
+                bool isAscending = true,
+                int pageIndex = 1, 
+                int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, search, orderBy, isAscending)
             ))
             .Produces<ListProductResponse>()
             .WithTags(nameof(Product))

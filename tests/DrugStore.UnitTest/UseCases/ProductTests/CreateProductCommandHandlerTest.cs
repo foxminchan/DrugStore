@@ -2,6 +2,7 @@
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
+using DrugStore.Persistence.Repositories;
 using DrugStore.UnitTest.Builders;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;

@@ -1,7 +1,8 @@
 ﻿using Ardalis.Result;
+using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 
 namespace DrugStore.Application.Categories.Queries.GetListQuery;

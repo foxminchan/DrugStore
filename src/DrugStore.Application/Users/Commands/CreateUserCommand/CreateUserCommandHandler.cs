@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using Ardalis.Result;
+using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Domain.IdentityAggregate.Constants;
 using DrugStore.Domain.IdentityAggregate.Primitives;
-using DrugStore.Domain.SharedKernel;
 using FluentValidation;
 using IdentityModel;
 using Microsoft.AspNetCore.Identity;

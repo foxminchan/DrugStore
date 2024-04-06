@@ -19,7 +19,7 @@ public static class Extension
         var redisConn = builder.Configuration.GetSection("RedisSettings").Get<RedisSettings>()?.Url;
         Guard.Against.Null(redisConn, message: "Redis URL not found.");
 
-        var identityServer = builder.Configuration.GetValue<string>("IdentityUrlExternal");
+        var identityServer = builder.Configuration.GetValue<string>("IdentityServer:Authority");
         Guard.Against.Null(identityServer, message: "IdentityServer URL not found.");
 
         var kafka = builder.Configuration.GetValue<string>("KafkaUrl");

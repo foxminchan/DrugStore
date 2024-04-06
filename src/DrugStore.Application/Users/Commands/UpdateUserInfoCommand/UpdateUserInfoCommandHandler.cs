@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
 using Ardalis.GuardClauses;
 using Ardalis.Result;
+using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.SharedKernel;
 using FluentValidation;
 using IdentityModel;
 using MapsterMapper;
@@ -24,7 +24,8 @@ public sealed class UpdateUserInfoCommandHandler(
 
         if (!userManager.Users.Any(u => u.Email == request.Email))
         {
-            logger.LogWarning("[{Command}] Email is not exists: {Email}", nameof(UpdateUserInfoCommandHandler), request.Email);
+            logger.LogWarning("[{Command}] Email is not exists: {Email}", nameof(UpdateUserInfoCommandHandler),
+                request.Email);
             throw new ValidationException("Email is not exists");
         }
 

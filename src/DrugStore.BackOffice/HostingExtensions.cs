@@ -45,33 +45,20 @@ public static class HostingExtensions
             .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
-                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
-
-                options.Authority = configuration["IdentityServer:Authority"];
+                options.SaveTokens = true;
                 options.RequireHttpsMetadata = false;
                 options.GetClaimsFromUserInfoEndpoint = true;
-
-                options.ClientId = configuration["IdentityServer:ClientId"];
-                options.ClientSecret = "secret";
                 options.ResponseType = OpenIdConnectResponseType.Code;
 
-                options.SaveTokens = true;
+                options.Authority = configuration["IdentityServer:Authority"];
+                options.ClientId = configuration["IdentityServer:ClientId"];
+                options.ClientSecret = configuration["IdentityServer:ClientSecret"];
 
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("offline_access");
                 options.Scope.Add(Claims.READ);
                 options.Scope.Add(Claims.WRITE);
                 options.Scope.Add(Claims.MANAGE);
-
-                options.TokenValidationParameters = new()
-                {
-                    NameClaimType = "name",
-                    RoleClaimType = "role"
-                };
             });
-
-        services.AddAuthorization();
     }
 }

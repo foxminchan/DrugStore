@@ -18,6 +18,7 @@ public sealed class SmartEnumSchemaFilter : ISchemaFilter
         var enumValues = type.GetFields(
             BindingFlags.Static | BindingFlags.Public | BindingFlags.FlattenHierarchy
         ).Select(d => d.Name);
+
         var openApiValues = new OpenApiArray();
         openApiValues.AddRange(enumValues.Select(d => new OpenApiString(d)));
 

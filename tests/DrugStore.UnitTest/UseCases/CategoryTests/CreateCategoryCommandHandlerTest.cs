@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

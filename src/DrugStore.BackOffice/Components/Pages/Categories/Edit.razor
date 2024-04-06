@@ -33,6 +33,7 @@ else
                                        ReadOnly="_busy"
                                        @bind-Value="_category.Name"
                                        class="w-100"
+                                       id="InputName"
                                        Placeholder="Vitamins and Minerals"/>
                         <RadzenRequiredValidator Component="Name"
                                                  Text="Name is required"/>
@@ -47,6 +48,7 @@ else
                                         ReadOnly="_busy"
                                         @bind-Value="_category.Description"
                                         class="w-100"
+                                        id="InputDescription"
                                         Placeholder="A description of Vitamins and Minerals"/>
                         <RadzenLengthValidator Component="Description"
                                                Text="@($"Description has {DataTypeLength.LONG_LENGTH} characters maximum")"

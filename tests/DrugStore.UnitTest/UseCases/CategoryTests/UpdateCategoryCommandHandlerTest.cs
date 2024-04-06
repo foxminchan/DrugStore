@@ -2,6 +2,7 @@
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using MapsterMapper;
 using Microsoft.Extensions.Logging;

@@ -12,8 +12,8 @@ public sealed class GetByCustomer(ISender sender) : IEndpoint<GetOrderByCustomer
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/orders/customer/{id}", async (
                 IdentityId id,
-                int pageIndex,
-                int pageSize) => await HandleAsync(new(id, pageIndex, pageSize)))
+                int pageIndex = 1,
+                int pageSize = 20) => await HandleAsync(new(id, pageIndex, pageSize)))
             .WithTags(nameof(Order))
             .WithName("Get Orders By Customer")
             .Produces<GetOrderByCustomerResponse>()

@@ -21,7 +21,7 @@ public static class HostingExtensions
             .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.Audience = nameof(DrugStore).ToLowerInvariant();
-                options.Authority = builder.Configuration.GetValue<string>("IdentityUrl");
+                options.Authority = builder.Configuration.GetValue<string>("IdentityServer:Authority");
                 options.RequireHttpsMetadata = false;
             });
 

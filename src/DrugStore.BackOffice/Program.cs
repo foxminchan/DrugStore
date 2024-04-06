@@ -2,6 +2,7 @@ using Ardalis.GuardClauses;
 using Ardalis.ListStartupServices;
 using DrugStore.BackOffice;
 using DrugStore.BackOffice.Components;
+using DrugStore.Infrastructure.DataProtection;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -13,6 +14,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddHubOptions(options => options.MaximumReceiveMessageSize = 10 * 1024 * 1024);
 
+builder.AddRedisDataProtection();
 builder.Services.AddRadzenComponents();
 builder.Services.AddControllers();
 

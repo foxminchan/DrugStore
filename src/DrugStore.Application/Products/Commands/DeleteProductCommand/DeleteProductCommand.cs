@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
+using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.ProductAggregate.Primitives;
-using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 

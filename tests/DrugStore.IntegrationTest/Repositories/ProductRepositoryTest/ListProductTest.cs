@@ -2,7 +2,7 @@
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.IntegrationTest.Fixtures;
-using DrugStore.Persistence;
+using DrugStore.Persistence.Repositories;
 
 namespace DrugStore.IntegrationTest.Repositories.ProductRepositoryTest;
 

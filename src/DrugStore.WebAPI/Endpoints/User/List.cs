@@ -11,11 +11,11 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/users", async (
-                int pageIndex,
-                int pageSize,
                 string? role,
                 string? search,
-                bool isAscending = true) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
+                bool isAscending = true,
+                int pageIndex = 1,
+                int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
             .WithTags(nameof(User))
             .WithName("List Users")
             .Produces<ListUserResponse>()

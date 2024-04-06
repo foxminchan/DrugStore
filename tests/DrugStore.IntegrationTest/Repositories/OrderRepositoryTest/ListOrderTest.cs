@@ -2,7 +2,7 @@
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.IntegrationTest.Fixtures;
-using DrugStore.Persistence;
+using DrugStore.Persistence.Repositories;
 
 namespace DrugStore.IntegrationTest.Repositories.OrderRepositoryTest;
 

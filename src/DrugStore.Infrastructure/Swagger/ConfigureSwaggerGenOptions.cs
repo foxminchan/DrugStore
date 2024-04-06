@@ -27,21 +27,18 @@ public sealed class ConfigureSwaggerGenOptions(IApiVersionDescriptionProvider pr
                 });
         }
 
-        var identityUrlExternal = config.GetValue<string>("IdentityUrlExternal");
+        var urlExternal = config.GetValue<string>("IdentityServer:Authority");
 
         options.AddSecurityDefinition(JwtBearerDefaults.AuthenticationScheme,
             new()
             {
                 Type = SecuritySchemeType.OAuth2,
-                Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer abc12345def'",
                 Flows = new()
                 {
-                    Implicit = new()
+                    AuthorizationCode = new()
                     {
-                        AuthorizationUrl = new($"{identityUrlExternal}/connect/authorize"),
-                        TokenUrl = new($"{identityUrlExternal}/connect/token"),
+                        TokenUrl = new($"{urlExternal}/connect/token"),
+                        AuthorizationUrl = new($"{urlExternal}/connect/authorize"),
                         Scopes = new Dictionary<string, string>
                         {
                             { Claims.READ, "Read Access to API" },

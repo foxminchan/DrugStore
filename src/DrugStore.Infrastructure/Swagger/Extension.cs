@@ -2,6 +2,7 @@
 using Asp.Versioning.ApiExplorer;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -21,8 +22,9 @@ public static class Extension
                 c.SchemaFilter<SmartEnumSchemaFilter>();
             });
 
-    public static IApplicationBuilder UseOpenApi(this WebApplication app)
+    public static IApplicationBuilder UseOpenApi(this WebApplication app, IConfiguration configuration)
     {
+        const string appName = "Drug Store API";
         app.UseSwagger(c => c.PreSerializeFilters.Add((swagger, httpReq) =>
         {
             Guard.Against.Null(httpReq);
@@ -52,9 +54,10 @@ public static class Extension
                 c.SwaggerEndpoint(url, name);
             }
 
-            c.DocumentTitle = "Drug Store API";
-            c.OAuthClientId("apiswaggerui");
-            c.OAuthAppName("DrugStore API");
+            c.DocumentTitle = appName;
+            c.OAuthClientId(configuration["IdentityServer:ClientId"]);
+            c.OAuthClientSecret(configuration["IdentityServer:ClientSecret"]);
+            c.OAuthAppName(appName);
             c.OAuthUsePkce();
             c.DisplayRequestDuration();
             c.EnableFilter();

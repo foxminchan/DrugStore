@@ -1,8 +1,9 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
+using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.ProductAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
+using DrugStore.Persistence.Repositories;
 
 namespace DrugStore.Application.Products.Commands.DeleteProductCommand;
 

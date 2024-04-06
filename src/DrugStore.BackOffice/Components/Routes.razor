@@ -7,10 +7,9 @@
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)">
                 <NotAuthorized>
-                    <RedirectToLogin />
+                    <RedirectToLogin/>
                 </NotAuthorized>
             </AuthorizeRouteView>
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
             <PageTitle>Not found</PageTitle>

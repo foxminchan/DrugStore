@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace DrugStore.Domain.SharedKernel;
+namespace DrugStore.Application.Abstractions.Commands;
 
 public interface IIdempotencyCommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
     where TCommand : IdempotencyCommand<TResponse>;

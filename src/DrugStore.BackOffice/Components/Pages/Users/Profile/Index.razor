@@ -43,6 +43,7 @@ else
                                            ReadOnly="_busy"
                                            @bind-Value="_user.FullName"
                                            class="w-100"
+                                           id="InputFullName"
                                            Placeholder="Nguyen Van A"/>
                             <RadzenRequiredValidator Component="FullName"
                                                      Text="Fullname is required"/>
@@ -63,6 +64,7 @@ else
                                         Placeholder="00000000000"
                                         ReadOnly="_busy"
                                         @bind-Value="_user.Phone"
+                                        id="InputPhone"
                                         class="w-100"/>
                             <RadzenRequiredValidator Component="Phone"
                                                      Text="Phone number is required"/>
@@ -81,6 +83,7 @@ else
                                            Disabled="true"
                                            @bind-Value="_user.Email"
                                            class="w-100"
+                                           id="InputEmail"
                                            Placeholder="example@email.com"/>
                             <RadzenRequiredValidator Component="Email"
                                                      Text="Email is required"/>
@@ -101,6 +104,7 @@ else
                                            ReadOnly="_busy"
                                            @bind-Value="_user.Address.Street"
                                            class="w-100"
+                                           id="InputStreet"
                                            Placeholder="Nam Ky Khoi Nghia"/>
                             <RadzenRequiredValidator Component="Street"
                                                      Text="Street is required"/>
@@ -119,6 +123,7 @@ else
                                            ReadOnly="_busy"
                                            @bind-Value="_user.Address.City"
                                            class="w-100"
+                                           id="InputCity"
                                            Placeholder="District 3"/>
                             <RadzenRequiredValidator Component="City"
                                                      Text="City is required"/>
@@ -137,6 +142,7 @@ else
                                            ReadOnly="_busy"
                                            @bind-Value="_user.Address.Province"
                                            class="w-100"
+                                           id="InputProvince"
                                            Placeholder="Ho Chi Minh"/>
                             <RadzenRequiredValidator Component="Province"
                                                      Text="Province is required"/>
@@ -159,6 +165,7 @@ else
                                             ReadOnly="_busy"
                                             @bind-Value="_user.OldPassword"
                                             class="w-100"
+                                            id="InputOldPassword"
                                             Placeholder="P@ssw0rd"/>
                         </RadzenColumn>
                     </RadzenRow>
@@ -172,6 +179,7 @@ else
                                             ReadOnly="_busy"
                                             @bind-Value="_user.Password"
                                             class="w-100"
+                                            id="InputPassword"
                                             Placeholder="P@ssw0rd"/>
                             <RadzenRequiredValidator Component="Password"
                                                      Text="Password is required"/>
@@ -190,6 +198,7 @@ else
                                             ReadOnly="_busy"
                                             @bind-Value="_user.ConfirmPassword"
                                             class="w-100"
+                                            id="InputConfirmPassword"
                                             Placeholder="P@ssw0rd"/>
                             <RadzenRequiredValidator Component="ConfirmPassword"
                                                      Text="Confirm password is required"/>

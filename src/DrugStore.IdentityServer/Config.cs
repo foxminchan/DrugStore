@@ -1,4 +1,4 @@
-﻿using DrugStore.IdentityServer.Constants;
+﻿using DrugStore.Domain.IdentityAggregate.Constants;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 
@@ -14,18 +14,18 @@ public static class Config
 
     public static IEnumerable<ApiScope> ApiScopes =>
     [
-        new(Claims.Read, "Read Access to API"),
-        new(Claims.Write, "Write Access to API"),
-        new(Claims.Manage, "Manage Access to API")
+        new(Claims.READ, "Read Access to API"),
+        new(Claims.WRITE, "Write Access to API"),
+        new(Claims.MANAGE, "Manage Access to API")
     ];
 
     public static IEnumerable<ApiResource> ApiResources =>
     [
         new()
         {
-            Name = "drugstore",
-            DisplayName = "DrugStore API",
-            Scopes = { Claims.Read, Claims.Write, Claims.Manage }
+            Name = "api.drugstore",
+            DisplayName = "Drug Store Api",
+            Scopes = { Claims.READ, Claims.WRITE, Claims.MANAGE }
         }
     ];
 
@@ -37,7 +37,7 @@ public static class Config
             ClientName = "Resource Owner Client",
             AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedScopes = { Claims.Read, Claims.Write, Claims.Manage }
+            AllowedScopes = { Claims.READ, Claims.WRITE, Claims.MANAGE }
         },
         new()
         {
@@ -45,19 +45,15 @@ public static class Config
             ClientName = "Storefront Client",
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
-            RequirePkce = true,
-            RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["ClientUrl:Storefront"] ?? throw new InvalidOperationException() },
-            RedirectUris = { $"{configuration["ClientUrl:Storefront"]}/authentication/login-callback" },
-            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Storefront"]}/authentication/logout-callback" },
+            RequirePkce = true,
+            RedirectUris = { $"{configuration["ClientUrl:Storefront"]}/signin-oidc" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Storefront"]}/signout-callback-oidc" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                IdentityServerConstants.StandardScopes.OfflineAccess,
-                Claims.Read,
-                Claims.Write
+                Claims.READ, Claims.WRITE, Claims.MANAGE
             }
         },
         new()
@@ -66,40 +62,33 @@ public static class Config
             ClientName = "Backoffice Client",
             ClientSecrets = { new Secret("secret".Sha256()) },
             AllowedGrantTypes = GrantTypes.Code,
-            RequirePkce = true,
-            RequireClientSecret = false,
             RequireConsent = false,
-            AllowedCorsOrigins = { configuration["ClientUrl:Backoffice"] ?? throw new InvalidOperationException() },
-            RedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/authentication/login-callback" },
-            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/authentication/logout-callback" },
+            RequirePkce = true,
+            RedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/signin-oidc" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Backoffice"]}/signout-callback-oidc" },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                IdentityServerConstants.StandardScopes.OfflineAccess,
-                Claims.Read,
-                Claims.Write,
-                Claims.Manage
+                Claims.READ, Claims.WRITE, Claims.MANAGE
             }
         },
         new()
         {
             ClientId = "apiswaggerui",
-            ClientName = "DrugStore API",
+            ClientName = "Drug Store API",
             ClientSecrets = { new Secret("secret".Sha256()) },
-            AllowedGrantTypes = GrantTypes.Implicit,
-            AllowAccessTokensViaBrowser = true,
+            AllowedGrantTypes = GrantTypes.Code,
+            RequireConsent = false,
             RequirePkce = true,
-            AllowedCorsOrigins = { configuration["ClientUrl:Swagger"] ?? throw new InvalidOperationException() },
             RedirectUris = { $"{configuration["ClientUrl:Swagger"]}/swagger/oauth2-redirect.html" },
-            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Swagger"]}/swagger/" },
+            PostLogoutRedirectUris = { $"{configuration["ClientUrl:Swagger"]}/swagger/oauth2-redirect.html" },
+            AllowedCorsOrigins = { configuration["ClientUrl:Swagger"] ?? throw new InvalidOperationException() },
             AllowedScopes =
             {
                 IdentityServerConstants.StandardScopes.OpenId,
                 IdentityServerConstants.StandardScopes.Profile,
-                Claims.Read,
-                Claims.Write,
-                Claims.Manage
+                Claims.READ, Claims.WRITE, Claims.MANAGE
             }
         }
     ];

@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
+using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.BasketAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 
 namespace DrugStore.Application.Baskets.Commands.DeleteBasketCommand;

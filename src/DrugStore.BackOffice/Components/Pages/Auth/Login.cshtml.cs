@@ -1,29 +1,23 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.BackOffice.Components.Pages.Auth;
 
 public sealed class LoginModel : PageModel
 {
-    public async Task<IActionResult> OnGetAsync(string returnUrl)
+    public async Task OnGetAsync(string returnUrl)
     {
-        if (string.IsNullOrWhiteSpace(returnUrl))
+        if (HttpContext.User.Identity is not null && !HttpContext.User.Identity.IsAuthenticated)
         {
-            returnUrl = Url.Content("~/");
-        }
-
-        if (HttpContext.User.Identity!.IsAuthenticated)
-        {
-            Response.Redirect(returnUrl);
-        }
-
-        return Challenge(
-            new AuthenticationProperties
+            await HttpContext.ChallengeAsync(OpenIdConnectDefaults.AuthenticationScheme, new()
             {
-                RedirectUri = returnUrl
-            },
-            OpenIdConnectDefaults.AuthenticationScheme);
+                RedirectUri = Url.IsLocalUrl(returnUrl) ? returnUrl : "~/"
+            });
+        }
+        else
+        {
+            Response.Redirect(Url.Content("~/"));
+        }
     }
 }

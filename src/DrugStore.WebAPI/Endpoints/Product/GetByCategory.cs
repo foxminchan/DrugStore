@@ -13,8 +13,8 @@ public sealed class GetByCategory(ISender sender) : IEndpoint<GetProductByCatego
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/products/category/{id}", async (
                 CategoryId id,
-                int pageIndex,
-                int pageSize) => await HandleAsync(new(id, pageIndex, pageSize)
+                int pageIndex = 1,
+                int pageSize = 20) => await HandleAsync(new(id, pageIndex, pageSize)
             ))
             .Produces<GetProductByCategoryResponse>()
             .WithTags(nameof(Product))

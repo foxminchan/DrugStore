@@ -1,7 +1,7 @@
 ﻿using Ardalis.Result;
+using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.SharedKernel;
 using MapsterMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

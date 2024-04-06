@@ -2,6 +2,7 @@
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using NSubstitute;
 

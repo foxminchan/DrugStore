@@ -1,6 +1,7 @@
 ﻿using DrugStore.Application.Orders.Commands.CreateOrderCommand;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

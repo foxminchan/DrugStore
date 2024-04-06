@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.IntegrationTest.Fixtures;
-using DrugStore.Persistence;
+using DrugStore.Persistence.Repositories;
 
 namespace DrugStore.IntegrationTest.Repositories.OrderRepositoryTest;
 

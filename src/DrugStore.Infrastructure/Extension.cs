@@ -44,7 +44,7 @@ public static class Extension
     public static void UseInfrastructure(this WebApplication app)
     {
         app.UseKestrel();
-        app.UseOpenApi();
+        app.UseOpenApi(app.Configuration);
         app.MapHealthCheck();
         app.UseCustomProblemDetails();
         app.UseCustomExceptionHandler();

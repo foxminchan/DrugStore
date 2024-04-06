@@ -1,9 +1,9 @@
-﻿using DrugStore.Domain.SharedKernel;
+﻿using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Infrastructure.Idempotency.Internal;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace DrugStore.Infrastructure.Idempotency;
+namespace DrugStore.Application.Abstractions.Behaviors;
 
 public sealed class IdempotentCommandBehavior<TRequest, TResponse>(
     IIdempotencyService idempotencyService,

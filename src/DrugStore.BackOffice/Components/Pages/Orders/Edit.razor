@@ -40,6 +40,7 @@ else
                                    ReadOnly="_busy"
                                    @bind-Value="_order.Code"
                                    class="w-100"
+                                   id="InputName"
                                    Placeholder="OD123"/>
                     <RadzenLengthValidator Component="Name"
                                            Text="@($"Name has {DataTypeLength.SMALL_LENGTH} characters maximum")"
@@ -52,6 +53,7 @@ else
                                    ReadOnly="true"
                                    @bind-Value="_order.CustomerId"
                                    class="w-100"
+                                   id="InputCustomer"
                                    Placeholder="Select Customer"/>
                     <RadzenRequiredValidator Component="Customer"
                                              Text="Customer is required"/>
@@ -107,6 +109,7 @@ else
                                                         ValueProperty="Id"
                                                         Style="width:100%; display: block;"
                                                         Name="Product"
+                                                        id="InputProduct"
                                                         AllowClear="true"
                                                         AllowFiltering="true"
                                                         Disabled="_busy"
@@ -124,6 +127,7 @@ else
                                     <EditTemplate Context="order">
                                         <RadzenNumeric Style="width:100%; display: block;"
                                                        Name="Quantity"
+                                                       id="InputQuantity"
                                                        @bind-Value="order.Quantity"
                                                        Min="1"/>
                                         <RadzenRequiredValidator Component="Quantity"
@@ -140,6 +144,7 @@ else
                                     <EditTemplate Context="order">
                                         <RadzenNumeric Style="width:100%; display: block;"
                                                        Name="Price"
+                                                       id="InputPrice"
                                                        @bind-Value="order.Price"
                                                        Min="1"/>
                                         <RadzenRequiredValidator Component="Price"

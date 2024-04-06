@@ -2,7 +2,7 @@
 using Ardalis.GuardClauses;
 using DrugStore.Domain.BasketAggregate.DomainEvents;
 using DrugStore.Domain.ProductAggregate;
-using DrugStore.Domain.SharedKernel;
+using DrugStore.Persistence.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
