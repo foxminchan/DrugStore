@@ -38,10 +38,7 @@ public sealed class AddCategoryStep(AddCategoryPage addCategory)
     }
 
     [Then("The category should be added")]
-    public async Task ThenTheCategoryShouldBeAdded()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task ThenTheCategoryShouldBeAdded() => throw new NotImplementedException();
 
     [When("I enter the category description")]
     public async Task WhenIEnterTheCategoryDescription()
@@ -66,10 +63,7 @@ public sealed class AddCategoryStep(AddCategoryPage addCategory)
     }
 
     [Then("The category should be added successfully")]
-    public async Task ThenTheCategoryShouldBeAddedSuccessfully()
-    {
-        throw new NotImplementedException();
-    }
+    public async Task ThenTheCategoryShouldBeAddedSuccessfully() => throw new NotImplementedException();
 
     [AfterFeature("AddCategory")]
     public static async Task AfterAddCategoryScenario(IObjectContainer container)

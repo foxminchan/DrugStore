@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using System.Configuration;
+﻿using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace BackOffice.EndToEnd;
 
@@ -10,7 +10,7 @@ public static class ConfigurationHelper
         .AddEnvironmentVariables()
         .Build();
 
-    private static readonly string _baseUrl 
+    private static readonly string _baseUrl
         = _configuration["BaseUrl"] ?? throw new ConfigurationErrorsException("BaseUrl is not configured.");
 
     private static readonly int _slowMoMilliseconds = int.Parse(_configuration["SlowMoMilliseconds"] ?? "0");
