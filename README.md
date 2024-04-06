@@ -82,6 +82,18 @@ For test the tests, run the following command:
 dotnet stryker
 ```
 
+<p align="justify">
+For e2e testing, code can be auto-generated from using the web application by running the following:
+</p>
+
+```bash
+PowerShell.exe -ExecutionPolicy Bypass -File ./tests/BackOffice.EndToEnd/bin/Debug/net8.0/playwright.ps1 codegen https://localhost:7050
+PowerShell.exe -ExecutionPolicy Bypass -File ./tests/StoreFront.EndToEnd/bin/Debug/net8.0/playwright.ps1 codegen https://localhost:7060
+```
+
+> [!IMPORTANT]
+> To use SpecFlow for BDD testing, make sure to install the SpecFlow extension in Visual Studio.
+
 ## Observability
 
 <img loading="lazy" src="./assets/LGTM.png" alt="LGTM" width="100%">
