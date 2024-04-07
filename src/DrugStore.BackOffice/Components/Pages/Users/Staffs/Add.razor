@@ -1,4 +1,5 @@
 ﻿@page "/users/add"
+@attribute [Authorize]
 @using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests
 @using DrugStore.BackOffice.Constants
 
@@ -150,9 +151,9 @@
                                     Placeholder="P@ssw0rd"/>
                     <RadzenRequiredValidator Component="Password"
                                              Text="Password is required"/>
-                    <RadzenLengthValidator Component="Password"
-                                           Text="@($"Password has {DataTypeLength.SHORT_LENGTH} characters maximum")"
-                                           Max="DataTypeLength.SHORT_LENGTH"/>
+                    <RadzenRegexValidator Component="Password"
+                                          Text="Password must contain at least one uppercase letter, one lowercase letter, one number and 8-15 characters"
+                                          Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$" />
                 </RadzenRow>
                 <RadzenRow Style="margin-bottom: 1rem">
                     <RadzenLabel Text="Confirm password" Component="ConfirmPassword"/>

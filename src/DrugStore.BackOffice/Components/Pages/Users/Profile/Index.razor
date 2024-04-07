@@ -1,4 +1,5 @@
 ﻿@page "/profile"
+@attribute [Authorize]
 @using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests
 @using DrugStore.BackOffice.Constants
 
@@ -157,7 +158,7 @@ else
                 <RadzenStack Gap="1rem">
                     <RadzenRow Style="margin-bottom: 1rem">
                         <RadzenColumn SizeMD="3">
-                            <RadzenLabel Text="Old Password" Component="OldPassword" />
+                            <RadzenLabel Text="Old Password" Component="OldPassword"/>
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
                             <RadzenPassword Style="display: block"
@@ -171,7 +172,7 @@ else
                     </RadzenRow>
                     <RadzenRow Style="margin-bottom: 1rem">
                         <RadzenColumn SizeMD="3">
-                            <RadzenLabel Text="New Password" Component="Password" />
+                            <RadzenLabel Text="New Password" Component="Password"/>
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
                             <RadzenPassword Style="display: block"
@@ -183,14 +184,14 @@ else
                                             Placeholder="P@ssw0rd"/>
                             <RadzenRequiredValidator Component="Password"
                                                      Text="Password is required"/>
-                            <RadzenLengthValidator Component="Password"
-                                                   Text="@($"Password has {DataTypeLength.SHORT_LENGTH} characters maximum")"
-                                                   Max="DataTypeLength.SHORT_LENGTH"/>
+                            <RadzenRegexValidator Component="Password"
+                                                  Text="Password must contain at least one uppercase letter, one lowercase letter, one number and 8-15 characters"
+                                                  Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$"/>
                         </RadzenColumn>
                     </RadzenRow>
                     <RadzenRow Style="margin-bottom: 1rem">
                         <RadzenColumn SizeMD="3">
-                            <RadzenLabel Text="Confirm Password" Component="ConfirmPassword" />
+                            <RadzenLabel Text="Confirm Password" Component="ConfirmPassword"/>
                         </RadzenColumn>
                         <RadzenColumn SizeMD="9">
                             <RadzenPassword Style="display: block"
@@ -219,7 +220,7 @@ else
                               Icon="save"
                               Text="Save"
                               Variant="Variant.Flat"
-                              IsBusy="_busy" />
+                              IsBusy="_busy"/>
             </RadzenStack>
         </RadzenTemplateForm>
     </RadzenColumn>

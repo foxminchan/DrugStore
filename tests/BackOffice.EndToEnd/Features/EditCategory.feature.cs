@@ -135,7 +135,7 @@ this.ScenarioInitialize(scenarioInfo);
     testRunner.Given("the staff member is logged in", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
-    testRunner.And("is on the edit category page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+    testRunner.And("is on the \"Edit Category\" page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 19
     testRunner.When("the staff member updates the category information with category name \"New Categor" +
