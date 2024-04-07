@@ -32,8 +32,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Features\" />
-	</ItemGroup>
-
 </Project>
