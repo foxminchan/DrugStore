@@ -1,7 +1,7 @@
 ﻿using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
-namespace DrugStore.Application.Shared;
+namespace DrugStore.Application.Abstractions.Validators;
 
 public sealed class PagingFilterHelperValidator : AbstractValidator<PagingHelper>
 {

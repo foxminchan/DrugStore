@@ -44,4 +44,61 @@ public sealed class CreateBasketCommandHandlerTest
         // Assert
         result.IsSuccess.Should().BeTrue();
     }
+
+    [Theory]
+    [ClassData(typeof(InvalidData))]
+    public async Task ShouldNotCreateBasket(CreateBasketCommand command)
+    {
+        // Arrange
+        _redisService.Get<CustomerBasket>(Arg.Any<string>())
+            .Returns(new CustomerBasket());
+        _redisService.HashGetOrSet(
+            Arg.Any<string>(),
+            Arg.Any<string>(),
+            Arg.Any<Func<CustomerBasket>>()
+        ).Returns(new CustomerBasket { Id = command.CustomerId });
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+}
+
+internal sealed class InvalidData : TheoryData<CreateBasketCommand>
+{
+    public InvalidData()
+    {
+        Add(new(Guid.Empty, new(Guid.Empty), new(
+            new(Guid.Empty),
+            string.Empty,
+            0,
+            0
+        )));
+        Add(new(Guid.NewGuid(), new(Guid.Empty), new(
+            new(Guid.Empty),
+            string.Empty,
+            10,
+            20
+        )));
+        Add(new(Guid.NewGuid(), new(Guid.NewGuid()), new(
+            new(Guid.Empty),
+            string.Empty,
+            -30,
+            -40
+        )));
+        Add(new(Guid.NewGuid(), new(Guid.NewGuid()), new(
+            new(Guid.NewGuid()),
+            "Product Name",
+            0,
+            10
+        )));
+        Add(new(Guid.NewGuid(), new(Guid.NewGuid()), new(
+            new(Guid.NewGuid()),
+            "Product Name",
+            10,
+            0
+        )));
+    }
 }

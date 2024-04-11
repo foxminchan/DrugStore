@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Products.Commands.CreateProductCommand;
 using DrugStore.Domain.ProductAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.Persistence.Repositories;
 using DrugStore.UnitTest.Builders;
@@ -54,5 +53,38 @@ public sealed class CreateProductCommandHandlerTest
 
         // Assert
         result.IsSuccess.Should().BeTrue();
+    }
+
+    [Theory]
+    [ClassData(typeof(InvalidData))]
+    public async Task ShouldNotCreateProduct(CreateProductCommand command)
+    {
+        // Arrange
+        _repository.AddAsync(Arg.Any<Product>())
+            .Returns(Task.FromResult(CreateProduct()));
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+}
+
+internal sealed class InvalidData : TheoryData<CreateProductCommand>
+{
+    public InvalidData()
+    {
+        Add(new(Guid.Empty, string.Empty, string.Empty, string.Empty, 0, new(Guid.Empty), new(-1, -2), null, null));
+        Add(new(Guid.NewGuid(), string.Empty, string.Empty, string.Empty, -3, new(Guid.NewGuid()), new(-1, 30), null,
+            null));
+        Add(new(Guid.NewGuid(), "Product Name", string.Empty, string.Empty, 0, new(Guid.NewGuid()), new(19, -2), null,
+            null));
+        Add(new(Guid.NewGuid(), "Product Name", "Product Code", string.Empty, 0, new(Guid.NewGuid()), new(1, 2), null,
+            null));
+        Add(new(Guid.NewGuid(), "Product Name", "Product Code", "Product Detail", -5, new(Guid.NewGuid()), new(10, 8),
+            null, null));
+        Add(new(Guid.NewGuid(), "Product Name", "Product Code", "Product Detail", -10, new(Guid.NewGuid()), new(6),
+            null, null));
     }
 }

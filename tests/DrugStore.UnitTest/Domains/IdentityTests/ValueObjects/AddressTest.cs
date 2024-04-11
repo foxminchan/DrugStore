@@ -5,18 +5,18 @@ namespace DrugStore.UnitTest.Domains.IdentityTests.ValueObjects;
 
 public sealed class AddressTest
 {
-    private static readonly Address Address = new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh");
+    private static readonly Address _address = new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh");
 
     public static readonly TheoryData<Address?, Address?, string> EqualAddressData = new()
     {
         {
-            Address,
-            Address,
+            _address,
+            _address,
             "Two addresses are equal because they are the same object"
         },
         {
             new("Nam Ky Khoi Nghia", "District 3", "Ho Chi Minh"),
-            Address,
+            _address,
             "Two addresses are equal because they have the same properties"
         },
         {
@@ -39,18 +39,18 @@ public sealed class AddressTest
             "Two addresses are not equal because they have different properties"
         },
         {
-            Address,
+            _address,
             new("Phan Van Tri", "Go Vap", "Ho Chi Minh"),
             "Two addresses are not equal because they have different properties"
         },
         {
-            Address,
+            _address,
             null,
             "An address is not equal to null"
         },
         {
             null,
-            Address,
+            _address,
             "An address is not equal to null"
         }
     };

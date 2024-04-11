@@ -1,4 +1,5 @@
 ﻿using DrugStore.Domain.IdentityAggregate.ValueObjects;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Users.Validators;
@@ -8,15 +9,15 @@ public sealed class AddressValidator : AbstractValidator<Address>
     public AddressValidator()
     {
         RuleFor(a => a.City)
-            .MaximumLength(50)
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH)
             .NotEmpty();
 
         RuleFor(a => a.Street)
-            .MaximumLength(50)
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH)
             .NotEmpty();
 
         RuleFor(a => a.Province)
-            .MaximumLength(50)
+            .MaximumLength(DatabaseSchemaLength.SHORT_LENGTH)
             .NotEmpty();
     }
 }

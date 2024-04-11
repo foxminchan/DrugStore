@@ -1,5 +1,5 @@
-﻿using DrugStore.Application.Products.Validators;
-using DrugStore.Application.Shared;
+﻿using DrugStore.Application.Abstractions.Validators;
+using DrugStore.Application.Products.Validators;
 using DrugStore.Persistence.Constants;
 using FluentValidation;
 

@@ -1,4 +1,5 @@
 ﻿using DrugStore.Domain.ProductAggregate.ValueObjects;
+using DrugStore.Persistence.Constants;
 using FluentValidation;
 
 namespace DrugStore.Application.Products.Validators;
@@ -9,12 +10,12 @@ public sealed class ProductImageValidator : AbstractValidator<ProductImage>
     {
         RuleFor(x => x.ImageUrl)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.Alt)
-            .MaximumLength(100);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
 
         RuleFor(x => x.Title)
-            .MaximumLength(100);
+            .MaximumLength(DatabaseSchemaLength.DEFAULT_LENGTH);
     }
 }

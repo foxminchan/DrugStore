@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
-namespace DrugStore.Application.Shared;
+namespace DrugStore.Application.Abstractions.Validators;
 
 public sealed class FileValidator : AbstractValidator<IFormFile>
 {
