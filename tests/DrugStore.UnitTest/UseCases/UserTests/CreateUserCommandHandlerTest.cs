@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Users.Commands.CreateUserCommand;
 using DrugStore.Domain.IdentityAggregate;
-using DrugStore.Domain.IdentityAggregate.ValueObjects;
+using DrugStore.UnitTest.Builders;
 using FluentAssertions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
@@ -10,14 +10,14 @@ namespace DrugStore.UnitTest.UseCases.UserTests;
 
 public sealed class CreateUserCommandHandlerTest
 {
+    private readonly CreateUserCommandHandler _handler;
+
+    private readonly ILogger<CreateUserCommandHandler> _logger = Substitute.For<ILogger<CreateUserCommandHandler>>();
+
     private readonly UserManager<ApplicationUser> _userManager =
         Substitute.For<UserManager<ApplicationUser>>(
             Substitute.For<IUserStore<ApplicationUser>>(), null, null, null, null, null, null, null, null
         );
-
-    private readonly ILogger<CreateUserCommandHandler> _logger = Substitute.For<ILogger<CreateUserCommandHandler>>();
-
-    private readonly CreateUserCommandHandler _handler;
 
     public CreateUserCommandHandlerTest() => _handler = new(_userManager, _logger);
 
@@ -29,9 +29,10 @@ public sealed class CreateUserCommandHandlerTest
         const string fullname = "Test User";
         const string phoneNumber = "1234567890";
         const string password = "Test@123";
-        var address = new Address("Test Street", "Test City", "Test Province");
-        var command = new CreateUserCommand(Guid.NewGuid(), email, password, password, fullname, phoneNumber, address,
-            false);
+        var command = new CreateUserCommand(Guid.NewGuid(), email, password, password, fullname, phoneNumber,
+            AddressBuilder.WithDefaultValues(), false);
+        _userManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>())
+            .Returns(IdentityResult.Success);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -52,7 +53,7 @@ public sealed class CreateUserCommandHandlerTest
     }
 }
 
-internal class InvalidData : TheoryData<CreateUserCommand>
+internal sealed class InvalidData : TheoryData<CreateUserCommand>
 {
     public InvalidData()
     {

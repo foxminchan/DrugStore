@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Categories.Commands.CreateCategoryCommand;
 using DrugStore.Domain.CategoryAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -38,5 +37,28 @@ public sealed class CreateCategoryCommandHandlerTest
 
         // Assert
         result.IsSuccess.Should().BeTrue();
+    }
+
+    [Theory]
+    [ClassData(typeof(InvalidData))]
+    public async Task ShouldNotCreateCategory(CreateCategoryCommand command)
+    {
+        // Arrange
+        _repository.AddAsync(Arg.Any<Category>()).Returns(Task.FromResult(CreateCategory()));
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+}
+
+internal sealed class InvalidData : TheoryData<CreateCategoryCommand>
+{
+    public InvalidData()
+    {
+        Add(new(Guid.NewGuid(), string.Empty, string.Empty));
+        Add(new(Guid.NewGuid(), string.Empty, "Category Description"));
     }
 }

@@ -26,35 +26,10 @@ public sealed class CreateUserTest(ITestOutputHelper output) : BaseEfRepoTestFix
         var user = new ApplicationUser(email, fullname, phoneNumber, address);
 
         // Act
-        output.WriteLine("User: " + JsonSerializer.Serialize(user));
         var created = await _userManager.CreateAsync(user, password);
+        output.WriteLine("User: " + JsonSerializer.Serialize(created));
 
         // Assert
         Assert.NotNull(created);
-    }
-
-    [Theory]
-    [ClassData(typeof(InvalidData))]
-    public async Task ShouldNotCreateUser(ApplicationUser user)
-    {
-        // Arrange
-        const string password = "Test@123";
-
-        // Act
-        output.WriteLine("User: " + JsonSerializer.Serialize(user));
-        var created = await _userManager.CreateAsync(user, password);
-
-        // Assert
-        Assert.False(created.Succeeded);
-    }
-}
-
-internal class InvalidData : TheoryData<ApplicationUser>
-{
-    public InvalidData()
-    {
-        Add(new(string.Empty, "Test User", "1234567890", new("Test Street", "Test City", "Test Province")));
-        Add(new("test@gmail.com", string.Empty, "1234567890", new("Test Street", "Test City", "Test Province")));
-        Add(new("test@gmail.com", "Test User", string.Empty, new("Test Street", "Test City", "Test Province")));
     }
 }

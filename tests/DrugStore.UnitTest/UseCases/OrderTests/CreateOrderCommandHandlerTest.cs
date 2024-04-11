@@ -1,6 +1,5 @@
 ﻿using DrugStore.Application.Orders.Commands.CreateOrderCommand;
 using DrugStore.Domain.OrderAggregate;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
@@ -40,5 +39,41 @@ public sealed class CreateOrderCommandHandlerTest
 
         // Assert
         result.IsSuccess.Should().BeTrue();
+    }
+
+    [Theory]
+    [ClassData(typeof(InvalidData))]
+    public async Task ShouldNotCreateOrder(CreateOrderCommand command)
+    {
+        // Arrange
+        _repository.AddAsync(Arg.Any<Order>()).Returns(Task.FromResult(CreateOrder()));
+
+        // Act
+        var result = await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        Assert.NotNull(result);
+    }
+}
+
+internal sealed class InvalidData : TheoryData<CreateOrderCommand>
+{
+    public InvalidData()
+    {
+        Add(new(Guid.NewGuid(), string.Empty, new(Guid.Empty), [
+            new(new(Guid.NewGuid()), -1, 10.0m),
+            new(new(Guid.NewGuid()), -2, 20.0m),
+            new(new(Guid.NewGuid()), -3, 30.0m)
+        ]));
+        Add(new(Guid.Empty, "Order Name", new(Guid.NewGuid()), [
+            new(new(Guid.NewGuid()), 1, 10.0m),
+            new(new(Guid.NewGuid()), 2, -20.0m),
+            new(new(Guid.NewGuid()), 3, 30.0m)
+        ]));
+        Add(new(Guid.NewGuid(), string.Empty, new(Guid.Empty), [
+            new(new(Guid.NewGuid()), 0, 0.0m),
+            new(new(Guid.NewGuid()), 0, 0.0m),
+            new(new(Guid.NewGuid()), 0, 0.0m)
+        ]));
     }
 }

@@ -1,7 +1,6 @@
 ﻿using DrugStore.Application.Orders.Commands.UpdateOrderCommand;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using FluentAssertions;
 using MapsterMapper;

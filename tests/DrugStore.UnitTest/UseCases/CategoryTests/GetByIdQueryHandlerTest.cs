@@ -1,7 +1,6 @@
 ﻿using DrugStore.Application.Categories.Queries.GetByIdQuery;
 using DrugStore.Domain.CategoryAggregate;
 using DrugStore.Domain.CategoryAggregate.Specifications;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;

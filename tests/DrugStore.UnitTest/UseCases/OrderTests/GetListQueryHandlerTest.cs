@@ -1,7 +1,6 @@
 ﻿using DrugStore.Application.Orders.Queries.GetListQuery;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 using NSubstitute;

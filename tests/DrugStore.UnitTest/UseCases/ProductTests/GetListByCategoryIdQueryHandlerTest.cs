@@ -1,7 +1,6 @@
 ﻿using DrugStore.Application.Products.Queries.GetListByCategoryIdQuery;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
-using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using DrugStore.UnitTest.Builders;
 using MapsterMapper;

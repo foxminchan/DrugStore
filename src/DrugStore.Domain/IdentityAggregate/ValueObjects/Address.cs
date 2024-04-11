@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using DrugStore.Domain.SharedKernel;
-using Microsoft.EntityFrameworkCore;
 
 namespace DrugStore.Domain.IdentityAggregate.ValueObjects;
 
-[Owned]
 public sealed class Address(string street, string city, string province) : ValueObject, IValidatableObject
 {
     public string Street { get; set; } = street;
