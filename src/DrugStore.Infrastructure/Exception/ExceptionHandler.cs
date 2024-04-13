@@ -27,8 +27,8 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 await HandleNotFoundException(httpContext, notFoundException, cancellationToken);
                 break;
 
-            case UnauthorizedAccessException unauthorizedAccessException:
-                await HandleUnauthorizedAccessException(httpContext, unauthorizedAccessException, cancellationToken);
+            case UnauthorizedAccessException:
+                await HandleUnauthorizedAccessException(httpContext, cancellationToken);
                 break;
 
             default:
@@ -53,56 +53,42 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 ValidationSeverity.Info
             )).ToList());
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
-        await httpContext.Response.WriteAsJsonAsync(validationErrorModel, cancellationToken);
+        await httpContext.Response.WriteAsJsonAsync(validationErrorModel.ValidationErrors, cancellationToken);
     }
 
     private static async Task HandleNotFoundException(
         HttpContext httpContext,
         System.Exception notFoundException,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, notFoundException,
-            StatusCodes.Status404NotFound,
-            "Not Found",
-            notFoundException.Message,
-            cancellationToken);
+        CancellationToken cancellationToken)
+    {
+        var notFoundErrorModel = Result.NotFound(notFoundException.Message);
+        httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+        await httpContext.Response.WriteAsJsonAsync(notFoundErrorModel.Errors, cancellationToken);
+    }
 
     private static async Task HandleUnauthorizedAccessException(
         HttpContext httpContext,
-        System.Exception unauthorizedAccessException,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, unauthorizedAccessException,
-            StatusCodes.Status401Unauthorized,
-            "Unauthorized",
-            unauthorizedAccessException.Message,
+        CancellationToken cancellationToken)
+    {
+        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+        await httpContext.Response.WriteAsJsonAsync("You are not authorized to access this resource",
             cancellationToken);
+    }
 
     private static async Task HandleDefaultException(
         HttpContext httpContext,
         System.Exception exception,
-        CancellationToken cancellationToken) =>
-        await HandleException(httpContext, exception,
-            StatusCodes.Status500InternalServerError,
-            "An error occurred while processing your request",
-            exception.Message,
-            cancellationToken);
-
-    private static async Task HandleException(
-        HttpContext httpContext,
-        System.Exception exception,
-        int statusCode,
-        string title,
-        string detail,
         CancellationToken cancellationToken)
     {
         Microsoft.AspNetCore.Mvc.ProblemDetails details = new()
         {
-            Status = statusCode,
+            Status = StatusCodes.Status500InternalServerError,
             Type = exception.GetType().Name,
-            Title = title,
-            Detail = detail,
+            Title = "An error occurred while processing your request",
+            Detail = exception.Message,
             Instance = $"{httpContext.Request.Method}{httpContext.Request.Path}"
         };
-        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
         await httpContext.Response.WriteAsJsonAsync(details, cancellationToken);
     }
 }

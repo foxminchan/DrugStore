@@ -6,22 +6,25 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class Delete(ISender sender) : IEndpoint<Unit, DeleteProductRequest>
+public sealed class Delete(ISender sender) : IEndpoint<IResult, DeleteProductRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapDelete("/products/{id}",
                 async (ProductId id, bool isRemoveImage = false) => await HandleAsync(new(id, isRemoveImage)))
-            .Produces<Unit>()
+            .Produces(StatusCodes.Status204NoContent)
             .WithTags(nameof(Product))
             .WithName("Delete Product")
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<Unit> HandleAsync(
+    public async Task<IResult> HandleAsync(
         DeleteProductRequest request,
         CancellationToken cancellationToken = default)
     {
-        await sender.Send(new DeleteProductCommand(request.Id, request.IsRemoveImage), cancellationToken);
-        return Unit.Value;
+        DeleteProductCommand command = new(request.Id, request.IsRemoveImage);
+
+        await sender.Send(command, cancellationToken);
+
+        return Results.NoContent();
     }
 }

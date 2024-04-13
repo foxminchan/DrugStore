@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
 
-public sealed class ResetPassword(ISender sender) : IEndpoint<ResetPasswordResponse, ResetPasswordRequest>
+public sealed class ResetPassword(ISender sender) : IEndpoint<IResult, ResetPasswordRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/users/reset-password/{id}", async (IdentityId id) => await HandleAsync(new(id)))
@@ -16,10 +16,15 @@ public sealed class ResetPassword(ISender sender) : IEndpoint<ResetPasswordRespo
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<ResetPasswordResponse> HandleAsync(ResetPasswordRequest request,
+    public async Task<IResult> HandleAsync(ResetPasswordRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new ResetPasswordCommand(request.Id), cancellationToken);
-        return new(result.Value);
+        ResetPasswordCommand command = new(request.Id);
+
+        var result = await sender.Send(command, cancellationToken);
+
+        ResetPasswordResponse response = new (result.Value);
+
+        return Results.Ok(response);
     }
 }

@@ -45,6 +45,10 @@ public sealed class CreateUserCommandHandlerTest
     [ClassData(typeof(InvalidData))]
     public async Task ShouldNotCreateUser(CreateUserCommand command)
     {
+        // Arrange
+        _userManager.CreateAsync(Arg.Any<ApplicationUser>(), Arg.Any<string>())
+            .Returns(IdentityResult.Success);
+
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 

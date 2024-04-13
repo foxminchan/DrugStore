@@ -7,7 +7,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Basket;
 
-public sealed class GetById(ISender sender) : IEndpoint<CustomerBasketDto, GetBasketByIdRequest>
+public sealed class GetById(ISender sender) : IEndpoint<IResult, GetBasketByIdRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/baskets/{id}", async (IdentityId id) => await HandleAsync(new(id)))
@@ -17,11 +17,16 @@ public sealed class GetById(ISender sender) : IEndpoint<CustomerBasketDto, GetBa
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<CustomerBasketDto> HandleAsync(
+    public async Task<IResult> HandleAsync(
         GetBasketByIdRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new GetByUserIdQuery(request.Id), cancellationToken);
-        return result.Value.Adapt<CustomerBasketDto>();
+        GetByUserIdQuery query = new(request.Id);
+
+        var result = await sender.Send(query, cancellationToken);
+
+        var response = result.Value.Adapt<CustomerBasketDto>();
+
+        return Results.Ok(response);
     }
 }

@@ -19,7 +19,7 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
     public async Task DisposeAsync() => await _factory.StopContainersAsync();
 
     [Fact]
-    public async Task ShouldBeReturnOk()
+    public async Task ShouldBeReturnNoContent()
     {
         // Arrange
         var client = _factory.CreateClient();
@@ -31,7 +31,7 @@ public sealed class TestDeleteCategoryEndpoint(ApplicationFactory<Program> facto
         var response = await client.DeleteAsync($"/api/v1/categories/{id}");
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         output.WriteLine("Response: {0}", response);
     }
 

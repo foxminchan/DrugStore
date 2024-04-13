@@ -23,7 +23,7 @@ public sealed class TestPostOrderEndpoint(ApplicationFactory<Program> factory, I
 
     [Theory]
     [InlineData("1d6f6e4d-0f6e-4f3b-8e3e-3f3e3e3e3e3e")] // Change the value to a valid customer id
-    public async Task ShouldBeReturnOk(string customerId)
+    public async Task ShouldBeReturnCreated(string customerId)
     {
         // Arrange
         var client = _factory.CreateClient();
@@ -46,7 +46,7 @@ public sealed class TestPostOrderEndpoint(ApplicationFactory<Program> factory, I
         var response = await client.PostAsJsonAsync("/api/v1/orders", order);
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
         output.WriteLine("Response: {0}", response);
     }
 

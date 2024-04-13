@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class Update(ISender sender) : IEndpoint<UpdateCategoryResponse, UpdateCategoryRequest>
+public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateCategoryRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPut("/categories", async (UpdateCategoryRequest request) => await HandleAsync(request))
@@ -16,11 +16,19 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateCategoryResponse, U
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<UpdateCategoryResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         UpdateCategoryRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(request.Adapt<UpdateCategoryCommand>(), cancellationToken);
-        return new(result.Value.Adapt<CategoryDto>());
+        var command = request.Adapt<UpdateCategoryCommand>();
+
+        var result = await sender.Send(command, cancellationToken);
+
+        var response = new UpdateCategoryResponse
+        {
+            Category = result.Value.Adapt<CategoryDto>()
+        };
+
+        return Results.Ok(response);
     }
 }

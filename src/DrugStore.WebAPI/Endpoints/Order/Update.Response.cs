@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.WebAPI.Endpoints.Order;
 
-public sealed class UpdateOrderResponse(OrderDetailDto order)
+public sealed class UpdateOrderResponse
 {
-    public OrderDetailDto Order { get; set; } = order;
+    public OrderDetailDto? Order { get; set; }
 }

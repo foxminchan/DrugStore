@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class UpdateProductResponse(ProductDto product)
+public sealed class UpdateProductResponse
 {
-    public ProductDto Product { get; set; } = product;
+    public ProductDto? Product { get; set; }
 }

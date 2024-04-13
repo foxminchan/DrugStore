@@ -7,7 +7,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class GetById(ISender sender) : IEndpoint<CategoryDto, GetCategoryByIdRequest>
+public sealed class GetById(ISender sender) : IEndpoint<IResult, GetCategoryByIdRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/categories/{id}", async (CategoryId id) => await HandleAsync(new(id)))
@@ -17,11 +17,16 @@ public sealed class GetById(ISender sender) : IEndpoint<CategoryDto, GetCategory
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<CategoryDto> HandleAsync(
+    public async Task<IResult> HandleAsync(
         GetCategoryByIdRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
-        return result.Value.Adapt<CategoryDto>();
+        GetByIdQuery query = new(request.Id);
+
+        var result = await sender.Send(query, cancellationToken);
+
+        var response = result.Adapt<CategoryDto>();
+
+        return Results.Ok(response);
     }
 }

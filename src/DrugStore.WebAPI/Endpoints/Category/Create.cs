@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class Create(ISender sender) : IEndpoint<CreateCategoryResponse, CreateCategoryRequest>
+public sealed class Create(ISender sender) : IEndpoint<IResult, CreateCategoryRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/categories", async (
@@ -15,25 +15,24 @@ public sealed class Create(ISender sender) : IEndpoint<CreateCategoryResponse, C
                 string idempotencyKey,
                 CreateCategoryPayload payload
             ) => await HandleAsync(new(idempotencyKey, payload)))
-            .Produces<CreateCategoryResponse>()
+            .Produces<CreateCategoryResponse>(StatusCodes.Status201Created)
             .WithTags(nameof(Category))
             .WithName("Create Category")
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<CreateCategoryResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         CreateCategoryRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!Guid.TryParse(request.Idempotency, out var requestId)) throw new InvalidIdempotencyException();
 
-        var result = await sender.Send(
-            new CreateCategoryCommand(
-                requestId,
-                request.Category.Name,
-                request.Category.Description
-            ), cancellationToken);
+        CreateCategoryCommand command = new(requestId, request.Category.Name, request.Category.Description);
 
-        return new(result.Value);
+        var result = await sender.Send(command, cancellationToken);
+
+        CreateCategoryResponse response = new(result.Value);
+
+        return Results.Created($"/api/v1/categories/{response.Id}", response);
     }
 }

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class Create(ISender sender) : IEndpoint<CreateProductResponse, CreateProductRequest>
+public sealed class Create(ISender sender) : IEndpoint<IResult, CreateProductRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/products", async (
@@ -26,32 +26,35 @@ public sealed class Create(ISender sender) : IEndpoint<CreateProductResponse, Cr
             ) => await HandleAsync(new(
                 idempotency, name, productCode, detail, quantity, categoryId, price, priceSale, image, alt)
             ))
-            .Produces<CreateProductResponse>()
+            .Produces<CreateProductResponse>(StatusCodes.Status201Created)
             .WithTags(nameof(Product))
             .WithName("Create Product")
             .MapToApiVersion(new(1, 0))
             .DisableAntiforgery()
             .RequirePerUserRateLimit();
 
-    public async Task<CreateProductResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         CreateProductRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!Guid.TryParse(request.Idempotency, out var requestId)) throw new InvalidIdempotencyException();
 
-        var result = await sender.Send(
-            new CreateProductCommand(
-                requestId,
-                request.ProductName,
-                request.ProductCode,
-                request.Detail,
-                request.Quantity,
-                request.CategoryId,
-                new(request.Price, request.PriceSale),
-                request.Image,
-                request.Alt
-            ), cancellationToken);
+        CreateProductCommand command = new(
+            requestId,
+            request.ProductName,
+            request.ProductCode,
+            request.Detail,
+            request.Quantity,
+            request.CategoryId,
+            new(request.Price, request.PriceSale),
+            request.Image,
+            request.Alt
+        );
 
-        return new(result.Value);
+        var result = await sender.Send(command, cancellationToken);
+
+        CreateProductResponse response = new(result.Value);
+
+        return Results.Created($"/api/v1/products/{response.Id}", response);
     }
 }

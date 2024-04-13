@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.WebAPI.Endpoints.Basket;
 
-public sealed class UpdateBasketResponse(CustomerBasketDto basket)
+public sealed class UpdateBasketResponse
 {
-    public CustomerBasketDto Basket { get; set; } = basket;
+    public CustomerBasketDto? Basket { get; set; }
 }

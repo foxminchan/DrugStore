@@ -5,14 +5,14 @@ using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
-namespace DrugStore.FunctionalTest.Endpoints.ProductsEndpoints;
+namespace DrugStore.FunctionalTest.Endpoints.BasketEndpoints;
 
-public sealed class TestDeleteProductEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
+public sealed class TestDeleteBasketEndpoint(ApplicationFactory<Program> factory, ITestOutputHelper output)
     : IClassFixture<ApplicationFactory<Program>>, IAsyncLifetime
 {
-    private readonly ApplicationFactory<Program> _factory = factory.WithDbContainer();
+    private readonly ApplicationFactory<Program> _factory = factory.WithCacheContainer();
 
-    private readonly ProductFaker _faker = new();
+    private readonly BasketFaker _faker = new();
 
     public async Task InitializeAsync() => await _factory.StartContainersAsync();
 
@@ -23,12 +23,12 @@ public sealed class TestDeleteProductEndpoint(ApplicationFactory<Program> factor
     {
         // Arrange
         var client = _factory.CreateClient();
-        var product = _faker.Generate(1);
-        var id = product[0].Id;
+        var basket = _faker.Generate(1);
+        var id = basket[0].Id;
 
         // Act
-        await _factory.EnsureCreatedAndPopulateDataAsync(product);
-        var response = await client.DeleteAsync($"/api/v1/products/{id}");
+        await _factory.EnsureCreatedAndPopulateDataAsync(basket);
+        var response = await client.DeleteAsync($"/api/v1/baskets/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NoContent);
@@ -44,7 +44,7 @@ public sealed class TestDeleteProductEndpoint(ApplicationFactory<Program> factor
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.DeleteAsync($"/api/v1/products/{id}");
+        var response = await client.DeleteAsync($"/api/v1/baskets/{id}");
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

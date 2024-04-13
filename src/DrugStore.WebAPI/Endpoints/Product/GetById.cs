@@ -7,7 +7,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class GetById(ISender sender) : IEndpoint<ProductDto, GetProductByIdRequest>
+public sealed class GetById(ISender sender) : IEndpoint<IResult, GetProductByIdRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/products/{id}", async (ProductId id) => await HandleAsync(new(id)))
@@ -17,11 +17,16 @@ public sealed class GetById(ISender sender) : IEndpoint<ProductDto, GetProductBy
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<ProductDto> HandleAsync(
+    public async Task<IResult> HandleAsync(
         GetProductByIdRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
-        return result.Value.Adapt<ProductDto>();
+        GetByIdQuery query = new(request.Id);
+
+        var result = await sender.Send(query, cancellationToken);
+
+        var response = result.Value.Adapt<ProductDto>();
+
+        return Results.Ok(response);
     }
 }

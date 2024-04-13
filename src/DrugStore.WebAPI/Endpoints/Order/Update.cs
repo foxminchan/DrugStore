@@ -6,27 +6,29 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
 
-public sealed class Update(ISender sender) : IEndpoint<UpdateOrderResponse, UpdateOrderRequest>
+public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateOrderRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPut("/orders", async (UpdateOrderRequest request) => await HandleAsync(request))
+            .Produces<UpdateOrderResponse>()
             .WithTags(nameof(Order))
             .WithName("Update Order")
-            .Produces<UpdateOrderResponse>()
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<UpdateOrderResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         UpdateOrderRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new UpdateOrderCommand(
-            request.Id,
-            request.Code,
-            request.CustomerId,
-            request.Items
-        ), cancellationToken);
+        UpdateOrderCommand command = new(request.Id, request.Code, request.CustomerId, request.Items);
 
-        return new(result.Value.Adapt<OrderDetailDto>());
+        var result = await sender.Send(command, cancellationToken);
+
+        var response = new UpdateOrderResponse
+        {
+            Order = result.Value.Adapt<OrderDetailDto>()
+        };
+
+        return Results.Ok(response);
     }
 }

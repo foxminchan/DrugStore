@@ -6,29 +6,34 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
 
-public sealed class GetById(ISender sender) : IEndpoint<OrderDetailDto, GetOrderByIdRequest>
+public sealed class GetById(ISender sender) : IEndpoint<IResult, GetOrderByIdRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/orders/{id}", async (OrderId id) => await HandleAsync(new(id)))
+            .Produces<OrderDetailDto>()
             .WithTags(nameof(Order))
             .WithName("Get Order by Id")
-            .Produces<OrderDetailDto>()
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<OrderDetailDto> HandleAsync(
+    public async Task<IResult> HandleAsync(
         GetOrderByIdRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(new GetByIdQuery(request.Id), cancellationToken);
+        GetByIdQuery query = new(request.Id);
+
+        var result = await sender.Send(query, cancellationToken);
+
         var order = result.Value.Order;
-        return new(
-            new(order.Id, order.Code, order.Customer?.FullName, order.Customer!.Id, order.Total),
-            [
-                .. result.Value.Items.Select(x
-                    => new OrderItemDto(x.ProductId, x.OrderId, x.Quantity, x.Price, x.Total)
-                )
-            ]
-        );
+
+        OrderDto orderDto = new(order.Id, order.Code, order.Customer?.FullName, order.Customer!.Id, order.Total);
+
+        var items = result.Value.Items.Select(x
+            => new OrderItemDto(x.ProductId, x.OrderId, x.Quantity, x.Price, x.Total)
+        ).ToList();
+
+        OrderDetailDto response = new(orderDto, items);
+
+        return Results.Ok(response);
     }
 }

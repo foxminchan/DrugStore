@@ -1,6 +1,6 @@
 ﻿namespace DrugStore.WebAPI.Endpoints.Category;
 
-public sealed class ListCategoryResponse(List<CategoryDto> categories)
+public sealed class ListCategoryResponse
 {
-    public List<CategoryDto> Categories { get; set; } = categories;
+    public List<CategoryDto> Categories { get; set; } = [];
 }

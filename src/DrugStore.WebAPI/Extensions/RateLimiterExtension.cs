@@ -5,14 +5,14 @@ namespace DrugStore.WebAPI.Extensions;
 
 public static class RateLimitExtensions
 {
-    private const string Policy = "PerUserRatelimit";
+    private const string POLICY = "PerUserRatelimit";
 
     public static IServiceCollection AddRateLimiting(this IHostApplicationBuilder builder)
         => builder.Services.AddRateLimiter(options =>
         {
             options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-            options.AddPolicy(Policy, context =>
+            options.AddPolicy(POLICY, context =>
             {
                 var username = context.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -29,5 +29,5 @@ public static class RateLimitExtensions
         });
 
     public static IEndpointConventionBuilder RequirePerUserRateLimit(this IEndpointConventionBuilder builder)
-        => builder.RequireRateLimiting(Policy);
+        => builder.RequireRateLimiting(POLICY);
 }

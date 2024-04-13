@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class Update(ISender sender) : IEndpoint<UpdateProductResponse, UpdateProductRequest>
+public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateProductRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPut("/products", async (
@@ -33,23 +33,30 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateProductResponse, Up
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<UpdateProductResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         UpdateProductRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(
-            new UpdateProductCommand(
-                request.Id,
-                request.Name,
-                request.ProductCode,
-                request.Detail,
-                request.Quantity,
-                request.CategoryId,
-                new(request.Price, request.PriceSale),
-                request.IsDeleteImage,
-                request.Image,
-                request.Alt
-            ), cancellationToken);
-        return new(result.Value.Adapt<ProductDto>());
+        UpdateProductCommand command = new(
+            request.Id,
+            request.Name,
+            request.ProductCode,
+            request.Detail,
+            request.Quantity,
+            request.CategoryId,
+            new(request.Price, request.PriceSale),
+            request.IsDeleteImage,
+            request.Image,
+            request.Alt
+        );
+
+        var result = await sender.Send(command, cancellationToken);
+
+        var response = new UpdateProductResponse
+        {
+            Product = result.Value.Adapt<ProductDto>()
+        };
+
+        return Results.Ok(response);
     }
 }

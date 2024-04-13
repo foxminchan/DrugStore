@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
 
-public sealed class Create(ISender sender) : IEndpoint<CreateOrderResponse, CreateOrderRequest>
+public sealed class Create(ISender sender) : IEndpoint<IResult, CreateOrderRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/orders", async (
@@ -15,26 +15,24 @@ public sealed class Create(ISender sender) : IEndpoint<CreateOrderResponse, Crea
                 string idempotencyKey,
                 CreateOrderPayload payload
             ) => await HandleAsync(new(idempotencyKey, payload)))
-            .Produces<CreateOrderResponse>()
+            .Produces<CreateOrderResponse>(StatusCodes.Status201Created)
             .WithTags(nameof(Order))
             .WithName("Create Order")
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<CreateOrderResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         CreateOrderRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!Guid.TryParse(request.Idempotency, out var requestId)) throw new InvalidIdempotencyException();
 
-        var result = await sender.Send(
-            new CreateOrderCommand(
-                requestId,
-                request.Order.Code,
-                request.Order.CustomerId,
-                request.Order.Items
-            ), cancellationToken);
+        CreateOrderCommand command = new(requestId, request.Order.Code, request.Order.CustomerId, request.Order.Items);
 
-        return new(result.Value);
+        var result = await sender.Send(command, cancellationToken);
+
+        CreateOrderResponse response = new(result.Value);
+
+        return Results.Created($"/api/v1/orders/{response.Id}", response);
     }
 }

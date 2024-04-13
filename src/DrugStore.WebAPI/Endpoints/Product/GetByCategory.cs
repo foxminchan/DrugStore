@@ -8,7 +8,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Product;
 
-public sealed class GetByCategory(ISender sender) : IEndpoint<GetProductByCategoryResponse, GetProductByCategoryRequest>
+public sealed class GetByCategory(ISender sender) : IEndpoint<IResult, GetProductByCategoryRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/products/category/{id}", async (
@@ -22,18 +22,20 @@ public sealed class GetByCategory(ISender sender) : IEndpoint<GetProductByCatego
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<GetProductByCategoryResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         GetProductByCategoryRequest request,
         CancellationToken cancellationToken = default)
     {
-        PagingHelper filter = new(request.PageIndex, request.PageSize);
+        GetListByCategoryIdQuery query = new(request.Id, new(request.PageIndex, request.PageSize));
 
-        var result = await sender.Send(new GetListByCategoryIdQuery(request.Id, filter), cancellationToken);
+        var result = await sender.Send(query, cancellationToken);
 
-        return new()
+        var response = new GetProductByCategoryResponse
         {
             PagedInfo = result.PagedInfo,
             Products = result.Value.Adapt<List<ProductDto>>()
         };
+
+        return Results.Ok(response);
     }
 }

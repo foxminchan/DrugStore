@@ -7,7 +7,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
 
-public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserRequest>
+public sealed class List(ISender sender) : IEndpoint<IResult, ListUserRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("/users", async (
@@ -16,13 +16,13 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
                 bool isAscending = true,
                 int pageIndex = 1,
                 int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
+            .Produces<ListUserResponse>()
             .WithTags(nameof(User))
             .WithName("List Users")
-            .Produces<ListUserResponse>()
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<ListUserResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         ListUserRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -34,12 +34,16 @@ public sealed class List(ISender sender) : IEndpoint<ListUserResponse, ListUserR
             request.PageSize
         );
 
-        var result = await sender.Send(new GetListQuery(filter, request.Role), cancellationToken);
+        GetListQuery query = new(filter, request.Role);
 
-        return new()
+        var result = await sender.Send(query, cancellationToken);
+
+        var response = new ListUserResponse
         {
             PagedInfo = result.PagedInfo,
             Users = result.Value.Adapt<List<UserDto>>()
         };
+
+        return Results.Ok(response);
     }
 }

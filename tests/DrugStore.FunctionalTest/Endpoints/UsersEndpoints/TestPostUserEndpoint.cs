@@ -47,7 +47,7 @@ public sealed class TestPostUserEndpoint(ApplicationFactory<Program> factory, IT
             });
 
         // Assert
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
+        response.StatusCode.Should().Be(HttpStatusCode.Created);
         output.WriteLine("Response: {0}", response);
     }
 

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.User;
 
-public sealed class Update(ISender sender) : IEndpoint<UpdateUserResponse, UpdateUserRequest>
+public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateUserRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPut("/users", async (UpdateUserRequest request) => await HandleAsync(request))
@@ -16,11 +16,16 @@ public sealed class Update(ISender sender) : IEndpoint<UpdateUserResponse, Updat
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<UpdateUserResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         UpdateUserRequest request,
         CancellationToken cancellationToken = default)
     {
-        var result = await sender.Send(request.Adapt<UpdateUserCommand>(), cancellationToken);
-        return new(result.Adapt<UserDto>());
+        var command = request.Adapt<UpdateUserCommand>();
+
+        var result = await sender.Send(command, cancellationToken);
+
+        UpdateUserResponse response = new(result.Adapt<UserDto>());
+
+        return Results.Ok(response);
     }
 }

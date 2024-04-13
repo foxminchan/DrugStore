@@ -7,37 +7,40 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DrugStore.WebAPI.Endpoints.User;
 
-public sealed class Create(ISender sender) : IEndpoint<CreateUserResponse, CreateUserRequest>
+public sealed class Create(ISender sender) : IEndpoint<IResult, CreateUserRequest>
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("/users", async (
                 [FromHeader(Name = "X-Idempotency-Key")]
                 string idempotencyKey,
                 CreateUserPayload payload) => await HandleAsync(new(idempotencyKey, payload)))
+            .Produces<CreateUserResponse>(StatusCodes.Status201Created)
             .WithTags(nameof(User))
             .WithName("Create User")
-            .Produces<CreateUserResponse>()
             .MapToApiVersion(new(1, 0))
             .RequirePerUserRateLimit();
 
-    public async Task<CreateUserResponse> HandleAsync(
+    public async Task<IResult> HandleAsync(
         CreateUserRequest request,
         CancellationToken cancellationToken = default)
     {
         if (!Guid.TryParse(request.Idempotency, out var requestId)) throw new InvalidIdempotencyException();
 
-        var result = await sender.Send(
-            new CreateUserCommand(
-                requestId,
-                request.User.Email,
-                request.User.Password,
-                request.User.ConfirmPassword,
-                request.User.FullName,
-                request.User.Phone,
-                request.User.Address,
-                request.User.IsAdmin
-            ), cancellationToken);
+        CreateUserCommand command = new(
+            requestId,
+            request.User.Email,
+            request.User.Password,
+            request.User.ConfirmPassword,
+            request.User.FullName,
+            request.User.Phone,
+            request.User.Address,
+            request.User.IsAdmin
+        );
 
-        return new(result.Value);
+        var result = await sender.Send(command, cancellationToken);
+
+        CreateUserResponse response = new(result.Value);
+
+        return Results.Created($"/api/v1/users/{response.Id}", response);
     }
 }
