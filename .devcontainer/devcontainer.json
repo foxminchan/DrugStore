@@ -24,8 +24,8 @@
     "storefont:7060",
     "backoffice:7050",
     "identityserver:7040",
-    "postges:5432",
-    "redis:6379",
+    "db:5432",
+    "cache:6379",
     "pgadmin:5050",
     "kafkaui:8083"
   ],

@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  postgres:
+  db:
     image: postgres:16.2-alpine3.19
     container_name: postgres
     ports:
@@ -22,22 +22,7 @@ services:
     networks:
       - bridge-network
 
-  pgadmin:
-    image: dpage/pgadmin4:8.4
-    container_name: pgadmin
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: drugstore
-      PGADMIN_CONFIG_SERVER_MODE: "False"
-    volumes:
-      - ./vol/pgadmin:/root/.pgadmin
-    ports:
-      - "5050:80"
-    networks:
-      - bridge-network
-
-  redis:
+  cache:
     image: redis/redis-stack:7.2.0-v9
     container_name: redis
     ports:
@@ -109,6 +94,21 @@ services:
     networks:
       - bridge-network
 
+  pgadmin:
+    image: dpage/pgadmin4:8.4
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: drugstore
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - ./vol/pgadmin:/root/.pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - bridge-network
+
   kafka-ui:
     image: provectuslabs/kafka-ui:v0.7.1
     container_name: kafka-ui
@@ -126,11 +126,6 @@ services:
     restart: unless-stopped
     networks:
       - bridge-network
-
-volumes:
-  postgres:
-  redis:
-  kafka:
 
 networks:
   bridge-network:
