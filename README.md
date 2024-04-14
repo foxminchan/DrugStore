@@ -83,16 +83,11 @@ dotnet stryker
 ```
 
 <p align="justify">
-For e2e testing, code can be auto-generated from using the web application by running the following:
-</p>
-
-```bash
-PowerShell.exe -ExecutionPolicy Bypass -File ./tests/BackOffice.EndToEnd/bin/Debug/net8.0/playwright.ps1 codegen https://localhost:7050
-PowerShell.exe -ExecutionPolicy Bypass -File ./tests/StoreFront.EndToEnd/bin/Debug/net8.0/playwright.ps1 codegen https://localhost:7060
-```
 
 > [!IMPORTANT]
-> To use SpecFlow for BDD testing, make sure to install the SpecFlow extension in Visual Studio.
+> To use SpecFlow for BDD testing, make sure to install the SpecFlow extension in Visual Studio. You can install the extension from the Visual Studio Marketplace. After installing the extension, you can run the tests using the Test Explorer. The tests are located in the `Backoffice.EndToEnd` and `Storefront.EndToEnd` projects.
+
+</p>
 
 ## Observability
 
