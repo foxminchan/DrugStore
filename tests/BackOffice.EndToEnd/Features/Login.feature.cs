@@ -77,14 +77,12 @@ namespace BackOffice.EndToEnd.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User login with valid credentials")]
-        [NUnit.Framework.CategoryAttribute("LoginSuccess")]
         public void UserLoginWithValidCredentials()
         {
-            string[] tagsOfScenario = new string[] {
-                    "LoginSuccess"};
+            string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("User login with valid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 6
+#line 5
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -94,13 +92,13 @@ namespace BackOffice.EndToEnd.Features
             else
             {
                 this.ScenarioStart();
-#line 7
+#line 6
     testRunner.Given("a logged out user on the login page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 8
+#line 7
     testRunner.When("the user logs in with valid credentials", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 9
+#line 8
     testRunner.Then("they log in successfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -109,25 +107,19 @@ namespace BackOffice.EndToEnd.Features
         
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("User login with invalid credentials")]
-        [NUnit.Framework.CategoryAttribute("LoginFailure")]
         [NUnit.Framework.TestCaseAttribute("", "", null)]
-        [NUnit.Framework.TestCaseAttribute("\"test\"", "\"test\"", null)]
-        [NUnit.Framework.TestCaseAttribute("", "\"test\"", null)]
-        [NUnit.Framework.TestCaseAttribute("\"test\"", "", null)]
+        [NUnit.Framework.TestCaseAttribute("test", "test", null)]
+        [NUnit.Framework.TestCaseAttribute("", "test", null)]
+        [NUnit.Framework.TestCaseAttribute("test", "", null)]
+        [NUnit.Framework.TestCaseAttribute("test@gmail.com", "P@ssw0rd", null)]
         public void UserLoginWithInvalidCredentials(string email, string password, string[] exampleTags)
         {
-            string[] @__tags = new string[] {
-                    "LoginFailure"};
-            if ((exampleTags != null))
-            {
-                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
-            }
-            string[] tagsOfScenario = @__tags;
+            string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("email", email);
             argumentsOfScenario.Add("password", password);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("User login with invalid credentials", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 12
+#line 10
   this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
@@ -137,14 +129,14 @@ namespace BackOffice.EndToEnd.Features
             else
             {
                 this.ScenarioStart();
-#line 13
+#line 11
     testRunner.Given("a logged out user on the login page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-#line 14
+#line 12
     testRunner.When(string.Format("the user logs in with invalid credentials like email \'{0}\' and password \'{1}\'", email, password), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 15
-    testRunner.Then("an error is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+    testRunner.Then("login error message should be displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

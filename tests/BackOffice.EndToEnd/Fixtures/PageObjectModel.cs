@@ -1,4 +1,4 @@
-﻿namespace BackOffice.EndToEnd.Pages.Abstraction;
+﻿namespace BackOffice.EndToEnd.Fixtures;
 
 public abstract class PageObjectModel
 {
@@ -14,5 +14,13 @@ public abstract class PageObjectModel
     {
         Page = await Browser.NewPageAsync();
         await Page.GotoAsync(PagePath);
+    }
+
+    public async Task Login()
+    {
+        await Page.GotoAsync(PagePath);
+        await Page.GetByPlaceholder("Username").FillAsync("nguyenxuannhan@gmail.com");
+        await Page.GetByPlaceholder("Password").FillAsync("P@ssw0rd");
+        await Page.GetByRole(AriaRole.Button, new() { Name = "Login" }).ClickAsync();
     }
 }

@@ -1,4 +1,4 @@
-﻿using BackOffice.EndToEnd.Pages.Abstraction;
+﻿using BackOffice.EndToEnd.Fixtures;
 
 namespace BackOffice.EndToEnd.Pages;
 

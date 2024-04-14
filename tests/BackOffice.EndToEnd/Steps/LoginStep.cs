@@ -51,7 +51,7 @@ public sealed class LoginStep(LoginPage loginPage)
         await loginPage.ClickSubmit();
     }
 
-    [Then("an error is displayed")]
+    [Then("login error message should be displayed")]
     public async Task ThenAnErrorMessageShouldBeDisplayed()
     {
         var isErrorDisplayed = await loginPage.IsErrorDisplayed();

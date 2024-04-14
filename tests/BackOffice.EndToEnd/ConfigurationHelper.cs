@@ -4,13 +4,10 @@ namespace BackOffice.EndToEnd;
 
 public static class ConfigurationHelper
 {
-    private static readonly IConfiguration _configuration;
-
-    static ConfigurationHelper() =>
-        _configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables()
-            .Build();
+    private static readonly IConfiguration _configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json")
+        .AddEnvironmentVariables()
+        .Build();
 
     private static string? _baseUrl;
 
