@@ -1,3 +1,6 @@
+include .env
+export
+
 .PHONY: publish
 publish-all-dockers: publish-api publish-backoffice publish-storefront publish-identityserver
 

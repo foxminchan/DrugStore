@@ -15,8 +15,4 @@ public abstract class PageObjectModel
         Page = await Browser.NewPageAsync();
         await Page.GotoAsync(PagePath);
     }
-
-    public async Task RefreshAsync() => await Page.ReloadAsync();
-
-    public TPage As<TPage>() where TPage : PageObjectModel => (TPage)this;
 }

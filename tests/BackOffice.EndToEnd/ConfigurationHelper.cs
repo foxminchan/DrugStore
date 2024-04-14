@@ -1,25 +1,54 @@
-﻿using System.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace BackOffice.EndToEnd;
 
 public static class ConfigurationHelper
 {
-    private static readonly IConfiguration _configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .AddEnvironmentVariables()
-        .Build();
+    private static readonly IConfiguration _configuration;
 
-    private static readonly string _baseUrl
-        = _configuration["BaseUrl"] ?? throw new ConfigurationErrorsException("BaseUrl is not configured.");
+    static ConfigurationHelper() =>
+        _configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json")
+            .AddEnvironmentVariables()
+            .Build();
 
-    private static readonly int _slowMoMilliseconds = int.Parse(_configuration["SlowMoMilliseconds"] ?? "0");
+    private static string? _baseUrl;
 
-    private static readonly bool _headless = bool.Parse(_configuration["Headless"] ?? "true");
+    private static int _slowMoMilliseconds;
 
-    public static string GetBaseUrl() => _baseUrl.TrimEnd('/');
+    private static bool _headless;
 
-    public static int GetSlowMoMilliseconds() => _slowMoMilliseconds;
+    public static string GetBaseUrl()
+    {
+        if (_baseUrl is not null)
+            return _baseUrl;
 
-    public static bool GetHeadless() => _headless;
+        _baseUrl = _configuration["BaseUrl"] ?? "https://localhost:7050";
+
+        ArgumentNullException.ThrowIfNull(_baseUrl);
+
+        _baseUrl = _baseUrl.TrimEnd('/');
+
+        return _baseUrl;
+    }
+
+    public static int GetSlowMoMilliseconds()
+    {
+        if (_slowMoMilliseconds != 0)
+            return _slowMoMilliseconds;
+
+        _slowMoMilliseconds = int.Parse(_configuration["SlowMoMilliseconds"] ?? "200");
+
+        return _slowMoMilliseconds;
+    }
+
+    public static bool GetHeadless()
+    {
+        if (_headless)
+            return _headless;
+
+        _headless = bool.Parse(_configuration["Headless"] ?? "false");
+
+        return _headless;
+    }
 }
