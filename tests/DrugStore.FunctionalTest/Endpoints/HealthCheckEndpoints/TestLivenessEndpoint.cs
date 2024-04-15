@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.HealthCheckEndpoints;
 
@@ -16,7 +15,7 @@ public sealed class TestLivenessEndpoint(ApplicationFactory<Program> factory, IT
             .WithWebHostBuilder(builder =>
             {
                 builder.UseSetting("ConnectionStrings:Postgres",
-                    "Host=localhost;Port=5432;Database=test_db;Username=postgres;Password=postgres");
+                    "Host=localhost;Port=5400;Database=test_db;Username=postgres;Password=postgres");
                 builder.UseSetting("ConnectionStrings:Redis", "localhost:6379");
             }).CreateClient();
 

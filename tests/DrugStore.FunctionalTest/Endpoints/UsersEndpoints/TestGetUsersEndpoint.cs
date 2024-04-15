@@ -5,7 +5,6 @@ using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
 using DrugStore.WebAPI.Endpoints.User;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.UsersEndpoints;
 

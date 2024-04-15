@@ -1,11 +1,10 @@
-﻿using DrugStore.FunctionalTest.Extensions;
+﻿using System.Net;
+using System.Net.Http.Json;
+using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
-using System.Net;
-using System.Net.Http.Json;
 using DrugStore.WebAPI.Endpoints.Basket;
+using FluentAssertions;
 
 namespace DrugStore.FunctionalTest.Endpoints.BasketEndpoints;
 

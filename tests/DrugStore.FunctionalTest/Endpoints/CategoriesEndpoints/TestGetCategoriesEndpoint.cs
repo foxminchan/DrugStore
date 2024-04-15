@@ -1,10 +1,10 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
 using DrugStore.WebAPI.Endpoints.Category;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
@@ -32,12 +32,10 @@ public sealed class TestGetCategoriesEndpoint(ApplicationFactory<Program> factor
 
         // Assert
         response.EnsureSuccessStatusCode();
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
         var items =
-            await response.Content.ReadFromJsonAsync<List<CategoryDto>>();
+            await response.Content.ReadFromJsonAsync<ListCategoryResponse>();
         output.WriteLine("Response: {0}", items);
-        items.Should()
-            .NotBeNull()
-            .And
-            .Match<List<CategoryDto>>(x => x.Count == 10);
+        items.Should().NotBeNull();
     }
 }

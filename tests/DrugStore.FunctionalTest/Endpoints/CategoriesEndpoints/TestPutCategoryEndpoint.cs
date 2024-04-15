@@ -4,7 +4,6 @@ using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
@@ -29,8 +28,8 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
 
         // Act
         await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        var response = await client.PutAsJsonAsync("/api/v1/categories",
+            new { Id = id, Name = "New Name", Description = "New Description" });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -47,8 +46,8 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
 
         // Act
         await _factory.EnsureCreatedAndPopulateDataAsync(category);
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{id}",
-            new { Title = string.Empty, Link = string.Empty });
+        var response = await client.PutAsJsonAsync("/api/v1/categories",
+            new { Id = id, Name = string.Empty, Description = string.Empty });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -62,8 +61,8 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.PutAsJsonAsync($"/api/v1/categories/{Guid.NewGuid()}",
-            new { Title = "New Name", Link = "https://newlink.com" });
+        var response = await client.PutAsJsonAsync($"/api/v1/categories",
+            new { Id = Guid.NewGuid(), Name = "New Name", Description = "https://newlink.com" });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

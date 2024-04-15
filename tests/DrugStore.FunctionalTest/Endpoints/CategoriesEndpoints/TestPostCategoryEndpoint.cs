@@ -4,7 +4,6 @@ using Bogus;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
@@ -31,7 +30,7 @@ public sealed class TestPostCategoryEndpoint(ApplicationFactory<Program> factory
         // Act
         client.DefaultRequestHeaders.Add("X-Idempotency-Key", Guid.NewGuid().ToString());
         var response = await client.PostAsJsonAsync("/api/v1/categories",
-            new { Title = faker.Commerce.Categories(1)[0], Link = faker.Internet.Url() });
+            new { Name = faker.Commerce.Categories(1)[0], Description = faker.Lorem.Sentence() });
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -61,8 +60,8 @@ internal class InvalidData : TheoryData<object>
 {
     public InvalidData()
     {
-        Add(new { Title = string.Empty, Link = "https://newlink.com" });
-        Add(new { Title = "New Name", Link = string.Empty });
-        Add(new { Title = string.Empty, Link = string.Empty });
+        Add(new { Name = string.Empty, Description = "New Description" });
+        Add(new { Name = "New Name", Description = string.Empty });
+        Add(new { Name = string.Empty, Description = string.Empty });
     }
 }

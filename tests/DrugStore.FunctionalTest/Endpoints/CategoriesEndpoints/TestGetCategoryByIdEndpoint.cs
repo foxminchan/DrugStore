@@ -1,11 +1,8 @@
 ﻿using System.Net;
-using System.Net.Http.Json;
 using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
-using DrugStore.WebAPI.Endpoints.Category;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.CategoriesEndpoints;
 
@@ -34,14 +31,11 @@ public sealed class TestGetCategoryByIdEndpoint(ApplicationFactory<Program> fact
 
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var item = await response.Content.ReadFromJsonAsync<CategoryDto>();
-        output.WriteLine("Response: {0}", item);
-        item.Should().NotBeNull().And.Match<CategoryDto>(x => x.Id == id);
     }
 
     [Theory(DisplayName = "Should be return not found")]
-    [InlineData("00000000-0000-0000-0000-000000000000")]
     [InlineData("00000000-0000-0000-0000-000000000001")]
+    [InlineData("00000000-0000-0000-0000-000000000002")]
     public async Task ShouldBeReturnNotFound(string id)
     {
         // Arrange

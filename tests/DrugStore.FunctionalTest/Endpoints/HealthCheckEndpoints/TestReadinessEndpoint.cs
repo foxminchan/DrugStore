@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.HealthCheckEndpoints;
 

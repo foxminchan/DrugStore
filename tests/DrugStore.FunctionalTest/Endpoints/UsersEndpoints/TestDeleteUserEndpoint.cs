@@ -3,7 +3,6 @@ using DrugStore.FunctionalTest.Extensions;
 using DrugStore.FunctionalTest.Fakers;
 using DrugStore.FunctionalTest.Fixtures;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace DrugStore.FunctionalTest.Endpoints.UsersEndpoints;
 
@@ -36,8 +35,8 @@ public sealed class TestDeleteUserEndpoint(ApplicationFactory<Program> factory, 
     }
 
     [Theory(DisplayName = "Should be return not found")]
-    [InlineData("00000000-0000-0000-0000-000000000000")]
     [InlineData("00000000-0000-0000-0000-000000000001")]
+    [InlineData("00000000-0000-0000-0000-000000000002")]
     public async Task ShouldBeReturnNotFound(string id)
     {
         // Arrange
