@@ -26,7 +26,7 @@ public sealed class GetByIdQueryHandlerTest
     public async Task NotBeNullIfCategoryExists()
     {
         // Arrange
-        var query = new GetByIdQuery(new(Guid.Empty));
+        var query = new GetByIdQuery(new(Guid.NewGuid()));
         var handler = new GetByIdQueryHandler(_mapper, _repository, _redisService);
 
         // Act

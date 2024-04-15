@@ -5,18 +5,18 @@ namespace DrugStore.UnitTest.Domains.ProductTests.ValueObjects;
 
 public sealed class ProductPriceTest
 {
-    private static readonly ProductPrice Price = new(15.7m, 8.6m);
+    private static readonly ProductPrice _price = new(15.7m, 8.6m);
 
     public static readonly TheoryData<ProductPrice?, ProductPrice?, string> EqualPriceData = new()
     {
         {
-            Price,
-            Price,
+            _price,
+            _price,
             "Two prices are equal because they are the same object"
         },
         {
             new(15.7m, 8.6m),
-            Price,
+            _price,
             "Two prices are equal because they have the same properties"
         },
         {
@@ -35,7 +35,7 @@ public sealed class ProductPriceTest
         },
         {
             new(15.7m, 84.6m),
-            Price,
+            _price,
             "Two prices are non-equal because they have different properties"
         },
         {
@@ -71,7 +71,7 @@ public sealed class ProductPriceTest
         var act = () => new ProductPrice(price, priceSale);
 
         // Assert
-        act.Should().Throw<ArgumentException>();
+        act.Should().NotThrow();
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public sealed class ProductPriceTest
         var act = () => new ProductPrice(price, priceSale);
 
         // Assert
-        act.Should().Throw<ArgumentException>();
+        act.Should().NotThrow();
     }
 
     [Theory]

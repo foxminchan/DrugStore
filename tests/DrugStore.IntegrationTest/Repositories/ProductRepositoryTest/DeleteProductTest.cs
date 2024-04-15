@@ -28,12 +28,12 @@ public sealed class DeleteProductTest : BaseEfRepoTestFixture
         const int quantity = 10;
         ProductPrice price = new(100, 90);
         var product = new Product(name, code, detail, quantity, null, price);
-        await _repository.AddAsync(product);
+        var result = await _repository.AddAsync(product);
         _output.WriteLine("Product: " + JsonSerializer.Serialize(product));
 
         // Act
-        product.SetDiscontinued();
-        await _repository.UpdateAsync(product);
+        result.Status = ProductStatus.Discontinued;
+        await _repository.UpdateAsync(result);
 
         // Assert
         Assert.DoesNotContain(await _repository.ListAsync(), c => c.Status == ProductStatus.Discontinued);

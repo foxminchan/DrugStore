@@ -4,7 +4,7 @@ namespace BackOffice.EndToEnd.Pages;
 
 public sealed class AddCategoryPage(IPage page, IBrowser browser) : PageObjectModel
 {
-    public override string PagePath { get; } = $"{BaseUrl}/categories";
+    public override string PagePath => $"{BaseUrl}/categories";
     public override IBrowser Browser { get; } = browser;
     public override IPage Page { get; set; } = page;
 

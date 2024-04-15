@@ -71,14 +71,12 @@ public sealed class Product : EntityBase, IAggregateRoot
 
     public void RemoveStock(int quantityDesired)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(0, quantityDesired);
         Quantity -= quantityDesired;
         if (Status == ProductStatus.InStock && Quantity == 0) Status = ProductStatus.OutOfStock;
     }
 
     public void AddStock(int quantityDesired)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(0, quantityDesired);
         Quantity += quantityDesired;
         if (Status == ProductStatus.OutOfStock && Quantity > 0) Status = ProductStatus.InStock;
     }

@@ -5,13 +5,13 @@ namespace DrugStore.UnitTest.Domains.ProductTests.ValueObjects;
 
 public sealed class ProductImageTest
 {
-    private static readonly ProductImage ProductImage = new(Guid.Empty.ToString(), "Mock Image", "Mock Title");
+    private static readonly ProductImage _productImage = new(Guid.Empty.ToString(), "Mock Image", "Mock Title");
 
     public static readonly TheoryData<ProductImage?, ProductImage?, string> EqualImage = new()
     {
         {
-            ProductImage,
-            ProductImage,
+            _productImage,
+            _productImage,
             "Two images are equal because they are the same object"
         },
         {
@@ -29,7 +29,7 @@ public sealed class ProductImageTest
     public static readonly TheoryData<ProductImage?, ProductImage?, string> NonEqualImage = new()
     {
         {
-            ProductImage,
+            _productImage,
             new(Guid.NewGuid().ToString(), "Mock Image", "Mock Title"),
             "Two images are non-equal because they are different objects"
         },
