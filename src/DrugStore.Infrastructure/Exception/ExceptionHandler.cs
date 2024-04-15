@@ -27,10 +27,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
                 await HandleNotFoundException(httpContext, notFoundException, cancellationToken);
                 break;
 
-            case UnauthorizedAccessException:
-                await HandleUnauthorizedAccessException(httpContext, cancellationToken);
-                break;
-
             default:
                 await HandleDefaultException(httpContext, exception, cancellationToken);
                 break;
@@ -64,15 +60,6 @@ public sealed class ExceptionHandler(ILogger<ExceptionHandler> logger) : IExcept
         var notFoundErrorModel = Result.NotFound(notFoundException.Message);
         httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
         await httpContext.Response.WriteAsJsonAsync(notFoundErrorModel.Errors, cancellationToken);
-    }
-
-    private static async Task HandleUnauthorizedAccessException(
-        HttpContext httpContext,
-        CancellationToken cancellationToken)
-    {
-        httpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
-        await httpContext.Response.WriteAsJsonAsync("You are not authorized to access this resource",
-            cancellationToken);
     }
 
     private static async Task HandleDefaultException(

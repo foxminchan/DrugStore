@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace StoreFront.EndToEnd;
 
@@ -10,16 +9,43 @@ public static class ConfigurationHelper
         .AddEnvironmentVariables()
         .Build();
 
-    private static readonly string _baseUrl
-        = _configuration["BaseUrl"] ?? throw new ConfigurationErrorsException("BaseUrl is not configured.");
+    private static string? _baseUrl;
 
-    private static readonly int _slowMoMilliseconds = int.Parse(_configuration["SlowMoMilliseconds"] ?? "0");
+    private static int _slowMoMilliseconds;
 
-    private static readonly bool _headless = bool.Parse(_configuration["Headless"] ?? "true");
+    private static bool _headless;
 
-    public static string GetBaseUrl() => _baseUrl.TrimEnd('/');
+    public static string GetBaseUrl()
+    {
+        if (_baseUrl is not null)
+            return _baseUrl;
 
-    public static int GetSlowMoMilliseconds() => _slowMoMilliseconds;
+        _baseUrl = _configuration["BaseUrl"] ?? "https://localhost:7060";
 
-    public static bool GetHeadless() => _headless;
+        ArgumentNullException.ThrowIfNull(_baseUrl);
+
+        _baseUrl = _baseUrl.TrimEnd('/');
+
+        return _baseUrl;
+    }
+
+    public static int GetSlowMoMilliseconds()
+    {
+        if (_slowMoMilliseconds != 0)
+            return _slowMoMilliseconds;
+
+        _slowMoMilliseconds = int.Parse(_configuration["SlowMoMilliseconds"] ?? "200");
+
+        return _slowMoMilliseconds;
+    }
+
+    public static bool GetHeadless()
+    {
+        if (_headless)
+            return _headless;
+
+        _headless = bool.Parse(_configuration["Headless"] ?? "false");
+
+        return _headless;
+    }
 }
