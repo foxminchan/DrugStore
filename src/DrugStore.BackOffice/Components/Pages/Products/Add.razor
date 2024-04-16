@@ -1,7 +1,7 @@
 ﻿@page "/products/add"
-@attribute [Authorize]
 @using DrugStore.BackOffice.Components.Pages.Products.Requests
 @using DrugStore.BackOffice.Constants
+@attribute [Authorize]
 
 <PageTitle>Add Product</PageTitle>
 
@@ -29,7 +29,7 @@
                                    @bind-Value="_product.Name"
                                    class="w-100"
                                    id="InputName"
-                                   Placeholder="Aspirin" />
+                                   Placeholder="Aspirin"/>
                     <RadzenRequiredValidator Component="Name"
                                              Text="Name is required"/>
                     <RadzenLengthValidator Component="Name"
@@ -161,12 +161,12 @@
             <RadzenColumn Size="12" SizeMD="6">
                 <RadzenFieldset Text="Product image">
                     <RadzenStack Gap="1rem">
-                            <RadzenLabel Text="Image" Component="Image"/>
-                            <RadzenUpload Name="Image"
-                                          Accept="image/*"
-                                          Multiple="false"
-                                          id="InputImage"
-                                          @bind-Value="_product.File"/>
+                        <RadzenLabel Text="Image" Component="Image"/>
+                        <RadzenUpload Name="Image"
+                                      Accept="image/*"
+                                      Multiple="false"
+                                      id="InputImage"
+                                      @bind-Value="_product.File"/>
                         <RadzenRow Style="margin-bottom: 1rem">
                             <RadzenLabel Text="Alt" Component="Alt"/>
                             <RadzenTextBox Style="display: block"

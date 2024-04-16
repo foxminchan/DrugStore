@@ -11,13 +11,13 @@ public sealed partial class Index
 {
     private int _count;
 
+    private RadzenDataGrid<Product> _dataGrid = default!;
+
     private bool _error;
 
     private bool _loading;
 
     private List<Product> _products = [];
-
-    private RadzenDataGrid<Product> _dataGrid = default!;
 
     [Inject] private IProductsApi ProductsApi { get; set; } = default!;
 

@@ -8,10 +8,10 @@ public sealed class AddCategoryPage(IPage page, IBrowser browser) : PageObjectMo
     public override IBrowser Browser { get; } = browser;
     public override IPage Page { get; set; } = page;
 
-    public async Task ClickAddCategory() 
+    public async Task ClickAddCategory()
         => await Page.GetByRole(AriaRole.Button, new() { Name = "add_circle_outline Add" }).ClickAsync();
 
-    public async Task SetName(string name) 
+    public async Task SetName(string name)
         => await Page.GetByPlaceholder("Vitamins and Minerals", new() { Exact = true }).FillAsync(name);
 
     public async Task SetDescription(string description)

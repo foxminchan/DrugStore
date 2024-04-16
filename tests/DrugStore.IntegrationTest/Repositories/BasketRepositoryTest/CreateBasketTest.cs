@@ -15,7 +15,7 @@ public sealed class CreateBasketTest(ITestOutputHelper output) : BaseEfRepoTestF
     public async Task ShouldCreateBasket()
     {
         // Arrange
-        var basket = new CustomerBasket()
+        var basket = new CustomerBasket
         {
             Id = new(Guid.NewGuid()),
             Items =

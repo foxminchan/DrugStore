@@ -1,24 +1,23 @@
 ﻿using System.Text.Json;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
-using DrugStore.BackOffice.Constants;
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components;
-using Radzen;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
+using DrugStore.BackOffice.Constants;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Radzen;
 
 namespace DrugStore.BackOffice.Components.Pages.Users.Staffs;
 
 public sealed partial class Add
 {
+    private const string DEFAULT_PASSWORD = "P@ssw0rd";
+
+    private readonly CreateUser _user = new();
     private bool _busy;
 
     private bool _error;
 
     private bool _isDefaultPassword;
-
-    private readonly CreateUser _user = new();
-
-    private const string DEFAULT_PASSWORD = "P@ssw0rd";
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
 

@@ -1,6 +1,6 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.ComponentModel.DataAnnotations;
+using Ardalis.GuardClauses;
 using DrugStore.Domain.SharedKernel;
-using System.ComponentModel.DataAnnotations;
 
 namespace DrugStore.Domain.ProductAggregate.ValueObjects;
 

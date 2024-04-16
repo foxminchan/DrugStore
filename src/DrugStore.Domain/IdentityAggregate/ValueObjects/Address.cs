@@ -9,8 +9,6 @@ public sealed class Address(string street, string city, string province) : Value
     public string City { get; set; } = city;
     public string Province { get; set; } = province;
 
-    public override string ToString() => $"{Street}, {City}, {Province}";
-
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (string.IsNullOrWhiteSpace(Street) || Street.Length > 50)
@@ -22,6 +20,8 @@ public sealed class Address(string street, string city, string province) : Value
         if (string.IsNullOrWhiteSpace(Province) || Province.Length > 50)
             yield return new("Province is required and must be less than 50 characters", [nameof(Province)]);
     }
+
+    public override string ToString() => $"{Street}, {City}, {Province}";
 
     protected override IEnumerable<object> GetEqualityComponents()
     {

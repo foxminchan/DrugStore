@@ -15,7 +15,7 @@ public sealed class UpdateBasketTest(ITestOutputHelper output) : BaseEfRepoTestF
     public void ShouldBeUpdateBasket()
     {
         // Arrange
-        var basket = new CustomerBasket()
+        var basket = new CustomerBasket
         {
             Id = new(Guid.NewGuid()),
             Items =

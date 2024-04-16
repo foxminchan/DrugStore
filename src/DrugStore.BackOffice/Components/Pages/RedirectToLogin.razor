@@ -1,8 +1,7 @@
-﻿@using Microsoft.EntityFrameworkCore.Metadata.Internal
-
-@code {
+﻿@code {
     [Inject] public NavigationManager Navigation { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync() 
+    protected override async Task OnInitializedAsync()
         => Navigation.NavigateTo($"/login?redirectUri={Uri.EscapeDataString(Navigation.Uri)}", true);
+
 }

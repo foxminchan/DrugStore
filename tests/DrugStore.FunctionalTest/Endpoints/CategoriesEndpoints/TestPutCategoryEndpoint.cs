@@ -61,7 +61,7 @@ public sealed class TestPutCategoryEndpoint(ApplicationFactory<Program> factory,
         var client = _factory.CreateClient();
 
         // Act
-        var response = await client.PutAsJsonAsync($"/api/v1/categories",
+        var response = await client.PutAsJsonAsync("/api/v1/categories",
             new { Id = Guid.NewGuid(), Name = "New Name", Description = "https://newlink.com" });
 
         // Assert

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-
-namespace DrugStore.BackOffice.Components.Layout;
+﻿namespace DrugStore.BackOffice.Components.Layout;
 
 public sealed partial class MainLayout
 {

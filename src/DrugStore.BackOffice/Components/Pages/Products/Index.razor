@@ -1,6 +1,7 @@
 ﻿@page "/products"
-@attribute [Authorize]
+@using System.Globalization
 @using DrugStore.BackOffice.Components.Pages.Products.Response
+@attribute [Authorize]
 @inject IConfiguration Configuration
 
 <PageTitle>Products List</PageTitle>
@@ -151,7 +152,7 @@
                                                   Property="@nameof(Product.Price.Price)"
                                                   Title="@nameof(Product.Price.Price)">
                                 <Template Context="product">
-                                    @product.Price.Price.ToString("C")
+                                    @product.Price.Price.ToString("C", CultureInfo.GetCultureInfo("en-US"))
                                 </Template>
                             </RadzenDataGridColumn>
                             <RadzenDataGridColumn TItem="Product"
@@ -159,7 +160,7 @@
                                                   Property="@nameof(Product.Price.PriceSale)"
                                                   Title="Price Sale">
                                 <Template Context="product">
-                                    @product.Price.PriceSale.ToString("C")
+                                    @product.Price.PriceSale.ToString("C", CultureInfo.GetCultureInfo("en-US"))
                                 </Template>
                             </RadzenDataGridColumn>
                         </Columns>

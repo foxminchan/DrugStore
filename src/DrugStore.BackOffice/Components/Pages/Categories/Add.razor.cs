@@ -10,11 +10,10 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Add
 {
+    private readonly CreateCategory _category = new();
     private bool _busy;
 
     private bool _error;
-
-    private readonly CreateCategory _category = new();
 
     [Inject] private ILogger<Add> Logger { get; set; } = default!;
 

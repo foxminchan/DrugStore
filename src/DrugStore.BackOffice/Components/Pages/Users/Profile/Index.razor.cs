@@ -1,20 +1,19 @@
-﻿using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json;
+using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests;
 using DrugStore.BackOffice.Components.Pages.Users.Shared.Services;
 using DrugStore.BackOffice.Constants;
 using Microsoft.AspNetCore.Components;
 using Radzen;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text.Json;
 
 namespace DrugStore.BackOffice.Components.Pages.Users.Profile;
 
 public partial class Index
 {
+    private readonly UpdateUser _user = new();
     private bool _busy;
 
     private bool _error;
-
-    private readonly UpdateUser _user = new();
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
 
@@ -75,8 +74,8 @@ public partial class Index
                 Logger.LogInformation("[{Page}] User information: {Request}", nameof(Index),
                     JsonSerializer.Serialize(user));
 
-                if (string.IsNullOrEmpty(user.Password) || 
-                    string.IsNullOrEmpty(user.ConfirmPassword) || 
+                if (string.IsNullOrEmpty(user.Password) ||
+                    string.IsNullOrEmpty(user.ConfirmPassword) ||
                     string.IsNullOrEmpty(user.OldPassword))
                 {
                     UpdateUserInfo updateUserInfo = new()

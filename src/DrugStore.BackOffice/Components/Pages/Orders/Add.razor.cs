@@ -15,23 +15,22 @@ namespace DrugStore.BackOffice.Components.Pages.Orders;
 
 public sealed partial class Add
 {
+    private readonly List<OrderItemPayload> _items = [];
+
+    private readonly CreateOrder _order = new();
     private bool _busy;
+
+    private int _customerCount;
+
+    private RadzenDataGrid<OrderItemPayload> _dataGrid = default!;
 
     private bool _error;
 
     private int _productCount;
 
-    private int _customerCount;
-
-    private List<User> _users = [];
-
     private List<Product> _products = [];
 
-    private readonly CreateOrder _order = new();
-
-    private readonly List<OrderItemPayload> _items = [];
-
-    private RadzenDataGrid<OrderItemPayload> _dataGrid = default!;
+    private List<User> _users = [];
 
     [Inject] private ILogger<Add> Logger { get; set; } = default!;
 

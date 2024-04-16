@@ -10,11 +10,10 @@ namespace DrugStore.BackOffice.Components.Pages.Categories;
 
 public sealed partial class Edit
 {
+    private readonly UpdateCategory _category = new();
     private bool _busy;
 
     private bool _error;
-
-    private readonly UpdateCategory _category = new();
 
     [Inject] private ILogger<Edit> Logger { get; set; } = default!;
 

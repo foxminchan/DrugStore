@@ -10,11 +10,10 @@ namespace DrugStore.BackOffice.Components.Pages.Users.Customers;
 
 public sealed partial class Edit
 {
+    private readonly UpdateUserInfo _customer = new();
     private bool _busy;
 
     private bool _error;
-
-    private readonly UpdateUserInfo _customer = new();
 
     [Inject] private IUserApi UserApi { get; set; } = default!;
 

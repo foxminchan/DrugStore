@@ -18,7 +18,7 @@ public sealed class ListUserTest(ITestOutputHelper output) : BaseEfRepoTestFixtu
     public async Task ShouldListUser()
     {
         // Arrange
-        var users = new List<ApplicationUser>()
+        var users = new List<ApplicationUser>
         {
             new("testuser1@gmail.com", "Test User 1", "1234567890",
                 new("Test Street 1", "Test City 1", "Test Province 1")),

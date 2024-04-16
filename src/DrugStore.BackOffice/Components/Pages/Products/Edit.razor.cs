@@ -11,15 +11,14 @@ namespace DrugStore.BackOffice.Components.Pages.Products;
 
 public partial class Edit
 {
+    private readonly UpdateProduct _product = new();
     private bool _busy;
-
-    private bool _error;
-
-    private int _categoriesCount;
 
     private List<Category> _categories = [];
 
-    private readonly UpdateProduct _product = new();
+    private int _categoriesCount;
+
+    private bool _error;
 
     [Inject] private ILogger<Edit> Logger { get; set; } = default!;
 
@@ -82,7 +81,7 @@ public partial class Edit
                     JsonSerializer.Serialize(product));
 
                 await ProductsApi.UpdateProductAsync(
-                    Guid.Parse(product.Id), 
+                    Guid.Parse(product.Id),
                     product.Name,
                     product.ProductCode,
                     product.Detail,

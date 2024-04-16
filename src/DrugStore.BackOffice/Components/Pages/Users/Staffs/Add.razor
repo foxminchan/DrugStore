@@ -1,7 +1,7 @@
 ﻿@page "/users/add"
-@attribute [Authorize]
 @using DrugStore.BackOffice.Components.Pages.Users.Shared.Requests
 @using DrugStore.BackOffice.Constants
+@attribute [Authorize]
 
 <PageTitle>Add User</PageTitle>
 
@@ -130,9 +130,9 @@
         <RadzenFieldset Text="User password">
             <RadzenStack Gap="1rem">
                 <RadzenRow Style="margin-bottom: 1rem">
-                    <RadzenCheckBox TValue="bool" 
-                                    Value="_isDefaultPassword" 
-                                    Change="SetDefaultPassword" 
+                    <RadzenCheckBox TValue="bool"
+                                    Value="_isDefaultPassword"
+                                    Change="SetDefaultPassword"
                                     id="ChkDefaultPassword"
                                     Name="DefaultPassword"/>
                     <RadzenLabel Component="DefaultPassword">
@@ -153,7 +153,7 @@
                                              Text="Password is required"/>
                     <RadzenRegexValidator Component="Password"
                                           Text="Password must contain at least one uppercase letter, one lowercase letter, one number and 8-15 characters"
-                                          Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$" />
+                                          Pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$"/>
                 </RadzenRow>
                 <RadzenRow Style="margin-bottom: 1rem">
                     <RadzenLabel Text="Confirm password" Component="ConfirmPassword"/>

@@ -1,0 +1,19 @@
+﻿@using DrugStore.BackOffice.Components.Pages.Categories
+@inherits TestContext
+
+@code {
+
+    [Fact]
+    public void AddCategoryFailed()
+    {
+        // Arrange
+        var cut = Render(@<Add/>);
+
+        // Act
+        cut.Find("button[type=submit]").Click();
+
+        // Assert
+        cut.MarkupMatches("""<div class="rz-message rz-messages-error " > Name is required</div>""");
+    }
+
+}

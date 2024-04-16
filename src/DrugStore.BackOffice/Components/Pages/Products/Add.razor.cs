@@ -12,15 +12,14 @@ namespace DrugStore.BackOffice.Components.Pages.Products;
 
 public sealed partial class Add
 {
+    private readonly CreateProduct _product = new();
     private bool _busy;
-
-    private bool _error;
-
-    private int _categoriesCount;
 
     private List<Category> _categories = [];
 
-    private readonly CreateProduct _product = new();
+    private int _categoriesCount;
+
+    private bool _error;
 
     [Inject] private ICategoriesApi CategoriesApi { get; set; } = default!;
 

@@ -4,28 +4,27 @@ using DrugStore.BackOffice.Components.Pages.Orders.Services;
 using DrugStore.BackOffice.Components.Pages.Products.Response;
 using DrugStore.BackOffice.Components.Pages.Products.Services;
 using DrugStore.BackOffice.Constants;
-using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
-using Radzen.Blazor;
+using Microsoft.AspNetCore.Components.Web;
 using Radzen;
+using Radzen.Blazor;
 
 namespace DrugStore.BackOffice.Components.Pages.Orders;
 
 public sealed partial class Edit
 {
+    private readonly List<OrderItemPayload> _items = [];
+
+    private readonly UpdateOrder _order = new();
     private bool _busy;
+
+    private RadzenDataGrid<OrderItemPayload> _dataGrid = default!;
 
     private bool _error;
 
     private int _productCount;
 
     private List<Product> _products = [];
-
-    private readonly UpdateOrder _order = new();
-
-    private readonly List<OrderItemPayload> _items = [];
-
-    private RadzenDataGrid<OrderItemPayload> _dataGrid = default!;
 
     [Inject] private ILogger<Edit> Logger { get; set; } = default!;
 
@@ -89,7 +88,9 @@ public sealed partial class Edit
 
             await OrdersApi.UpdateOrderAsync(order);
             NotificationService.Notify(new()
-                { Severity = NotificationSeverity.Success, Summary = "Success", Detail = "Order updated successfully" });
+            {
+                Severity = NotificationSeverity.Success, Summary = "Success", Detail = "Order updated successfully"
+            });
             NavigationManager.NavigateTo("/orders");
         }
         catch (Exception)

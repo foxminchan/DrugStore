@@ -23,7 +23,7 @@ public sealed class ResetPassword(ISender sender) : IEndpoint<IResult, ResetPass
 
         var result = await sender.Send(command, cancellationToken);
 
-        ResetPasswordResponse response = new (result.Value);
+        ResetPasswordResponse response = new(result.Value);
 
         return Results.Ok(response);
     }

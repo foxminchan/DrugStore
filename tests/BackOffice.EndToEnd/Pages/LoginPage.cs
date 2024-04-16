@@ -16,6 +16,6 @@ public sealed class LoginPage(IPage page, IBrowser browser) : PageObjectModel
 
     public async Task<bool> IsErrorDisplayed() => await Page.IsVisibleAsync(".alert-danger");
 
-    public async Task<string?> IsDashboardPage() 
+    public async Task<string?> IsDashboardPage()
         => await Page.GetByRole(AriaRole.Heading, new() { Name = "Home" }).TextContentAsync();
 }

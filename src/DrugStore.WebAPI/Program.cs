@@ -68,5 +68,7 @@ finally
 
 public partial class Program
 {
-    protected Program() { }
+    protected Program()
+    {
+    }
 }

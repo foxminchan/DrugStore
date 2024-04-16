@@ -1,6 +1,7 @@
 ﻿@page "/orders"
-@attribute [Authorize]
+@using System.Globalization
 @using DrugStore.BackOffice.Components.Pages.Orders.Response
+@attribute [Authorize]
 
 <PageTitle>Orders List</PageTitle>
 
@@ -92,7 +93,11 @@
                     <RadzenDataGridColumn TItem="Order"
                                           Width="250px"
                                           Property="@nameof(Order.Total)"
-                                          Title="@nameof(Order.Total)"/>
+                                          Title="@nameof(Order.Total)">
+                        <Template Context="order">
+                            @order.Total.ToString("C", CultureInfo.GetCultureInfo("en-US"))
+                        </Template>
+                    </RadzenDataGridColumn>
                     <RadzenDataGridColumn TItem="Order"
                                           Width="100px"
                                           Frozen="true"
