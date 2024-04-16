@@ -17,6 +17,7 @@ builder.Services.AddRazorComponents()
 builder.AddRedisDataProtection();
 builder.Services.AddRadzenComponents();
 builder.Services.AddControllers();
+builder.Services.AddHttpContextAccessor();
 
 builder.AddOpenTelemetry();
 builder.AddSerilog(builder.Environment.ApplicationName);

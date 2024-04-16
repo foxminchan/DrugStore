@@ -50,8 +50,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrugStore.IdentityServer", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreFront.EndToEnd", "tests\StoreFront.EndToEnd\StoreFront.EndToEnd.csproj", "{AFAE1016-E6A9-48CE-95BD-A5A286420651}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackOffice.UnitTest", "tests\BackOffice.UnitTest\BackOffice.UnitTest.csproj", "{8ED64C45-FEF7-4F96-8016-9D34932361CD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,10 +112,6 @@ Global
 		{AFAE1016-E6A9-48CE-95BD-A5A286420651}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFAE1016-E6A9-48CE-95BD-A5A286420651}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFAE1016-E6A9-48CE-95BD-A5A286420651}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8ED64C45-FEF7-4F96-8016-9D34932361CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8ED64C45-FEF7-4F96-8016-9D34932361CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8ED64C45-FEF7-4F96-8016-9D34932361CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8ED64C45-FEF7-4F96-8016-9D34932361CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,7 +133,6 @@ Global
 		{51BB3671-7388-483C-B2D6-1263A33FC70B} = {3DFF8B58-9C87-4440-AF1D-92AA434698C9}
 		{639DFA90-ACE2-4405-925E-676887B933EF} = {6FF9CA4A-1CE5-4846-A831-80F9FF018DAD}
 		{AFAE1016-E6A9-48CE-95BD-A5A286420651} = {CA70F69D-D77C-4A98-87A1-85049D8D5BBC}
-		{8ED64C45-FEF7-4F96-8016-9D34932361CD} = {CA70F69D-D77C-4A98-87A1-85049D8D5BBC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1F4FF6C-D504-47B7-B6DB-691837B8AFFA}

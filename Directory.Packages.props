@@ -64,7 +64,6 @@
 		<PackageVersion Include="SpecFlow.NUnit" Version="3.9.74" />
 		<PackageVersion Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
 		<PackageVersion Include="Microsoft.Playwright.NUnit" Version="1.43.0" />
-		<PackageVersion Include="bunit" Version="1.27.17" />
 		<PackageVersion Include="xunit" Version="2.7.1" />
 		<PackageVersion Include="xunit.runner.visualstudio" Version="2.5.8" />
 		<PackageVersion Include="XunitContext" Version="3.3.2" />

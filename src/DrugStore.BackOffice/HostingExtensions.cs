@@ -17,6 +17,7 @@ public static class HostingExtensions
     {
         services.AddTransient<RetryDelegate>();
         services.AddTransient<LoggingDelegate>();
+        services.AddTransient<AuthDelegate>();
 
         var apis = new List<Type>
         {
@@ -31,7 +32,8 @@ public static class HostingExtensions
             services.AddRefitClient(apiType)
                 .ConfigureHttpClient(c => c.BaseAddress = new(apiRoute))
                 .AddHttpMessageHandler<LoggingDelegate>()
-                .AddHttpMessageHandler<RetryDelegate>();
+                .AddHttpMessageHandler<RetryDelegate>()
+                .AddHttpMessageHandler<AuthDelegate>();
         }
     }
 
