@@ -16,7 +16,7 @@ public static class Extension
         var postgresConn = builder.Configuration.GetConnectionString("Postgres");
         Guard.Against.Null(postgresConn, message: "Connection string 'Postgres' not found.");
 
-        var redisConn = builder.Configuration.GetSection("RedisSettings").Get<RedisSettings>()?.Url;
+        var redisConn = builder.Configuration.GetSection(nameof(RedisSettings)).Get<RedisSettings>()?.Url;
         Guard.Against.Null(redisConn, message: "Redis URL not found.");
 
         var identityServer = builder.Configuration.GetValue<string>("IdentityServer:Authority");
