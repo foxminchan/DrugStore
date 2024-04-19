@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using DrugStore.Infrastructure.Cache.Redis;
+using DrugStore.Infrastructure.Storage.Local;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

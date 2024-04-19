@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace DrugStore.Infrastructure.HealthCheck;
+namespace DrugStore.Infrastructure.Storage.Local;
 
 public sealed class LocalFileHealthCheck : IHealthCheck
 {

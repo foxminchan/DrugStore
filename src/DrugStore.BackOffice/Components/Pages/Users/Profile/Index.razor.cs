@@ -34,7 +34,7 @@ public partial class Index
             _busy = true;
             _error = false;
 
-            var cookie = HttpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Identity.Application"];
+            var cookie = HttpContextAccessor.HttpContext?.User.FindFirst("access_token")?.Value;
             Logger.LogInformation("[{Page}] Cookie: {Cookie}", nameof(Index), cookie);
             var token = new JwtSecurityTokenHandler().ReadJwtToken(cookie);
             var userId = token.Claims.First(claim => claim.Type == "sub").Value;
