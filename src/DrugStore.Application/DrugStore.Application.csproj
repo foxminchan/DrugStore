@@ -3,6 +3,7 @@
 	<ItemGroup>
 		<PackageReference Include="Mapster" />
 		<PackageReference Include="Mapster.DependencyInjection" />
+		<PackageReference Include="Dapper" />
 	</ItemGroup>
 
 	<ItemGroup>
