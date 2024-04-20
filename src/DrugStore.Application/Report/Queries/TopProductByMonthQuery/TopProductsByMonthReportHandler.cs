@@ -21,6 +21,7 @@ public sealed class TopProductsByMonthReportHandler(IConfiguration config)
                            WHERE EXTRACT(YEAR FROM o.created_date) = @Year
                                AND EXTRACT(MONTH FROM o.created_date) = @Month
                            GROUP BY p.Id, p.Name
+                           ORDER BY TotalQuantity DESC
                            LIMIT @Limit;
                            """;
 

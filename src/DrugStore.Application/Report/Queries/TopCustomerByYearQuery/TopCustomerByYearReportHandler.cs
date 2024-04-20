@@ -21,6 +21,7 @@ public sealed class TopCustomerByYearReportHandler(IConfiguration configuration)
                                INNER JOIN order_details AS od ON o.id = od.order_id
                            WHERE EXTRACT(YEAR FROM o.created_date) = @Year
                            GROUP BY u.full_name
+                           ORDER BY TotalAmount DESC
                            LIMIT @Limit;
                            """;
 
