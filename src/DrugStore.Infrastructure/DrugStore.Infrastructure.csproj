@@ -45,6 +45,8 @@
 		<PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" />
 		<PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" />
 		<PackageReference Include="OpenTelemetry.Extensions.Hosting" />
+		<PackageReference Include="OpenTelemetry.Instrumentation.StackExchangeRedis"/>
+		<PackageReference Include="Npgsql.OpenTelemetry" />
 	</ItemGroup>
 
 	<ItemGroup>
