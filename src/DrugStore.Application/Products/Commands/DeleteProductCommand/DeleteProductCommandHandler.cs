@@ -2,6 +2,7 @@
 using Ardalis.Result;
 using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Infrastructure.Storage.Local;
 using DrugStore.Persistence.Repositories;
 
@@ -13,7 +14,8 @@ public sealed class DeleteProductCommandHandler(
 {
     public async Task<Result> Handle(DeleteProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var spec = new ProductByIdSpec(request.Id);
+        var product = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
         if (request.IsRemoveImage && product.Image is not null && !string.IsNullOrWhiteSpace(product.Image.ImageUrl))

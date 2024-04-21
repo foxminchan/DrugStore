@@ -4,6 +4,7 @@ using Ardalis.Result;
 using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
+using DrugStore.Domain.OrderAggregate.Specifications;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,8 @@ public sealed class UpdateOrderCommandHandler(
 {
     public async Task<Result<OrderDetailVm>> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
-        var order = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var spec = new OrderByIdSpec(request.Id);
+        var order = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, order);
         order.UpdateOrder(request.Code, request.CustomerId);
         request.Items.ForEach(item => order.OrderItems.Add(new(item.Price, item.Quantity, item.Id, request.Id)));

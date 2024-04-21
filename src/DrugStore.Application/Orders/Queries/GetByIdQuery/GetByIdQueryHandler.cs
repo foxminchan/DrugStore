@@ -14,7 +14,8 @@ public sealed class GetByIdQueryHandler(IMapper mapper, IReadRepository<Order> r
 {
     public async Task<Result<OrderDetailVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
-        var order = await repository.FirstOrDefaultAsync(new OrderByIdSpec(request.Id), cancellationToken);
+        var spec = new OrderByIdSpec(request.Id);
+        var order = await repository.FirstOrDefaultAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, order);
         return Result<OrderDetailVm>.Success(mapper.Map<OrderDetailVm>(order));
     }

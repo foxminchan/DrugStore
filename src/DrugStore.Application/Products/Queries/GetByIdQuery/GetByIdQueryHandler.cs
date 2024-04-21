@@ -14,7 +14,8 @@ public sealed class GetByIdQueryHandler(IMapper mapper, IReadRepository<Product>
 {
     public async Task<Result<ProductVm>> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
-        var entity = await repository.FirstOrDefaultAsync(new ProductByIdSpec(request.Id), cancellationToken);
+        var spec = new ProductByIdSpec(request.Id);
+        var entity = await repository.FirstOrDefaultAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
         return Result<ProductVm>.Success(mapper.Map<ProductVm>(entity));
     }

@@ -18,7 +18,7 @@ public sealed class List(ISender sender) : IEndpointWithoutRequest<IResult>
 
     public async Task<IResult> HandleAsync(CancellationToken cancellationToken = default)
     {
-        var query = new GetListQuery();
+        GetListQuery query = new();
 
         var result = await sender.Send(query, cancellationToken);
 

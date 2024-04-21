@@ -4,6 +4,7 @@ using Ardalis.Result;
 using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Application.Categories.ViewModels;
 using DrugStore.Domain.CategoryAggregate;
+using DrugStore.Domain.CategoryAggregate.Specifications;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 using Microsoft.Extensions.Logging;
@@ -17,7 +18,8 @@ public sealed class UpdateCategoryCommandHandler(
 {
     public async Task<Result<CategoryVm>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var category = await repository.GetByIdAsync(request.Id, cancellationToken);
+        var spec = new CategoryByIdSpec(request.Id);
+        var category = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, category);
         category.Update(request.Name, request.Description);
         logger.LogInformation("[{Command}] Category information: {Category}",

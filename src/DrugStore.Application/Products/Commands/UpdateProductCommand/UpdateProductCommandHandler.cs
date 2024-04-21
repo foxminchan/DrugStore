@@ -20,7 +20,8 @@ public sealed class UpdateProductCommandHandler(
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await repository.GetByIdAsync(new ProductByIdSpec(request.Id), cancellationToken);
+        var spec = new ProductByIdSpec(request.Id);
+        var product = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 
         if (request.IsDeleteImage || request.Image is not null)
