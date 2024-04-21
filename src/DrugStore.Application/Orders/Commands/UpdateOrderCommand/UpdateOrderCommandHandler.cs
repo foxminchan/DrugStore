@@ -18,7 +18,7 @@ public sealed class UpdateOrderCommandHandler(
 {
     public async Task<Result<OrderDetailVm>> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
     {
-        var spec = new OrderByIdSpec(request.Id);
+        OrderByIdSpec spec = new(request.Id);
         var order = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, order);
         order.UpdateOrder(request.Code, request.CustomerId);

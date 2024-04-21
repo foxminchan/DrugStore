@@ -26,7 +26,8 @@ public sealed class GetByIdQueryHandler(
             return Result<CategoryVm>.Success(category);
         }
 
-        var entity = await repository.FirstOrDefaultAsync(new CategoryByIdSpec(request.Id), cancellationToken);
+        CategoryByIdSpec spec = new(request.Id);
+        var entity = await repository.FirstOrDefaultAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, entity);
         return Result<CategoryVm>.Success(mapper.Map<CategoryVm>(entity));
     }

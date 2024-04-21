@@ -25,7 +25,7 @@ public sealed class TopCustomerByYearReportHandler(IConfiguration configuration)
                            LIMIT @Limit;
                            """;
 
-        await using var conn = new NpgsqlConnection(configuration.GetConnectionString("Postgres"));
+        await using NpgsqlConnection conn = new(configuration.GetConnectionString("Postgres"));
         var result = await conn.QueryAsync<TopCustomerByYearVm>(sql, new { request.Year, request.Limit });
         return Result<List<TopCustomerByYearVm>>.Success(result.ToList());
     }

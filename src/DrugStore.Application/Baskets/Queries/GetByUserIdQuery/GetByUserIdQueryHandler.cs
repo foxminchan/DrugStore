@@ -16,6 +16,7 @@ public sealed class GetByUserIdQueryHandler(IRedisService redisService, IMapper 
         var key = $"user:{request.CustomerId}:cart";
         var basket = redisService.HashGetOrSet<CustomerBasket>(key, request.CustomerId.Value.ToString(), () => new());
         Guard.Against.NotFound(key, basket);
-        return Task.FromResult(Result<CustomerBasketVm>.Success(mapper.Map<CustomerBasketVm>(basket)));
+        var result = Result<CustomerBasketVm>.Success(mapper.Map<CustomerBasketVm>(basket));
+        return Task.FromResult(result);
     }
 }

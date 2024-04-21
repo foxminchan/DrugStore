@@ -1,6 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using DrugStore.Domain.BasketAggregate.DomainEvents;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Persistence.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -15,7 +16,8 @@ public sealed class BasketUpdatedEventHandler(
     {
         logger.LogInformation("[{Event}] Request to remove stock from product with ID: {ProductId}",
             nameof(BasketUpdatedEvent), notification.ProductId);
-        var product = await repository.GetByIdAsync(notification.ProductId, cancellationToken);
+        ProductByIdSpec spec = new(notification.ProductId);
+        var product = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(notification.ProductId, product);
         product.RemoveStock(notification.Quantity);
         await repository.UpdateAsync(product, cancellationToken);

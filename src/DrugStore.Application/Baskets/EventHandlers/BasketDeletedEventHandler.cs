@@ -2,6 +2,7 @@
 using Ardalis.GuardClauses;
 using DrugStore.Domain.BasketAggregate.DomainEvents;
 using DrugStore.Domain.ProductAggregate;
+using DrugStore.Domain.ProductAggregate.Specifications;
 using DrugStore.Persistence.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -19,7 +20,8 @@ public sealed class BasketDeletedEventHandler(
 
         foreach (var item in notification.Items)
         {
-            var product = await repository.GetByIdAsync(item.Key, cancellationToken);
+            ProductByIdSpec spec = new(item.Key);
+            var product = await repository.GetByIdAsync(spec, cancellationToken);
             Guard.Against.NotFound(item.Key, product);
             product.AddStock(item.Value);
             await repository.UpdateAsync(product, cancellationToken);

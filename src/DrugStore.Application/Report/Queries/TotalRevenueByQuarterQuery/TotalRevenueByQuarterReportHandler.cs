@@ -36,7 +36,7 @@ public sealed class TotalRevenueByQuarterReportHandler(IConfiguration config)
                                EXTRACT(MONTH FROM o.created_date);
                            """;
 
-        await using var conn = new NpgsqlConnection(config.GetConnectionString("Postgres"));
+        await using NpgsqlConnection conn = new(config.GetConnectionString("Postgres"));
         var result =
             await conn.QueryAsync<TotalRevenueByQuarterVm>(sql, new { request.Year, request.Quarter });
         return Result<List<TotalRevenueByQuarterVm>>.Success(result.ToList());

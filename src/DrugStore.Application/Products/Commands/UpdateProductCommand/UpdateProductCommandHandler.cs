@@ -20,7 +20,7 @@ public sealed class UpdateProductCommandHandler(
 {
     public async Task<Result<ProductVm>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var spec = new ProductByIdSpec(request.Id);
+        ProductByIdSpec spec = new(request.Id);
         var product = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, product);
 

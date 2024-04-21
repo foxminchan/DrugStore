@@ -25,7 +25,7 @@ public sealed class TopProductsByMonthReportHandler(IConfiguration config)
                            LIMIT @Limit;
                            """;
 
-        await using var conn = new NpgsqlConnection(config.GetConnectionString("Postgres"));
+        await using NpgsqlConnection conn = new(config.GetConnectionString("Postgres"));
         var result =
             await conn.QueryAsync<TopProductByMonthVm>(sql, new { request.Month, request.Year, request.Limit });
         return Result<List<TopProductByMonthVm>>.Success(result.ToList());

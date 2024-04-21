@@ -19,7 +19,7 @@ public sealed class TotalRevenueByMonthReportHandler(IConfiguration config)
                                AND EXTRACT(MONTH FROM o.created_date) = @Month;
                            """;
 
-        await using var conn = new NpgsqlConnection(config.GetConnectionString("Postgres"));
+        await using NpgsqlConnection conn = new(config.GetConnectionString("Postgres"));
         var result = await conn.QueryFirstOrDefaultAsync<decimal>(sql, new { request.Month, request.Year });
         return Result<decimal>.Success(result);
     }

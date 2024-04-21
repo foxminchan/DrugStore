@@ -42,7 +42,7 @@ public sealed class DiffRevenueByMonthReportHandler(IConfiguration configuration
                              AND d.year = @TargetYear;
                            """;
 
-        await using var conn = new NpgsqlConnection(configuration.GetConnectionString("Postgres"));
+        await using NpgsqlConnection conn = new(configuration.GetConnectionString("Postgres"));
         var result =
             await conn.QueryAsync<DiffRevenueByMonthVm>(sql,
                 new { request.SourceMonth, request.SourceYear, request.TargetMonth, request.TargetYear }

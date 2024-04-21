@@ -18,7 +18,7 @@ public sealed class UpdateCategoryCommandHandler(
 {
     public async Task<Result<CategoryVm>> Handle(UpdateCategoryCommand request, CancellationToken cancellationToken)
     {
-        var spec = new CategoryByIdSpec(request.Id);
+        CategoryByIdSpec spec = new(request.Id);
         var category = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, category);
         category.Update(request.Name, request.Description);

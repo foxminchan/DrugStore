@@ -12,7 +12,7 @@ public sealed class DeleteCategoryCommandHandler(IRepository<Category> repositor
 {
     public async Task<Result> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
     {
-        var spec = new CategoryByIdSpec(request.Id);
+        CategoryByIdSpec spec = new(request.Id);
         var category = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, category);
         await repository.DeleteAsync(category, cancellationToken);

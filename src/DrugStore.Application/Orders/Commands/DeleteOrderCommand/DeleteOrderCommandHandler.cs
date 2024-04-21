@@ -12,7 +12,7 @@ public sealed class DeleteOrderCommandHandler(IRepository<Order> repository)
 {
     public async Task<Result> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
     {
-        var spec = new OrderByIdSpec(request.Id);
+        OrderByIdSpec spec = new(request.Id);
         var order = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, order);
         await repository.DeleteAsync(order, cancellationToken);
