@@ -1,9 +1,9 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Products.ViewModels;
 using DrugStore.Domain.ProductAggregate;
 using DrugStore.Domain.ProductAggregate.Specifications;
+using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 

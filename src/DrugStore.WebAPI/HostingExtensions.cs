@@ -1,17 +1,15 @@
-﻿using System.Net.Mime;
-using DrugStore.Application;
+﻿using DrugStore.Application;
 using DrugStore.Domain.IdentityAggregate;
 using DrugStore.Infrastructure;
+using DrugStore.Infrastructure.Endpoints;
 using DrugStore.Persistence;
-using DrugStore.WebAPI.Endpoints.Abstractions;
 using Mapster;
 using MapsterMapper;
-using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace DrugStore.WebAPI.Extensions;
+namespace DrugStore.WebAPI;
 
 public static class HostingExtensions
 {
@@ -116,13 +114,6 @@ public static class HostingExtensions
 
     public static IApplicationBuilder MapSpecialEndpoints(this WebApplication app)
     {
-        app.MapGet("anti-forgery/token", (IAntiforgery forgeryService, HttpContext context) =>
-        {
-            var tokens = forgeryService.GetAndStoreTokens(context);
-            var xsrfToken = tokens.RequestToken;
-            return TypedResults.Content(xsrfToken, MediaTypeNames.Text.Plain);
-        }).ExcludeFromDescription();
-
         app.Map("/", () => Results.Redirect("/swagger"));
 
         app.Map("/error",

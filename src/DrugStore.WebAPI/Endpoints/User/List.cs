@@ -1,7 +1,7 @@
 ﻿using DrugStore.Application.Users.Queries.GetListQuery;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using DrugStore.Persistence.Helpers;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
 using Mapster;
 using MediatR;
 
@@ -9,19 +9,6 @@ namespace DrugStore.WebAPI.Endpoints.User;
 
 public sealed class List(ISender sender) : IEndpoint<IResult, ListUserRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/users", async (
-                string? role,
-                string? search,
-                bool isAscending = true,
-                int pageIndex = 1,
-                int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
-            .Produces<ListUserResponse>()
-            .WithTags(nameof(User))
-            .WithName("List Users")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(
         ListUserRequest request,
         CancellationToken cancellationToken = default)
@@ -46,4 +33,17 @@ public sealed class List(ISender sender) : IEndpoint<IResult, ListUserRequest>
 
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapGet("/users", async (
+                string? role,
+                string? search,
+                bool isAscending = true,
+                int pageIndex = 1,
+                int pageSize = 20) => await HandleAsync(new(pageIndex, pageSize, role, search, isAscending)))
+            .Produces<ListUserResponse>()
+            .WithTags(nameof(User))
+            .WithName("List Users")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

@@ -1,21 +1,13 @@
 ﻿using DrugStore.Application.Orders.Queries.GetByIdQuery;
 using DrugStore.Domain.OrderAggregate.Primitives;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Order;
 
 public sealed class GetById(ISender sender) : IEndpoint<IResult, GetOrderByIdRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/orders/{id}", async (OrderId id) => await HandleAsync(new(id)))
-            .Produces<OrderDetailDto>()
-            .WithTags(nameof(Order))
-            .WithName("Get Order by Id")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(
         GetOrderByIdRequest request,
         CancellationToken cancellationToken = default)
@@ -36,4 +28,12 @@ public sealed class GetById(ISender sender) : IEndpoint<IResult, GetOrderByIdReq
 
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapGet("/orders/{id}", async (OrderId id) => await HandleAsync(new(id)))
+            .Produces<OrderDetailDto>()
+            .WithTags(nameof(Order))
+            .WithName("Get Order by Id")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

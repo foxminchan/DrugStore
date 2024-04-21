@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace DrugStore.Application.Abstractions.Queries;
+namespace DrugStore.Domain.SharedKernel;
 
 public interface IQuery<out TResponse> : IRequest<TResponse>;

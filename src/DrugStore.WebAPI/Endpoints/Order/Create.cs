@@ -1,7 +1,7 @@
 ﻿using DrugStore.Application.Orders.Commands.CreateOrderCommand;
+using DrugStore.Infrastructure.Endpoints;
 using DrugStore.Infrastructure.Exception;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.RateLimiter;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,18 +9,6 @@ namespace DrugStore.WebAPI.Endpoints.Order;
 
 public sealed class Create(ISender sender) : IEndpoint<IResult, CreateOrderRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapPost("/orders", async (
-                [FromHeader(Name = "X-Idempotency-Key")]
-                string idempotencyKey,
-                CreateOrderPayload payload
-            ) => await HandleAsync(new(idempotencyKey, payload)))
-            .Produces<CreateOrderResponse>(StatusCodes.Status201Created)
-            .WithTags(nameof(Order))
-            .WithName("Create Order")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(
         CreateOrderRequest request,
         CancellationToken cancellationToken = default)
@@ -35,4 +23,16 @@ public sealed class Create(ISender sender) : IEndpoint<IResult, CreateOrderReque
 
         return Results.Created($"/api/v1/orders/{response.Id}", response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapPost("/orders", async (
+                [FromHeader(Name = "X-Idempotency-Key")]
+                string idempotencyKey,
+                CreateOrderPayload payload
+            ) => await HandleAsync(new(idempotencyKey, payload)))
+            .Produces<CreateOrderResponse>(StatusCodes.Status201Created)
+            .WithTags(nameof(Order))
+            .WithName("Create Order")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

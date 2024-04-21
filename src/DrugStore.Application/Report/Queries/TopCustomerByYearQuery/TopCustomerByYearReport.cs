@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Report.ViewModels;
+using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Report.Queries.TopCustomerByYearQuery;
 

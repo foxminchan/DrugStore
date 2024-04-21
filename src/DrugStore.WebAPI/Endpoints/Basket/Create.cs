@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Baskets.Commands.CreateBasketCommand;
+using DrugStore.Infrastructure.Endpoints;
 using DrugStore.Infrastructure.Exception;
-using DrugStore.WebAPI.Endpoints.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +8,6 @@ namespace DrugStore.WebAPI.Endpoints.Basket;
 
 public sealed class Create(ISender sender) : IEndpoint<IResult, CreateBasketRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapPost("/baskets", async (
-                [FromHeader(Name = "X-Idempotency-Key")]
-                string idempotencyKey,
-                CreateBasketPayload payload
-            ) => await HandleAsync(new(idempotencyKey, payload)))
-            .Produces<CreateBasketResponse>(StatusCodes.Status201Created)
-            .WithTags(nameof(Basket))
-            .WithName("Create Basket")
-            .MapToApiVersion(new(1, 0))
-            .RequireAuthorization();
-
     public async Task<IResult> HandleAsync(
         CreateBasketRequest request,
         CancellationToken cancellationToken = default)
@@ -34,4 +22,16 @@ public sealed class Create(ISender sender) : IEndpoint<IResult, CreateBasketRequ
 
         return Results.Created($"/api/v1/baskets/{response.Id}", response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapPost("/baskets", async (
+                [FromHeader(Name = "X-Idempotency-Key")]
+                string idempotencyKey,
+                CreateBasketPayload payload
+            ) => await HandleAsync(new(idempotencyKey, payload)))
+            .Produces<CreateBasketResponse>(StatusCodes.Status201Created)
+            .WithTags(nameof(Basket))
+            .WithName("Create Basket")
+            .MapToApiVersion(new(1, 0))
+            .RequireAuthorization();
 }

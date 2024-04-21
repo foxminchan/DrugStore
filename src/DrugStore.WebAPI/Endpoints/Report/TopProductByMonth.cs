@@ -1,21 +1,12 @@
 ﻿using DrugStore.Application.Report.Queries.TopProductByMonthQuery;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using MediatR;
 
 namespace DrugStore.WebAPI.Endpoints.Report;
 
 public sealed class TopProductByMonth(ISender sender) : IEndpoint<IResult, TopProductByMonthRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/report/top-product-by-month",
-                async (int month, int year, int limit) => await HandleAsync(new(month, year, limit)))
-            .Produces<TopProductByMonthResponse>()
-            .WithTags(nameof(Report))
-            .WithName("Top Product By Month")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(TopProductByMonthRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -24,4 +15,13 @@ public sealed class TopProductByMonth(ISender sender) : IEndpoint<IResult, TopPr
         TopProductByMonthResponse response = new(result.Value);
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapGet("/report/top-product-by-month",
+                async (int month, int year, int limit) => await HandleAsync(new(month, year, limit)))
+            .Produces<TopProductByMonthResponse>()
+            .WithTags(nameof(Report))
+            .WithName("Top Product By Month")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

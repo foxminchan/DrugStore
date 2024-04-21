@@ -1,5 +1,5 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
+using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Report.Queries.TotalRevenueByMonthQuery;
 

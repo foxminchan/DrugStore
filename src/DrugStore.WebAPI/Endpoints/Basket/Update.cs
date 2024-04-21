@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Baskets.Commands.UpdateBasketCommand;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using Mapster;
 using MediatR;
 
@@ -8,14 +8,6 @@ namespace DrugStore.WebAPI.Endpoints.Basket;
 
 public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateBasketRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapPut("/baskets", async (UpdateBasketRequest request) => await HandleAsync(request))
-            .Produces<UpdateBasketResponse>()
-            .WithTags(nameof(Basket))
-            .WithName("Update Basket")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(
         UpdateBasketRequest request,
         CancellationToken cancellationToken = default)
@@ -31,4 +23,12 @@ public sealed class Update(ISender sender) : IEndpoint<IResult, UpdateBasketRequ
 
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapPut("/baskets", async (UpdateBasketRequest request) => await HandleAsync(request))
+            .Produces<UpdateBasketResponse>()
+            .WithTags(nameof(Basket))
+            .WithName("Update Basket")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

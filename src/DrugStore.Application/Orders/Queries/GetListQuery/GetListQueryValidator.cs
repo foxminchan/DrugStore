@@ -1,4 +1,4 @@
-﻿using DrugStore.Application.Abstractions.Validators;
+﻿using DrugStore.Application.Shared;
 using FluentValidation;
 
 namespace DrugStore.Application.Orders.Queries.GetListQuery;

@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Orders.ViewModels;
 using DrugStore.Domain.OrderAggregate;
 using DrugStore.Domain.OrderAggregate.Specifications;
+using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Repositories;
 using MapsterMapper;
 

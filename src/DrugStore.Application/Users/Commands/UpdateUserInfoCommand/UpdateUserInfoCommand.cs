@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Application.Users.ViewModels;
 using DrugStore.Domain.IdentityAggregate.Primitives;
 using DrugStore.Domain.IdentityAggregate.ValueObjects;
+using DrugStore.Domain.SharedKernel;
 
 namespace DrugStore.Application.Users.Commands.UpdateUserInfoCommand;
 

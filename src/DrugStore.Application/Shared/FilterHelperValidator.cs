@@ -1,7 +1,7 @@
 ﻿using DrugStore.Persistence.Helpers;
 using FluentValidation;
 
-namespace DrugStore.Application.Abstractions.Validators;
+namespace DrugStore.Application.Shared;
 
 public sealed class FilterHelperValidator : AbstractValidator<FilterHelper>
 {

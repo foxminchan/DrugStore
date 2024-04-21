@@ -1,6 +1,6 @@
 ﻿using DrugStore.Application.Categories.Queries.GetListQuery;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using Mapster;
 using MediatR;
 
@@ -8,14 +8,6 @@ namespace DrugStore.WebAPI.Endpoints.Category;
 
 public sealed class List(ISender sender) : IEndpointWithoutRequest<IResult>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/categories", HandleAsync)
-            .Produces<ListCategoryResponse>()
-            .WithTags(nameof(Category))
-            .WithName("List Category")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(CancellationToken cancellationToken = default)
     {
         GetListQuery query = new();
@@ -29,4 +21,12 @@ public sealed class List(ISender sender) : IEndpointWithoutRequest<IResult>
 
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapGet("/categories", HandleAsync)
+            .Produces<ListCategoryResponse>()
+            .WithTags(nameof(Category))
+            .WithName("List Category")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

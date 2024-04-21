@@ -1,4 +1,4 @@
-﻿namespace DrugStore.WebAPI.Endpoints.Abstractions;
+﻿namespace DrugStore.Infrastructure.Endpoints;
 
 public interface IEndpointWithoutRequest<TResponse> : IEndpointBase
 {

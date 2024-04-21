@@ -9,6 +9,7 @@ using DrugStore.Infrastructure.Lock;
 using DrugStore.Infrastructure.Logging;
 using DrugStore.Infrastructure.OpenTelemetry;
 using DrugStore.Infrastructure.ProblemDetails;
+using DrugStore.Infrastructure.RateLimiter;
 using DrugStore.Infrastructure.Storage;
 using DrugStore.Infrastructure.Swagger;
 using DrugStore.Infrastructure.Validator;
@@ -32,6 +33,7 @@ public static class Extension
 
         builder.AddKestrel();
         builder.AddRedisCache();
+        builder.AddRateLimiting();
         builder.AddLocalStorage();
         builder.AddHealthCheck();
         builder.AddOpenTelemetry();
@@ -44,6 +46,7 @@ public static class Extension
     public static void UseInfrastructure(this WebApplication app)
     {
         app.UseKestrel();
+        app.UseRateLimiter();
         app.UseOpenApi(app.Configuration);
         app.MapHealthCheck();
         app.UseCustomProblemDetails();

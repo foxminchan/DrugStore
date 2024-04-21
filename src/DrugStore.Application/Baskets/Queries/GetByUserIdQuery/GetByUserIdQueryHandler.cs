@@ -1,8 +1,8 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Baskets.ViewModels;
 using DrugStore.Domain.BasketAggregate;
+using DrugStore.Domain.SharedKernel;
 using DrugStore.Infrastructure.Cache.Redis;
 using MapsterMapper;
 

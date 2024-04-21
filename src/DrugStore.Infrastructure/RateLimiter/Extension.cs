@@ -1,7 +1,11 @@
 ﻿using System.Security.Claims;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace DrugStore.WebAPI.Extensions;
+namespace DrugStore.Infrastructure.RateLimiter;
 
 public static class RateLimitExtensions
 {

@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
 using Dapper;
-using DrugStore.Application.Abstractions.Queries;
+using DrugStore.Domain.SharedKernel;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
 

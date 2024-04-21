@@ -1,6 +1,6 @@
 using Ardalis.ListStartupServices;
 using DrugStore.Persistence;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.WebAPI;
 using Microsoft.Extensions.FileProviders;
 using Serilog;
 
@@ -11,7 +11,6 @@ builder.AddMappings();
 builder.AddCustomDbContext();
 builder.AddEndpoints();
 builder.AddCustomCors();
-builder.AddRateLimiting();
 builder.AddApplicationService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddInfrastructureService(builder);
@@ -31,7 +30,6 @@ else
 }
 
 app.UseCustomCors();
-app.UseRateLimiter();
 app.UseInfrastructureService();
 
 if (!Directory.Exists(Path.Combine(app.Environment.ContentRootPath, "Pics")))

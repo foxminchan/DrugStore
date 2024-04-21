@@ -1,7 +1,7 @@
 ﻿using Ardalis.GuardClauses;
 using Ardalis.Result;
-using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.IdentityAggregate;
+using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Identity;
 
 namespace DrugStore.Application.Users.Commands.DeleteUserCommand;

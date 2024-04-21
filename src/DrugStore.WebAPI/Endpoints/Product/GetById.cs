@@ -1,7 +1,7 @@
 ﻿using DrugStore.Application.Products.Queries.GetByIdQuery;
 using DrugStore.Domain.ProductAggregate.Primitives;
-using DrugStore.WebAPI.Endpoints.Abstractions;
-using DrugStore.WebAPI.Extensions;
+using DrugStore.Infrastructure.Endpoints;
+using DrugStore.Infrastructure.RateLimiter;
 using Mapster;
 using MediatR;
 
@@ -9,14 +9,6 @@ namespace DrugStore.WebAPI.Endpoints.Product;
 
 public sealed class GetById(ISender sender) : IEndpoint<IResult, GetProductByIdRequest>
 {
-    public void MapEndpoint(IEndpointRouteBuilder app) =>
-        app.MapGet("/products/{id}", async (ProductId id) => await HandleAsync(new(id)))
-            .Produces<ProductDto>()
-            .WithTags(nameof(Product))
-            .WithName("Get Product By Id")
-            .MapToApiVersion(new(1, 0))
-            .RequirePerUserRateLimit();
-
     public async Task<IResult> HandleAsync(
         GetProductByIdRequest request,
         CancellationToken cancellationToken = default)
@@ -29,4 +21,12 @@ public sealed class GetById(ISender sender) : IEndpoint<IResult, GetProductByIdR
 
         return Results.Ok(response);
     }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) =>
+        app.MapGet("/products/{id}", async (ProductId id) => await HandleAsync(new(id)))
+            .Produces<ProductDto>()
+            .WithTags(nameof(Product))
+            .WithName("Get Product By Id")
+            .MapToApiVersion(new(1, 0))
+            .RequirePerUserRateLimit();
 }

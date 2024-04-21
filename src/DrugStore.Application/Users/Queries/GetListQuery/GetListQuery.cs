@@ -1,6 +1,6 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Queries;
 using DrugStore.Application.Users.ViewModels;
+using DrugStore.Domain.SharedKernel;
 using DrugStore.Persistence.Helpers;
 
 namespace DrugStore.Application.Users.Queries.GetListQuery;

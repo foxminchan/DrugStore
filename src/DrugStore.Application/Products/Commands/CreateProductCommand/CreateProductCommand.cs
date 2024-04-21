@@ -1,8 +1,8 @@
 ﻿using Ardalis.Result;
-using DrugStore.Application.Abstractions.Commands;
 using DrugStore.Domain.CategoryAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.Primitives;
 using DrugStore.Domain.ProductAggregate.ValueObjects;
+using DrugStore.Domain.SharedKernel;
 using Microsoft.AspNetCore.Http;
 
 namespace DrugStore.Application.Products.Commands.CreateProductCommand;
