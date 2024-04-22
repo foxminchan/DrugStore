@@ -28,13 +28,11 @@
 		<PackageVersion Include="DistributedLock.Redis" Version="1.0.3" />
 		<PackageVersion Include="FluentValidation" Version="11.9.0" />
 		<PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore"
-		                Version="1.0.0-beta.10" />
+		<PackageVersion Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.10" />
 		<PackageVersion Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.4.0-rc.4" />
 		<PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.1" />
 		<PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
-		<PackageVersion Include="OpenTelemetry.Instrumentation.StackExchangeRedis"
-		                Version="1.0.0-rc9.14" />
+		<PackageVersion Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc9.14" />
 		<PackageVersion Include="Npgsql.OpenTelemetry" Version="8.0.2" />
 		<PackageVersion Include="Mapster" Version="7.4.0" />
 		<PackageVersion Include="Mapster.DependencyInjection" Version="1.0.1" />
@@ -42,8 +40,7 @@
 		<PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4" />
-		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"
-		                Version="8.0.4" />
+		<PackageVersion Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.4" />
 		<PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
 		<PackageVersion Include="EFCore.NamingConventions" Version="8.0.3" />
@@ -61,8 +58,7 @@
 		<PackageVersion Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.4" />
 		<PackageVersion Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
-		<PackageVersion Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis"
-		                Version="8.0.4" />
+		<PackageVersion Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.4" />
 		<PackageVersion Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.4" />
 		<PackageVersion Include="NUnit" Version="4.1.0" />
@@ -83,7 +79,7 @@
 		<PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
 		<PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
 		<PackageVersion Include="SonarAnalyzer.CSharp" Version="9.23.2.88755" />
-		<PackageVersion Include="Radzen.Blazor" Version="4.29.8" />
+		<PackageVersion Include="Radzen.Blazor" Version="4.29.9" />
 		<PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
 	</ItemGroup>
 </Project>

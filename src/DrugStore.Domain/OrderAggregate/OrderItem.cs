@@ -15,12 +15,11 @@ public sealed class OrderItem : EntityBase
     {
     }
 
-    public OrderItem(decimal price, int quantity, ProductId productId, OrderId orderId)
+    public OrderItem(decimal price, int quantity, ProductId productId)
     {
         Price = price;
         Quantity = quantity;
         ProductId = productId;
-        OrderId = orderId;
     }
 
     public decimal Price { get; set; }

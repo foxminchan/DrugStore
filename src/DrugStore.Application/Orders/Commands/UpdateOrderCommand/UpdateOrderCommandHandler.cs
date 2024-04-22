@@ -22,7 +22,7 @@ public sealed class UpdateOrderCommandHandler(
         var order = await repository.GetByIdAsync(spec, cancellationToken);
         Guard.Against.NotFound(request.Id, order);
         order.UpdateOrder(request.Code, request.CustomerId);
-        request.Items.ForEach(item => order.OrderItems.Add(new(item.Price, item.Quantity, item.Id, request.Id)));
+        request.Items.ForEach(item => order.OrderItems.Add(new(item.Price, item.Quantity, item.Id)));
         logger.LogInformation("[{Command}] Order information: {Order}", nameof(UpdateOrderCommand),
             JsonSerializer.Serialize(order));
         await repository.UpdateAsync(order, cancellationToken);

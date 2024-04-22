@@ -34,4 +34,26 @@ public sealed class Order : EntityBase, IAggregateRoot
         Code = code;
         CustomerId = customerId;
     }
+
+    private void AddOrderItem(OrderItem item) => OrderItems.Add(item);
+
+    public static class Factory
+    {
+        public static Order Create(
+            IdentityId? id,
+            string? code,
+            IEnumerable<OrderItem> orderItems)
+        {
+            Order order = new()
+            {
+                CustomerId = id,
+                Code = code
+            };
+
+            foreach (var item in orderItems)
+                order.AddOrderItem(item);
+
+            return order;
+        }
+    }
 }
