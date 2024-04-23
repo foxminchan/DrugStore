@@ -20,7 +20,7 @@ public sealed class OrderItemTest(ITestOutputHelper output)
         var orderId = new OrderId(_faker.Random.Guid());
 
         // Act
-        var orderItem = new OrderItem(price, quantity, productId, orderId);
+        var orderItem = new OrderItem(price, quantity, productId);
 
         // Assert
         orderItem.Price.Should().Be(price);

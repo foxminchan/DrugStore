@@ -24,10 +24,10 @@ public sealed class CreateOrderTest : BaseEfRepoTestFixture
         {
             OrderItems =
             [
-                new(20.3m, 2, new(), new()),
-                new(30.5m, 5, new(), new()),
-                new(40.7m, 3, new(), new()),
-                new(50.9m, 2, new(), new())
+                new(20.3m, 2, new()),
+                new(30.5m, 5, new()),
+                new(40.7m, 3, new()),
+                new(50.9m, 2, new())
             ]
         };
         await _repository.AddAsync(order);

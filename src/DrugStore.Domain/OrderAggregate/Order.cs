@@ -44,12 +44,7 @@ public sealed class Order : EntityBase, IAggregateRoot
             string? code,
             IEnumerable<OrderItem> orderItems)
         {
-            Order order = new()
-            {
-                CustomerId = id,
-                Code = code
-            };
-
+            Order order = new(code, id);
             foreach (var item in orderItems)
                 order.AddOrderItem(item);
 

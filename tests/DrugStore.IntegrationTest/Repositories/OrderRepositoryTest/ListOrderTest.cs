@@ -22,50 +22,50 @@ public sealed class ListOrderTest : BaseEfRepoTestFixture
             {
                 OrderItems =
                 {
-                    new(20.3m, 2, new(), new()),
-                    new(30.5m, 5, new(), new()),
-                    new(40.7m, 3, new(), new()),
-                    new(50.9m, 2, new(), new())
+                    new(20.3m, 2, new()),
+                    new(30.5m, 5, new()),
+                    new(40.7m, 3, new()),
+                    new(50.9m, 2, new())
                 }
             },
             new("OD124", null)
             {
                 OrderItems =
                 {
-                    new(20.3m, 2, new(), new()),
-                    new(30.5m, 5, new(), new()),
-                    new(40.7m, 3, new(), new()),
-                    new(50.9m, 2, new(), new())
+                    new(20.3m, 2, new()),
+                    new(30.5m, 5, new()),
+                    new(40.7m, 3, new()),
+                    new(50.9m, 2, new())
                 }
             },
             new("OD125", null)
             {
                 OrderItems =
                 {
-                    new(20.3m, 2, new(), new()),
-                    new(30.5m, 5, new(), new()),
-                    new(40.7m, 3, new(), new()),
-                    new(50.9m, 2, new(), new())
+                    new(20.3m, 2, new()),
+                    new(30.5m, 5, new()),
+                    new(40.7m, 3, new()),
+                    new(50.9m, 2, new())
                 }
             },
             new("OD126", null)
             {
                 OrderItems =
                 {
-                    new(20.3m, 2, new(), new()),
-                    new(30.5m, 5, new(), new()),
-                    new(40.7m, 3, new(), new()),
-                    new(50.9m, 2, new(), new())
+                    new(20.3m, 2, new()),
+                    new(30.5m, 5, new()),
+                    new(40.7m, 3, new()),
+                    new(50.9m, 2, new())
                 }
             },
             new("OD127", null)
             {
                 OrderItems =
                 {
-                    new(20.3m, 2, new(), new()),
-                    new(30.5m, 5, new(), new()),
-                    new(40.7m, 3, new(), new()),
-                    new(50.9m, 2, new(), new())
+                    new(20.3m, 2, new()),
+                    new(30.5m, 5, new()),
+                    new(40.7m, 3, new()),
+                    new(50.9m, 2, new())
                 }
             }
         ];

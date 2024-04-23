@@ -3,8 +3,9 @@
 [Serializable]
 public abstract class ValueObject : IEquatable<ValueObject>
 {
-    public virtual bool Equals(ValueObject? other) => other is not null && ValuesAreEqual(other);
     protected abstract IEnumerable<object> GetEqualityComponents();
+
+    public virtual bool Equals(ValueObject? other) => other is not null && ValuesAreEqual(other);
 
     public override bool Equals(object? obj) => obj is ValueObject valueObject && ValuesAreEqual(valueObject);
 
