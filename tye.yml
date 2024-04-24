@@ -1,7 +1,7 @@
 name: DrugStore Application
 services:
   - name: API
-    project: src/API/DrugStore.Presentation/DrugStore.Presentation.csproj
+    project: src/API/DrugStore.WebAPI/DrugStore.WebAPI.csproj
     bindings:
       - protocol: https
         port: 7070
