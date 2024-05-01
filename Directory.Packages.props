@@ -78,7 +78,7 @@
 		<PackageVersion Include="ReportGenerator" Version="5.2.4" />
 		<PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
 		<PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-		<PackageVersion Include="SonarAnalyzer.CSharp" Version="9.23.2.88755" />
+		<PackageVersion Include="SonarAnalyzer.CSharp" Version="9.24.0.89429" />
 		<PackageVersion Include="Radzen.Blazor" Version="4.29.9" />
 		<PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
 	</ItemGroup>
