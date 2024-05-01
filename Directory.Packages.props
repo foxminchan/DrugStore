@@ -19,7 +19,7 @@
 		<PackageVersion Include="AspNetCore.HealthChecks.UI" Version="8.0.1" />
 		<PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
 		<PackageVersion Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="8.0.1" />
-		<PackageVersion Include="StronglyTypedId" Version="1.0.0-beta07" />
+		<PackageVersion Include="StronglyTypedId" Version="1.0.0-beta08" />
 		<PackageVersion Include="MediatR" Version="12.2.0" />
 		<PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageVersion Include="MicroElements.Swashbuckle.FluentValidation" Version="6.0.0" />
