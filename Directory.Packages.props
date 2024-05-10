@@ -33,7 +33,7 @@
     <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.8.1" />
     <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.8.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.StackExchangeRedis" Version="1.0.0-rc9.14" />
-    <PackageVersion Include="Npgsql.OpenTelemetry" Version="8.0.2" />
+    <PackageVersion Include="Npgsql.OpenTelemetry" Version="8.0.3" />
     <PackageVersion Include="Mapster" Version="7.4.0" />
     <PackageVersion Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageVersion Include="Dapper" Version="2.1.35" />
@@ -78,8 +78,8 @@
     <PackageVersion Include="ReportGenerator" Version="5.2.5" />
     <PackageVersion Include="AutoBogus.NSubstitute" Version="2.13.1" />
     <PackageVersion Include="NSubstitute.Analyzers.CSharp" Version="1.0.17" />
-    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.24.0.89429" />
-    <PackageVersion Include="Radzen.Blazor" Version="4.31.0" />
+    <PackageVersion Include="SonarAnalyzer.CSharp" Version="9.25.0.90414" />
+    <PackageVersion Include="Radzen.Blazor" Version="4.31.3" />
     <PackageVersion Include="Refit.HttpClientFactory" Version="7.0.0" />
   </ItemGroup>
 </Project>
